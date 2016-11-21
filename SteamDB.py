@@ -25,15 +25,16 @@ class SteamDB:
 
     def get_review_from_steam(self, appid):
         URL = "http://store.steampowered.com/app/"
-        #URL = "http://store.steampowered.com/agecheck/app/"
         
         start      = "Aggregaterating"
         real_start = "itemprop=\"description\">"
         end        = "<span class=\"nonresponsive_hidden responsive_reviewdesc\">"
         
-        #birthday = {'ageDay': '25', 'ageMonth': 'December', 'ageYear': '1983'}
         cookie = 'birthtime=568022401'
         page = web.get_utf8_web_page(URL + appid, cookie)
+        
+        if ("There are no reviews for this product" in page):
+            return "", "0"
         
         page = stringutils.substringafter(page, start)
         page = stringutils.substringafter(page, real_start)

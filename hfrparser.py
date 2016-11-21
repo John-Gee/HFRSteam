@@ -14,7 +14,8 @@ def parse_hfr():
     page = stringutils.substringafter(page, start, 1)
     page = stringutils.substringafter(page, real_start, 1)
     page = stringutils.substringbefore(page, end,-1)
-    page = page.replace("&nbsp;", os.linesep)
+    page = page.replace("&nbsp;", "")
+    page = page.replace("&amp;", "&")
     page = page.replace("<br />", "")
     
     # the separator is \x1c
