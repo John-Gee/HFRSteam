@@ -15,13 +15,15 @@ def main():
     optionparser.add_option("-i", "--ignore-cache", action="store_true", dest="ignorecache",
                             help="Ignore the data stored in cache")
     optionparser.add_option("-l", "--list", dest="list",
-                      help="Provide a text list to parse instead of parsing HFR")
+                            help="Provide a text list to parse instead of parsing HFR")
+    optionparser.add_option("-n", "--number-games", dest="number_games",
+                            help="Number of games to work on. Only for dev purposes")
     optionparser.add_option("-r", "--refresh-all", action="store_true", dest="refreshall",
-                      help="Refresh all games, ignoring the current cache.")
+                            help="Refresh all games, ignoring the current cache.")
     optionparser.add_option("-R", "--refresh-named", dest="game",
-                      help="Refresh the game listed, and all games not in cache")
+                            help="Refresh the game listed, and all games not in cache")
     optionparser.add_option("-w", "--wait-on-steam-timeout", action="store_true", dest="waitonsteamtimeout", 
-                      help="Wait on timeouts. The default behavior is to stop querying Steam.")
+                            help="Wait on timeouts. The default behavior is to stop querying Steam.")
     
     (options, args) = optionparser.parse_args()
     

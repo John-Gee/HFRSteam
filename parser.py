@@ -28,6 +28,7 @@ def parse_list(names_list, options):
     mapper = Mapper.Mapper()
     games = dict()
     i = 0
+    
     for name in iter(names_list):
         BEGINSTRIKED = "<strike><span style=\"color:#FF0000\">"
         ENDSTRIKED   = "</span></strike>"
@@ -49,9 +50,12 @@ def parse_list(names_list, options):
             cleanname = mappedname
             
         if (available == "yes"):
+            
+            #Allow to break for dev purposes
             i += 1
-            if (i == 20):
+            if ( (options.number_games != None) and (options.number_games.isdigit()) and (i == int(options.number_games)) ):
                 break
+            
             if ( (cleanname in cachedgames) and (cachedgames[cleanname].appid != "") and (not options.refreshall) and ( (options.game == None) or (options.game.lower() not in cleanname.lower())) ):
                 games[cleanname] = cachedgames[cleanname]
             else:

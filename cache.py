@@ -18,6 +18,9 @@ def save_to_cache(db):
 
 def merge_old_new_cache(db1, db2):
     db = dict()
+    for key in iter(db1):
+       db[key] = db1[key]
+    
     for key in iter(db2):
        db[key] = db2[key]
     
