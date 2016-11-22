@@ -38,7 +38,7 @@ def main():
     outfolder="output"
     if not os.path.exists(outfolder):
         os.makedirs(outfolder)
-    output.output_to_html(games, "output/list.html")
+    output.output_to_html(games, "docs/index.html")
 
 if __name__ == "__main__":
     main()
