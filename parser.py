@@ -105,7 +105,7 @@ def parse_list(names_list, options):
                                 os.append("Mac")
                             if (len(info[appid]["data"]["pc_requirements"]) > 0):
                                 os.append("Windows")
-                                
+                            
                             if ( ("price_overview" in info[appid]["data"]) and (len(info[appid]["data"]["price_overview"]) > 0)):
                                 price = "$" + str((info[appid]["data"]["price_overview"]["final"]) / 100)
                             else:

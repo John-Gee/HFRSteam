@@ -102,7 +102,7 @@ def output_to_html(games, file):
     writeline(f, "filter: \"\",")
     decrease_indent_count()
     writeline(f, "},")
-    writeline(f, "OS: {")
+    writeline(f, "os: {")
     increase_indent_count()
     writeline(f, "index: 4,")
     writeline(f, "type: \"string\",")
@@ -189,7 +189,7 @@ def output_to_html(games, file):
             writeline(f, "nameFormat: \"<b>" + justifyFormat + "</b>\",")
         writeline(f, "description: \"" + game.description.strip() + "\",")
         writeline(f, "dlc: " + game.is_dlc + ",")
-        writeline(f, "linux: \"" + ", ".join(game.os) + "\",")
+        writeline(f, "os: \"" + ", ".join(game.os) + "\",")
         writeline(f, "price: \"" + game.price + "\",")
         if (game.price != ""):
             writeline(f, "priceFormat: \"" + justifyFormat.replace("{0}", game.price + " <div style=\\\"white-space: nowrap\\\">(" + game.price_date+ ")</div>") + "\",")

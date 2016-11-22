@@ -3,7 +3,7 @@ class Game:
     appid = ""
     description = ""
     image  = ""
-    os = ""
+    os = list()
     price = ""
     price_date = ""
     genres = list()
@@ -35,10 +35,10 @@ class Game:
         print("AppID: " + self.appid)
         print("Description: " + self.description)
         print("Image: " + self.image)
-        print("OS: " + self.os)
+        print("OS: " + ", ".join(self.os))
         print("Price: " + self.price)
         print("Price Date: " + self.price_date)
-        print("Genres: " + str(self.genres))
+        print("Genres: " + ", ".join(self.genres))
         print("Release Date: " + self.release_date)
         print("Link: " + self.link)
         print("IsDLC: " + self.is_dlc)
