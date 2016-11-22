@@ -3,8 +3,9 @@ class Game:
     appid = ""
     description = ""
     image  = ""
-    is_linux = ""
+    os = ""
     price = ""
+    price_date = ""
     genres = list()
     release_date = ""
     link = ""
@@ -13,13 +14,14 @@ class Game:
     avg_review = ""
     cnt_review = ""
     
-    def __init__(self, name, appid, description, image, is_linux, price, genres, release_date, link, is_dlc, available, avg_review, cnt_review):
+    def __init__(self, name, appid, description, image, os, price, price_date, genres, release_date, link, is_dlc, available, avg_review, cnt_review):
         self.name  = name
         self.appid = appid
         self.description = description
         self.image = image
-        self.is_linux = is_linux
+        self.os = os
         self.price = price
+        self.price_date = price_date
         self.genres = genres
         self.release_date = release_date
         self.link = link
@@ -33,8 +35,9 @@ class Game:
         print("AppID: " + self.appid)
         print("Description: " + self.description)
         print("Image: " + self.image)
-        print("IsLinux: " + self.is_linux)
+        print("OS: " + self.os)
         print("Price: " + self.price)
+        print("Price Date: " + self.price_date)
         print("Genres: " + str(self.genres))
         print("Release Date: " + self.release_date)
         print("Link: " + self.link)

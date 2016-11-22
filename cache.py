@@ -15,3 +15,10 @@ def retrieve_db_from_cache():
 
 def save_to_cache(db):
     pickle.dump(db, open(cachefile, "wb"))
+
+def merge_old_new_cache(db1, db2):
+    db = dict()
+    for key in iter(db2):
+       db[key] = db2[key]
+    
+    return db

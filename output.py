@@ -102,11 +102,11 @@ def output_to_html(games, file):
     writeline(f, "filter: \"\",")
     decrease_indent_count()
     writeline(f, "},")
-    writeline(f, "linux: {")
+    writeline(f, "OS: {")
     increase_indent_count()
     writeline(f, "index: 4,")
     writeline(f, "type: \"string\",")
-    writeline(f, "friendly: \"Linux?\",")
+    writeline(f, "friendly: \"Supported OS?\",")
     writeline(f, "format: \"" + justifyFormat + "\",")
     writeline(f, "unique: \"false\",")
     writeline(f, "tooltip: \"Supported OS\",")
@@ -121,7 +121,7 @@ def output_to_html(games, file):
     writeline(f, "friendly: \"Price\",")
     writeline(f, "format: \"" + justifyFormat + "\",")
     writeline(f, "unique: \"false\",")
-    writeline(f, "tooltip: \"The game's price\",")
+    writeline(f, "tooltip: \"The game's price and it's retrieved date\",")
     writeline(f, "filter: \"\",")
     decrease_indent_count()
     writeline(f, "},")
@@ -154,7 +154,7 @@ def output_to_html(games, file):
     writeline(f, "friendly: \"Reviews\",")
     writeline(f, "format: \"" + justifyFormat + "\",")
     writeline(f, "unique: \"false\",")
-    writeline(f, "tooltip: \"The game's average review\",")
+    writeline(f, "tooltip: \"The game's average review and the review count\",")
     writeline(f, "filter: \"\",")
     decrease_indent_count()
     writeline(f, "},")
@@ -189,13 +189,12 @@ def output_to_html(games, file):
             writeline(f, "nameFormat: \"<b>" + justifyFormat + "</b>\",")
         writeline(f, "description: \"" + game.description.strip() + "\",")
         writeline(f, "dlc: " + game.is_dlc + ",")
-        writeline(f, "linux: \"" + game.is_linux + "\",")
+        writeline(f, "linux: \"" + ", ".join(game.os) + "\",")
         writeline(f, "price: \"" + game.price + "\",")
-        genres = ""
-        for genre in iter(game.genres):
-            genres = genres + (genre + ", ")
-        genres = genres[:-2]
-        writeline(f, "genres: \"" + genres + "\",")
+        if (game.price != ""):
+            writeline(f, "priceFormat: \"" + justifyFormat.replace("{0}", game.price + " <div style=\\\"white-space: nowrap\\\">(" + game.price_date+ ")</div>") + "\",")
+        
+        writeline(f, "genres: \"" + ", ".join(game.genres) + "\",")
         writeline(f, "date: \"" + game.release_date + "\",")
         if (game.avg_review.lower() in reviewMapping):
             avg_review = reviewMapping[game.avg_review.lower()]
