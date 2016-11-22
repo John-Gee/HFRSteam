@@ -58,6 +58,7 @@ def parse_list(names_list, options):
                     if (appid != ""):
                         mapper.add_to_mapping(cleanname, cleanname2)
                         cleanname = cleanname2
+                
                 description = ""
                 image = ""
                 is_linux = ""
@@ -82,7 +83,7 @@ def parse_list(names_list, options):
                             if (description != None):
                                 description = description.replace("\"", "")
                             
-                            image = "\"" + info[appid]["data"]["header_image"] + "\""
+                            image = info[appid]["data"]["header_image"]
                             if (len(info[appid]["data"]["linux_requirements"]) > 0):
                                 is_linux = "yes"
                             else:
