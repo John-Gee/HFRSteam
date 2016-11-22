@@ -163,6 +163,17 @@ def output_to_html(games, file):
     writeline(f, "")
     writeline(f, "var rows = [];")
     writeline(f, "")
+    
+    reviewMapping = dict()
+    reviewMapping["overwhelmingly positive"] = "4"
+    reviewMapping["very positive"] = "3"
+    reviewMapping["positive"] = "2"
+    reviewMapping["mostly positive"] = "1"
+    reviewMapping["mixed"] = "0"
+    reviewMapping["mostly negative"] = "-1"
+    reviewMapping["negative"] = "-2"
+    reviewMapping["very negative"] = "-3"
+    reviewMapping["overwhelmingly negative"] = "-4"
 
     for gameName in sorted(games):
         game = games[gameName]
@@ -186,8 +197,14 @@ def output_to_html(games, file):
         genres = genres[:-2]
         writeline(f, "genres: \"" + genres + "\",")
         writeline(f, "date: \"" + game.release_date + "\",")
-        writeline(f, "review: \"" + game.avg_review + "\",")
-        writeline(f, "reviewFormat: \"" + justifyFormat.replace("{0}","{0} (" + game.cnt_review + ")") + "\",")
+        if (game.avg_review.lower() in reviewMapping):
+            avg_review = reviewMapping[game.avg_review.lower()]
+            writeline(f, "review: \"" + avg_review + "\",")
+            writeline(f, "reviewFormat: \"" + justifyFormat.replace("{0}", game.avg_review + " (" + game.cnt_review + ")") + "\",")
+        else:
+            if (game.avg_review != ""):
+                print("The average review " + game.avg_review + " is not in the mapping!")
+        
         decrease_indent_count()
         writeline(f, "};")
         writeline(f, "rows.push(row);")
