@@ -60,12 +60,16 @@ def parse_list(names_list, options):
                 games[cleanname] = cachedgames[cleanname]
             else:
                 appid = str(steamDB.get_appid(cleanname))
-                if (appid == ""):
-                    cleanname2 = stringutils.substringbefore(cleanname, "(").strip()
+                j = 0
+                tolookfor= ["(", "+"]
+                while ( (appid == "") and (j < len(tolookfor)) ):
+                    cleanname2 = stringutils.substringbefore(cleanname, tolookfor[j]).strip()
+                    j += 1
                     appid = str(steamDB.get_appid(cleanname2))
                     if (appid != ""):
                         mapper.add_to_mapping(cleanname, cleanname2)
                         cleanname = cleanname2
+                        break
                 
                 description = ""
                 image = ""
