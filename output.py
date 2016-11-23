@@ -202,7 +202,7 @@ def output_to_html(games, file):
             writeline(f, "reviewFormat: \"" + justifyFormat.replace("{0}", game.avg_review + " (" + game.cnt_review + ")") + "\",")
         else:
             if (game.avg_review != ""):
-                print("The average review " + game.avg_review + " is not in the mapping!")
+                print("The average review " + game.avg_review + "for game " +game.name + " is not in the mapping!")
         
         decrease_indent_count()
         writeline(f, "};")
