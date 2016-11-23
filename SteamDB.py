@@ -33,7 +33,7 @@ class SteamDB:
         cookie = 'birthtime=568022401'
         page = web.get_utf8_web_page(URL + appid, cookie)
         
-        if ("There are no reviews for this product" in page):
+        if ("No user reviews" in page):
             return "", "0"
         
         page = stringutils.substringafter(page, start)
