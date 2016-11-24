@@ -102,7 +102,7 @@ def parse_list(names_list, options):
                 description = ""
                 image = ""
                 os = list()
-                price = ""
+                price = None
                 price_date = ""
                 genres = list()
                 release_date = ""
@@ -134,10 +134,15 @@ def parse_list(names_list, options):
                             if (len(info[appid]["data"]["pc_requirements"]) > 0):
                                 os.append("Windows")
                             
-                            if ( ("price_overview" in info[appid]["data"]) and (len(info[appid]["data"]["price_overview"]) > 0)):
-                                price = "$" + str((info[appid]["data"]["price_overview"]["final"]) / 100)
+                            if (info[appid]["data"]["is_free"]):
+                                price = 0.00
+                            elif ( ("price_overview" in info[appid]["data"]) and (len(info[appid]["data"]["price_overview"]) > 0)):
+                                price = (info[appid]["data"]["price_overview"]["final"]) / 100
+                            elif ( (len(info[appid]["data"]["package_groups"]) > 0) and (info[appid]["data"]["package_groups"][0]["subs"][0]["price_in_cents_with_discount"] >= 0) ):
+                                price = (info[appid]["data"]["package_groups"][0]["subs"][0]["price_in_cents_with_discount"]) / 100
                             else:
-                                price = "$0.00"
+                                price = None
+                            
                             price_date = str(datetime.datetime.now().date())
                             price_date = calendar.month_abbr[int(price_date[5:7])] + " " + price_date[8:] + ", " + price_date[:4]
 

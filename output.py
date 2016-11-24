@@ -116,7 +116,7 @@ def output_to_html(games, file):
     writeline(f, "price: {")
     increase_indent_count()
     writeline(f, "index: 5,")
-    writeline(f, "type: \"string\",")
+    writeline(f, "type: \"number\",")
     writeline(f, "decimals: 2,")
     writeline(f, "friendly: \"Price\",")
     writeline(f, "format: \"" + justifyFormat + "\",")
@@ -190,9 +190,14 @@ def output_to_html(games, file):
         writeline(f, "description: \"" + game.description.strip() + "\",")
         writeline(f, "dlc: " + game.is_dlc + ",")
         writeline(f, "os: \"" + ", ".join(game.os) + "\",")
-        writeline(f, "price: \"" + game.price + "\",")
-        if (game.price != ""):
-            writeline(f, "priceFormat: \"" + justifyFormat.replace("{0}", game.price + " <div style=\\\"white-space: nowrap\\\">(" + game.price_date+ ")</div>") + "\",")
+        if (game.price == None):
+            writeline(f, "priceFormat: \"" + justifyFormat.replace("{0}", "Not available." + " <div style=\\\"white-space: nowrap\\\">(" + game.price_date+ ")</div>") + "\",")
+        else:
+            writeline(f, "price: " + str(game.price) + ",")
+            if (game.price == 0):
+                writeline(f, "priceFormat: \"" + justifyFormat.replace("{0}", "Free" + " <div style=\\\"white-space: nowrap\\\">(" + game.price_date+ ")</div>") + "\",")
+            else:
+                writeline(f, "priceFormat: \"" + justifyFormat.replace("{0}", "$" + str(game.price) + " <div style=\\\"white-space: nowrap\\\">(" + game.price_date+ ")</div>") + "\",")
         
         writeline(f, "genres: \"" + ", ".join(game.genres) + "\",")
         writeline(f, "date: \"" + game.release_date + "\",")

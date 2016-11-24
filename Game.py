@@ -4,7 +4,7 @@ class Game:
     description = ""
     image  = ""
     os = list()
-    price = ""
+    price = 0.00
     price_date = ""
     genres = list()
     release_date = ""
@@ -36,7 +36,7 @@ class Game:
         print("Description: " + self.description)
         print("Image: " + self.image)
         print("OS: " + ", ".join(self.os))
-        print("Price: " + self.price)
+        print("Price: $" + self.price)
         print("Price Date: " + self.price_date)
         print("Genres: " + ", ".join(self.genres))
         print("Release Date: " + self.release_date)
