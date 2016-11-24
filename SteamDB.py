@@ -49,5 +49,5 @@ class SteamDB:
         
         return average, count
     
-    def get_informatin_from_steamdb(appid):
-        return ""
+    def get_list_of_games(self):
+        return self.games.keys()

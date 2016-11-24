@@ -45,6 +45,8 @@ def parse_list(names_list, options):
     games = dict()
     i = 0
     
+    keys = list(steamDB.get_list_of_games())
+
     for name in iter(names_list):
         BEGINSTRIKED = "<strike><span style=\"color:#FF0000\">"
         ENDSTRIKED   = "</span></strike>"
@@ -62,7 +64,7 @@ def parse_list(names_list, options):
             is_dlc = "false"
             
         mappedname = mapper.get_mapping(cleanname)
-        if (mappedname != None):
+        if ( (mappedname != None) and (mappedname != "NA") ):
             cleanname = mappedname
             
         if (available == "yes"):
@@ -77,30 +79,14 @@ def parse_list(names_list, options):
             else:
                 appid = str(steamDB.get_appid(cleanname))
                 
-                #hacks to increase the number of games found
-                j = 0
-                tolookfor = ["(", "+"]
-                toreplace = [": <-> - ", " - <->: ", " - <-> ", ":<->", "!<->", " <->",
-                             "1<->I", "I<->1", "2<->II", "II<->2", "3<->III", "III<->3",
-                             " 1<->",
-                             "Third<->3rd"]
-                toadd= [" ",".", "!"]
-                numofhacks = len(tolookfor) + len(toreplace) + len(toadd)
-                while ( (appid == "") and (j < numofhacks) ):
-                    if (j < len(tolookfor)):
-                        cleanname2 = stringutils.substringbefore(cleanname, tolookfor[j]).strip()
-                    elif(j < len(tolookfor) + len(toreplace)):
-                        before, after = toreplace[j - len(tolookfor)].split("<->")
-                        cleanname2 = cleanname.replace(before, after)
-                    else:
-                        cleanname2 = cleanname + toadd[j - len(tolookfor) - len(toreplace)]
-                    j += 1
-                    appid = str(steamDB.get_appid(cleanname2))
-                    if (appid != ""):
-                        mapper.add_to_mapping(cleanname, cleanname2)
-                        cleanname = cleanname2
-                        break
-                
+                if ( (appid == "") and (mappedname != "NA") ):
+                    res = mapper.get_match(cleanname.lower(), keys)
+                    if(len(res) > 0):
+                        appid = str(steamDB.get_appid(res[0]))
+                        if (appid != ""):
+                            mapper.add_to_mapping(cleanname, res[0])
+                            print("Matched " + cleanname + " with " + res[0])
+
                 description = ""
                 image = ""
                 os = list()
@@ -129,6 +115,9 @@ def parse_list(names_list, options):
                             
                             image = info[appid]["data"]["header_image"]
                             
+                            if ( ("type" in info[appid]["data"]) and (info[appid]["data"]["type"].lower() == "dlc") ):
+                                is_dlc = "true"
+
                             if (len(info[appid]["data"]["linux_requirements"]) > 0):
                                 os.append("Linux")
                             if (len(info[appid]["data"]["mac_requirements"]) > 0):
@@ -148,8 +137,9 @@ def parse_list(names_list, options):
                             price_date = str(datetime.datetime.now().date())
                             price_date = calendar.month_abbr[int(price_date[5:7])] + " " + price_date[8:] + ", " + price_date[:4]
 
-                            for genre in iter (info[appid]["data"]["genres"]):
-                                genres.append(genre["description"])
+                            if ("genres" in info[appid]["data"]):
+                                for genre in iter (info[appid]["data"]["genres"]):
+                                    genres.append(genre["description"])
                                 
                             release_date = info[appid]["data"]["release_date"]["date"]
                             
