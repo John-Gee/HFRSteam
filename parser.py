@@ -80,9 +80,11 @@ def parse_list(names_list, options):
                 #hacks to increase the number of games found
                 j = 0
                 tolookfor = ["(", "+"]
-                toreplace = [":<-> - ", " - <->: ", " - <-> ", ":<->", "!<->",
-                             "1<->I", "I<->1", "2<->II", "II<->2", "3<->III", "III<->3"]
-                toadd= [" "]
+                toreplace = [": <-> - ", " - <->: ", " - <-> ", ":<->", "!<->", " <->",
+                             "1<->I", "I<->1", "2<->II", "II<->2", "3<->III", "III<->3",
+                             " 1<->",
+                             "Third<->3rd"]
+                toadd= [" ",".", "!"]
                 numofhacks = len(tolookfor) + len(toreplace) + len(toadd)
                 while ( (appid == "") and (j < numofhacks) ):
                     if (j < len(tolookfor)):
@@ -91,7 +93,7 @@ def parse_list(names_list, options):
                         before, after = toreplace[j - len(tolookfor)].split("<->")
                         cleanname2 = cleanname.replace(before, after)
                     else:
-                        cleanname2 += toadd[j - len(tolookfor) - len(toreplace)]
+                        cleanname2 = cleanname + toadd[j - len(tolookfor) - len(toreplace)]
                     j += 1
                     appid = str(steamDB.get_appid(cleanname2))
                     if (appid != ""):
