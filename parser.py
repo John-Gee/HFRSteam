@@ -1,4 +1,5 @@
 import sys
+import os
 import Game
 import SteamDB
 import JSON
@@ -7,13 +8,28 @@ import datetime
 import calendar
 import traceback
 import urllib
+import re
 import cache
 import stringutils
 import Mapper
 
 def getshortdescription(longdesc):
-    return stringutils.substringbefore(longdesc, "<")
-
+    if (longdesc == None):
+        return longdesc
+    
+    MAXLENGTH = 400
+    
+    cleandesc = longdesc.replace("\"", "").replace(os.linesep, " ").replace("\r", " ")
+    cleandesc = re.sub("<br.?.?>", " ", cleandesc)
+    cleandesc = re.sub("<.*?>", "", cleandesc)
+    cleandesc = re.sub(" +", " ", cleandesc)
+    
+    if (len(cleandesc) > MAXLENGTH):
+        shortdesc = stringutils.rsubstringbefore(cleandesc[:MAXLENGTH], " ") + " [...]"
+        return shortdesc
+    
+    return cleandesc
+    
 def parse_list(names_list, options):
     APPDETAIL="http://store.steampowered.com/api/appdetails?appids="
     if (options.ignorecache):
@@ -104,10 +120,10 @@ def parse_list(names_list, options):
                             
                             if (len(info[appid]["data"]["short_description"]) > 0):
                                 description = getshortdescription(info[appid]["data"]["short_description"])
-                            else:
+                            elif (len(info[appid]["data"]["about_the_game"]) > 0):
                                 description = getshortdescription(info[appid]["data"]["about_the_game"])
-                            if (description != None):
-                                description = description.replace("\"", "")
+                            else:
+                                description = getshortdescription(info[appid]["data"]["detailed_description"])
                             
                             image = info[appid]["data"]["header_image"]
                             

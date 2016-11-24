@@ -45,7 +45,7 @@ class SteamDB:
         average = stringutils.substringbefore(page, "</span>")
         count   = stringutils.substringafter(page, "<span class=\"responsive_hidden\">")
         count   = stringutils.substringbefore(count, " reviews")
-        count   = count.rstrip().lstrip().replace("(", "")
+        count   = count.strip().replace("(", "")
         
         return average, count
     
