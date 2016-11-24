@@ -62,11 +62,9 @@ def parse_list(names_list, options):
             is_dlc = "true"
         else:
             is_dlc = "false"
-            
-        mappedname = mapper.get_mapping(cleanname)
-        if ( (mappedname != None) and (mappedname != "NA") ):
-            cleanname = mappedname
-            
+
+        cleanname= re.sub("<.*?>", "", cleanname)
+
         if (available == "yes"):
             
             #Allow to break for dev purposes
@@ -77,16 +75,7 @@ def parse_list(names_list, options):
             if ( (cleanname in cachedgames) and (cachedgames[cleanname].appid != "") and (not options.refreshall) and ( (options.game == None) or (options.game.lower() not in cleanname.lower())) ):
                 games[cleanname] = cachedgames[cleanname]
             else:
-                appid = str(steamDB.get_appid(cleanname))
-                
-                if ( (appid == "") and (mappedname != "NA") ):
-                    res = mapper.get_match(cleanname.lower(), keys)
-                    if(len(res) > 0):
-                        appid = str(steamDB.get_appid(res[0]))
-                        if (appid != ""):
-                            mapper.add_to_mapping(cleanname, res[0])
-                            print("Matched " + cleanname + " with " + res[0])
-
+                appid = ""
                 description = ""
                 image = ""
                 os = list()
@@ -98,6 +87,21 @@ def parse_list(names_list, options):
                 avg_review = ""
                 cnt_review = ""
                 
+                mappedname = mapper.get_mapping(cleanname)
+                if (mappedname == None):
+                    appid = str(steamDB.get_appid(cleanname))
+
+                    if (appid == ""):
+                        res = mapper.get_match(cleanname.lower(), keys)
+                        if(len(res) > 0):
+                            appid = str(steamDB.get_appid(res[0]))
+                            if (appid != ""):
+                                mapper.add_to_mapping(cleanname, res[0])
+                                print("Matched " + cleanname + " with " + res[0])
+
+                elif (mappedname != "NA"):
+                    appid = str(steamDB.get_appid(mappedname))
+
                 if (appid == ""):
                     print("The game " + cleanname + " was not found in the steam db.")
                     description = "The game was not found in the steam db."
