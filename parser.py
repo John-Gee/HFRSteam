@@ -137,6 +137,9 @@ def parse_list(names_list, options):
                                 price = (info[appid]["data"]["package_groups"][0]["subs"][0]["price_in_cents_with_discount"]) / 100
                             else:
                                 price = None
+
+                            if ( (price != None) and (price > 60) ):
+                                print("The price of game " + cleanname + ": " + price + " is suspicious.")
                             
                             price_date = str(datetime.datetime.now().date())
                             price_date = calendar.month_abbr[int(price_date[5:7])] + " " + price_date[8:] + ", " + price_date[:4]
