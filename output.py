@@ -203,7 +203,7 @@ def output_to_html(games, file):
         writeline(f, "date: \"" + game.release_date + "\",")
         if (game.avg_review.lower() in reviewMapping):
             avg_review = reviewMapping[game.avg_review.lower()]
-            writeline(f, "review: \"" + avg_review + "\",")
+            writeline(f, "review: \"" + avg_review + " " + game.avg_review + "\",")
             writeline(f, "reviewFormat: \"" + justifyFormat.replace("{0}", game.avg_review + " (" + game.cnt_review + ")") + "\",")
         else:
             if (game.avg_review != ""):
