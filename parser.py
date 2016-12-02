@@ -64,6 +64,11 @@ def parse_list(names_list, options):
             is_dlc = "false"
 
         cleanname= re.sub("<.*?>", "", cleanname)
+        
+        cleanname = cleanname.strip()
+        
+        if (cleanname == ""):
+            continue
 
         if (available == "yes"):
             
@@ -103,7 +108,7 @@ def parse_list(names_list, options):
                     appid = str(steamDB.get_appid(mappedname))
 
                 if (appid == ""):
-                    print("The game " + cleanname + " was not found in the steam db.")
+                    print("The game " + name + " was not found in the steam db.")
                     description = "The game was not found in the steam db."
                 else:
                     try:
