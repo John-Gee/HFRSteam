@@ -59,9 +59,9 @@ def parse_list(names_list, options):
             available = "yes"
         if(cleanname.startswith("(+)")):
             cleanname = cleanname[3:]
-            is_dlc = "true"
+            is_dlc = "1"
         else:
-            is_dlc = "false"
+            is_dlc = "0"
 
         cleanname= re.sub("<.*?>", "", cleanname)
         
@@ -125,7 +125,7 @@ def parse_list(names_list, options):
                             image = info[appid]["data"]["header_image"]
                             
                             if ( ("type" in info[appid]["data"]) and (info[appid]["data"]["type"].lower() == "dlc") ):
-                                is_dlc = "true"
+                                is_dlc = "1"
 
                             if (len(info[appid]["data"]["linux_requirements"]) > 0):
                                 os.append("Linux")

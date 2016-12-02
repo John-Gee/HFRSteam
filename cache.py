@@ -11,6 +11,7 @@ def retrieve_db_from_cache():
             db = pickle.load(open(cachefile, "rb"))
     except:
         traceback.print_exc()
+
     return db
 
 def save_to_cache(db):
