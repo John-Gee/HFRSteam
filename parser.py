@@ -39,7 +39,6 @@ def parse_list(names_list, options):
         return cachedgames
     
     steamDB = SteamDB.SteamDB()
-    mapper = Mapper.Mapper()
     games = dict()
     i = 0
     
@@ -90,16 +89,16 @@ def parse_list(names_list, options):
                 avg_review = ""
                 cnt_review = ""
                 
-                mappedname = mapper.get_mapping(cleanname)
+                mappedname = Mapper.get_mapping(cleanname)
                 if (mappedname == None):
                     appid = str(steamDB.get_appid(cleanname))
 
                     if (appid == ""):
-                        res = mapper.get_match(cleanname.lower(), keys)
+                        res = Mapper.get_match(cleanname.lower(), keys)
                         if(len(res) > 0):
                             appid = str(steamDB.get_appid(res[0]))
                             if (appid != ""):
-                                mapper.add_to_mapping(cleanname, res[0])
+                                Mapper.add_to_mapping(cleanname, res[0])
                                 print("Matched " + cleanname + " with " + res[0])
 
                 elif (mappedname != "NA"):
@@ -179,5 +178,5 @@ def parse_list(names_list, options):
 
     newcachedgames = cache.merge_old_new_cache(cachedgames, games)
     cache.save_to_cache(newcachedgames)
-    mapper.save_mapping()
+    Mapper.save_mapping()
     return games
