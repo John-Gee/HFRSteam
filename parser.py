@@ -1,7 +1,7 @@
 import sys
 import os
 import Game
-import SteamDB
+import steamdb
 import time
 import datetime
 import calendar
@@ -41,7 +41,7 @@ def parse_list(names_list, options):
     games = dict()
     i = 0
     
-    keys = list(SteamDB.get_list_of_games())
+    keys = list(steamdb.get_list_of_games())
 
     for name in iter(names_list):
         BEGINSTRIKED = "<strike><span style=\"color:#FF0000\">"
@@ -90,26 +90,26 @@ def parse_list(names_list, options):
                 
                 mappedname = Mapper.get_mapping(cleanname)
                 if (mappedname == None):
-                    appid = str(SteamDB.get_appid(cleanname))
+                    appid = str(steamdb.get_appid(cleanname))
 
                     if (appid == ""):
                         res = Mapper.get_match(cleanname.lower(), keys)
                         if(len(res) > 0):
-                            appid = str(SteamDB.get_appid(res[0]))
+                            appid = str(steamdb.get_appid(res[0]))
                             if (appid != ""):
                                 Mapper.add_to_mapping(cleanname, res[0])
                                 print("Matched " + cleanname + " with " + res[0])
 
                 elif (mappedname != "NA"):
-                    appid = str(SteamDB.get_appid(mappedname))
+                    appid = str(steamdb.get_appid(mappedname))
 
                 if (appid == ""):
                     print("The game " + name + " was not found in the steam db.")
                     description = "The game was not found in the steam db."
                 else:
                     try:
-                        avg_review, cnt_review = SteamDB.get_review_from_steam(appid)
-                        info = SteamDB.get_appinfo(appid)
+                        avg_review, cnt_review = steamdb.get_review_from_steam(appid)
+                        info = steamdb.get_appinfo(appid)
                         if ("data" in info[appid]) and (len(info[appid]["data"]) > 0):
                             
                             if (len(info[appid]["data"]["short_description"]) > 0):
