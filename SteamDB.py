@@ -23,6 +23,11 @@ class SteamDB:
         else:
             return ""
 
+    def get_appinfo(self, appid):
+        APPDETAIL="http://store.steampowered.com/api/appdetails?appids="
+
+        return JSON.get_data_from_url(APPDETAIL + appid)
+
     def get_review_from_steam(self, appid):
         URL = "http://store.steampowered.com/app/"
         

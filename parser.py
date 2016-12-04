@@ -2,7 +2,6 @@ import sys
 import os
 import Game
 import SteamDB
-import JSON
 import time
 import datetime
 import calendar
@@ -31,7 +30,6 @@ def getshortdescription(longdesc):
     return cleandesc
     
 def parse_list(names_list, options):
-    APPDETAIL="http://store.steampowered.com/api/appdetails?appids="
     if (options.ignorecache):
         cachedgames = dict()
     else:
@@ -112,7 +110,7 @@ def parse_list(names_list, options):
                     description = "The game was not found in the steam db."
                 else:
                     try:
-                        info = JSON.get_data_from_url(APPDETAIL + appid)
+                        info = steamDB.get_appinfo(appid)
                         if ("data" in info[appid]) and (len(info[appid]["data"]) > 0):
                             
                             if (len(info[appid]["data"]["short_description"]) > 0):
