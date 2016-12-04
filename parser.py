@@ -108,6 +108,7 @@ def parse_list(names_list, options):
                     description = "The game was not found in the steam db."
                 else:
                     try:
+                        avg_review, cnt_review = SteamDB.get_review_from_steam(appid)
                         info = SteamDB.get_appinfo(appid)
                         if ("data" in info[appid]) and (len(info[appid]["data"]) > 0):
                             
@@ -152,8 +153,6 @@ def parse_list(names_list, options):
                             release_date = info[appid]["data"]["release_date"]["date"]
                             
                             link = "http://store.steampowered.com/app/" + appid
-                            
-                            avg_review, cnt_review = SteamDB.get_review_from_steam(appid)
                             
                             print("Info for game " + cleanname + " was retrieved" + ", " + str(datetime.datetime.now().time()))
                         else:
