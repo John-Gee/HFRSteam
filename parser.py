@@ -38,11 +38,10 @@ def parse_list(names_list, options):
     if (options.cacheonly):
         return cachedgames
     
-    steamDB = SteamDB.SteamDB()
     games = dict()
     i = 0
     
-    keys = list(steamDB.get_list_of_games())
+    keys = list(SteamDB.get_list_of_games())
 
     for name in iter(names_list):
         BEGINSTRIKED = "<strike><span style=\"color:#FF0000\">"
@@ -91,25 +90,25 @@ def parse_list(names_list, options):
                 
                 mappedname = Mapper.get_mapping(cleanname)
                 if (mappedname == None):
-                    appid = str(steamDB.get_appid(cleanname))
+                    appid = str(SteamDB.get_appid(cleanname))
 
                     if (appid == ""):
                         res = Mapper.get_match(cleanname.lower(), keys)
                         if(len(res) > 0):
-                            appid = str(steamDB.get_appid(res[0]))
+                            appid = str(SteamDB.get_appid(res[0]))
                             if (appid != ""):
                                 Mapper.add_to_mapping(cleanname, res[0])
                                 print("Matched " + cleanname + " with " + res[0])
 
                 elif (mappedname != "NA"):
-                    appid = str(steamDB.get_appid(mappedname))
+                    appid = str(SteamDB.get_appid(mappedname))
 
                 if (appid == ""):
                     print("The game " + name + " was not found in the steam db.")
                     description = "The game was not found in the steam db."
                 else:
                     try:
-                        info = steamDB.get_appinfo(appid)
+                        info = SteamDB.get_appinfo(appid)
                         if ("data" in info[appid]) and (len(info[appid]["data"]) > 0):
                             
                             if (len(info[appid]["data"]["short_description"]) > 0):
@@ -154,7 +153,7 @@ def parse_list(names_list, options):
                             
                             link = "http://store.steampowered.com/app/" + appid
                             
-                            avg_review, cnt_review = steamDB.get_review_from_steam(appid)
+                            avg_review, cnt_review = SteamDB.get_review_from_steam(appid)
                             
                             print("Info for game " + cleanname + " was retrieved" + ", " + str(datetime.datetime.now().time()))
                         else:
