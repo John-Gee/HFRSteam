@@ -2,10 +2,11 @@ import difflib
 import os.path
 import sys
 
+
 class Mapper:
-    LINK = "<->"
+    LINK          = "<->"
     __mappingfile = ""
-    __mapping = {}
+    __mapping     = {}
 
     def __init__(self, mappingfile):
         if(os.path.exists(mappingfile)):
@@ -14,7 +15,8 @@ class Mapper:
             f = open(self.__mappingfile, "r")
             for line in iter(f):
                 line = line.strip()
-                # remove the quotes needed to protect spaces at the end of names when steam messed up
+                # remove the quotes needed to protect spaces at the end of
+                # names when steam messed up
                 line = line[1:-1]
                 if (self.LINK in line):
                     couple = line.split(self.LINK)
@@ -27,7 +29,7 @@ class Mapper:
 
         f = open(self.__mappingfile, "w")
         for key in sorted(self.__mapping):
-            line = "\"" + key + self.LINK+ self.__mapping[key] + "\""
+            line = "\"" + key + self.LINK + self.__mapping[key] + "\""
             f.write(line)
             f.write(os.linesep)
 
@@ -35,7 +37,8 @@ class Mapper:
         if (left not in self.__mapping):
             self.__mapping[left] = right
         else:
-            print("Impossible to add mapping, " + left + " is already in the mapper")
+            print("Impossible to add mapping, " +
+                  left + " is already in the mapper")
 
     def get_mapping(self, left):
         if (left in self.__mapping):

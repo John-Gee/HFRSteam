@@ -8,6 +8,7 @@ import output
 import hfrparser
 import parser
 
+
 def main():
     usage = "usage: %prog [options] arg"
     optionparser = OptionParser(usage)
@@ -25,11 +26,11 @@ def main():
                             help="Refresh all games, ignoring the current cache.")
     optionparser.add_option("-R", "--refresh-named", dest="game",
                             help="Refresh the game listed, and all games not in cache")
-    optionparser.add_option("-w", "--wait-on-steam-timeout", action="store_true", dest="waitonsteamtimeout", 
+    optionparser.add_option("-w", "--wait-on-steam-timeout", action="store_true", dest="waitonsteamtimeout",
                             help="Wait on timeouts. The default behavior is to stop querying Steam.")
-    
+
     (options, args) = optionparser.parse_args()
-    
+
     if (options.list == None):
         list  = hfrparser.parse_hfr()
         games = parser.parse_list(list, options)
@@ -37,12 +38,11 @@ def main():
         list  = open(options.list, "r")
         games = parser.parse_list(list, options)
         list.close()
-    
-    outfolder="output"
+
+    outfolder = "output"
     if not os.path.exists(outfolder):
         os.makedirs(outfolder)
     output.output_to_html(games, "docs/index.html")
 
 if __name__ == "__main__":
     main()
-    
