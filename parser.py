@@ -100,13 +100,14 @@ def parse_list(names_list, options):
             if (appid  == None):
                 if (mappedname == None):
                     appid = str(steamdb.get_appid(cleanname))
-                    if (appid == ""):
-                        matchednames = Mapper.get_match(cleanname.lower(), keys)
-                        if(len(matchednames) > 0):
-                            appid = str(steamdb.get_appid(matchednames[0]))
-                            if (appid != ""):
-                                namesmapping.add_to_mapping(cleanname, matchednames[0])
-                                print("Matched " + cleanname + " with " + matchednames[0])
+                    if(options.matchingwords):
+                        if (appid == ""):
+                            matchednames = Mapper.get_match(cleanname.lower(), keys)
+                            if(len(matchednames) > 0):
+                                appid = str(steamdb.get_appid(matchednames[0]))
+                                if (appid != ""):
+                                    namesmapping.add_to_mapping(cleanname, matchednames[0])
+                                    print("Matched " + cleanname + " with " + matchednames[0])
 
                 elif (mappedname != "NA"):
                     appid = str(steamdb.get_appid(mappedname))
