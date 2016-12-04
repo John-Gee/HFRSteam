@@ -10,7 +10,7 @@ import urllib
 import re
 import cache
 import stringutils
-import Mapper
+import mapper
 
 def getshortdescription(longdesc):
     if (longdesc == None):
@@ -88,16 +88,16 @@ def parse_list(names_list, options):
                 avg_review = ""
                 cnt_review = ""
                 
-                mappedname = Mapper.get_mapping(cleanname)
+                mappedname = mapper.get_mapping(cleanname)
                 if (mappedname == None):
                     appid = str(steamdb.get_appid(cleanname))
 
                     if (appid == ""):
-                        res = Mapper.get_match(cleanname.lower(), keys)
+                        res = mapper.get_match(cleanname.lower(), keys)
                         if(len(res) > 0):
                             appid = str(steamdb.get_appid(res[0]))
                             if (appid != ""):
-                                Mapper.add_to_mapping(cleanname, res[0])
+                                mapper.add_to_mapping(cleanname, res[0])
                                 print("Matched " + cleanname + " with " + res[0])
 
                 elif (mappedname != "NA"):
@@ -176,5 +176,5 @@ def parse_list(names_list, options):
 
     newcachedgames = cache.merge_old_new_cache(cachedgames, games)
     cache.save_to_cache(newcachedgames)
-    Mapper.save_mapping()
+    mapper.save_mapping()
     return games
