@@ -86,7 +86,6 @@
 "Karmaflow: The Rock Opera Videogame - Act I<->Karmaflow: The Rock Opera Videogame"
 "Killer is Dead - Nightmare Edition<->Killer is Dead"
 "Killing Floor - Community Weapon Pack 1 DLC<->Killing Floor - Community Weapon Pack 1"
-"Killing Floor - Community Weapon Pack 2 DLC<->Killing Floor - Community Weapon Pack 2"
 "Killing Floor - Community Weapon Pack 3 DLC<->Killing Floor - Community Weapons Pack 3 - Us Versus Them Total Conflict Pack"
 "Knight Shift<->KnightShift"
 "Knights of Pen and Paper +1 Edition<->Knights of Pen and Paper +1"

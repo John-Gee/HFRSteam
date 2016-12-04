@@ -6,10 +6,11 @@ import sys
 import time
 import traceback
 import urllib
+import pdb
 
 import cache
 from game import Game
-import mapper
+from mapper import Mapper
 import steamdb
 import stringutils
 
@@ -40,6 +41,11 @@ def parse_list(names_list, options):
         return cachedgames
     
     games = dict()
+    MAPPING_FOLDER      = "mappings"
+    APPIDS_MAPPING_FILE = MAPPING_FOLDER + "/" + "appidsmapping.txt"
+    NAMES_MAPPING_FILE  = MAPPING_FOLDER + "/" + "namesmapping.txt"
+    appidsmapping       = Mapper(APPIDS_MAPPING_FILE)
+    namesmapping        = Mapper(NAMES_MAPPING_FILE)
     i     = 0
     
     keys = list(steamdb.get_list_of_games())
@@ -67,7 +73,7 @@ def parse_list(names_list, options):
         
         if ((cleanname == "") or (available == "no")):
             continue
-            
+
         #Allow to break for dev purposes
         i += 1
         if ( (options.number_games != None) and (options.number_games.isdigit()) and (i == int(options.number_games)) ):
@@ -77,7 +83,6 @@ def parse_list(names_list, options):
             games[cleanname] = cachedgames[cleanname]
 
         else:
-            appid        = ""
             description  = ""
             image        = ""
             os           = list()
@@ -89,21 +94,25 @@ def parse_list(names_list, options):
             avg_review   = ""
             cnt_review   = ""
             
-            mappedname = mapper.get_mapping(cleanname)
-            if (mappedname == None):
-                appid = str(steamdb.get_appid(cleanname))
-                if (appid == ""):
-                    matchednames = mapper.get_match(cleanname.lower(), keys)
-                    if(len(matchednames) > 0):
-                        appid = str(steamdb.get_appid(matchednames[0]))
-                        if (appid != ""):
-                            mapper.add_to_mapping(cleanname, matchednames[0])
-                            print("Matched " + cleanname + " with " + matchednames[0])
+            appid        = appidsmapping.get_mapping(cleanname)
+            mappedname   = namesmapping.get_mapping(cleanname)
+            
+            if (appid  == None):
+                if (mappedname == None):
+                    appid = str(steamdb.get_appid(cleanname))
+                    if (appid == ""):
+                        matchednames = Mapper.get_match(cleanname.lower(), keys)
+                        if(len(matchednames) > 0):
+                            appid = str(steamdb.get_appid(matchednames[0]))
+                            if (appid != ""):
+                                namesmapping.add_to_mapping(cleanname, matchednames[0])
+                                print("Matched " + cleanname + " with " + matchednames[0])
 
-            elif (mappedname != "NA"):
-                appid = str(steamdb.get_appid(mappedname))
+                elif (mappedname != "NA"):
+                    appid = str(steamdb.get_appid(mappedname))
 
-            if (appid == ""):
+            if ((appid == None) or (appid == "")):
+                appid = ""
                 print("The game " + name + " was not found in the steam db.")
                 description = "The game was not found in the steam db."
 
@@ -181,5 +190,6 @@ def parse_list(names_list, options):
 
     newcachedgames = cache.merge_old_new_cache(cachedgames, games)
     cache.save_to_cache(newcachedgames)
-    mapper.save_mapping()
+    appidsmapping.save_mapping()
+    namesmapping.save_mapping()
     return games
