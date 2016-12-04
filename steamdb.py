@@ -1,4 +1,3 @@
-import JSON
 import web
 import sys
 import stringutils
@@ -6,7 +5,7 @@ import os
 
 APPLIST_URL = "http://api.steampowered.com/ISteamApps/GetAppList/v0001/"
 _games = dict()    
-_applist = JSON.get_data_from_url(APPLIST_URL)
+_applist = web.get_json_data_from_url(APPLIST_URL)
 for app in iter(_applist["applist"]["apps"]["app"]):
     name = app["name"].lower()
     if (name not in _games):
@@ -22,7 +21,7 @@ def get_appid(name):
 def get_appinfo(appid):
     APPDETAIL_URL = "http://store.steampowered.com/api/appdetails?appids="
 
-    return JSON.get_data_from_url(APPDETAIL_URL + appid)
+    return web.get_json_data_from_url(APPDETAIL_URL + appid)
 
 def get_review_from_steam(appid):
     APP_URL = "http://store.steampowered.com/app/"

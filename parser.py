@@ -171,6 +171,7 @@ def parse_list(names_list, options):
                         print("something failed for game: " + cleanname + " appid: " + appid + ", " + str(datetime.datetime.now().time()))
                         traceback.print_exc()
                     time.sleep(2)
+
                 game = Game(cleanname, appid, description, image, os, price, price_date, genres, release_date, link, is_dlc, available, avg_review, cnt_review)
                 games[cleanname] = game
 

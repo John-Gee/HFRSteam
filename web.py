@@ -1,4 +1,5 @@
 import sys
+import json
 import urllib.request
 import urllib.parse
 
@@ -10,3 +11,7 @@ def get_utf8_web_page(url, cookie=None):
         opener.addheaders.append(('Cookie', cookie))
         f = opener.open(url)
     return f.read().decode('utf-8')
+
+def get_json_data_from_url(url):
+    f = urllib.request.urlopen(url)
+    return json.loads(f.read().decode('utf-8'))
