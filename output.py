@@ -1,22 +1,22 @@
 import sys
 import os
 
-indentcount = 0
+_indentcount = 0
 
 def writeline(f, line):
     indent = 4
-    for i in range(0, indent * indentcount):
+    for i in range(0, indent * _indentcount):
         f.write(' ')
     f.write(line)
     f.write(os.linesep)
 
 def increase_indent_count():
-    global indentcount
-    indentcount += 1
+    global _indentcount
+    _indentcount += 1
 
 def decrease_indent_count():
-    global indentcount
-    indentcount -= 1
+    global _indentcount
+    _indentcount -= 1
 
 
 def output_to_html(games, file):
