@@ -9,7 +9,7 @@ def retrieve_db_from_cache():
     db = dict()
     try:
         if(os.path.exists(_CACHE_FILE)):
-            db = pickle.load(open(_cachefile, "rb"))
+            db = pickle.load(open(_CACHE_FILE, "rb"))
     except:
         traceback.print_exc()
 
