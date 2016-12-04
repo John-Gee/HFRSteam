@@ -4,9 +4,9 @@ import sys
 import stringutils
 import os
 
-APPLIST = "http://api.steampowered.com/ISteamApps/GetAppList/v0001/"
+APPLIST_URL = "http://api.steampowered.com/ISteamApps/GetAppList/v0001/"
 _games = dict()    
-_applist = JSON.get_data_from_url(APPLIST)
+_applist = JSON.get_data_from_url(APPLIST_URL)
 for app in iter(_applist["applist"]["apps"]["app"]):
     name = app["name"].lower()
     if (name not in _games):
@@ -20,19 +20,19 @@ def get_appid(name):
         return ""
 
 def get_appinfo(appid):
-    APPDETAIL="http://store.steampowered.com/api/appdetails?appids="
+    APPDETAIL_URL = "http://store.steampowered.com/api/appdetails?appids="
 
-    return JSON.get_data_from_url(APPDETAIL + appid)
+    return JSON.get_data_from_url(APPDETAIL_URL + appid)
 
 def get_review_from_steam(appid):
-    URL = "http://store.steampowered.com/app/"
+    APP_URL = "http://store.steampowered.com/app/"
     
     start      = "Aggregaterating"
     real_start = "itemprop=\"description\">"
     end        = "<span class=\"nonresponsive_hidden responsive_reviewdesc\">"
     
     cookie = 'birthtime=568022401'
-    page = web.get_utf8_web_page(URL + appid, cookie)
+    page = web.get_utf8_web_page(APP_URL + appid, cookie)
     
     if ("No user reviews" in page):
         return "", "0"
