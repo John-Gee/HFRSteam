@@ -1,6 +1,5 @@
 import sys
 import os
-import Game
 
 indentcount = 0
 
