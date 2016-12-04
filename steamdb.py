@@ -1,7 +1,8 @@
-import web
-import sys
-import stringutils
 import os
+import sys
+
+import stringutils
+import web
 
 APPLIST_URL = "http://api.steampowered.com/ISteamApps/GetAppList/v0001/"
 _games = dict()    

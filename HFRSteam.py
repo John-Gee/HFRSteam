@@ -1,11 +1,12 @@
 #!/usr/bin/python
 
+from optparse import OptionParser
+import os
 import sys
-import parser
+
 import output
 import hfrparser
-import os
-from optparse import OptionParser
+import parser
 
 def main():
     usage = "usage: %prog [options] arg"

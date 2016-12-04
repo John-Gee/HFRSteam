@@ -1,16 +1,17 @@
-import sys
-import os
-from game import Game
-import steamdb
-import time
-import datetime
 import calendar
+import datetime
+import os
+import re
+import sys
+import time
 import traceback
 import urllib
-import re
+
 import cache
-import stringutils
+from game import Game
 import mapper
+import steamdb
+import stringutils
 
 def getshortdescription(longdesc):
     if (longdesc == None):

@@ -1,5 +1,5 @@
-import sys
 import os
+import sys
 
 _indentcount = 0
 

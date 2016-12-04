@@ -1,6 +1,6 @@
+import difflib
 import os.path
 import sys
-import difflib
 
 _mappingfile = "mapping.txt"
 _link = "<->"

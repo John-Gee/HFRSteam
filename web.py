@@ -1,7 +1,6 @@
-import sys
 import json
+import sys
 import urllib.request
-import urllib.parse
 
 def get_utf8_web_page(url, cookie=None):
     if (cookie is None):
