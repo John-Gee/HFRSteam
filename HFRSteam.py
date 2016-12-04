@@ -39,10 +39,11 @@ def main():
         games = parser.parse_list(list, options)
         list.close()
 
-    outfolder = "output"
-    if not os.path.exists(outfolder):
-        os.makedirs(outfolder)
-    output.output_to_html(games, "docs/index.html")
+    OUTPUT_FOLDER = "docs"
+    OUTPUT_FILE   = OUTPUT_FOLDER + "/index.html"
+    if not os.path.exists(OUTPUT_FOLDER):
+        os.makedirs(OUTPUT_FOLDER)
+    output.output_to_html(games, OUTPUT_FILE)
 
 if __name__ == "__main__":
     main()
