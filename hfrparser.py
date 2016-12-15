@@ -1,33 +1,48 @@
 import os
 import sys
+
+import domparser
+import stringutils
 import web
 
-import stringutils
+
+def get_post():
+    HFR_URL    = 'http://forum.hardware.fr/hfr/JeuxVideo/Achat-Ventes/gratuit-origin-download-sujet_171605_1.htm#t8945000'
+
+    html = web.get_utf8_web_page(HFR_URL)
+    document = domparser.load_html(html)
+    divSR = domparser.get_element(document, ID = 'para8945000', nodetype = 'div')
+
+    return str(divSR)
+
+def get_list(post):
+    HFR_URL    = 'http://forum.hardware.fr/hfr/JeuxVideo/Achat-Ventes/gratuit-origin-download-sujet_171605_1.htm#t8945000'
+
+    START      = '<strong>Clefs  <img alt="[:icon4]" src="http://forum-images.hardware.fr/images/perso/icon4.gif" title="[:icon4]"/> Steam <img alt="[:icon4]" src="http://forum-images.hardware.fr/images/perso/icon4.gif" title="[:icon4]"/> :</strong> <br/><strong> <br/>'
+    END        = '<strong>Clefs  <img alt="[:icon4]" src="http://forum-images.hardware.fr/images/perso/icon4.gif" title="[:icon4]"/> Desura <img alt="[:icon4]" src="http://forum-images.hardware.fr/images/perso/icon4.gif" title="[:icon4]"/> :</strong>'
+
+    subpost = stringutils.substringafter(post, START)
+    subpost = stringutils.substringbefore(subpost, END)
+
+    cleansubpost = subpost.replace('<br/>', '\r\n')
+    cleansubpost = cleansubpost.replace('&amp;', "&")
+    cleansubpost = cleansubpost.replace('"', '')
+    cleansubpost = cleansubpost.replace('--', '')
+    cleansubpost = cleansubpost.strip()
+
+    # the separator is \x1c
+    games = cleansubpost.splitlines()
+    games = filter(None, games)
+
+    return games
 
 
 def parse_hfr():
-    HFR_URL    = "http://forum.hardware.fr/hfr/JeuxVideo/Achat-Ventes/gratuit-origin-download-sujet_171605_1.htm#t8945000"
+    post = get_post()
+    games = get_list(post)
 
-    START      = "<br /><strong>Clefs &nbsp;<img src=\"http://forum-images.hardware.fr/images/perso/icon4.gif\" alt=\"[:icon4]\" title=\"[:icon4]\" /> Steam"
-    REAL_START = "<strong>"
-    END        = "<br />&nbsp;<br />--------------------------------------------------------------------------"
+    return games
 
-    page = web.get_utf8_web_page(HFR_URL)
-    page = stringutils.substringafter(page, START, 1)
-    page = stringutils.substringafter(page, REAL_START, 1)
-    page = stringutils.substringbefore(page, END, -1)
-
-    page = page.replace("&nbsp;<br />", "\x1c")
-    page = page.replace("&nbsp;", "")
-    page = page.replace("&#034;", "")
-    page = page.replace("&amp;", "&")
-    page = page.replace("<br />", "")
-    page = page.replace("----", "")
-    page = page.strip()
-
-    # the separator is \x1c
-    pages = page.splitlines()
-    return pages
 
 if __name__ == "__main__":
     parse_hfr()
