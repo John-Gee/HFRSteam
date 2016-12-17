@@ -1,11 +1,7 @@
-import calendar
-import datetime
 import os
 import re
 import sys
 import time
-import traceback
-import urllib
 import pdb
 
 import cache
@@ -13,26 +9,6 @@ from game import Game
 from mapper import Mapper
 import steamdb
 import stringutils
-
-
-def getshortdescription(longdesc):
-    if (longdesc == None):
-        return longdesc
-
-    MAX_LENGTH = 400
-
-    cleandesc = longdesc.replace("\"", "").replace(
-        os.linesep, " ").replace("\r", " ")
-    cleandesc = re.sub("<br.?.?>", " ", cleandesc)
-    cleandesc = re.sub("<.*?>", "", cleandesc)
-    cleandesc = re.sub(" +", " ", cleandesc)
-
-    if (len(cleandesc) > MAX_LENGTH):
-        shortdesc = stringutils.rsubstringbefore(
-            cleandesc[:MAX_LENGTH], " ") + " [...]"
-        return shortdesc
-
-    return cleandesc
 
 
 def parse_list(names_list, options):
@@ -83,21 +59,11 @@ def parse_list(names_list, options):
         if ((options.number_games != None) and (options.number_games.isdigit()) and (i == int(options.number_games))):
             break
 
-        if ((cleanname in cachedgames) and (cachedgames[cleanname].appid != "") and (not options.refreshall) and ((options.game == None) or (options.game.lower() not in cleanname.lower()))):
-            games[cleanname] = cachedgames[cleanname]
+        if ((cleanname in cachedgames) and (cachedgames[cleanname].appid) and (not options.refreshall) and ((options.game == None) or (options.game.lower() not in cleanname.lower()))):
+            games[cleanname]           = cachedgames[cleanname]
+            games[cleanname].available = available
 
         else:
-            description  = ""
-            image        = ""
-            os           = list()
-            price        = None
-            price_date   = ""
-            genres       = list()
-            release_date = ""
-            link         = ""
-            avg_review   = ""
-            cnt_review   = ""
-
             appid        = appidsmapping.get_mapping(cleanname)
             mappedname   = namesmapping.get_mapping(cleanname)
 
@@ -119,93 +85,28 @@ def parse_list(names_list, options):
                 elif (mappedname != "NA"):
                     appid = str(steamdb.get_appid(mappedname))
 
+            game           = Game(cleanname)
+            game.appid     = appid
+            game.is_dlc    = is_dlc
+            game.available = available
+
             if ((appid == None) or (appid == "")):
-                appid = ""
-                print("The game " + name + " was not found in the steam db.")
-                description = "The game was not found in the steam db."
+                game.appid = ""
+                game.description = "The game was not found in the steam db."
+                print("The game " + name + " " + game.description)
 
             else:
-                try:
-                    avg_review, cnt_review = steamdb.get_review_from_steam(
-                        appid)
+                arewebanned = steamdb.get_game_info(game)
 
-                    info = steamdb.get_appinfo(appid)
-                    if ("data" in info[appid]) and (len(info[appid]["data"]) > 0):
-
-                        if (len(info[appid]["data"]["short_description"]) > 0):
-                            description = getshortdescription(
-                                info[appid]["data"]["short_description"])
-                        elif (len(info[appid]["data"]["about_the_game"]) > 0):
-                            description = getshortdescription(
-                                info[appid]["data"]["about_the_game"])
-                        else:
-                            description = getshortdescription(
-                                info[appid]["data"]["detailed_description"])
-
-                        image = info[appid]["data"]["header_image"]
-
-                        if (("type" in info[appid]["data"]) and (info[appid]["data"]["type"].lower() == "dlc")):
-                            is_dlc = "1"
-
-                        if (len(info[appid]["data"]["linux_requirements"]) > 0):
-                            os.append("Linux")
-                        if (len(info[appid]["data"]["mac_requirements"]) > 0):
-                            os.append("Mac")
-                        if (len(info[appid]["data"]["pc_requirements"]) > 0):
-                            os.append("Windows")
-
-                        if (info[appid]["data"]["is_free"]):
-                            price = 0.00
-                        elif (("price_overview" in info[appid]["data"]) and (len(info[appid]["data"]["price_overview"]) > 0)):
-                            price = (info[appid]["data"][
-                                     "price_overview"]["final"]) / 100
-                        elif ((len(info[appid]["data"]["package_groups"]) > 0) and (info[appid]["data"]["package_groups"][0]["subs"][0]["price_in_cents_with_discount"] >= 0)):
-                            price = (info[appid]["data"]["package_groups"][0][
-                                     "subs"][0]["price_in_cents_with_discount"]) / 100
-                        else:
-                            price = None
-
-                        if ((price != None) and (price > 60)):
-                            print("The price of game " + cleanname +
-                                  ": " + price + " is suspicious.")
-
-                        price_date = str(datetime.datetime.now().date())
-                        price_date = calendar.month_abbr[
-                            int(price_date[5:7])] + " " + price_date[8:] + ", " + price_date[:4]
-
-                        if ("genres" in info[appid]["data"]):
-                            for genre in iter(info[appid]["data"]["genres"]):
-                                genres.append(genre["description"])
-
-                        release_date = info[appid][
-                            "data"]["release_date"]["date"]
-
-                        link = "http://store.steampowered.com/app/" + appid
-
-                        print("Info for game " + cleanname + " was retrieved" +
-                              ", " + str(datetime.datetime.now().time()))
-
+                if (arewebanned):
+                    print("We're temp banned from steam no point in continuing.")
+                    if(options.waitonsteamtimeout):
+                        sleep(1000)
                     else:
-                        description = "The game is not on steam anymore"
+                        break
 
-                except urllib.error.HTTPError as err:
-                    if (repr(err).find("302")):
-                        description = "The game is in the db but not on steam anymore"
-                    else:
-                        print("We're temp banned from steam no point in continuing.")
-                        if(options.waitonsteamtimeout):
-                            sleep(1000)
-                        else:
-                            break
-
-                except:
-                    print("something failed for game: " + cleanname + " appid: " +
-                          appid + ", " + str(datetime.datetime.now().time()))
-                    traceback.print_exc()
                 time.sleep(2)
 
-            game = Game(cleanname, appid, description, image, os, price, price_date,
-                        genres, release_date, link, is_dlc, available, avg_review, cnt_review)
             games[cleanname] = game
 
     newcachedgames = cache.merge_old_new_cache(cachedgames, games)
