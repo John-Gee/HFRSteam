@@ -9,11 +9,11 @@ import web
 def get_post():
     HFR_URL    = 'http://forum.hardware.fr/hfr/JeuxVideo/Achat-Ventes/gratuit-origin-download-sujet_171605_1.htm#t8945000'
 
-    html = web.get_utf8_web_page(HFR_URL)
+    html     = web.get_utf8_web_page(HFR_URL)
     document = domparser.load_html(html)
-    divSR = domparser.get_element(document, ID = 'para8945000', nodetype = 'div')
+    post     = domparser.get_element(document, 'div', id = 'para8945000')
 
-    return str(divSR)
+    return str(post)
 
 def get_list(post):
     START      = '<strong>Clefs  <img alt="[:icon4]" src="http://forum-images.hardware.fr/images/perso/icon4.gif" title="[:icon4]"/> Steam <img alt="[:icon4]" src="http://forum-images.hardware.fr/images/perso/icon4.gif" title="[:icon4]"/> :</strong> <br/><strong> <br/>'
