@@ -25,7 +25,7 @@
 "Cargo ! The Quest for Gravity<->Cargo! - The quest for gravity"
 "Chicken Shoot<->Chicken Shoot Gold"
 "Cities in Motion 2 Collection<->Cities in Motion 2"
-"Command & Conquer: Red Alert 3 - Uprising<->Command and Conquer: Red Alert 3"
+"Command & Conquer: Red Alert 3 - Uprising<->Command and Conquer: Red Alert 3 - Uprising"
 "Company of Heroes 2 - The Western Front Armies: Oberkommando West<->COH2 - The Western Front Armies: Oberkommando West"
 "Crash Time 2<->Crash Time II"
 "Crusader Kings II - African Unit Pack<->Crusader Kings II: African Unit Pack"
