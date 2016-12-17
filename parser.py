@@ -7,7 +7,7 @@ import pdb
 import cache
 from game import Game
 from mapper import Mapper
-import steamdb
+import steam
 import stringutils
 
 
@@ -28,7 +28,7 @@ def parse_list(names_list, options):
     namesmapping        = Mapper(NAMES_MAPPING_FILE)
     i                   = 0
 
-    keys = list(steamdb.get_list_of_games())
+    keys = list(steam.get_list_of_games())
 
     for name in iter(names_list):
         BEGIN_STRIKED = "<strike><span style=\"color:#FF0000\">"
@@ -69,13 +69,13 @@ def parse_list(names_list, options):
 
             if (appid == None):
                 if (mappedname == None):
-                    appid = str(steamdb.get_appid(cleanname))
+                    appid = str(steam.get_appid(cleanname))
                     if(options.matchingwords):
                         if (appid == ""):
                             matchednames = Mapper.get_match(
                                 cleanname.lower(), keys)
                             if(len(matchednames) > 0):
-                                appid = str(steamdb.get_appid(matchednames[0]))
+                                appid = str(steam.get_appid(matchednames[0]))
                                 if (appid != ""):
                                     namesmapping.add_to_mapping(
                                         cleanname, matchednames[0])
@@ -83,7 +83,7 @@ def parse_list(names_list, options):
                                           " with " + matchednames[0])
 
                 elif (mappedname != "NA"):
-                    appid = str(steamdb.get_appid(mappedname))
+                    appid = str(steam.get_appid(mappedname))
 
             game           = Game(cleanname)
             game.appid     = appid
@@ -96,7 +96,7 @@ def parse_list(names_list, options):
                 print("The game " + name + " " + game.description)
 
             else:
-                arewebanned = steamdb.get_game_info(game)
+                arewebanned = steam.get_game_info(game)
 
                 if (arewebanned):
                     print("We're temp banned from steam no point in continuing.")
