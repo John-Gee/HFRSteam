@@ -47,7 +47,7 @@ def get_data(games):
         data += writeline('name: "' + game.name + '",')
         if (game.link != ''):
             data += writeline('nameFormat: "<a href=\\"' + game.link + '\\"><b>' + justifyFormat +
-                      '</b></a><img src=\\"' + game.image + '\\" width=\\"100%\\"/>",')
+                              '</b></a><img src=\\"' + game.image + '\\" width=\\"100%\\"/>",')
         else:
             data += writeline('nameFormat: "<b>' + justifyFormat + '</b>",')
         data += writeline('description: "' + game.description.strip() + '",')
@@ -70,7 +70,7 @@ def get_data(games):
         if (game.avg_review.lower() in reviewMapping):
             avg_review = reviewMapping[game.avg_review.lower()]
             data += writeline('review: "' + avg_review +
-                      ' ' + game.avg_review + '",')
+                              ' ' + game.avg_review + '",')
             data += writeline('reviewFormat: "' + justifyFormat.replace(
                 '{0}', game.avg_review + ' (' + game.cnt_review + ')') + '",')
         else:

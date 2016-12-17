@@ -1,7 +1,9 @@
 from bs4 import BeautifulSoup
 
+
 def load_html(html):
     return BeautifulSoup(html, 'html.parser')
+
 
 def get_element(document, ID=None, nodetype=None):
     if (ID == None):
