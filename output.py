@@ -52,7 +52,8 @@ def get_data(games):
             data += writeline('nameFormat: "<b>' + justifyFormat + '</b>",')
         data += writeline('description: "' + game.description.strip() + '",')
         data += writeline('dlc: ' + game.is_dlc + ',')
-        data += writeline('os: "' + ', '.join(game.os) + '",')
+        if (len(game.os) > 0):
+            data += writeline('os: "' + ', '.join(game.os) + '",')
         if (game.price == None):
             data += writeline('priceFormat: "' + justifyFormat.replace(
                 '{0}', 'Not available.' + ' <div style=\\"white-space: nowrap\\">(' + game.price_date + ')</div>') + '",')
@@ -65,8 +66,10 @@ def get_data(games):
                 data += writeline('priceFormat: "' + justifyFormat.replace('{0}', '$' + str(
                     game.price) + ' <div style=\\"white-space: nowrap\\">(' + game.price_date + ')</div>') + '",')
 
-        data += writeline('genres: "' + ', '.join(game.genres) + '",')
-        data += writeline('date: "' + game.release_date + '",')
+        if (len(game.genres) > 0):
+            data += writeline('genres: "' + ', '.join(game.genres) + '",')
+        if (game.release_date):
+            data += writeline('date: "' + game.release_date + '",')
         if (game.avg_review in reviewMapping):
             avg_review_text = reviewMapping[game.avg_review]
             avg_review      = game.avg_review

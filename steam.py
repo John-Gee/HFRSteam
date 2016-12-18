@@ -114,7 +114,10 @@ def get_game_review(glance_ctn_block):
 def get_game_release_date(glance_ctn_block):
     date = domparser.get_text(glance_ctn_block, 'span',
                               class_='date')
-    return date.strip()
+    if (date):
+        return date.strip()
+
+    return None
 
 
 def get_game_is_dlc(purchase_block):
@@ -129,7 +132,7 @@ def get_game_price(purchase_block):
                                         class_='discount_final_price')
 
     if (discount_price):
-        return discount_price.strip()
+        return float(discount_price.strip().replace('$', ''))
 
     price = domparser.get_text(purchase_block, 'div',
                                class_='game_purchase_price price')
@@ -137,17 +140,28 @@ def get_game_price(purchase_block):
     if (price):
         if ('Free To Play' in price):
             return 0.00
-        return float(price.strip().replace("$", ""))
+        return float(price.strip().replace('$', ''))
+
+    play_game_span = domparser.get_element(purchase_block, 'span',
+                                           string='Play Game')
+
+    if (play_game_span):
+        return 0.00
 
     return None
 
 
 def get_game_os(game_left_column):
-    os = domparser.get_text(game_left_column, 'div', class_='sysreq_tabs')
-    os = os.replace('SteamOS + ', '').strip()
-    os =  list(map(str.strip, os.split('\r\n')))
+    os = domparser.get_values(game_left_column, 'div', 'data-os',
+                              class_=re.compile('game_area_sys_req sysreq_content'))
+    os = [o.replace('linux', 'Linux')
+           .replace('mac', 'Mac OS X')
+           .replace('win', 'Windows')
+          for o in os]
+
     os.sort()
     return os
+
 
 def get_game_genres(document):
     genre_title = domparser.get_element(document, 'b', string='Genre:')
