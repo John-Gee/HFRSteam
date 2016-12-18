@@ -1,8 +1,8 @@
-from bs4 import BeautifulSoup
+import bs4
 
 
 def load_html(html):
-    return BeautifulSoup(html, 'html.parser')
+    return bs4.BeautifulSoup(html, 'html.parser')
 
 
 def get_element(document, name, **kwargs):
@@ -15,4 +15,22 @@ def get_parent(element, name, **kwargs):
 
 def get_value(element, name, item, **kwargs):
     newelement = get_element(element, name, **kwargs)
-    return newelement.get(item)
+    if (newelement):
+        return newelement.get(item)
+    return None
+
+
+def get_text(element, name, **kwargs):
+    newelement = get_element(element, name, **kwargs)
+    if (newelement):
+        return newelement.get_text()
+    return None
+
+def get_next_siblings_text(element, name):
+    texts = []
+    for sibling in element.next_siblings:
+        if(isinstance(sibling, bs4.Tag)):
+            if(sibling.name != name):
+                break;
+            texts.append(sibling.get_text())
+    return texts
