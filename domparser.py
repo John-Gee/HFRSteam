@@ -8,8 +8,10 @@ def load_html(html):
 def get_element(document, name, **kwargs):
     return document.find(name, **kwargs)
 
+
 def get_parent(element, name, **kwargs):
     return element.find_parent(name, **kwargs)
+
 
 def get_value(element, name, item, **kwargs):
     newelement = get_element(element, name, **kwargs)

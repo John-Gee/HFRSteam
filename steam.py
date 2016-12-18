@@ -150,7 +150,8 @@ def get_review_from_steam(appid):
     document = domparser.load_html(page)
 
     sorry_block = domparser.get_element(document, 'h2',
-        class_ = 'pageheader', string = 'Oops, sorry!')
+                                        class_='pageheader',
+                                        string='Oops, sorry!')
 
     if (sorry_block):
         print('An error has occured, the game for appid ' +
@@ -158,8 +159,8 @@ def get_review_from_steam(appid):
         return "", ""
 
     overall_block = domparser.get_element(
-        document, 'div', class_ = 'subtitle column',
-        string = 'Overall:')
+        document, 'div', class_='subtitle column',
+        string='Overall:')
 
     if (overall_block == None):
         print('None overall_block for game of appid: ' + appid)
@@ -168,10 +169,10 @@ def get_review_from_steam(appid):
     user_reviews_block = domparser.get_parent(overall_block, 'div')
 
     reviewCount = domparser.get_value(user_reviews_block, 'meta',
-        'content', itemprop = 'reviewCount')
+                                      'content', itemprop='reviewCount')
 
     ratingValue = domparser.get_value(user_reviews_block, 'meta',
-        'content', itemprop = 'ratingValue')
+                                      'content', itemprop='ratingValue')
 
     return ratingValue, reviewCount
 
