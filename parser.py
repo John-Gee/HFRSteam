@@ -98,16 +98,7 @@ def parse_list(names_list, options):
                 print("The game " + name + " " + game.description)
 
             else:
-                arewebanned = steam.get_game_info(game)
-
-                if (arewebanned):
-                    print("We're temp banned from steam no point in continuing.")
-                    if(options.waitonsteamtimeout):
-                        sleep(1000)
-                    else:
-                        break
-
-                time.sleep(2)
+                steam.get_game_info(game)
 
             games[cleanname] = game
 
