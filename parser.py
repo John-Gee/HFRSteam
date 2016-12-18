@@ -84,6 +84,8 @@ def parse_list(names_list, options):
 
                 elif (mappedname != "NA"):
                     appid = str(steam.get_appid(mappedname))
+            else:
+                print("appid mapping found for game " + cleanname)
 
             game           = Game(cleanname)
             game.appid     = appid

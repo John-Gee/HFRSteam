@@ -7,6 +7,7 @@ import traceback
 import urllib
 
 from game import Game
+import domparser
 import stringutils
 import web
 
@@ -139,31 +140,40 @@ def get_game_info_from_api(game):
 
 
 def get_review_from_steam(appid):
-    APP_URL = "http://store.steampowered.com/app/"
+    APP_URL = 'http://store.steampowered.com/app/'
 
-    START      = "Aggregaterating"
-    REAL_START = "itemprop=\"description\">"
-    END        = "<span class=\"nonresponsive_hidden responsive_reviewdesc\">"
+    page       = web.get_utf8_web_page(APP_URL + appid)
 
-    cookie     = 'birthtime=568022401'
-    page       = web.get_utf8_web_page(APP_URL + appid, cookie)
+    if ('No user reviews' in page):
+        return '', '0'
 
-    if ("No user reviews" in page):
-        return "", "0"
+    document = domparser.load_html(page)
 
-    page = stringutils.substringafter(page, START)
-    page = stringutils.substringafter(page, REAL_START)
-    page = stringutils.substringbefore(page, END)
-    page = page.replace("&nbsp;", os.linesep)
-    page = page.replace("<br />", "")
+    sorry_block = domparser.get_element(document, 'h2',
+        class_ = 'pageheader', string = 'Oops, sorry!')
 
-    average = stringutils.substringbefore(page, "</span>")
-    count = stringutils.substringafter(
-        page, "<span class=\"responsive_hidden\">")
-    count = stringutils.substringbefore(count, " reviews")
-    count = count.strip().replace("(", "")
+    if (sorry_block):
+        print('An error has occured, the game for appid ' +
+              appid + ' has no page.')
+        return "", ""
 
-    return average, count
+    overall_block = domparser.get_element(
+        document, 'div', class_ = 'subtitle column',
+        string = 'Overall:')
+
+    if (overall_block == None):
+        print('None overall_block for game of appid: ' + appid)
+        return '', ''
+
+    user_reviews_block = domparser.get_parent(overall_block, 'div')
+
+    reviewCount = domparser.get_value(user_reviews_block, 'meta',
+        'content', itemprop = 'reviewCount')
+
+    ratingValue = domparser.get_value(user_reviews_block, 'meta',
+        'content', itemprop = 'ratingValue')
+
+    return ratingValue, reviewCount
 
 
 def get_list_of_games():

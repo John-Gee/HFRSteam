@@ -138,7 +138,6 @@
 "Robin Hood: The Legend of Sherwood<->Robin Hood"
 "Rush Bros.<->rush bros"
 "Sacred 3 Gold<->Sacred 3"
-"Sam & Max: Devil's Playhouse<->sam & max the devils playhouse"
 "Sanctum: Collection<->Sanctum"
 "Savage Lands (Early Access)<->Savage Lands"
 "Schrödinger’s Cat And The Raiders Of The Lost Quark<->schrödinger's cat and the raiders of the lost quark"

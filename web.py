@@ -1,16 +1,16 @@
 import json
+import requests
 import sys
-import urllib.request
 
 
-def get_utf8_web_page(url, cookie=None):
-    if (cookie is None):
-        req = urllib.request.Request(
-            url, headers={'User-Agent': 'Mozilla/5.0'})
-    else:
-        req = urllib.request.Request(
-            url, headers={'User-Agent': 'Mozilla/5.0', 'Cookie': cookie})
-    return urllib.request.urlopen(req).read().decode('utf-8')
+def get_utf8_web_page(url):
+    headers = {'User-Agent': 'Mozilla/5.0'}
+    jar = requests.cookies.RequestsCookieJar()
+    jar.set('birthtime', '1')
+    jar.set('mature_content', '1')
+    req = requests.get(url, headers=headers, params=jar, cookies=jar)
+
+    return req.text
 
 
 def get_json_data_from_url(url):
