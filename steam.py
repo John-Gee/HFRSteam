@@ -141,8 +141,7 @@ def get_game_info_from_api(game):
 
 def get_review_from_steam(appid):
     APP_URL = 'http://store.steampowered.com/app/'
-
-    page       = web.get_utf8_web_page(APP_URL + appid)
+    page    = web.get_utf8_web_page(APP_URL + appid)
 
     if ('No user reviews' in page):
         return '', '0'
