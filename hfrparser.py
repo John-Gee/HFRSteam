@@ -42,5 +42,5 @@ def parse_hfr():
     return games
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     parse_hfr()

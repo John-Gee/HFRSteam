@@ -4,15 +4,15 @@ import sys
 
 
 class Mapper:
-    LINK          = "<->"
-    __mappingfile = ""
+    LINK          = '<->'
+    __mappingfile = ''
     __mapping     = {}
 
     def __init__(self, mappingfile):
         if(os.path.exists(mappingfile)):
             self.__mappingfile = mappingfile
             self.__mapping     = dict()
-            f = open(self.__mappingfile, "r")
+            f = open(self.__mappingfile, 'r')
             for line in iter(f):
                 line = line.strip()
                 # remove the quotes needed to protect spaces at the end of
@@ -27,9 +27,9 @@ class Mapper:
         if ((self.__mapping == None) or (len(self.__mapping) == 0)):
             return
 
-        f = open(self.__mappingfile, "w")
+        f = open(self.__mappingfile, 'w')
         for key in sorted(self.__mapping):
-            line = "\"" + key + self.LINK + self.__mapping[key] + "\""
+            line = '"{0}{1}{2}"'.format(key, self.LINK, self.__mapping[key])
             f.write(line)
             f.write(os.linesep)
 
@@ -37,8 +37,8 @@ class Mapper:
         if (left not in self.__mapping):
             self.__mapping[left] = right
         else:
-            print("Impossible to add mapping, " +
-                  left + " is already in the mapper")
+            print('Impossible to add mapping, {0} is already in the mapper'.
+                  format(left))
 
     def get_mapping(self, left):
         if (left in self.__mapping):

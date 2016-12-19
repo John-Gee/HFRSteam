@@ -12,13 +12,13 @@ import stringutils
 import web
 
 
-APPLIST_URL = "http://api.steampowered.com/ISteamApps/GetAppList/v0001/"
+APPLIST_URL = 'http://api.steampowered.com/ISteamApps/GetAppList/v0001/'
 _games = dict()
 _applist = web.get_json_data_from_url(APPLIST_URL)
-for app in iter(_applist["applist"]["apps"]["app"]):
-    name = app["name"].lower()
+for app in iter(_applist['applist']['apps']['app']):
+    name = app['name'].lower()
     if (name not in _games):
-        _games[name] = app["appid"]
+        _games[name] = app['appid']
 
 
 def get_appid(name):
@@ -26,7 +26,7 @@ def get_appid(name):
     if (cleanname in _games):
         return _games[cleanname]
     else:
-        return ""
+        return ''
 
 
 def get_list_of_games():
@@ -38,8 +38,8 @@ def get_game_info(game):
     status, page = web.get_utf8_web_page(url)
 
     if (status == 302):
-        game.description = "The game is not on steam anymore."
-        print("The page for game {0} redirects somewhere else"
+        game.description = 'The game is not on steam anymore.'
+        print('The page for game {0} redirects somewhere else'
               .format(game.name))
         return
 
@@ -52,7 +52,7 @@ def get_game_info(game):
     if (sorry_block):
         game.description = domparser.get_text(document, 'span',
                                               class_="error")
-        print("The page for game {0} shows an error: {1}"
+        print('The page for game {0} shows an error: {1}'
               .format(game.name, game.description))
         return
 
@@ -85,11 +85,12 @@ def get_game_info(game):
     # not parsed from the page
     game.link         = url
     price_date        = str(datetime.datetime.now().date())
-    game.price_date   = (calendar.month_abbr[int(price_date[5:7])] +
-                        " " + price_date[8:] + ", " + price_date[:4])
+    game.price_date   = ('{0} {1}, {2}'
+                         .format(calendar.month_abbr[int(price_date[5:7])],
+                                 price_date[8:], price_date[:4]))
 
-    print("Info for game " + game.name + " was retrieved" +
-          ", " + str(datetime.datetime.now().time()))
+    print('Info for game {0} was retrieved, {1}'
+          .format(game.name, str(datetime.datetime.now().time())))
 
 
 def get_game_image(glance_ctn_block):
@@ -113,7 +114,7 @@ def get_game_review(glance_ctn_block):
         string='Overall:')
 
     if (overall_block == None):
-        print('None overall_block for game of appid: ' + appid)
+        print('None overall_block for game of appid: {0}'.format(appid))
         return '', '0'
 
     user_reviews_block = domparser.get_parent(overall_block, 'div')
@@ -155,7 +156,7 @@ def get_game_price(purchase_block):
     for price in prices:
         if (price):
             # we got the wrong div
-            if ("demo" in price.lower()):
+            if ('demo' in price.lower()):
                 continue
 
             price = price.replace('$', '').strip()
@@ -164,7 +165,7 @@ def get_game_price(purchase_block):
             elif (('free' in price.lower()) or ('play' in price.lower())):
                 return 0.00
             else:
-                print("Unexpected price: {0}".format(price))
+                print('Unexpected price: {0}'.format(price))
                 return None
 
     play_game_span = domparser.get_element(purchase_block, 'span',
