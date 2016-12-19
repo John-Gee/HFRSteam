@@ -80,6 +80,9 @@ def get_game_info(game):
     game.price_date   = (calendar.month_abbr[int(price_date[5:7])] +
                         " " + price_date[8:] + ", " + price_date[:4])
 
+    print("Info for game " + game.name + " was retrieved" +
+          ", " + str(datetime.datetime.now().time()))
+
 
 def get_game_image(glance_ctn_block):
     return domparser.get_value(glance_ctn_block, 'img', 'src',
