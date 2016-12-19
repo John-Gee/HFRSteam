@@ -51,8 +51,7 @@ def get_data(games):
         else:
             data += writeline('nameFormat: "<b>' + justifyFormat + '</b>",')
         if(game.description):
-            #TODO remove the strip after getting a full new cache
-            data += writeline('description: "' + game.description.strip() + '",')
+            data += writeline('description: "' + game.description + '",')
         data += writeline('dlc: ' + game.is_dlc + ',')
         if (len(game.os) > 0):
             data += writeline('os: "' + ', '.join(game.os) + '",')
