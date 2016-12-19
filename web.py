@@ -3,12 +3,14 @@ import requests
 import sys
 
 
+session = requests.Session()
+
 def get_utf8_web_page(url):
     headers = {'User-Agent': 'Mozilla/5.0'}
     jar = requests.cookies.RequestsCookieJar()
     jar.set('birthtime', '1')
     jar.set('mature_content', '1')
-    req = requests.get(url, headers=headers, params=jar, cookies=jar)
+    req = session.get(url, headers=headers, cookies=jar)
 
     return req.text
 
