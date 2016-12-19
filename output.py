@@ -50,7 +50,9 @@ def get_data(games):
                               '</b></a><img src=\\"' + game.image + '\\" width=\\"100%\\"/>",')
         else:
             data += writeline('nameFormat: "<b>' + justifyFormat + '</b>",')
-        data += writeline('description: "' + game.description.strip() + '",')
+        if(game.description):
+            #TODO remove the strip after getting a full new cache
+            data += writeline('description: "' + game.description.strip() + '",')
         data += writeline('dlc: ' + game.is_dlc + ',')
         if (len(game.os) > 0):
             data += writeline('os: "' + ', '.join(game.os) + '",')

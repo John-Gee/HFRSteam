@@ -87,8 +87,13 @@ def get_game_image(glance_ctn_block):
 
 
 def get_game_description(glance_ctn_block):
-    return domparser.get_text(glance_ctn_block, 'div',
-                              class_='game_description_snippet')
+    description =  domparser.get_text(glance_ctn_block, 'div',
+                                      class_='game_description_snippet')
+
+    if (description):
+        return description.strip()
+
+    return None
 
 
 def get_game_review(glance_ctn_block):
