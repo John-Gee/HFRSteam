@@ -38,6 +38,15 @@ def get_text(element, name, **kwargs):
         return newelement.get_text()
     return None
 
+
+def get_texts(element, name, **kwargs):
+    elements = get_elements(element, name, **kwargs)
+    texts = []
+    for newelement in elements:
+        texts.append(newelement.get_text())
+    return texts
+
+
 def get_next_siblings_text(element, name):
     texts = []
     for sibling in element.next_siblings:

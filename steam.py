@@ -34,8 +34,14 @@ def get_list_of_games():
 
 
 def get_game_info(game):
-    url  = 'http://store.steampowered.com/app/' + game.appid
-    page = web.get_utf8_web_page(url)
+    url          = 'http://store.steampowered.com/app/' + game.appid
+    status, page = web.get_utf8_web_page(url)
+
+    if (status == 302):
+        game.description = "The game is not on steam anymore."
+        print("The page for game {0} redirects somewhere else"
+              .format(game.name))
+        return
 
     document = domparser.load_html(page)
 
@@ -44,9 +50,11 @@ def get_game_info(game):
                                         string='Oops, sorry!')
 
     if (sorry_block):
-        print('An error has occured, the game for appid ' +
-              appid + ' has no page.')
-        return "", ""
+        game.description = domparser.get_text(document, 'span',
+                                              class_="error")
+        print("The page for game {0} shows an error: {1}"
+              .format(game.name, game.description))
+        return
 
     # top right header
     glance_ctn_block  = domparser.get_element(document, 'div',
@@ -94,7 +102,7 @@ def get_game_description(glance_ctn_block):
                                       class_='game_description_snippet')
 
     if (description):
-        return description.strip()
+        return description.replace('"', '').strip()
 
     return None
 
@@ -142,13 +150,22 @@ def get_game_price(purchase_block):
     if (discount_price):
         return float(discount_price.strip().replace('$', ''))
 
-    price = domparser.get_text(purchase_block, 'div',
+    prices = domparser.get_texts(purchase_block, 'div',
                                class_='game_purchase_price price')
+    for price in prices:
+        if (price):
+            # we got the wrong div
+            if ("demo" in price.lower()):
+                continue
 
-    if (price):
-        if ('Free To Play' in price):
-            return 0.00
-        return float(price.strip().replace('$', ''))
+            price = price.replace('$', '').strip()
+            if (price.replace('.','',1).isdigit()):
+                return float(price)
+            elif (('free' in price.lower()) or ('play' in price.lower())):
+                return 0.00
+            else:
+                print("Unexpected price: {0}".format(price))
+                return None
 
     play_game_span = domparser.get_element(purchase_block, 'span',
                                            string='Play Game')
@@ -173,4 +190,6 @@ def get_game_os(game_left_column):
 
 def get_game_genres(document):
     genre_title = domparser.get_element(document, 'b', string='Genre:')
-    return domparser.get_next_siblings_text(genre_title, 'a')
+    if (genre_title):
+        return domparser.get_next_siblings_text(genre_title, 'a')
+    return list()
