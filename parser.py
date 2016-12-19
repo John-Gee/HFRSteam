@@ -5,7 +5,6 @@ import sys
 import time
 import traceback
 
-
 import cache
 from game import Game
 from mapper import Mapper
@@ -23,9 +22,10 @@ def get_game_info(threadpool, options, games, cachedgames, name, appidsmapping, 
         if (len(_exc_infos)):
             return
 
-        BEGIN_STRIKED = '<strike><span style="color:#FF0000">'
+        BEGIN_STRIKED = '<strike><span style=color:#FF0000>'
         END_STRIKED   = '</span></strike>'
         cleanname     = name.strip()
+
         if (cleanname.startswith(BEGIN_STRIKED) or cleanname.endswith(END_STRIKED)):
             cleanname = cleanname.replace(BEGIN_STRIKED, '')
             cleanname = cleanname.replace(END_STRIKED, '')
