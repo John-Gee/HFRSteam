@@ -1,8 +1,10 @@
+from concurrent.futures import ThreadPoolExecutor
 import os
 import re
 import sys
 import time
-import pdb
+import traceback
+
 
 import cache
 from game import Game
@@ -11,26 +13,16 @@ import steam
 import stringutils
 
 
-def parse_list(names_list, options):
-    if (options.ignorecache):
-        cachedgames = dict()
-    else:
-        cachedgames = cache.retrieve_db_from_cache()
+_exc_infos = list()
 
-    if (options.cacheonly):
-        return cachedgames
 
-    games = dict()
-    MAPPING_FOLDER      = "mappings"
-    APPIDS_MAPPING_FILE = MAPPING_FOLDER + "/" + "appidsmapping.txt"
-    NAMES_MAPPING_FILE  = MAPPING_FOLDER + "/" + "namesmapping.txt"
-    appidsmapping       = Mapper(APPIDS_MAPPING_FILE)
-    namesmapping        = Mapper(NAMES_MAPPING_FILE)
-    i                   = 0
+def get_game_info(threadpool, options, games, cachedgames, name, appidsmapping, namesmapping):
+    global _exc_infos
 
-    keys = list(steam.get_list_of_games())
+    try:
+        if (len(_exc_infos)):
+            return
 
-    for name in iter(names_list):
         BEGIN_STRIKED = "<strike><span style=\"color:#FF0000\">"
         END_STRIKED   = "</span></strike>"
         cleanname     = name.strip()
@@ -52,12 +44,7 @@ def parse_list(names_list, options):
         cleanname = cleanname.strip()
 
         if ((cleanname == "") or (available == "no")):
-            continue
-
-        # Allow to break for dev purposes
-        i += 1
-        if ((options.number_games != None) and (options.number_games.isdigit()) and (i == int(options.number_games))):
-            break
+            return
 
         if ((cleanname in cachedgames) and (cachedgames[cleanname].appid) and (not options.refreshall) and ((options.game == None) or (options.game.lower() not in cleanname.lower()))):
             games[cleanname]           = cachedgames[cleanname]
@@ -101,6 +88,53 @@ def parse_list(names_list, options):
                 steam.get_game_info(game)
 
             games[cleanname] = game
+    except:
+        _exc_infos.append(sys.exc_info())
+        threadpool.shutdown(wait=False)
+
+
+def parse_list(names_list, options):
+    if (options.ignorecache):
+        cachedgames = dict()
+    else:
+        cachedgames = cache.retrieve_db_from_cache()
+
+    if (options.cacheonly):
+        return cachedgames
+
+    games               = dict()
+
+    MAPPING_FOLDER      = "mappings"
+    APPIDS_MAPPING_FILE = MAPPING_FOLDER + "/" + "appidsmapping.txt"
+    NAMES_MAPPING_FILE  = MAPPING_FOLDER + "/" + "namesmapping.txt"
+    appidsmapping       = Mapper(APPIDS_MAPPING_FILE)
+    namesmapping        = Mapper(NAMES_MAPPING_FILE)
+
+    keys                = list(steam.get_list_of_games())
+
+    threadpool          = ThreadPoolExecutor(options.threads)
+
+    i                   = 0
+
+    global _exc_infos
+
+    for name in iter(names_list):
+        # Allow to break for dev purposes
+        i += 1
+        if ((options.number_games != None) and (options.number_games.isdigit()) and (i == int(options.number_games))):
+            break
+
+        if (len(_exc_infos)):
+            break
+
+        threadpool.submit(get_game_info, threadpool,
+                          options, games, cachedgames, name, appidsmapping, namesmapping)
+
+    threadpool.shutdown(wait=True)
+    if (len(_exc_infos)):
+        for exc_info in _exc_infos:
+            traceback.print_exception(*exc_info)
+        raise Exception("An exception was raised in some of the threads, see above.")
 
     newcachedgames = cache.merge_old_new_cache(cachedgames, games)
     cache.save_to_cache(newcachedgames)
