@@ -35,7 +35,7 @@ def clean_tags(games):
                 game = BEGIN_STRIKED + game
 
         games[index] = game
-        
+
     return
 
 
