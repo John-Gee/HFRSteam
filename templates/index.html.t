@@ -33,7 +33,7 @@
                 hidePagerOnEmpty: true,
                 types: {
                     string: {
-                        placeHolder: ""
+                        placeHolder: "filter"
                     },
                 },
                 data: getData(),
