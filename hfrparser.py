@@ -1,4 +1,5 @@
 import os
+import re
 import sys
 
 import domparser
@@ -20,7 +21,11 @@ def clean_tags(games):
     striked       = False
     BEGIN_STRIKED = '<strike><span style=color:#FF0000>'
     END_STRIKED   = '</span></strike>'
-    for index, game in enumerate(games):
+    newgames = list()
+    for game in games:
+        if (not game):
+            continue
+
         game = game.strip()
         if (game.startswith(BEGIN_STRIKED)):
             if (not game.endswith(END_STRIKED)):
@@ -34,9 +39,10 @@ def clean_tags(games):
                     game    += END_STRIKED
                 game = BEGIN_STRIKED + game
 
-        games[index] = game
+        if (re.sub('<.*?>', '', game).strip()):
+            newgames.append(game)
 
-    return
+    return newgames
 
 
 def get_list(post):
@@ -54,15 +60,13 @@ def get_list(post):
 
     # the separator is \x1c
     games = cleansubpost.splitlines()
-    games = list(filter(None, games))
-    clean_tags(games)
+    games = clean_tags(games)
     return games
 
 
 def parse_hfr():
     post  = get_post()
     games = get_list(post)
-    #list(map(print, games))
     return games
 
 
