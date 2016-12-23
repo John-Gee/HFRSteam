@@ -7,6 +7,12 @@
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
         <link href="watable.css" rel="stylesheet"/>
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style>
+            .watable input[type=text].filter{
+                width: 100%;
+                font-style: italic;
+            }
+        </style>
     </head>
     <body>
         <div>
