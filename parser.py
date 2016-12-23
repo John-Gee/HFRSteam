@@ -82,7 +82,7 @@ def get_game_info(threadpool, options, games, cachedgames, name, appidsmapping, 
             if ((appid == None) or (appid == '')):
                 game.appid = ''
                 game.description = 'The game was not found in the steam db.'
-                print('The game ' + name + ' ' + game.description)
+                print('The game {0} was not found in the steam db.'.format(name))
 
             else:
                 steam.get_game_info(game)
