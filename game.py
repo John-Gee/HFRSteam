@@ -15,4 +15,4 @@ class Game:
         self.is_dlc       = ''
         self.avg_review   = ''
         self.cnt_review   = ''
-        self.available    = ''
+        self.available    = True

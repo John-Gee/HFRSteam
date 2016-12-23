@@ -29,9 +29,9 @@ def get_game_info(threadpool, options, games, cachedgames, name, appidsmapping, 
         if (cleanname.startswith(BEGIN_STRIKED) or cleanname.endswith(END_STRIKED)):
             cleanname = cleanname.replace(BEGIN_STRIKED, '')
             cleanname = cleanname.replace(END_STRIKED, '')
-            available = 'no'
+            available = False
         else:
-            available = 'yes'
+            available = True
 
         if(cleanname.startswith('(+)')):
             cleanname = cleanname[3:]
@@ -43,7 +43,14 @@ def get_game_info(threadpool, options, games, cachedgames, name, appidsmapping, 
 
         cleanname = cleanname.strip()
 
-        if ((cleanname == '') or (available == 'no')):
+        if (not cleanname):
+            print('The cleanname is empty for game {0}!'.format(name))
+            return
+
+        if (not available):
+            # Ignoring not available games for now
+            # it may be better in the future to ignore them in output
+            # or allow the user to do so in the html page.
             return
 
         if ((cleanname in cachedgames) and (cachedgames[cleanname].appid) and (not options.refreshall) and ((options.game == None) or (options.game.lower() not in cleanname.lower()))):
