@@ -4,8 +4,9 @@ from optparse import OptionParser
 import os
 import sys
 
-import output
+import bboutput
 import hfrparser
+import htmloutput
 import parser
 
 
@@ -42,10 +43,13 @@ def main():
         list.close()
 
     OUTPUT_FOLDER = 'docs'
-    OUTPUT_FILE   = OUTPUT_FOLDER + '/index.html'
+    HTML_FILE     = OUTPUT_FOLDER + '/index.html'
+    BB_FILE       = OUTPUT_FOLDER + '/bb.txt'
     if not os.path.exists(OUTPUT_FOLDER):
         os.makedirs(OUTPUT_FOLDER)
-    output.output_to_html(games, OUTPUT_FILE)
+    htmloutput.output_to_html(games, HTML_FILE)
+    bboutput.output_to_bb(games, BB_FILE)
+
 
 if __name__ == '__main__':
     main()
