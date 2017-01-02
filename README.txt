@@ -1,4 +1,5 @@
-This is a python (v3) script that will parse either a txt list of game names (one game per line) or a MyDiscussion specific page, then map these names to games in the Steam API, query some more information and print it to a nice dynamic webpage that allows filtering, sorting on many keys.
+This is a python (v3) script that will parse either a text list of game names (one game per line) or a MyDiscussion specific page, then map these names to games in the Steam API, query some more information and print it to a nice dynamic webpage that allows filtering, sorting on many keys.
+A simple bb code outputer is also included.
 
 The outside dependencies are python itself, BeautifulSoup v4.5.1 and Requests v2.12.4.
 
