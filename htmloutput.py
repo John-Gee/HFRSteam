@@ -1,3 +1,4 @@
+import datetime
 import os
 import sys
 
@@ -104,6 +105,7 @@ def get_data(games):
 def output_to_html(games, file):
     TEMPLATE_FILE   = 'templates/index.html.t'
     TEXT_TO_REPLACE = '$TEMPLATE$'
+    DATE_TO_REPLACE = '$DATE$'
 
     f            = open(TEMPLATE_FILE, 'r')
     templatetext = f.read()
@@ -112,6 +114,8 @@ def output_to_html(games, file):
     data = get_data(games)
 
     text = templatetext.replace(TEXT_TO_REPLACE, data)
+
+    text = text.replace('$DATE$', datetime.date.today().isoformat())
 
     f = open(file, 'w')
     f.write(text)
