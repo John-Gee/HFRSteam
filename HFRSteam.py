@@ -13,6 +13,8 @@ import parser
 def main():
     usage = 'usage: %prog [options] arg'
     optionparser = OptionParser(usage)
+    optionparser.add_option('-a', '--all', action='store_true', dest='all',
+                            help='Does not skip games that are not available')
     optionparser.add_option('-c', '--cache-only', action='store_true', dest='cacheonly',
                             help='Does not query steam and only work on games in cache')
     optionparser.add_option('-i', '--ignore-cache', action='store_true', dest='ignorecache',

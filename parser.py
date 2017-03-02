@@ -15,7 +15,7 @@ import stringutils
 _exc_infos = list()
 
 
-def get_game_info(threadpool, options, games, cachedgames, name, appidsmapping, namesmapping):
+def get_game_info(threadpool, options, games, cachedgames, keys, name, appidsmapping, namesmapping):
     global _exc_infos
 
     try:
@@ -47,7 +47,7 @@ def get_game_info(threadpool, options, games, cachedgames, name, appidsmapping, 
             print('The cleanname is empty for game {0}!'.format(name))
             return
 
-        if (not available):
+        if ((options.all == None) and (not available)):
             # Ignoring not available games for now
             # it may be better in the future to ignore them in output
             # or allow the user to do so in the html page.
@@ -74,7 +74,7 @@ def get_game_info(threadpool, options, games, cachedgames, name, appidsmapping, 
                                     namesmapping.add_to_mapping(
                                         cleanname, matchednames[0])
                                     print('Matched {0} with {1}'.
-                                          format(cleanname. matchednames[0]))
+                                          format(cleanname, matchednames[0]))
 
                 elif (mappedname != 'NA'):
                     appid = str(steam.get_appid(mappedname))
@@ -89,7 +89,7 @@ def get_game_info(threadpool, options, games, cachedgames, name, appidsmapping, 
             if ((appid == None) or (appid == '')):
                 game.appid = ''
                 game.description = 'The game was not found in the steam db.'
-                print('The game {0} was not found in the steam db.'.format(name))
+                print('The game {0} was not found in the steam db.'.format(cleanname))
 
             else:
                 steam.get_game_info(game)
@@ -135,7 +135,7 @@ def parse_list(names_list, options):
             break
 
         threadpool.submit(get_game_info, threadpool,
-                          options, games, cachedgames, name, appidsmapping, namesmapping)
+                          options, games, cachedgames, keys, name, appidsmapping, namesmapping)
 
     threadpool.shutdown(wait=True)
     if (len(_exc_infos)):
