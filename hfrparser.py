@@ -47,7 +47,7 @@ def clean_tags(games):
 
 def get_list(post):
     START = '<strong>Clefs  <img alt="[:icon4]" src="http://forum-images.hardware.fr/images/perso/icon4.gif" title="[:icon4]"/> Steam <img alt="[:icon4]" src="http://forum-images.hardware.fr/images/perso/icon4.gif" title="[:icon4]"/> :</strong> <br/><strong> <br/>'
-    END   = '<strong>Clefs  <img alt="[:icon4]" src="http://forum-images.hardware.fr/images/perso/icon4.gif" title="[:icon4]"/> Desura <img alt="[:icon4]" src="http://forum-images.hardware.fr/images/perso/icon4.gif" title="[:icon4]"/> :</strong>'
+    END   = '--------------------------------------------------------------------------'
 
     subpost = stringutils.substringafter(post, START)
     subpost = stringutils.substringbefore(subpost, END)
