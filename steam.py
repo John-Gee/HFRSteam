@@ -64,6 +64,7 @@ def get_game_info(game):
     game.avg_review,\
     game.cnt_review   = get_game_review(glance_ctn_block)
     game.release_date = get_game_release_date(glance_ctn_block)
+    game.tags         = get_game_tags(glance_ctn_block)
 
 
     # middle left column
@@ -88,6 +89,8 @@ def get_game_info(game):
     game.price_date   = ('{0} {1}, {2}'
                          .format(calendar.month_abbr[int(price_date[5:7])],
                                  price_date[8:], price_date[:4]))
+
+    game.details      = get_game_details(document)
 
     print('Info for game {0} was retrieved, {1}'
           .format(game.name, str(datetime.datetime.now().time())))
@@ -194,3 +197,33 @@ def get_game_genres(document):
     if (genre_title):
         return domparser.get_next_siblings_text(genre_title, 'a')
     return list()
+
+
+def get_game_details(document):
+    details_block = domparser.get_element(document, 'div',
+                                    id='category_block')
+    if (details_block):
+        return domparser.get_texts(details_block, 'div',
+                                   class_='game_area_details_specs')
+    return list()
+
+
+def get_game_tags(glance_ctn_block):
+    tags_block = domparser.get_element(glance_ctn_block, 'div',
+                                       class_='glance_tags popular_tags')
+    if (tags_block):
+        # tags are by default in the format:
+        # \r\n\t\t\t\t\t\t\t\t\t\t\t\tTAG\t\t\t\t\t\t\t\t\t\t\t\t
+        return list(map(lambda s: s.strip(),
+                        domparser.get_texts(tags_block, 'a')))
+    return list()
+
+
+
+# simple test
+if __name__ == '__main__':
+    game = Game('1001 Spikes')
+    game.appid = '260790'
+    get_game_info(game)
+    print(game.details)
+    print(game.tags)

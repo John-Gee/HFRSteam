@@ -43,7 +43,9 @@ def get_texts(element, name, **kwargs):
     elements = get_elements(element, name, **kwargs)
     texts = []
     for newelement in elements:
-        texts.append(newelement.get_text())
+        text = newelement.get_text()
+        if (text):
+            texts.append(text)
     return texts
 
 
@@ -51,7 +53,7 @@ def get_next_siblings_text(element, name):
     texts = []
     for sibling in element.next_siblings:
         if(isinstance(sibling, bs4.Tag)):
-            if(sibling.name != name):
+            if (sibling.name != name):
                 break
             texts.append(sibling.get_text())
     return texts

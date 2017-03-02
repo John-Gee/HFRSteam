@@ -15,4 +15,6 @@ class Game:
         self.is_dlc       = ''
         self.avg_review   = ''
         self.cnt_review   = ''
+        self.tags         = list()
+        self.details      = list()
         self.available    = True
