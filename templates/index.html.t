@@ -60,6 +60,7 @@
                         unique: "true",
                         tooltip: "The game's description",
                         filter: "",
+                        sorting: "false",
                     },
                     dlc: {
                         index: 3,
