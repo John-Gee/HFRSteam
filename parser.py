@@ -36,9 +36,9 @@ def get_game_info(threadpool, options, games, cachedgames, keys, name,
 
         if(cleanname.startswith('(+)')):
             cleanname = cleanname[3:]
-            is_dlc = '1'
+            is_dlc = True
         else:
-            is_dlc = '0'
+            is_dlc = False
 
         cleanname = re.sub('<.*?>', '', cleanname)
 

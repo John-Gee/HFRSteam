@@ -12,7 +12,7 @@ class Game:
         self.genres       = list()
         self.release_date = ''
         self.link         = ''
-        self.is_dlc       = ''
+        self.is_dlc       = False
         self.avg_review   = ''
         self.cnt_review   = ''
         self.tags         = list()

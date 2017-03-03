@@ -54,7 +54,7 @@ def get_data(games):
             data += writeline('nameFormat: "<b>{0}</b>",'.format(justifyFormat))
         if(game.description):
             data += writeline('description: "{0}",'.format(game.description))
-        data += writeline('dlc: {0},'.format(game.is_dlc))
+        data += writeline('dlc: {0},'.format(int(game.is_dlc)))
         if (len(game.os) > 0):
             data += writeline('os: "{0}",'.format(', '.join(game.os)))
         if (game.price == None):
