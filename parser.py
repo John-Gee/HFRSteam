@@ -15,7 +15,8 @@ import stringutils
 _exc_infos = list()
 
 
-def get_game_info(threadpool, options, games, cachedgames, keys, name, appidsmapping, namesmapping):
+def get_game_info(threadpool, options, games, cachedgames, keys, name,
+                  appidsmapping, namesmapping, i, numberofnewgames):
     global _exc_infos
 
     try:
@@ -46,6 +47,8 @@ def get_game_info(threadpool, options, games, cachedgames, keys, name, appidsmap
         if (not cleanname):
             print('The cleanname is empty for game {0}!'.format(name))
             return
+        
+        is_new = True if (i <= numberofnewgames) else False
 
         if ((options.all == None) and (not available)):
             # Ignoring not available games for now
@@ -53,9 +56,13 @@ def get_game_info(threadpool, options, games, cachedgames, keys, name, appidsmap
             # or allow the user to do so in the html page.
             return
 
+
         if ((cleanname in cachedgames) and (cachedgames[cleanname].appid) and (not options.refreshall) and ((options.game == None) or (options.game.lower() not in cleanname.lower()))):
+
+            # TODO only cache steam-related data
             games[cleanname]           = cachedgames[cleanname]
             games[cleanname].available = available
+            games[cleanname].is_new    = is_new
 
         else:
             appid        = appidsmapping.get_mapping(cleanname)
@@ -85,6 +92,7 @@ def get_game_info(threadpool, options, games, cachedgames, keys, name, appidsmap
             game.appid     = appid
             game.is_dlc    = is_dlc
             game.available = available
+            game.is_new    = is_new
 
             if ((appid == None) or (appid == '')):
                 game.appid = ''
@@ -100,7 +108,8 @@ def get_game_info(threadpool, options, games, cachedgames, keys, name, appidsmap
         threadpool.shutdown(wait=False)
 
 
-def parse_list(names_list, options):
+def parse_list(options, names_list, numberofnewgames=0):
+
     if (options.ignorecache):
         cachedgames = dict()
     else:
@@ -135,7 +144,7 @@ def parse_list(names_list, options):
             break
 
         threadpool.submit(get_game_info, threadpool,
-                          options, games, cachedgames, keys, name, appidsmapping, namesmapping)
+                          options, games, cachedgames, keys, name, appidsmapping, namesmapping, i, numberofnewgames)
 
     threadpool.shutdown(wait=True)
     if (len(_exc_infos)):

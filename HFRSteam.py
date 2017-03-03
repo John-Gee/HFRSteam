@@ -37,11 +37,11 @@ def main():
     (options, args) = optionparser.parse_args()
 
     if (options.list == None):
-        list  = hfrparser.parse_hfr()
-        games = parser.parse_list(list, options)
+        list, numberofnewgames  = hfrparser.parse_hfr()
+        games                   = parser.parse_list(options, list, numberofnewgames)
     else:
-        list  = open(options.list, 'r')
-        games = parser.parse_list(list, options)
+        list                    = open(options.list, 'r')
+        games                   = parser.parse_list(options, list)
         list.close()
 
     OUTPUT_FOLDER = 'docs'

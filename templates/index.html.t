@@ -116,8 +116,16 @@
                         tooltip: "The game's average review and the review count",
                         filter: "",
                     },
-                    tags: {
+                    new: {
                         index: 9,
+                        type: "bool",
+                        friendly: "New?",
+                        unique: false,
+                        tooltip: "Is this a new game?",
+                        filter: "",
+                    },
+                    tags: {
+                        index: 10,
                         type: "string",
                         friendly: "Tags",
                         format: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">{0}</div>",
@@ -127,7 +135,7 @@
                         hidden: true,
                     },
                     details: {
-                        index: 8,
+                        index: 11,
                         type: "string",
                         friendly: "Details",
                         format: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">{0}</div>",

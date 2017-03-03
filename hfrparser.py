@@ -17,16 +17,25 @@ def get_post():
     return str(post)
 
 
-def clean_tags(games):
+def clean_list(games):
     striked       = False
     BEGIN_STRIKED = '<strike><span style=color:#FF0000>'
     END_STRIKED   = '</span></strike>'
-    newgames = list()
+    END_NEW       = '----'
+
+    newgames         = list()
+    numberofnewgames = 0
+    i                = 0
+
     for game in games:
         if (not game):
             continue
-
         game = game.strip()
+
+        if (game.startswith(END_NEW)):
+            numberofnewgames = i
+            continue
+
         if (game.startswith(BEGIN_STRIKED)):
             if (not game.endswith(END_STRIKED)):
                 striked = True
@@ -41,8 +50,9 @@ def clean_tags(games):
 
         if (re.sub('<.*?>', '', game).strip()):
             newgames.append(game)
+            i = i + 1
 
-    return newgames
+    return newgames, numberofnewgames
 
 
 def get_list(post):
@@ -55,19 +65,19 @@ def get_list(post):
     cleansubpost = subpost.replace('<br/>', '\r\n')
     cleansubpost = cleansubpost.replace('&amp;', "&")
     cleansubpost = cleansubpost.replace('"', '')
-    cleansubpost = cleansubpost.replace('--', '')
     cleansubpost = cleansubpost.strip()
 
     # the separator is \x1c
     games = cleansubpost.splitlines()
-    games = clean_tags(games)
-    return games
+    return clean_list(games)
 
 
 def parse_hfr():
     post  = get_post()
-    games = get_list(post)
-    return games
+
+    # this returns both the list of games and the number of new games
+    # maybe in the future we should start creating the game structures here
+    return get_list(post)
 
 
 if __name__ == '__main__':

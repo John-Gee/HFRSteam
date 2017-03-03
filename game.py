@@ -18,3 +18,4 @@ class Game:
         self.tags         = list()
         self.details      = list()
         self.available    = True
+        self.is_new       = False

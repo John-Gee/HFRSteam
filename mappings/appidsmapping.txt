@@ -1,5 +1,5 @@
 "AI War Collection<->40400"
-"ARCADE GAME SERIES 3-in-1 Pack<->90320"
+"ARCADE GAME SERIES 3-in-1 Pack<->394160"
 "Ace Combat Assault Horizon - Enhanced Edition<->228400"
 "Dogfight 1942<->217790"
 "ENSLAVED: Odyssey to the West Premium Edition<->245280"

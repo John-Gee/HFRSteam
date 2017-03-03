@@ -95,6 +95,8 @@ def get_data(games):
                 print('The average review {0} for game {1} is not in the mapping!'.
                       format(game.avg_review, game.name))
 
+        data += writeline('new: {0},'.format(int(game.is_new)))
+
         if (len(game.tags) > 0):
             data += writeline('tags: "{0}",'.format(', '.join(game.tags)))
 
