@@ -33,14 +33,14 @@ def get_list_of_games():
     return _games.keys()
 
 
-def get_game_info(game):
-    url          = 'http://store.steampowered.com/app/' + game.appid
+def get_game_info(game, name):
+    url          = 'http://store.steampowered.com/app/' + game.store.appid
     status, page = web.get_utf8_web_page(url)
 
     if (status == 302):
-        game.description = 'The game is not on steam anymore.'
+        game.store.description = 'The game is not on steam anymore.'
         print('The page for game {0} redirects somewhere else'
-              .format(game.name))
+              .format(name))
         return
 
     document = domparser.load_html(page)
@@ -50,7 +50,7 @@ def get_game_info(game):
                                         string='Oops, sorry!')
 
     if (sorry_block):
-        game.description = domparser.get_text(document, 'span',
+        game.store.description = domparser.get_text(document, 'span',
                                               class_="error")
         print('The page for game {0} shows an error: {1}'
               .format(game.name, game.description))
@@ -59,12 +59,12 @@ def get_game_info(game):
     # top right header
     glance_ctn_block  = domparser.get_element(document, 'div',
                                               class_='glance_ctn')
-    game.image        = get_game_image(glance_ctn_block)
-    game.description  = get_game_description(glance_ctn_block)
-    game.avg_review,\
-    game.cnt_review   = get_game_review(glance_ctn_block)
-    game.release_date = get_game_release_date(glance_ctn_block)
-    game.tags         = get_game_tags(glance_ctn_block)
+    game.store.image        = get_game_image(glance_ctn_block)
+    game.store.description  = get_game_description(glance_ctn_block)
+    game.store.avg_review,\
+    game.store.cnt_review   = get_game_review(glance_ctn_block)
+    game.store.release_date = get_game_release_date(glance_ctn_block)
+    game.store.tags         = get_game_tags(glance_ctn_block)
 
 
     # middle left column
@@ -73,10 +73,10 @@ def get_game_info(game):
 
     purchase_block    = domparser.get_element(game_left_column, 'div',
                                               id='game_area_purchase')
-    game.is_dlc       = get_game_is_dlc(purchase_block)
-    game.price        = get_game_price(purchase_block)
+    game.store.is_dlc = get_game_is_dlc(purchase_block)
+    game.store.price  = get_game_price(purchase_block)
 
-    game.os           = get_game_os(game_left_column)
+    game.store.os     = get_game_os(game_left_column)
 
 
     # middle right column
@@ -84,16 +84,16 @@ def get_game_info(game):
 
 
     # not parsed from the page
-    game.link         = url
-    price_date        = str(datetime.datetime.now().date())
-    game.price_date   = ('{0} {1}, {2}'
+    game.store.link         = url
+    price_date              = str(datetime.datetime.now().date())
+    game.store.price_date   = ('{0} {1}, {2}'
                          .format(calendar.month_abbr[int(price_date[5:7])],
                                  price_date[8:], price_date[:4]))
 
-    game.details      = get_game_details(document)
+    game.store.details      = get_game_details(document)
 
     print('Info for game {0} was retrieved, {1}'
-          .format(game.name, str(datetime.datetime.now().time())))
+          .format(name, str(datetime.datetime.now().time())))
 
 
 def get_game_image(glance_ctn_block):

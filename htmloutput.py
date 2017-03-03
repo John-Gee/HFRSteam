@@ -41,46 +41,46 @@ def get_data(games):
 
     for gameName in sorted(games):
         game = games[gameName]
-        if (game.available == 'no'):
+        if (game.hfr.is_available == 'no'):
             continue
 
         data += writeline('var row = {')
         increase_indent_count()
-        data += writeline('name: "{0}",'.format(game.name))
-        #data += writeline('name: "' + game.name + '"')
-        if (game.link != ''):
-            data += writeline('nameFormat: "<a href=\\"{0}\\"><b>{1}</b></a><img src=\\"{2}\\" width=\\"100%\\"/>",'.format(game.link, justifyFormat, game.image))
+        data += writeline('name: "{0}",'.format(gameName))
+        if (game.store.link != ''):
+            data += writeline('nameFormat: "<a href=\\"{0}\\"><b>{1}</b></a><img src=\\"{2}\\" width=\\"100%\\"/>",'.format(game.store.link, justifyFormat, game.store.image))
         else:
             data += writeline('nameFormat: "<b>{0}</b>",'.format(justifyFormat))
-        if(game.description):
-            data += writeline('description: "{0}",'.format(game.description))
-        data += writeline('dlc: {0},'.format(int(game.is_dlc)))
-        if (len(game.os) > 0):
-            data += writeline('os: "{0}",'.format(', '.join(game.os)))
-        if (game.price == None):
+        if(game.store.description):
+            data += writeline('description: "{0}",'.format(game.store.description))
+        data += writeline('dlc: {0},'.format(int(game.store.is_dlc)))
+        if (len(game.store.os) > 0):
+            data += writeline('os: "{0}",'.format(', '.join(game.store.os)))
+        if (game.store.price == None):
             data += writeline('priceFormat: "{0}",'.format(justifyFormat.replace(
                 '{0}', 'Not available. <div style=\\"white-space: nowrap\\">({0})</div>'.
-                format(game.price_date))))
+                format(game.store.price_date))))
         else:
-            data += writeline('price: {0},'.format(str(game.price)))
-            if (game.price == 0):
+            data += writeline('price: {0},'.format(str(game.store.price)))
+            if (game.store.price == 0):
                 data += writeline('priceFormat: "{0}",'
                                   .format(justifyFormat.replace('{0}',
                                                                 'Free <div style=\\"white-space: nowrap\\">({0})</div>'.
-                                                                format(game.price_date))))
+                                                                format(game.store.price_date))))
             else:
                 data += writeline('priceFormat: "{0}",'.
                                   format(justifyFormat.replace('{0}',
                                                                '${0} <div style=\\"white-space: nowrap\\">({1})</div>'.
-                                                               format(str(game.price), game.price_date))))
+                                                               format(str(game.store.price),
+                                                                      game.store.price_date))))
 
-        if (len(game.genres) > 0):
-            data += writeline('genres: "{0}",'.format(', '.join(game.genres)))
-        if (game.release_date):
-            data += writeline('date: "{0}",'.format(game.release_date))
-        if (game.avg_review in reviewMapping):
-            avg_review_text = reviewMapping[game.avg_review]
-            avg_review      = game.avg_review
+        if (len(game.store.genres) > 0):
+            data += writeline('genres: "{0}",'.format(', '.join(game.store.genres)))
+        if (game.store.release_date):
+            data += writeline('date: "{0}",'.format(game.store.release_date))
+        if (game.store.avg_review in reviewMapping):
+            avg_review_text = reviewMapping[game.store.avg_review]
+            avg_review      = game.store.avg_review
             if (len(avg_review) == 1):
                 avg_review = '0{0}'.format(avg_review)
             data += writeline('review: "{0} {1}",'.
@@ -89,19 +89,19 @@ def get_data(games):
                               format(justifyFormat.replace('{0}',
                                                            '{0} ({1})'.
                                                            format(avg_review_text,
-                                                                  game.cnt_review))))
+                                                                  game.store.cnt_review))))
         else:
-            if (game.avg_review):
+            if (game.store.avg_review):
                 print('The average review {0} for game {1} is not in the mapping!'.
-                      format(game.avg_review, game.name))
+                      format(game.store.avg_review, gameName))
 
-        data += writeline('new: {0},'.format(int(game.is_new)))
+        data += writeline('new: {0},'.format(int(game.hfr.is_new)))
 
-        if (len(game.tags) > 0):
-            data += writeline('tags: "{0}",'.format(', '.join(game.tags)))
+        if (len(game.store.tags) > 0):
+            data += writeline('tags: "{0}",'.format(', '.join(game.store.tags)))
 
-        if (len(game.details) > 0):
-            data += writeline('details: "{0}",'.format(', '.join(game.details)))
+        if (len(game.store.details) > 0):
+            data += writeline('details: "{0}",'.format(', '.join(game.store.details)))
 
         decrease_indent_count()
         data += writeline('};')

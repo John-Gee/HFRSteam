@@ -1,8 +1,11 @@
-class Game:
+class HFRData:
+    def __init__(self):
+        self.is_available = True
+        self.is_new       = False
 
 
-    def __init__(self, name):
-        self.name         = name
+class StoreData:
+    def __init__(self):
         self.appid        = ''
         self.description  = ''
         self.image        = ''
@@ -17,5 +20,9 @@ class Game:
         self.cnt_review   = ''
         self.tags         = list()
         self.details      = list()
-        self.available    = True
-        self.is_new       = False
+
+
+class Game:
+    def __init__(self):
+        self.hfr          = HFRData()
+        self.store        = StoreData()

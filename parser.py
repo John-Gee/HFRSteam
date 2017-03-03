@@ -30,9 +30,9 @@ def get_game_info(threadpool, options, games, cachedgames, keys, name,
         if (cleanname.startswith(BEGIN_STRIKED) or cleanname.endswith(END_STRIKED)):
             cleanname = cleanname.replace(BEGIN_STRIKED, '')
             cleanname = cleanname.replace(END_STRIKED, '')
-            available = False
+            is_available = False
         else:
-            available = True
+            is_available = True
 
         if(cleanname.startswith('(+)')):
             cleanname = cleanname[3:]
@@ -48,9 +48,12 @@ def get_game_info(threadpool, options, games, cachedgames, keys, name,
             print('The cleanname is empty for game {0}!'.format(name))
             return
         
-        is_new = True if (i <= numberofnewgames) else False
+        game                  = Game()
+        game.is_dlc           = is_dlc
+        game.hfr.is_available = is_available
+        game.hfr.is_new       = True if (i <= numberofnewgames) else False
 
-        if ((options.all == None) and (not available)):
+        if ((options.all == None) and (not is_available)):
             # Ignoring not available games for now
             # it may be better in the future to ignore them in output
             # or allow the user to do so in the html page.
@@ -60,9 +63,7 @@ def get_game_info(threadpool, options, games, cachedgames, keys, name,
         if ((cleanname in cachedgames) and (cachedgames[cleanname].appid) and (not options.refreshall) and ((options.game == None) or (options.game.lower() not in cleanname.lower()))):
 
             # TODO only cache steam-related data
-            games[cleanname]           = cachedgames[cleanname]
-            games[cleanname].available = available
-            games[cleanname].is_new    = is_new
+            game.store     = cachedgames[cleanname].store
 
         else:
             appid        = appidsmapping.get_mapping(cleanname)
@@ -88,21 +89,16 @@ def get_game_info(threadpool, options, games, cachedgames, keys, name,
             else:
                 print('appid mapping found for game {0}'.format(cleanname))
 
-            game           = Game(cleanname)
-            game.appid     = appid
-            game.is_dlc    = is_dlc
-            game.available = available
-            game.is_new    = is_new
-
             if ((appid == None) or (appid == '')):
-                game.appid = ''
-                game.description = 'The game was not found in the steam db.'
+                game.store.appid = ''
+                game.store.description = 'The game was not found in the steam db.'
                 print('The game {0} was not found in the steam db.'.format(cleanname))
 
             else:
-                steam.get_game_info(game)
+                game.store.appid = appid
+                steam.get_game_info(game, cleanname)
 
-            games[cleanname] = game
+        games[cleanname] = game
     except:
         _exc_infos.append(sys.exc_info())
         threadpool.shutdown(wait=False)
