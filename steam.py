@@ -56,17 +56,6 @@ def get_game_info(game, name):
               .format(game.name, game.description))
         return
 
-    # top right header
-    glance_ctn_block  = domparser.get_element(document, 'div',
-                                              class_='glance_ctn')
-    game.store.image        = get_game_image(glance_ctn_block)
-    game.store.description  = get_game_description(glance_ctn_block)
-    game.store.avg_review,\
-    game.store.cnt_review   = get_game_review(glance_ctn_block)
-    game.store.release_date = get_game_release_date(glance_ctn_block)
-    game.store.tags         = get_game_tags(glance_ctn_block)
-
-
     # middle left column
     game_left_column  = domparser.get_element(document, 'div',
                                               class_='leftcol game_description_column')
@@ -78,9 +67,23 @@ def get_game_info(game, name):
 
     game.store.os     = get_game_os(game_left_column)
 
+    # top right header
+    glance_ctn_block  = domparser.get_element(document, 'div',
+                                              class_='glance_ctn')
+    game.store.image        = get_game_image(glance_ctn_block)
+    game.store.avg_review,\
+    game.store.cnt_review   = get_game_review(glance_ctn_block)
+    game.store.release_date = get_game_release_date(glance_ctn_block)
+    game.store.tags         = get_game_tags(glance_ctn_block)
+    if (game.store.is_dlc):
+        game.store.description  = get_dlc_description(document)
+    else:
+        game.store.description  = get_game_description(glance_ctn_block)
+
 
     # middle right column
-    game.genres       = get_game_genres(document)
+    game.store.genres       = get_game_genres(document)
+    game.store.details      = get_game_details(document)
 
 
     # not parsed from the page
@@ -89,8 +92,6 @@ def get_game_info(game, name):
     game.store.price_date   = ('{0} {1}, {2}'
                          .format(calendar.month_abbr[int(price_date[5:7])],
                                  price_date[8:], price_date[:4]))
-
-    game.store.details      = get_game_details(document)
 
     print('Info for game {0} was retrieved, {1}'
           .format(name, str(datetime.datetime.now().time())))
@@ -107,6 +108,19 @@ def get_game_description(glance_ctn_block):
 
     if (description):
         return description.replace('"', '').strip()
+
+    return None
+
+
+def get_dlc_description(document):
+    widget_create_block = domparser.get_element(document, 'div',
+                                                id='widget_create')
+
+    if (widget_create_block):
+        description = domparser.get_value(widget_create_block, 'textarea',
+                                      'placeholder')
+        if (description):
+            return description.strip()
 
     return None
 
@@ -143,8 +157,7 @@ def get_game_release_date(glance_ctn_block):
 def get_game_is_dlc(purchase_block):
     dlc_block = domparser.get_element(purchase_block, 'div',
                                       class_='game_area_dlc_bubble game_area_bubble')
-    # for now we expect the value in a string numerical form
-    return str(int(dlc_block is not None))
+    return (dlc_block is not None)
 
 
 def get_game_price(purchase_block):

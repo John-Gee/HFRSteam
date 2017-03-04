@@ -49,7 +49,8 @@ def get_game_info(threadpool, options, games, cachedgames, keys, name,
             return
         
         game                  = Game()
-        game.is_dlc           = is_dlc
+        # what is the point of this?
+        game.store.is_dlc     = is_dlc
         game.hfr.is_available = is_available
         game.hfr.is_new       = True if (i <= numberofnewgames) else False
 
@@ -60,7 +61,7 @@ def get_game_info(threadpool, options, games, cachedgames, keys, name,
             return
 
 
-        if ((cleanname in cachedgames) and (cachedgames[cleanname].appid) and (not options.refreshall) and ((options.game == None) or (options.game.lower() not in cleanname.lower()))):
+        if ((cleanname in cachedgames) and (cachedgames[cleanname].store.appid) and (not options.refreshall) and ((options.game == None) or (options.game.lower() not in cleanname.lower()))):
 
             # TODO only cache steam-related data
             game.store     = cachedgames[cleanname].store
