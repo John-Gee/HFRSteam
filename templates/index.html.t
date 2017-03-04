@@ -62,12 +62,12 @@
                         filter: "",
                         sorting: false,
                     },
-                    dlc: {
+                    category: {
                         index: 3,
-                        type: "bool",
-                        friendly: "DLC?",
+                        type: "string",
+                        friendly: "Category",
                         unique: false,
-                        tooltip: "Is this a DLC?",
+                        tooltip: "Whether it's a Collection, DLC, or standalone",
                         filter: "",
                     },
                     os: {

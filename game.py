@@ -15,7 +15,7 @@ class StoreData:
         self.genres       = list()
         self.release_date = ''
         self.link         = ''
-        self.is_dlc       = False
+        self.category     = ''
         self.avg_review   = ''
         self.cnt_review   = ''
         self.tags         = list()

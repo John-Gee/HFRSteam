@@ -57,29 +57,32 @@ def get_game_info(game, name):
         return
 
     # middle left column
-    game_left_column  = domparser.get_element(document, 'div',
-                                              class_='leftcol game_description_column')
+    game_left_column    = domparser.get_element(document, 'div',
+                                                class_='leftcol game_description_column')
 
-    purchase_block    = domparser.get_element(game_left_column, 'div',
-                                              id='game_area_purchase')
-    game.store.is_dlc = get_game_is_dlc(purchase_block)
-    game.store.price  = get_game_price(purchase_block)
+    purchase_block      = domparser.get_element(game_left_column, 'div',
+                                                id='game_area_purchase')
+    game.store.category = get_game_category(purchase_block)
+    game.store.price    = get_game_price(purchase_block)
 
-    game.store.os     = get_game_os(game_left_column)
+    game.store.os       = get_game_os(game_left_column)
 
     # top right header
-    glance_ctn_block  = domparser.get_element(document, 'div',
-                                              class_='glance_ctn')
+    glance_ctn_block        = domparser.get_element(document, 'div',
+                                                    class_='glance_ctn')
     game.store.image        = get_game_image(glance_ctn_block)
     game.store.avg_review,\
     game.store.cnt_review   = get_game_review(glance_ctn_block)
     game.store.release_date = get_game_release_date(glance_ctn_block)
     game.store.tags         = get_game_tags(glance_ctn_block)
-    if (game.store.is_dlc):
+
+    if (game.store.category == 'Game'):
+        game.store.description  = get_game_description(glance_ctn_block)
+    elif (game.store.category == 'DLC'):
         game.store.description  = get_dlc_description(document)
     else:
-        game.store.description  = get_game_description(glance_ctn_block)
-
+        game.store.description  = ''
+        print('The category {0} is not implemented yet!'.format(game.store.category))
 
     # middle right column
     game.store.genres       = get_game_genres(document)
@@ -154,10 +157,13 @@ def get_game_release_date(glance_ctn_block):
     return None
 
 
-def get_game_is_dlc(purchase_block):
+def get_game_category(purchase_block):
     dlc_block = domparser.get_element(purchase_block, 'div',
                                       class_='game_area_dlc_bubble game_area_bubble')
-    return (dlc_block is not None)
+    if (dlc_block is None):
+        return 'Game'
+    else:
+        return 'DLC'
 
 
 def get_game_price(purchase_block):
