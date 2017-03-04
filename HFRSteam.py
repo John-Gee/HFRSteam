@@ -5,9 +5,9 @@ import os
 import sys
 
 import bboutput
+import gamesinfo
 import hfrparser
 import htmloutput
-import parser
 
 
 def main():
@@ -37,13 +37,13 @@ def main():
     (options, args) = optionparser.parse_args()
 
     if (options.list == None):
-        list, numberofnewgames  = hfrparser.parse_hfr()
-        games                   = parser.parse_list(options, list, numberofnewgames)
+        games = hfrparser.parse_hfr()
     else:
-        list                    = open(options.list, 'r')
-        games                   = parser.parse_list(options, list)
-        list.close()
+        f     = open(options.list, 'r')
+        games = hfrparser.get_games(f.read().splitlines())
+        f.close()
 
+    gamesinfo.get_games_info(options, games)
     OUTPUT_FOLDER = 'docs'
     HTML_FILE     = OUTPUT_FOLDER + '/index.html'
     BB_FILE       = OUTPUT_FOLDER + '/bb.txt'

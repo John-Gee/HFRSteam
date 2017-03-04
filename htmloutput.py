@@ -41,7 +41,7 @@ def get_data(games):
 
     for gameName in sorted(games):
         game = games[gameName]
-        if (game.hfr.is_available == 'no'):
+        if (not game.hfr.is_available):
             continue
 
         data += writeline('var row = {')

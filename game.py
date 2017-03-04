@@ -1,7 +1,7 @@
 class HFRData:
-    def __init__(self):
-        self.is_available = True
-        self.is_new       = False
+    def __init__(self, is_available, is_new):
+        self.is_available = is_available
+        self.is_new       = is_new
 
 
 class StoreData:
@@ -23,6 +23,6 @@ class StoreData:
 
 
 class Game:
-    def __init__(self):
-        self.hfr          = HFRData()
+    def __init__(self, is_available, is_new):
+        self.hfr          = HFRData(is_available, is_new)
         self.store        = StoreData()

@@ -9,103 +9,73 @@ import cache
 from game import Game
 from mapper import Mapper
 import steam
-import stringutils
 
 
 _exc_infos = list()
 
 
-def get_game_info(threadpool, options, games, cachedgames, keys, name,
-                  appidsmapping, namesmapping, i, numberofnewgames):
+def get_game_info(threadpool, options, games, cachedgames, keys, gameName,
+                  appidsmapping, namesmapping):
     global _exc_infos
 
     try:
         if (len(_exc_infos)):
             return
 
-        BEGIN_STRIKED = '<strike><span style=color:#FF0000>'
-        END_STRIKED   = '</span></strike>'
-        cleanname     = name.strip()
-
-        if (cleanname.startswith(BEGIN_STRIKED) or cleanname.endswith(END_STRIKED)):
-            cleanname = cleanname.replace(BEGIN_STRIKED, '')
-            cleanname = cleanname.replace(END_STRIKED, '')
-            is_available = False
-        else:
-            is_available = True
-
-        if(cleanname.startswith('(+)')):
-            cleanname = cleanname[3:]
-            is_dlc = True
-        else:
-            is_dlc = False
-
-        cleanname = re.sub('<.*?>', '', cleanname)
-
-        cleanname = cleanname.strip()
-
-        if (not cleanname):
-            print('The cleanname is empty for game {0}!'.format(name))
-            return
-        
-        game                  = Game()
-        # what is the point of this?
-        game.store.is_dlc     = is_dlc
-        game.hfr.is_available = is_available
-        game.hfr.is_new       = True if (i <= numberofnewgames) else False
-
-        if ((options.all == None) and (not is_available)):
+        game = games[gameName]
+        if ((options.all == None) and (not game.hfr.is_available)):
             # Ignoring not available games for now
             # it may be better in the future to ignore them in output
             # or allow the user to do so in the html page.
             return
 
-
-        if ((cleanname in cachedgames) and (cachedgames[cleanname].store.appid) and (not options.refreshall) and ((options.game == None) or (options.game.lower() not in cleanname.lower()))):
+        if ((gameName in cachedgames) and (cachedgames[gameName].store.appid)
+            and (not options.refreshall)
+            and ((options.game == None)
+                 or (options.game.lower() not in gameName.lower()))):
 
             # TODO only cache steam-related data
-            game.store     = cachedgames[cleanname].store
+            game.store     = cachedgames[gameName].store
 
         else:
-            appid        = appidsmapping.get_mapping(cleanname)
-            mappedname   = namesmapping.get_mapping(cleanname)
+            appid        = appidsmapping.get_mapping(gameName)
+            mappedname   = namesmapping.get_mapping(gameName)
 
             if (appid == None):
                 if (mappedname == None):
-                    appid = str(steam.get_appid(cleanname))
+                    appid = str(steam.get_appid(gameName))
                     if(options.matchingwords):
                         if (appid == ''):
                             matchednames = Mapper.get_match(
-                                cleanname.lower(), keys)
+                                gameName.lower(), keys)
                             if(len(matchednames) > 0):
                                 appid = str(steam.get_appid(matchednames[0]))
                                 if (appid != ''):
                                     namesmapping.add_to_mapping(
-                                        cleanname, matchednames[0])
+                                        gameName, matchednames[0])
                                     print('Matched {0} with {1}'.
-                                          format(cleanname, matchednames[0]))
+                                          format(gameName, matchednames[0]))
 
                 elif (mappedname != 'NA'):
                     appid = str(steam.get_appid(mappedname))
             else:
-                print('appid mapping found for game {0}'.format(cleanname))
+                print('appid mapping found for game {0}'.format(gameName))
 
             if ((appid == None) or (appid == '')):
                 game.store.appid = ''
                 game.store.description = 'The game was not found in the steam db.'
-                print('The game {0} was not found in the steam db.'.format(cleanname))
+                print('The game {0} was not found in the steam db.'.format(gameName))
 
             else:
                 game.store.appid = appid
-                steam.get_game_info(game, cleanname)
+                steam.get_game_info(game, gameName)
 
-        games[cleanname] = game
     except:
         _exc_infos.append(sys.exc_info())
         threadpool.shutdown(wait=False)
 
 
-def parse_list(options, names_list, numberofnewgames=0):
+def get_games_info(options, games):
 
     if (options.ignorecache):
         cachedgames = dict()
@@ -114,8 +84,6 @@ def parse_list(options, names_list, numberofnewgames=0):
 
     if (options.cacheonly):
         return cachedgames
-
-    games               = dict()
 
     MAPPING_FOLDER      = 'mappings'
     APPIDS_MAPPING_FILE = MAPPING_FOLDER + '/appidsmapping.txt'
@@ -131,17 +99,19 @@ def parse_list(options, names_list, numberofnewgames=0):
 
     global _exc_infos
 
-    for name in iter(names_list):
+    for gameName in iter(games):
         # Allow to break for dev purposes
         i += 1
-        if ((options.number_games != None) and (options.number_games.isdigit()) and (i == int(options.number_games))):
+        if ((options.number_games != None) and (options.number_games.isdigit())
+            and (i == int(options.number_games))):
             break
 
         if (len(_exc_infos)):
             break
 
         threadpool.submit(get_game_info, threadpool,
-                          options, games, cachedgames, keys, name, appidsmapping, namesmapping, i, numberofnewgames)
+                          options, games, cachedgames, keys, gameName, appidsmapping,
+                          namesmapping)
 
     threadpool.shutdown(wait=True)
     if (len(_exc_infos)):
@@ -153,4 +123,3 @@ def parse_list(options, names_list, numberofnewgames=0):
     cache.save_to_cache(newcachedgames)
     appidsmapping.save_mapping()
     namesmapping.save_mapping()
-    return games

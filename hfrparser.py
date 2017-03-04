@@ -3,6 +3,7 @@ import re
 import sys
 
 import domparser
+from game import Game
 import stringutils
 import web
 
@@ -17,45 +18,44 @@ def get_post():
     return str(post)
 
 
-def clean_list(games):
+def get_games(liste):
     striked       = False
     BEGIN_STRIKED = '<strike><span style=color:#FF0000>'
     END_STRIKED   = '</span></strike>'
     END_NEW       = '----'
 
-    newgames         = list()
-    numberofnewgames = 0
-    i                = 0
+    games               = dict()
+    is_new              = True
 
-    for game in games:
-        if (not game):
+    for name in liste:
+        if (not name):
             continue
-        game = game.strip()
+        name = name.strip()
 
-        if (game.startswith(END_NEW)):
-            numberofnewgames = i
+        if (name.startswith(END_NEW)):
+            is_new = False
             continue
 
-        if (game.startswith(BEGIN_STRIKED)):
-            if (not game.endswith(END_STRIKED)):
+        if (name.startswith(BEGIN_STRIKED)):
+            is_available = False
+            if (not name.endswith(END_STRIKED)):
                 striked = True
-                game    += END_STRIKED
         else:
             if (striked):
-                if (game.endswith(END_STRIKED)):
+                is_available = False
+                if (name.endswith(END_STRIKED)):
                     striked = False
-                else:
-                    game    += END_STRIKED
-                game = BEGIN_STRIKED + game
+            else:
+                is_available = True
 
-        if (re.sub('<.*?>', '', game).strip()):
-            newgames.append(game)
-            i = i + 1
+        cleanname = re.sub('<.*?>', '', name).replace('(+)', '').strip()
+        if (cleanname):
+            game = Game(is_available, is_new)
+            games[cleanname] = game
+    return games
 
-    return newgames, numberofnewgames
 
-
-def get_list(post):
+def get_names_from_post(post):
     START = '<strong>Clefs  <img alt="[:icon4]" src="http://forum-images.hardware.fr/images/perso/icon4.gif" title="[:icon4]"/> Steam <img alt="[:icon4]" src="http://forum-images.hardware.fr/images/perso/icon4.gif" title="[:icon4]"/> :</strong> <br/><strong> <br/>'
     END   = '--------------------------------------------------------------------------'
 
@@ -68,16 +68,14 @@ def get_list(post):
     cleansubpost = cleansubpost.strip()
 
     # the separator is \x1c
-    games = cleansubpost.splitlines()
-    return clean_list(games)
+    return cleansubpost.splitlines()
 
 
 def parse_hfr():
     post  = get_post()
 
-    # this returns both the list of games and the number of new games
-    # maybe in the future we should start creating the game structures here
-    return get_list(post)
+    names = get_names_from_post(post)
+    return get_games(names)
 
 
 if __name__ == '__main__':
