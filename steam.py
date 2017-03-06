@@ -117,21 +117,51 @@ def get_standalone_info(game, name, document):
 
 
 def get_collection_info(game, name, document):
-    game.store.category    = Category.Collection
+    game.store.category = Category.Collection
 
-    game.store.description = ''
+    descriptions        = list()
+    OS                  = list()
+    release_dates       = list()
+    avg_reviews         = 0
+    cnt_reviews         = 0
+    tags                = list()
     game_left_column    = domparser.get_element(document, 'div',
                                                 class_='leftcol game_description_column')
     items               = domparser.get_elements(game_left_column, 'div',
                                                  class_='tab_item ')
     for item in items:
-        link            = domparser.get_value(item, 'div', 'href',
+        itemlink        = domparser.get_value(item, 'a', 'href',
                                               class_='tab_item_overlay')
-        name            = domparser.get_text(item, 'div',
+        itemname        = domparser.get_text(item, 'div',
                                              class_='tab_item_name')
-        game.store.description = game.store.description + name + ', '
+        descriptions.append('- {0}'.format(itemname))
 
-    game.store.image    = get_collection_image(game_left_column)
+        itemgame            = Game()
+        itemgame.store.link = itemlink
+        get_store_info(itemgame, itemname)
+        for o in itemgame.store.os:
+            if (o not in OS):
+                OS.append(o)
+        if (itemgame.store.release_date):
+            release_dates.append(itemgame.store.release_date)
+        # to average the reviews
+        if (itemgame.store.cnt_review):
+            avg_reviews += itemgame.store.cnt_review * itemgame.store.avg_review
+            cnt_reviews += itemgame.store.cnt_review
+        for tag in itemgame.store.tags:
+            if (tag not in tags):
+                tags.append(tag)
+
+    game.store.image            = get_collection_image(game_left_column)
+    game.store.description      = 'Items included in this package:{0}{1}'.format(
+        os.linesep, os.linesep.join(descriptions))
+    game.store.os               = sorted(OS)
+    if (len(release_dates)):
+        game.store.release_date = sorted(release_dates)[-1]
+    if (cnt_reviews):
+        game.store.avg_review   = int(avg_reviews / cnt_reviews)
+        game.store.cnt_review   = int(cnt_reviews/len(items))
+    game.store.tags             = sorted(tags)
 
     purchase_block      = domparser.get_element(game_left_column, 'div',
                                                 id='game_area_purchase')
@@ -188,7 +218,9 @@ def get_game_review(glance_ctn_block):
     ratingValue = domparser.get_value(user_reviews_block, 'meta',
                                       'content', itemprop='ratingValue')
 
-    return ratingValue, reviewCount
+    if (reviewCount):
+        return int(ratingValue), int(reviewCount)
+    return None, None
 
 
 def get_game_release_date(glance_ctn_block):

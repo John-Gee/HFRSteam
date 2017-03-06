@@ -24,14 +24,14 @@ class StoreData:
         self.release_date = ''
         self.link         = ''
         self.category     = None
-        self.avg_review   = ''
-        self.cnt_review   = ''
+        self.avg_review   = None
+        self.cnt_review   = None
         self.tags         = list()
         self.details      = list()
 
 
 class Game:
-    def __init__(self, is_available, is_new):
+    def __init__(self, is_available=False, is_new=False):
         self.hfr          = HFRData(is_available, is_new)
         self.store        = StoreData()
 

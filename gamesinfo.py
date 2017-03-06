@@ -69,6 +69,7 @@ def get_game_info(threadpool, options, games, cachedgames, keys, gameName,
                 steam.get_store_info_from_url(game, gameName, url)
 
     except:
+        print('Exception raised for app {0}'.format(gameName))
         _exc_infos.append(sys.exc_info())
         threadpool.shutdown(wait=False)
 

@@ -27,15 +27,15 @@ def decrease_indent_count():
 
 def get_data(games):
     reviewMapping = dict()
-    reviewMapping['10'] = 'Overwhelmingly Positive'
-    reviewMapping['9']  = 'Very Positive'
-    reviewMapping['8']  = 'Positive'
-    reviewMapping['7']  = 'Mostly Positive'
-    reviewMapping['6']  = 'Mixed'
-    reviewMapping['5']  = 'Mostly Negative'
-    reviewMapping['4']  = 'Negative'
-    reviewMapping['3']  = 'Very Negative'
-    reviewMapping['2']  = 'Overwhelmingly Negative'
+    reviewMapping[10] = 'Overwhelmingly Positive'
+    reviewMapping[9]  = 'Very Positive'
+    reviewMapping[8]  = 'Positive'
+    reviewMapping[7]  = 'Mostly Positive'
+    reviewMapping[6]  = 'Mixed'
+    reviewMapping[5]  = 'Mostly Negative'
+    reviewMapping[4]  = 'Negative'
+    reviewMapping[3]  = 'Very Negative'
+    reviewMapping[2]  = 'Overwhelmingly Negative'
     data = ''
     justifyFormat = '<div style=\\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\\">{0}</div>'
 
@@ -52,7 +52,8 @@ def get_data(games):
         else:
             data += writeline('nameFormat: "<b>{0}</b>",'.format(justifyFormat))
         if(game.store.description):
-            data += writeline('description: "{0}",'.format(game.store.description))
+            data += writeline('description: "{0}",'.format(
+                game.store.description.replace(os.linesep, '<br/>')))
         if (game.store.category):
             data += writeline('category: "{0}",'.format(game.store.category.name))
         if (len(game.store.os) > 0):
@@ -75,9 +76,9 @@ def get_data(games):
             data += writeline('genres: "{0}",'.format(', '.join(game.store.genres)))
         if (game.store.release_date):
             data += writeline('date: "{0}",'.format(game.store.release_date))
-        if (game.store.avg_review in reviewMapping):
-            avg_review_text = reviewMapping[game.store.avg_review]
-            avg_review      = game.store.avg_review
+        if (game.store.avg_review) and (int(game.store.avg_review) in reviewMapping):
+            avg_review_text = reviewMapping[int(game.store.avg_review)]
+            avg_review      = str(game.store.avg_review)
             if (len(avg_review) == 1):
                 avg_review = '0{0}'.format(avg_review)
             data += writeline('review: "{0} {1}",'.
