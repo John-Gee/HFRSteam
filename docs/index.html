@@ -67,7 +67,7 @@
                         type: "string",
                         friendly: "Category",
                         unique: false,
-                        tooltip: "Whether it's a Collection, DLC, or standalone",
+                        tooltip: "Whether it's a Collection, DLC, or Game",
                         filter: "",
                     },
                     os: {
