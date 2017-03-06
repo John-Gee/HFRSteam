@@ -53,14 +53,11 @@ def get_data(games):
             data += writeline('nameFormat: "<b>{0}</b>",'.format(justifyFormat))
         if(game.store.description):
             data += writeline('description: "{0}",'.format(game.store.description))
-        data += writeline('category: "{0}",'.format(game.store.category))
+        if (game.store.category):
+            data += writeline('category: "{0}",'.format(game.store.category.name))
         if (len(game.store.os) > 0):
             data += writeline('os: "{0}",'.format(', '.join(game.store.os)))
-        if (game.store.price == None):
-            data += writeline('priceFormat: "{0}",'.format(justifyFormat.replace(
-                '{0}', 'Not available. <div style=\\"white-space: nowrap\\">({0})</div>'.
-                format(game.store.price_date))))
-        else:
+        if (game.store.price ):
             data += writeline('price: {0},'.format(str(game.store.price)))
             if (game.store.price == 0):
                 data += writeline('priceFormat: "{0}",'

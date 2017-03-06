@@ -1,3 +1,12 @@
+from enum import Enum, auto
+
+
+class Category(Enum):
+    Game       = auto()
+    DLC        = auto()
+    Collection = auto()
+
+
 class HFRData:
     def __init__(self, is_available, is_new):
         self.is_available = is_available
@@ -6,7 +15,6 @@ class HFRData:
 
 class StoreData:
     def __init__(self):
-        self.appid        = ''
         self.description  = ''
         self.image        = ''
         self.os           = list()
@@ -15,7 +23,7 @@ class StoreData:
         self.genres       = list()
         self.release_date = ''
         self.link         = ''
-        self.category     = ''
+        self.category     = None
         self.avg_review   = ''
         self.cnt_review   = ''
         self.tags         = list()

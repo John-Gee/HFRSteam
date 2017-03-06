@@ -6,7 +6,7 @@ import sys
 import traceback
 import urllib
 
-from game import Game
+from game import Category, Game
 import domparser
 import stringutils
 import web
@@ -33,13 +33,23 @@ def get_list_of_games():
     return _games.keys()
 
 
-def get_game_info(game, name):
-    url          = 'http://store.steampowered.com/app/' + game.store.appid
-    status, page = web.get_utf8_web_page(url)
+def get_store_info_from_appid(game, name, appid):
+    # defaulting to the standard game url for now
+    game.store.link = 'http://store.steampowered.com/app/' + appid
+    get_store_info(game, name)
+
+
+def get_store_info_from_url(game, name, url):
+    game.store.link= 'http://store.steampowered.com/' + url
+    get_store_info(game, name)
+
+
+def get_store_info(game, name):
+    status, page = web.get_utf8_web_page(game.store.link)
 
     if (status == 302):
-        game.store.description = 'The game is not on steam anymore.'
-        print('The page for game {0} redirects somewhere else'
+        game.store.description = 'The app is not on steam anymore.'
+        print('The page for app {0} redirects somewhere else'
               .format(name))
         return
 
@@ -56,6 +66,27 @@ def get_game_info(game, name):
               .format(game.name, game.description))
         return
 
+    if ( ('/sub/' in game.store.link) or ('/bundle/' in game.store.link)):
+        get_collection_info(game, name, document)
+    elif ('/app/' in game.store.link):
+        get_standalone_info(game, name, document)
+    else:
+        print('Unknown type of link {0}'.format(game.store.link))
+
+    # middle right column
+    game.store.genres       = get_game_genres(document)
+    game.store.details      = get_game_details(document)
+
+    price_date              = str(datetime.datetime.now().date())
+    game.store.price_date   = ('{0} {1}, {2}'
+                         .format(calendar.month_abbr[int(price_date[5:7])],
+                                 price_date[8:], price_date[:4]))
+
+    print('Info for game {0} was retrieved, {1}'
+          .format(name, str(datetime.datetime.now().time())))
+
+
+def get_standalone_info(game, name, document):
     # middle left column
     game_left_column    = domparser.get_element(document, 'div',
                                                 class_='leftcol game_description_column')
@@ -76,33 +107,45 @@ def get_game_info(game, name):
     game.store.release_date = get_game_release_date(glance_ctn_block)
     game.store.tags         = get_game_tags(glance_ctn_block)
 
-    if (game.store.category == 'Game'):
+    if (game.store.category is Category.Game):
         game.store.description  = get_game_description(glance_ctn_block)
-    elif (game.store.category == 'DLC'):
+    elif (game.store.category is Category.DLC):
         game.store.description  = get_dlc_description(document)
     else:
         game.store.description  = ''
-        print('The category {0} is not implemented yet!'.format(game.store.category))
-
-    # middle right column
-    game.store.genres       = get_game_genres(document)
-    game.store.details      = get_game_details(document)
+        print('The category {0} is not implemented yet!'.format(game.store.category.name))
 
 
-    # not parsed from the page
-    game.store.link         = url
-    price_date              = str(datetime.datetime.now().date())
-    game.store.price_date   = ('{0} {1}, {2}'
-                         .format(calendar.month_abbr[int(price_date[5:7])],
-                                 price_date[8:], price_date[:4]))
+def get_collection_info(game, name, document):
+    game.store.category    = Category.Collection
 
-    print('Info for game {0} was retrieved, {1}'
-          .format(name, str(datetime.datetime.now().time())))
+    game.store.description = ''
+    game_left_column    = domparser.get_element(document, 'div',
+                                                class_='leftcol game_description_column')
+    items               = domparser.get_elements(game_left_column, 'div',
+                                                 class_='tab_item ')
+    for item in items:
+        link            = domparser.get_value(item, 'div', 'href',
+                                              class_='tab_item_overlay')
+        name            = domparser.get_text(item, 'div',
+                                             class_='tab_item_name')
+        game.store.description = game.store.description + name + ', '
+
+    game.store.image    = get_collection_image(game_left_column)
+
+    purchase_block      = domparser.get_element(game_left_column, 'div',
+                                                id='game_area_purchase')
+    game.store.price    = get_game_price(purchase_block)
 
 
 def get_game_image(glance_ctn_block):
     return domparser.get_value(glance_ctn_block, 'img', 'src',
                                class_='game_header_image_full')
+
+
+def get_collection_image(game_left_column):
+    return domparser.get_value(game_left_column, 'img', 'src',
+                               class_='package_header')
 
 
 def get_game_description(glance_ctn_block):
@@ -161,9 +204,9 @@ def get_game_category(purchase_block):
     dlc_block = domparser.get_element(purchase_block, 'div',
                                       class_='game_area_dlc_bubble game_area_bubble')
     if (dlc_block is None):
-        return 'Game'
+        return Category.Game
     else:
-        return 'DLC'
+        return Category.DLC
 
 
 def get_game_price(purchase_block):
@@ -220,7 +263,7 @@ def get_game_genres(document):
 
 def get_game_details(document):
     details_block = domparser.get_element(document, 'div',
-                                    id='category_block')
+                                    class_='rightcol game_meta_data')
     if (details_block):
         return domparser.get_texts(details_block, 'div',
                                    class_='game_area_details_specs')
