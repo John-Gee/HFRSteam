@@ -121,7 +121,7 @@
                         type: "bool",
                         friendly: "New?",
                         unique: false,
-                        tooltip: "Is this a new game?",
+                        tooltip: "Is this a new game in the HFR list?",
                         filter: "",
                     },
                     tags: {
