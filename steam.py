@@ -323,8 +323,8 @@ def get_game_tags(glance_ctn_block):
     if (tags_block):
         # tags are by default in the format:
         # \r\n\t\t\t\t\t\t\t\t\t\t\t\tTAG\t\t\t\t\t\t\t\t\t\t\t\t
-        return list(map(lambda s: s.strip(),
-                        domparser.get_texts(tags_block, 'a')))
+        return sorted(list(map(lambda s: s.strip(),
+                               domparser.get_texts(tags_block, 'a'))))
     return list()
 
 
