@@ -8,6 +8,7 @@ import traceback
 import cache
 from game import Category, Game
 from mapper import Mapper
+import namematching
 import steam
 
 
@@ -44,7 +45,7 @@ def get_game_info(threadpool, options, games, cachedgames, keys, gameName,
                 if (mappedname == None):
                     appid = str(steam.get_appid(gameName))
                     if ((options.matchingwords) and (appid == '')):
-                        matchednames = Mapper.get_match(gameName.lower(), keys)
+                        matchednames = namematching.get_match(gameName.lower(), keys)
                         if(len(matchednames) > 0):
                             appid = str(steam.get_appid(matchednames[0]))
                             if (appid != ''):

@@ -1,4 +1,3 @@
-import difflib
 import os.path
 import sys
 
@@ -45,5 +44,3 @@ class Mapper:
             return self.__mapping[left]
         return None
 
-    def get_match(sentance, possibilities):
-        return difflib.get_close_matches(sentance, possibilities, 1)
