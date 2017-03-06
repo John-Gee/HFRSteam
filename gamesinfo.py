@@ -1,4 +1,5 @@
 from concurrent.futures import ThreadPoolExecutor
+import datetime
 import os
 import re
 import sys
@@ -62,12 +63,16 @@ def get_game_info(threadpool, options, games, cachedgames, keys, gameName,
                     game.store.appid = ''
                     game.store.description = 'The game was not found in the steam db.'
                     print('The game {0} was not found in the steam db.'.format(gameName))
+                    return
                 else:
                     steam.get_store_info_from_appid(game, gameName, appid)
 
             else:
                 print('url mapping found for game {0}'.format(gameName))
                 steam.get_store_info_from_url(game, gameName, url)
+
+            print('Info for game {0} was retrieved, {1}'
+                  .format(gameName, str(datetime.datetime.now().time())))
 
     except:
         print('Exception raised for app {0}'.format(gameName))

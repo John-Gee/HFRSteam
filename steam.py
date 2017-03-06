@@ -83,9 +83,6 @@ def get_store_info(game, name):
                          .format(calendar.month_abbr[int(price_date[5:7])],
                                  price_date[8:], price_date[:4]))
 
-    print('Info for game {0} was retrieved, {1}'
-          .format(name, str(datetime.datetime.now().time())))
-
 
 def get_standalone_info(game, name, document):
     # middle left column
