@@ -39,7 +39,8 @@ class Game:
     # we're only interested in pickling the store member
     def __getstate__(self):
         state = self.__dict__.copy()
-        del state['hfr']
+        if ('hfr' in state):
+            del state['hfr']
         return state
 
 
