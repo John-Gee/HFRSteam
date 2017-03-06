@@ -34,3 +34,15 @@ class Game:
     def __init__(self, is_available, is_new):
         self.hfr          = HFRData(is_available, is_new)
         self.store        = StoreData()
+
+
+    # we're only interested in pickling the store member
+    def __getstate__(self):
+        state = self.__dict__.copy()
+        del state['hfr']
+        return state
+
+
+    # unpickle the state, which should only be the store member
+    def __setstate__(self, state):
+        self.__dict__.update(state)

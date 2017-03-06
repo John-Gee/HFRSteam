@@ -34,7 +34,6 @@ def get_game_info(threadpool, options, games, cachedgames, keys, gameName,
             and ((options.game == None)
                  or (options.game.lower() not in gameName.lower()))):
 
-            # TODO only cache steam-related data
             game.store     = cachedgames[gameName].store
 
         else:
