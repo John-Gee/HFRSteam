@@ -8,6 +8,7 @@ import urllib
 
 from game import Category, Game
 import domparser
+import namematching
 import stringutils
 import web
 
@@ -94,7 +95,7 @@ def get_standalone_info(game, name, document):
     purchase_block      = domparser.get_element(game_left_column, 'div',
                                                 id='game_area_purchase')
     game.store.category = get_game_category(purchase_block)
-    game.store.price    = get_game_price(purchase_block)
+    game.store.price    = get_game_price(purchase_block, name)
 
     game.store.os       = get_game_os(game_left_column)
 
@@ -165,7 +166,7 @@ def get_collection_info(game, name, document):
 
     purchase_block      = domparser.get_element(game_left_column, 'div',
                                                 id='game_area_purchase')
-    game.store.price    = get_game_price(purchase_block)
+    game.store.price    = get_game_price(purchase_block, name)
 
 
 def get_game_image(glance_ctn_block):
@@ -241,16 +242,33 @@ def get_game_category(purchase_block):
         return Category.DLC
 
 
-def get_game_price(purchase_block):
+def get_game_price(purchase_block, name):
     discount_price = domparser.get_text(purchase_block, 'div',
                                         class_='discount_final_price')
 
     if (discount_price):
         return float(discount_price.strip().replace('$', ''))
 
-    prices = domparser.get_texts(purchase_block, 'div',
-                               class_='game_purchase_price price')
-    for price in prices:
+    wrappers = domparser.get_elements(purchase_block, 'div',
+                                      class_='game_area_purchase_game_wrapper')
+
+    if (wrappers):
+        names  = list()
+        prices = list()
+        for wrapper in wrappers:
+            names.append(domparser.get_text(wrapper, 'h1')[4:])
+            prices.append(domparser.get_text(wrapper, 'div',
+                                             class_='game_purchase_price price'))
+        matches = namematching.get_match(name, names, len(names))
+        sortedprices = list()
+        for match in matches:
+            index = names.index(match)
+            sortedprices.append(prices[index])
+    else:
+        sortedprices = domparser.get_texts(purchase_block, 'div',
+                                          class_='game_purchase_price price')
+
+    for price in sortedprices:
         if (price):
             # we got the wrong div
             if ('demo' in price.lower()):
