@@ -25,9 +25,7 @@ def main():
                             help='Use a word matching algorithm to find a name matching in the steamdb (potentially wrong)')
     optionparser.add_option('-n', '--number-games', dest='number_games',
                             help='Number of games to work on. Only for dev purposes')
-    optionparser.add_option('-r', '--refresh-all', action='store_true', dest='refreshall',
-                            help='Refresh all games, ignoring the current cache.')
-    optionparser.add_option('-R', '--refresh-named', dest='game',
+    optionparser.add_option('-r', '--refresh-named', dest='game',
                             help='Refresh the game listed, and all games not in cache')
     optionparser.add_option('-t', '--threads', dest='threads', default='8', type='int',
                             help='Number of parallel threads to use for fetching the steam information.')

@@ -32,7 +32,6 @@ def get_game_info(threadpool, options, games, cachedgames, keys, gameName,
             return
 
         if ((gameName in cachedgames) and (cachedgames[gameName].store.link)
-            and (not options.refreshall)
             and ((options.game == None)
                  or (options.game.lower() not in gameName.lower()))):
 
