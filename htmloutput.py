@@ -63,11 +63,14 @@ def get_data(games):
             data += writeline('category: "{0}",'.format(game.store.category.name))
         if (len(game.store.os) > 0):
             data += writeline('os: "{0}",'.format(', '.join(game.store.os).replace('OS X', 'OS')))
-        if (game.store.price ):
+        if (game.store.price != None):
             data += writeline('price: {0},'.format(str(game.store.price)))
             if (game.store.price == 0):
                 data += writeline('priceFormat: "{0}",'
                                   .format(justifyFormat.replace('{0}', 'Free')))
+            elif (game.store.price < 0):
+                data += writeline('priceFormat: "{0}",'
+                                  .format(justifyFormat.replace('{0}', 'N/A')))
             else:
                 data += writeline('priceFormat: "{0}",'.
                                   format(justifyFormat.replace('{0}', '${0}')))

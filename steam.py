@@ -94,7 +94,6 @@ def get_standalone_info(game, name, document):
                                                 id='game_area_purchase')
     game.store.category = get_game_category(purchase_block)
     game.store.price    = get_game_price(purchase_block, name)
-
     game.store.os       = get_game_os(game_left_column)
 
     # top right header
@@ -241,12 +240,6 @@ def get_game_category(purchase_block):
 
 
 def get_game_price(purchase_block, name):
-    discount_price = domparser.get_text(purchase_block, 'div',
-                                        class_='discount_final_price')
-
-    if (discount_price):
-        return float(discount_price.strip().replace('$', ''))
-
     wrappers = domparser.get_elements(purchase_block, 'div',
                                       class_='game_area_purchase_game_wrapper')
 
@@ -254,17 +247,28 @@ def get_game_price(purchase_block, name):
         names  = list()
         prices = list()
         for wrapper in wrappers:
-            names.append(domparser.get_text(wrapper, 'h1')[4:])
-            prices.append(domparser.get_text(wrapper, 'div',
-                                             class_='game_purchase_price price'))
-        matches = namematching.get_match(name, names, len(names))
+            names.append(domparser.get_text(wrapper, 'h1')[4:].lower())
+            price = domparser.get_text(wrapper, 'div',
+                                       class_='game_purchase_price price')
+            if(not price):
+                price = domparser.get_text(wrapper, 'div',
+                                           class_='discount_final_price')
+            prices.append(price)
+
         sortedprices = list()
-        for match in matches:
-            index = names.index(match)
-            sortedprices.append(prices[index])
+        if (len(names)):
+            matches = namematching.get_match(name.lower(), names, len(names))
+            for match in matches:
+                index = names.index(match)
+                sortedprices.append(prices[index])
+        if (not len(sortedprices)):
+            sortedprices = prices
     else:
         sortedprices = domparser.get_texts(purchase_block, 'div',
-                                          class_='game_purchase_price price')
+                                           class_='game_purchase_price price')
+        if(not sortedprices):
+                sortedprices = domparser.get_texts(purchase_block, 'div',
+                                                   class_='discount_final_price')
 
     for price in sortedprices:
         if (price):
@@ -276,18 +280,18 @@ def get_game_price(purchase_block, name):
             if (price.replace('.','',1).isdigit()):
                 return float(price)
             elif (('free' in price.lower()) or ('play' in price.lower())):
-                return 0.00
+                return 0
             else:
-                print('Unexpected price: {0}'.format(price))
-                return None
+                print('Unexpected price: {0} for {1}'.format(price, name))
+                return -1
 
     play_game_span = domparser.get_element(purchase_block, 'span',
                                            string='Play Game')
-
     if (play_game_span):
-        return 0.00
+        return 0
 
-    return None
+    print('No price found for {0}'.format(name))
+    return -1
 
 
 def get_game_os(game_left_column):
@@ -327,3 +331,10 @@ def get_game_tags(glance_ctn_block):
         return sorted(list(map(lambda s: s.strip(),
                                domparser.get_texts(tags_block, 'a'))))
     return list()
+
+
+# simple test
+if __name__ == '__main__':
+    game = Game()
+    get_store_info_from_appid(game, 'STAR WARS™: TIE Fighter Special Edition', '355250')
+    print(game.store.price)
