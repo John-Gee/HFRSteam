@@ -14,6 +14,7 @@
 "Sanctum: Collection<->sub/17085"
 "Star Wars Jedi Knight II: Jedi Outcast<->app/6030"
 "Star Wars Knights of the Old Republic II: The Sith Lords<->app/208580"
+"Super Comboman: Don't Mash Edition<->app/250280"
 "Take On Helicopters Bundle<->sub/13794"
 "The Guild II Collection<->sub/50718"
 "WARMACHINE Tactics - Mercenaries Faction Bundle<->app/338518"

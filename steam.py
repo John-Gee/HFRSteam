@@ -1,5 +1,6 @@
 import calendar
 import datetime
+from dateutil import parser
 import os
 import re
 import sys
@@ -225,7 +226,7 @@ def get_game_release_date(glance_ctn_block):
     date = domparser.get_text(glance_ctn_block, 'span',
                               class_='date')
     if (date):
-        return date.strip()
+        return parser.parse(date.strip(), fuzzy_with_tokens=True)
 
     return None
 
@@ -326,13 +327,3 @@ def get_game_tags(glance_ctn_block):
         return sorted(list(map(lambda s: s.strip(),
                                domparser.get_texts(tags_block, 'a'))))
     return list()
-
-
-
-# simple test
-if __name__ == '__main__':
-    game = Game('1001 Spikes')
-    game.appid = '260790'
-    get_game_info(game)
-    print(game.details)
-    print(game.tags)

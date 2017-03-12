@@ -781,7 +781,7 @@ Rochard Hard Times DLC
 [url=http://store.steampowered.com/app/7220]Runaway: The Dream of the Turtle[/url]
 [url=http://store.steampowered.com/app/339400]Runestone Keeper[/url]
 [url=http://store.steampowered.com/app/234490]Rush Bros.[/url]
-[url=http://store.steampowered.com/app/252490]Rust (Early Access)[/url]
+Rust (Early Access)
 S.T.A.L.K.E.R: Call of Pripyat
 S.T.A.L.K.E.R: Clear Sky
 S.T.A.L.K.E.R: Shadow of Chernobyl
@@ -926,7 +926,7 @@ Star Wolves
 [url=http://store.steampowered.com/app/324750]StuntMANIA Reloaded[/url]
 [url=http://store.steampowered.com/app/212110]Sugar Cube: Bittersweet Factory[/url]
 Sunless Sea
-[url=http://store.steampowered.com/app/468650]Super Comboman: Don't Mash Edition[/url]
+[url=http://store.steampowered.com/app/250280]Super Comboman: Don't Mash Edition[/url]
 [url=http://store.steampowered.com/app/341550]Super Cyborg[/url]
 [url=http://store.steampowered.com/app/221640]Super Hexagon[/url]
 [url=http://store.steampowered.com/app/271860]Super Killer Hornet: Resurrection[/url]

@@ -57,25 +57,27 @@ def get_data(games):
         if (game.store.category):
             data += writeline('category: "{0}",'.format(game.store.category.name))
         if (len(game.store.os) > 0):
-            data += writeline('os: "{0}",'.format(', '.join(game.store.os)))
+            data += writeline('os: "{0}",'.format(', '.join(game.store.os).replace('OS X', 'OS')))
         if (game.store.price ):
             data += writeline('price: {0},'.format(str(game.store.price)))
             if (game.store.price == 0):
                 data += writeline('priceFormat: "{0}",'
-                                  .format(justifyFormat.replace('{0}',
-                                                                'Free <div style=\\"white-space: nowrap\\">({0})</div>'.
-                                                                format(game.store.price_date))))
+                                  .format(justifyFormat.replace('{0}', 'Free')))
             else:
                 data += writeline('priceFormat: "{0}",'.
-                                  format(justifyFormat.replace('{0}',
-                                                               '${0} <div style=\\"white-space: nowrap\\">({1})</div>'.
-                                                               format(str(game.store.price),
-                                                                      game.store.price_date))))
+                                  format(justifyFormat.replace('{0}', '${0}')))
 
         if (len(game.store.genres) > 0):
             data += writeline('genres: "{0}",'.format(', '.join(game.store.genres)))
         if (game.store.release_date):
-            data += writeline('date: "{0}",'.format(game.store.release_date))
+            date, errors = game.store.release_date
+            # if errors has more than whitespace or empty strings
+            errors = tuple(filter(lambda x: x.strip(), errors))
+            if (len(errors)):
+                fmt = '%Y'
+            else:
+                fmt = '%Y-%m-%d'
+            data += writeline('date: "{0}",'.format(date.strftime(fmt)))
         if (game.store.avg_review) and (int(game.store.avg_review) in reviewMapping):
             avg_review_text = reviewMapping[int(game.store.avg_review)]
             avg_review      = str(game.store.avg_review)

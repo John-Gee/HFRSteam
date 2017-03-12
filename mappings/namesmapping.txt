@@ -164,7 +164,6 @@
 "Star Wars: X-Wing Special Edition<->star wars™: x-wing special edition"
 "Star Wars: X-Wing vs TIE Fighter - Balance of Power Campaigns<->star wars™ x-wing vs tie fighter: balance of power campaigns™"
 "Strong Bad's Cool Game for Attractive People: Season 1<->Strong Bad Episode 1: Homestar Ruiner"
-"Super Comboman: Don't Mash Edition<->super comboman: smash edition"
 "Super Saucy Sausage Fest DLC<->swords and soldiers hd: super saucy sausage fest"
 "Sword of the Stars: Complete Collection<->Sword of the Stars Complete Collection"
 "Swords & Soldiers HD<->swords and soldiers hd"

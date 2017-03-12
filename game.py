@@ -21,7 +21,7 @@ class StoreData:
         self.price        = None
         self.price_date   = ''
         self.genres       = list()
-        self.release_date = ''
+        self.release_date = None
         self.link         = ''
         self.category     = None
         self.avg_review   = None
