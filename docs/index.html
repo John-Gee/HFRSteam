@@ -30,7 +30,7 @@
                 sorting: true,
                 sortEmptyLast: true,
                 columnPicker: true,
-                pageSize: 10,
+                pageSize: $.isNumeric(localStorage.getItem("pageSize")) ? localStorage.getItem("pageSize") : 10,
                 hidePagerOnEmpty: true,
                 types: {
                     string: {
@@ -50,6 +50,7 @@
                         unique: true,
                         sortOrder: "asc",
                         filter: "",
+                        hidden: localStorage.getItem("Name") ? !("true" == localStorage.getItem("Name")) : false,
                     },
                     description: {
                         index: 2,
@@ -59,6 +60,7 @@
                         unique: true,
                         filter: "",
                         sorting: false,
+                        hidden: localStorage.getItem("Description") ? !("true" == localStorage.getItem("Description")) : false,
                     },
                     category: {
                         index: 3,
@@ -66,6 +68,7 @@
                         friendly: "Type",
                         unique: false,
                         filter: "",
+                        hidden: localStorage.getItem("Type") ? !("true" == localStorage.getItem("Type")) : false,
                     },
                     os: {
                         index: 4,
@@ -74,6 +77,7 @@
                         format: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">{0}</div>",
                         unique: false,
                         filter: "",
+                        hidden: localStorage.getItem("OS") ? !("true" == localStorage.getItem("OS")) : false,
                     },
                     price: {
                         index: 5,
@@ -83,6 +87,7 @@
                         format: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">{0}</div>",
                         unique: false,
                         filter: "",
+                        hidden: localStorage.getItem("Price") ? !("true" == localStorage.getItem("Price")) : false,
                     },
                     genres: {
                         index: 6,
@@ -91,6 +96,7 @@
                         format: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">{0}</div>",
                         unique: false,
                         filter: "",
+                        hidden: localStorage.getItem("Genres") ? !("true" == localStorage.getItem("Genres")) : false,
                     },
                     date: {
                         index: 7,
@@ -99,6 +105,7 @@
                         format: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">{0}</div>",
                         unique: false,
                         filter: "",
+                        hidden: localStorage.getItem("Release Date") ? !("true" == localStorage.getItem("Release Date")) : false,
                     },
                     review: {
                         index: 8,
@@ -107,6 +114,7 @@
                         format: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">{0}</div>",
                         unique: false,
                         filter: "",
+                        hidden: localStorage.getItem("Reviews") ? !("true" == localStorage.getItem("Reviews")) : false,
                     },
                     new: {
                         index: 9,
@@ -114,6 +122,7 @@
                         friendly: "New",
                         unique: false,
                         filter: "",
+                        hidden: localStorage.getItem("New") ? !("true" == localStorage.getItem("New")) : false,
                     },
                     tags: {
                         index: 10,
@@ -122,7 +131,7 @@
                         format: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">{0}</div>",
                         unique: false,
                         filter: "",
-                        hidden: true,
+                        hidden: localStorage.getItem("Tags") ? !("true" == localStorage.getItem("Tags")) : true,
                     },
                     details: {
                         index: 11,
@@ -131,7 +140,7 @@
                         format: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">{0}</div>",
                         unique: false,
                         filter: "",
-                        hidden: true,
+                        hidden: localStorage.getItem("Details") ? !("true" == localStorage.getItem("Details")) : true,
                     },
                 };
                 
@@ -15285,6 +15294,20 @@
                 
                 return data;
             }
+            $(document).on('click', 'a', '.btn-group.dropup.pagesize', function(e){
+                var val = $(this).text().toLowerCase();
+                localStorage.setItem("pageSize", val);
+            });
+            $(document).on('hidden.bs.dropdown', '.btn-group.dropup.columnpicker', function(e){
+                var elem = $(this);
+                var ul = elem[0].childNodes[1];
+                var items = ul.getElementsByTagName("li");
+                for (var i = 0; i < items.length; ++i) {
+                    name = items[i].textContent.trim();
+                    checked = items[i].getElementsByTagName("input")[0].checked;
+                    localStorage.setItem(name, checked);
+                }
+            });
         </script>
     </body>
 </html>
