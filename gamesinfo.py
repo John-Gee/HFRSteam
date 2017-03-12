@@ -67,7 +67,7 @@ def get_game_info(threadpool, options, games, cachedgames, keys, gameName,
                     steam.get_store_info_from_appid(game, gameName, appid)
 
             else:
-                print('url mapping found for game {0}'.format(gameName))
+                print('URL mapping found for game {0}'.format(gameName))
                 steam.get_store_info_from_url(game, gameName, url)
 
             print('Info for game {0} was retrieved, {1}'
