@@ -3,12 +3,9 @@ A simple bb code outputer is also included.
 
 The outside dependencies are python itself, BeautifulSoup v4, DateUtil v2 and Requests v2.
 
-Please contact me for changes, bugs or pull requests.
-
 This software is released under the GNU GPLv3 license. 
 
 
 Current issues:
-- The script does not currently support bundles.
-- The difflib automatic mapping can result in some false positives which have to be caught either right away, or manually later (which is becoming a major issue with around 1000 games...). Fixing this would be nice.
-- It only supports English/USD so far, both on the backend and the webpage.
+- The difflib automatic mapping can result in some false positives which have to be caught either right away, or manually later (which is becoming a major issue with around 1000 games...). Because of that it's disabled unless overriden by an opt.
+- Only support of English/USD so far, both on the backend and the webpage.
