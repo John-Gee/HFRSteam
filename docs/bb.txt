@@ -21,7 +21,7 @@ A Story About My Uncle
 ADR1FT
 [url=http://store.steampowered.com/sub/49306]AI War Collection[/url]
 [url=http://store.steampowered.com/app/269890]AR-K[/url]
-[url=http://store.steampowered.com/sub/394160]ARCADE GAME SERIES 3-in-1 Pack[/url]
+[url=http://store.steampowered.com/sub/90320/]ARCADE GAME SERIES 3-in-1 Pack[/url]
 [url=http://store.steampowered.com/app/224860]ARMA Tactics[/url]
 [url=http://store.steampowered.com/app/15560]AaaaaAAaaaAAAaaAAAAaAAAAA!!! for the Awesome[/url]
 [url=http://store.steampowered.com/app/299580]Abducted[/url]
@@ -215,8 +215,8 @@ Cthulhu Saves the World
 Darksiders
 [url=http://store.steampowered.com/app/1500]Darwinia[/url]
 [url=http://store.steampowered.com/app/346180]David[/url]
-[url=http://store.steampowered.com/app/33540]Dawn Of Magic 2[/url]
-[url=http://store.steampowered.com/app/330380]Dawn of Fantasy: Kingdom Wars[/url]
+[url=http://store.steampowered.com/app/33550/]Dawn Of Magic 2[/url]
+[url=http://store.steampowered.com/app/227180]Dawn of Fantasy: Kingdom Wars[/url]
 Day of the Tentacle Remastered
 [url=http://store.steampowered.com/app/211800]Dead Hungry Diner[/url]
 Dead Island Riptide - Complete Edition
@@ -523,7 +523,7 @@ LUFTRAUSERS
 [url=http://store.steampowered.com/app/401550]Legena: Union Tides[/url]
 [url=http://store.steampowered.com/app/238280]Legend of Dungeon[/url]
 [url=http://store.steampowered.com/app/207170]Legend of Grimrock[/url]
-[url=http://store.steampowered.com/app/251730]Legend of Grimrock 2[/url]
+Legend of Grimrock 2
 [url=http://store.steampowered.com/app/16730]Legendary[/url]
 Leisure Suit Larry Reloaded
 [url=http://store.steampowered.com/app/261180]Lethal League[/url]
@@ -593,7 +593,7 @@ Mini Ninjas
 Mirror's Edge
 [url=http://store.steampowered.com/app/231310]MirrorMoon EP[/url]
 [url=http://store.steampowered.com/app/113020]Monaco: What's Yours Is Mine[/url]
-[url=http://store.steampowered.com/app/7990]Monster Jam Battlegrounds[/url]
+[url=http://store.steampowered.com/app/336250]Monster Jam Battlegrounds[/url]
 [url=http://store.steampowered.com/app/22100]Mount & Blade[/url]
 [url=http://store.steampowered.com/app/48720]Mount & Blade: With Fire & Sword[/url]
 [url=http://store.steampowered.com/app/313340]Moutain[/url]
@@ -605,11 +605,11 @@ Mirror's Edge
 [url=http://store.steampowered.com/app/243160]Mushroom 11[/url]
 [url=http://store.steampowered.com/app/222180]Mushroom Men: Truffle Trouble[/url]
 [url=http://store.steampowered.com/app/247370]Mutant Mudds Deluxe[/url]
-[url=http://store.steampowered.com/app/230270]N++ (NPLUSPLUS)[/url]
+N++ (NPLUSPLUS)
 [url=http://store.steampowered.com/app/270090]N.P.P.D. RUSH - The milk of Ultraviolet[/url]
 NARUTO SHIPPUDEN: Ultimate Ninja STORM 3 Full Burst
 NBA 2K16
-[url=http://store.steampowered.com/app/274270]NOT A HERO[/url]
+NOT A HERO
 [url=http://store.steampowered.com/app/265690]NaissanceE[/url]
 Natural Selection 2
 [url=http://store.steampowered.com/app/200050]Naval War - Arctic Circle[/url]
@@ -671,7 +671,7 @@ Papers, Please
 [url=http://store.steampowered.com/app/227080]Papo & Yo[/url]
 [url=http://store.steampowered.com/app/250580]Paranautical Activity[/url]
 [url=http://store.steampowered.com/app/250580]Paranautical Activity: Deluxe Atonement Edition[/url]
-[url=http://store.steampowered.com/app/356570]Party Hard[/url]
+Party Hard
 Patrician IV ( Steam Special Edition )
 Patrician IV: Rise of the Dynasty
 [url=http://store.steampowered.com/app/213030]Penny Arcade’s On the Rain-Slick Precipice of Darkness 3 ( offert par ysilog )[/url]
@@ -724,7 +724,7 @@ Q.U.B.E.: Director's Cut
 [url=http://store.steampowered.com/app/274230]RONIN[/url]
 [url=http://store.steampowered.com/app/38720]RUSH[/url]
 [url=http://store.steampowered.com/app/44680]Race Injection[/url]
-[url=http://store.steampowered.com/app/8640]Race On[/url]
+[url=http://store.steampowered.com/app/8780]Race On[/url]
 [url=http://store.steampowered.com/app/253030]Race the Sun[/url]
 [url=http://store.steampowered.com/app/292380]Racer 8[/url]
 Raiden IV: OverKill
@@ -864,7 +864,7 @@ SkyDrift
 Sniper: Ghost Warrior
 Sniper: Ghost Warrior 2 - Collector's Edition
 [url=http://store.steampowered.com/app/111100]Snuggle Truck[/url]
-[url=http://store.steampowered.com/app/292700]SolForge — Dinosaur Starter[/url]
+[url=http://store.steampowered.com/app/232450]SolForge — Dinosaur Starter[/url]
 [url=http://store.steampowered.com/app/251910]Solar Flux[/url]
 [url=http://store.steampowered.com/app/411000]Sorcery! Parts 1 and 2[/url]
 [url=http://store.steampowered.com/app/1690]Space Empires V[/url]
@@ -993,7 +993,7 @@ Teslagrad
 [url=http://store.steampowered.com/app/57680]The First Templar ( Steam Special Edition )[/url]
 [url=http://store.steampowered.com/app/200960]The Geneforge Saga[/url]
 [url=http://store.steampowered.com/app/296650]The Great Jitters: Pudding Panic[/url]
-[url=http://store.steampowered.com/sub/50718]The Guild II Collection[/url]
+The Guild II Collection
 [url=http://store.steampowered.com/app/43190]The Haunted: Hells Reach[/url]
 [url=http://store.steampowered.com/app/215530]The Incredible Adventures of Van Helsing[/url]
 [url=http://store.steampowered.com/app/272470]The Incredible Adventures of Van Helsing II + 2 DLCs[/url]
@@ -1105,7 +1105,7 @@ Viscera Cleanup Detail - House of Horror DLC
 [url=http://store.steampowered.com/app/4570]Warhammer 40,000: Dawn of War - Game of the Year Edition[/url]
 Warhammer 40,000: Dawn of War II
 Warhammer 40,000: Dawn of War II: Retribution
-[url=http://store.steampowered.com/app/375230]Warhammer 40,000: Eternal Crusade[/url]
+Warhammer 40,000: Eternal Crusade
 Warhammer 40K: Space Marine
 [url=http://store.steampowered.com/app/203630]Warlock : Master of the Arcane[/url]
 [url=http://store.steampowered.com/app/46520]Wasteland Angel[/url]
