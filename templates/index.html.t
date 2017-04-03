@@ -116,17 +116,8 @@
                         filter: "",
                         hidden: localStorage.getItem("Reviews") ? !("true" == localStorage.getItem("Reviews")) : false,
                     },
-                    count: {
-                        index: 9,
-                        type: "number",
-                        friendly: "Count",
-                        format: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">{0}</div>",
-                        unique: false,
-                        filter: "",
-                        hidden: localStorage.getItem("Count") ? !("true" == localStorage.getItem("Count")) : false,
-                    },
                     new: {
-                        index: 10,
+                        index: 9,
                         type: "bool",
                         friendly: "New",
                         unique: false,
@@ -134,7 +125,7 @@
                         hidden: localStorage.getItem("New") ? !("true" == localStorage.getItem("New")) : false,
                     },
                     tags: {
-                        index: 11,
+                        index: 10,
                         type: "string",
                         friendly: "Tags",
                         format: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">{0}</div>",
@@ -143,7 +134,7 @@
                         hidden: localStorage.getItem("Tags") ? !("true" == localStorage.getItem("Tags")) : true,
                     },
                     details: {
-                        index: 12,
+                        index: 11,
                         type: "string",
                         friendly: "Details",
                         format: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">{0}</div>",

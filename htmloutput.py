@@ -1,4 +1,5 @@
 import datetime
+import math
 import os
 import sys
 
@@ -86,10 +87,17 @@ def get_data(games):
             else:
                 fmt = '%Y-%m-%d'
             data += writeline('date: "{0}",'.format(date.strftime(fmt)))
-        if (game.store.avg_review) and (int(game.store.avg_review) in reviewMapping):
-            avg_review_text = reviewMapping[int(game.store.avg_review)]
-            avg_review      = str(game.store.avg_review)
-            if (len(avg_review) == 1):
+        if (game.store.avg_review) and (game.store.avg_review in reviewMapping):
+            avg_review_text = reviewMapping[game.store.avg_review]
+            MIN_POW         = 6
+            avg_review_p    = math.pow(10, MIN_POW) * game.store.avg_review
+            # if we have average negative reviews, we reduce the average review's power per review
+            if (game.store.avg_review < 6):
+                avg_review = str(avg_review_p - game.store.cnt_review)
+            # if we have average positive reviews, we increment the average review's power per review
+            else:
+                avg_review = str(avg_review_p + game.store.cnt_review)
+            if (game.store.avg_review < 10):
                 avg_review = '0{0}'.format(avg_review)
             data += writeline('review: "{0} {1}",'.
                               format(avg_review, avg_review_text))
@@ -98,7 +106,6 @@ def get_data(games):
                                                            '{0} ({1})'.
                                                            format(avg_review_text,
                                                                   game.store.cnt_review))))
-            data += writeline('count: {0},'.format(game.store.cnt_review))
         else:
             if (game.store.avg_review):
                 print('The average review {0} for game {1} is not in the mapping!'.
