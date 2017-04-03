@@ -98,7 +98,7 @@ def get_data(games):
                                                            '{0} ({1})'.
                                                            format(avg_review_text,
                                                                   game.store.cnt_review))))
-            data += writeline('count: "{0}",'.format(game.store.cnt_review))
+            data += writeline('count: {0},'.format(game.store.cnt_review))
         else:
             if (game.store.avg_review):
                 print('The average review {0} for game {1} is not in the mapping!'.
