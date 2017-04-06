@@ -97,7 +97,12 @@ def get_games_info(options, games):
 
     keys               = list(steam.get_list_of_games())
 
-    threadpool         = ThreadPoolExecutor(options.threads)
+    if (options.threads):
+        threadpool         = ThreadPoolExecutor(options.threads)
+    else:
+        # get the number of cores
+        threads            = len(os.sched_getaffinity(0))
+        threadpool         = ThreadPoolExecutor(threads)
 
     i                  = 0
 

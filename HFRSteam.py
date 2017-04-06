@@ -27,7 +27,7 @@ def main():
                             help='Number of games to work on. Only for dev purposes')
     optionparser.add_option('-r', '--refresh-named', dest='game',
                             help='Refresh the game listed, and all games not in cache')
-    optionparser.add_option('-t', '--threads', dest='threads', default='8', type='int',
+    optionparser.add_option('-t', '--threads', dest='threads', default='0', type='int',
                             help='Number of parallel threads to use for fetching the steam information.')
     optionparser.add_option('-w', '--wait-on-steam-timeout', action='store_true', dest='waitonsteamtimeout',
                             help='Wait on timeouts. The default behavior is to stop querying Steam.')
