@@ -8,24 +8,22 @@ import stringutils
 import web
 
 
-def get_post():
-    HFR_URL      = 'http://forum.hardware.fr/hfr/JeuxVideo/Achat-Ventes/gratuit-origin-download-sujet_171605_1.htm#t8945000'
-
-    status, html = web.get_utf8_web_page(HFR_URL)
+def get_post(url, postid):
+    status, html = web.get_utf8_web_page(url)
     document     = domparser.load_html(html)
-    post         = domparser.get_element(document, 'div', id = 'para8945000')
+    post         = domparser.get_element(document, 'div', id = postid)
 
     return str(post)
 
 
-def get_games(liste):
+def get_games(liste, is_std, is_premium):
     striked       = False
-    BEGIN_STRIKED = '<strike><span style=color:#FF0000>'
-    END_STRIKED   = '</span></strike>'
+    BEGIN_STRIKED = '<strike>'
+    END_STRIKED   = '</strike>'
     END_NEW       = '----'
 
     games               = dict()
-    is_new              = True
+    is_new              = is_std
 
     for name in liste:
         if (not name):
@@ -50,33 +48,54 @@ def get_games(liste):
 
         cleanname = re.sub('<.*?>', '', name).replace('(+)', '').strip()
         if (cleanname):
-            game = Game(is_available, is_new)
+            game = Game(is_available, is_new, is_premium)
             games[cleanname] = game
     return games
 
 
-def get_names_from_post(post):
-    START = '<strong>Clefs  <img alt="[:icon4]" src="http://forum-images.hardware.fr/images/perso/icon4.gif" title="[:icon4]"/> Steam <img alt="[:icon4]" src="http://forum-images.hardware.fr/images/perso/icon4.gif" title="[:icon4]"/> :</strong> <br/><strong> <br/>'
-    END   = '--------------------------------------------------------------------------'
-
-    subpost = stringutils.substringafter(post, START)
-    subpost = stringutils.substringbefore(subpost, END)
+def get_names_from_post(post, start, end):
+    subpost = stringutils.substringafter(post, start)
+    subpost = stringutils.substringbefore(subpost, end)
 
     cleansubpost = subpost.replace('<br/>', '\r\n')
     cleansubpost = cleansubpost.replace('&amp;', "&")
     cleansubpost = cleansubpost.replace('"', '')
+    cleansubpost = re.sub('.*\(.*\).*\(.*\) *', '', cleansubpost)
+    cleansubpost = re.sub('(X[0-9] )? \(.*\) *', '', cleansubpost)
     cleansubpost = cleansubpost.strip()
 
     # the separator is \x1c
     return cleansubpost.splitlines()
 
 
+def parse_hfr_std():
+    POST_ID = 'para8945000'
+    URL     = 'http://forum.hardware.fr/hfr/JeuxVideo/Achat-Ventes/gratuit-origin-download-sujet_171605_1.htm'
+    post    = get_post(URL, POST_ID)
+
+    START = '<strong>Clefs  <img alt="[:icon4]" src="http://forum-images.hardware.fr/images/perso/icon4.gif" title="[:icon4]"/> Steam <img alt="[:icon4]" src="http://forum-images.hardware.fr/images/perso/icon4.gif" title="[:icon4]"/> :</strong> <br/><strong> <br/>'
+    END   = '--------------------------------------------------------------------------'
+
+    names = get_names_from_post(post, START, END)
+    return get_games(names, True, False)
+
+
+def parse_hfr_premium():
+    POST_ID = 'para8952242'
+    URL     = 'http://forum.hardware.fr/hfr/JeuxVideo/Achat-Ventes/gratuit-origin-download-sujet_171605_1.htm'
+    post    = get_post(URL, POST_ID)
+
+    START = '<strong>Liste Premium ( exclusivement réservée aux donateurs réguliers ):</strong>'
+    END   = '----'
+
+    names = get_names_from_post(post, START, END)
+    return get_games(names, False, True)
+
 def parse_hfr():
-    post  = get_post()
-
-    names = get_names_from_post(post)
-    return get_games(names)
-
+    games         = parse_hfr_std()
+    games_premium = parse_hfr_premium()
+    games.update(games_premium)
+    return games
 
 if __name__ == '__main__':
-    parse_hfr()
+    parse_hfr_premium()

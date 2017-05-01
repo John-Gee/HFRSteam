@@ -124,8 +124,16 @@
                         filter: "",
                         hidden: localStorage.getItem("New") ? !("true" == localStorage.getItem("New")) : false,
                     },
-                    tags: {
+                    premium: {
                         index: 10,
+                        type: "bool",
+                        friendly: "Premium",
+                        unique: false,
+                        filter: "",
+                        hidden: localStorage.getItem("Premium") ? !("true" == localStorage.getItem("Premium")) : false,
+                    },
+                    tags: {
+                        index: 100,
                         type: "string",
                         friendly: "Tags",
                         format: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">{0}</div>",
@@ -134,7 +142,7 @@
                         hidden: localStorage.getItem("Tags") ? !("true" == localStorage.getItem("Tags")) : true,
                     },
                     details: {
-                        index: 11,
+                        index: 101,
                         type: "string",
                         friendly: "Details",
                         format: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">{0}</div>",

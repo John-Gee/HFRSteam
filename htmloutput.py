@@ -112,6 +112,7 @@ def get_data(games):
                       format(game.store.avg_review, gameName))
 
         data += writeline('new: {0},'.format(int(game.hfr.is_new)))
+        data += writeline('premium: {0},'.format(int(game.hfr.is_premium)))
 
         if (len(game.store.tags) > 0):
             data += writeline('tags: "{0}",'.format(', '.join(game.store.tags)))
