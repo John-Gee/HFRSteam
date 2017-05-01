@@ -39,4 +39,4 @@
 "Ultra street fighter IV arcade edition<->app/45760"
 "WARMACHINE Tactics - Mercenaries Faction Bundle<->app/338518"
 "WRC 4<->app/256330"
-"Wasteland 2: Director's Cut - Classic Edition X2<->app/240760"
+"Wasteland 2: Director's Cut - Classic Edition<->app/240760"

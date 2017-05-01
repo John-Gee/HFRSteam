@@ -53,15 +53,18 @@ def get_games(liste, is_std, is_premium):
     return games
 
 
-def get_names_from_post(post, start, end):
+def get_names_from_post(post, start, end, is_std):
     subpost = stringutils.substringafter(post, start)
     subpost = stringutils.substringbefore(subpost, end)
-
     cleansubpost = subpost.replace('<br/>', '\r\n')
+
     cleansubpost = cleansubpost.replace('&amp;', "&")
     cleansubpost = cleansubpost.replace('"', '')
-    cleansubpost = re.sub('.*\(.*\).*\(.*\) *', '', cleansubpost)
-    cleansubpost = re.sub('(X[0-9] )? \(.*\) *', '', cleansubpost)
+    if (not is_std):
+        cleansubpost = re.sub('.*\(.*\).*\(.*\).*', '', cleansubpost)
+        cleansubpost = re.sub('(X[0-9] )*\(.+\)', '', cleansubpost)
+        cleansubpost = re.sub('<strike>X[0-9]</strike>', '', cleansubpost)
+
     cleansubpost = cleansubpost.strip()
 
     # the separator is \x1c
@@ -76,7 +79,7 @@ def parse_hfr_std():
     START = '<strong>Clefs  <img alt="[:icon4]" src="http://forum-images.hardware.fr/images/perso/icon4.gif" title="[:icon4]"/> Steam <img alt="[:icon4]" src="http://forum-images.hardware.fr/images/perso/icon4.gif" title="[:icon4]"/> :</strong> <br/><strong> <br/>'
     END   = '--------------------------------------------------------------------------'
 
-    names = get_names_from_post(post, START, END)
+    names = get_names_from_post(post, START, END, True)
     return get_games(names, True, False)
 
 
@@ -88,7 +91,7 @@ def parse_hfr_premium():
     START = '<strong>Liste Premium ( exclusivement réservée aux donateurs réguliers ):</strong>'
     END   = '----'
 
-    names = get_names_from_post(post, START, END)
+    names = get_names_from_post(post, START, END, False)
     return get_games(names, False, True)
 
 def parse_hfr():
