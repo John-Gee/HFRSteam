@@ -16,14 +16,14 @@ def get_post(url, postid):
     return str(post)
 
 
-def get_games(liste, is_std, is_premium):
+def get_games(liste, requirements=None):
     striked       = False
     BEGIN_STRIKED = '<strike>'
     END_STRIKED   = '</strike>'
     END_NEW       = '----'
 
     games               = dict()
-    is_new              = is_std
+    is_new              = (requirements == None)
 
     for name in liste:
         if (not name):
@@ -48,7 +48,10 @@ def get_games(liste, is_std, is_premium):
 
         cleanname = re.sub('<.*?>', '', name).replace('(+)', '').strip()
         if (cleanname):
-            game = Game(is_available, is_new, is_premium)
+            if (is_new):
+                game = Game(is_available, "nouveauté")
+            else:
+                game = Game(is_available, requirements)
             games[cleanname] = game
     return games
 
@@ -61,7 +64,8 @@ def get_names_from_post(post, start, end, is_std):
     cleansubpost = cleansubpost.replace('&amp;', "&")
     cleansubpost = cleansubpost.replace('"', '')
     if (not is_std):
-        cleansubpost = re.sub('.*\(.*\).*\(.*\).*', '', cleansubpost)
+        cleansubpost = re.sub('.*\( *(Uplay|Rockstar Game Social club|GoG|GOG Galaxy|Battlenet|Android|clef Square Enix|Desura|Origin) *\).*', '', 
+                              cleansubpost, flags=re.IGNORECASE)
         cleansubpost = re.sub('(X[0-9] )*\(.+\)', '', cleansubpost)
         cleansubpost = re.sub('<strike>X[0-9]</strike>', '', cleansubpost)
 
@@ -80,7 +84,19 @@ def parse_hfr_std():
     END   = '--------------------------------------------------------------------------'
 
     names = get_names_from_post(post, START, END, True)
-    return get_games(names, True, False)
+    return get_games(names)
+
+
+def parse_hfr_donateur():
+    POST_ID = 'para8952242'
+    URL     = 'http://forum.hardware.fr/hfr/JeuxVideo/Achat-Ventes/gratuit-origin-download-sujet_171605_1.htm'
+    post    = get_post(URL, POST_ID)
+
+    START = '<strong>Liste donateur:</strong>'
+    END   = '----'
+
+    names = get_names_from_post(post, START, END, False)
+    return get_games(names, "donateur")
 
 
 def parse_hfr_premium():
@@ -92,7 +108,7 @@ def parse_hfr_premium():
     END   = '----'
 
     names = get_names_from_post(post, START, END, False)
-    return get_games(names, False, True)
+    return get_games(names, "premium")
 
 def parse_hfr():
     games         = parse_hfr_std()
@@ -101,4 +117,6 @@ def parse_hfr():
     return games
 
 if __name__ == '__main__':
-    parse_hfr_premium()
+    games = parse_hfr_donateur()
+    for game in games:
+        print(game)

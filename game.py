@@ -8,10 +8,9 @@ class Category(Enum):
 
 
 class HFRData:
-    def __init__(self, is_available, is_new, is_premium):
+    def __init__(self, is_available, requirements):
         self.is_available = is_available
-        self.is_new       = is_new
-        self.is_premium   = is_premium
+        self.requirements = requirements
 
 
 class StoreData:
@@ -32,8 +31,8 @@ class StoreData:
 
 
 class Game:
-    def __init__(self, is_available=False, is_new=False, is_premium=False):
-        self.hfr          = HFRData(is_available, is_new, is_premium)
+    def __init__(self, is_available=False, requirements=None):
+        self.hfr          = HFRData(is_available, requirements)
         self.store        = StoreData()
 
 

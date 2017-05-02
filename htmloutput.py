@@ -111,8 +111,8 @@ def get_data(games):
                 print('The average review {0} for game {1} is not in the mapping!'.
                       format(game.store.avg_review, gameName))
 
-        data += writeline('new: {0},'.format(int(game.hfr.is_new)))
-        data += writeline('premium: {0},'.format(int(game.hfr.is_premium)))
+        if (game.hfr.requirements):
+            data += writeline('requirements: "{0}",'.format(game.hfr.requirements))
 
         if (len(game.store.tags) > 0):
             data += writeline('tags: "{0}",'.format(', '.join(game.store.tags)))

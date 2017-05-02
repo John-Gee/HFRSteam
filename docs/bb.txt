@@ -263,6 +263,7 @@ Doctor Who: The Adventure Games - Season 1
 [url=http://store.steampowered.com/app/217790]Dogfight 1942[/url]
 [url=http://store.steampowered.com/app/214320]Dollar Dash + 3 DLCs[/url]
 [url=http://store.steampowered.com/app/270310]Dominique Pamplemousse[/url]
+Doom
 [url=http://store.steampowered.com/app/248610]Door Kickers[/url]
 [url=http://store.steampowered.com/app/248470]Doorways: Chapter 1 & 2[/url]
 [url=http://store.steampowered.com/app/252350]Double Dragon: Neon[/url]
@@ -706,7 +707,7 @@ Pixel Piracy
 [url=http://store.steampowered.com/app/255870]Pixeljunk shooter[/url]
 [url=http://store.steampowered.com/app/49900]Plain Sight[/url]
 Planetary Annihilation
-[url=http://store.steampowered.com/app/386070]Planetary Annihilation TITANS[/url]
+Planetary Annihilation TITANS
 [url=http://store.steampowered.com/app/264540]Platformines[/url]
 [url=http://store.steampowered.com/app/307340]Platypus[/url]
 [url=http://store.steampowered.com/app/362420]Play the Mayor: Become the Mayor of Fortune's City[/url]
@@ -808,7 +809,7 @@ Rust (Early Access)
 S.T.A.L.K.E.R: Call of Pripyat
 S.T.A.L.K.E.R: Clear Sky
 S.T.A.L.K.E.R: Shadow of Chernobyl
-[url=http://store.steampowered.com/app/263280]SPINTIRES[/url]
+SPINTIRES
 [url=http://store.steampowered.com/app/456540]STAR WARS: Rebel Assault I + II[/url]
 STRIDER
 [url=http://store.steampowered.com/app/40500]Sacraboar[/url]

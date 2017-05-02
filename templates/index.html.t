@@ -116,21 +116,13 @@
                         filter: "",
                         hidden: localStorage.getItem("Reviews") ? !("true" == localStorage.getItem("Reviews")) : false,
                     },
-                    new: {
+                    requirements: {
                         index: 9,
-                        type: "bool",
-                        friendly: "New",
+                        type: "string",
+                        friendly: "Requirements",
                         unique: false,
                         filter: "",
-                        hidden: localStorage.getItem("New") ? !("true" == localStorage.getItem("New")) : false,
-                    },
-                    premium: {
-                        index: 10,
-                        type: "bool",
-                        friendly: "Premium",
-                        unique: false,
-                        filter: "",
-                        hidden: localStorage.getItem("Premium") ? !("true" == localStorage.getItem("Premium")) : false,
+                        hidden: localStorage.getItem("Requirements") ? !("true" == localStorage.getItem("Requirements")) : false,
                     },
                     tags: {
                         index: 100,
