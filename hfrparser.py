@@ -66,8 +66,11 @@ def get_names_from_post(post, start, end, is_std):
     if (not is_std):
         cleansubpost = re.sub('.*\( *(Uplay|Rockstar Game Social club|GoG|GOG Galaxy|Battlenet|Android|clef Square Enix|Desura|Origin) *\).*', '', 
                               cleansubpost, flags=re.IGNORECASE)
-        cleansubpost = re.sub('(X[0-9] )*\(.+\)', '', cleansubpost)
+        cleansubpost = re.sub('.*Clef Origin Humble Bundle.*', '', cleansubpost, flags=re.IGNORECASE)
+        cleansubpost = re.sub('\(.+\)', '', cleansubpost)
+        cleansubpost = re.sub(' *X[0-9] *', '', cleansubpost)
         cleansubpost = re.sub('<strike>X[0-9]</strike>', '', cleansubpost)
+        cleansubpost = cleansubpost.replace('****', '')
 
     cleansubpost = cleansubpost.strip()
 
@@ -112,8 +115,8 @@ def parse_hfr_premium():
 
 def parse_hfr():
     games         = parse_hfr_std()
-    games_premium = parse_hfr_premium()
-    games.update(games_premium)
+    games.update(parse_hfr_donateur())
+    games.update(parse_hfr_premium())
     return games
 
 if __name__ == '__main__':

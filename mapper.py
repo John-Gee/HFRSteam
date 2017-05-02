@@ -20,7 +20,7 @@ class Mapper:
                 if (self.LINK in line):
                     couple = line.split(self.LINK)
                     if (len(couple) == 2):
-                        self.__mapping[couple[0]] = couple[1]
+                        self.__mapping[couple[0].lower()] = couple[1].lower()
 
     def save_mapping(self):
         if ((self.__mapping == None) or (len(self.__mapping) == 0)):
@@ -34,13 +34,13 @@ class Mapper:
 
     def add_to_mapping(self, left, right):
         if (left not in self.__mapping):
-            self.__mapping[left] = right
+            self.__mapping[left.lower()] = right.lower()
         else:
             print('Impossible to add mapping, {0} is already in the mapper'.
                   format(left))
 
     def get_mapping(self, left):
-        if (left in self.__mapping):
-            return self.__mapping[left]
+        if (left.lower() in self.__mapping):
+            return self.__mapping[left.lower()]
         return None
 

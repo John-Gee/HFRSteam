@@ -194,7 +194,7 @@ def get_dlc_description(document):
         description = domparser.get_value(widget_create_block, 'textarea',
                                       'placeholder')
         if (description):
-            return description.strip()
+            return description.replace('"', '').strip()
 
     return None
 
