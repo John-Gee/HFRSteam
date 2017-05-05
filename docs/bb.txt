@@ -1,7 +1,7 @@
 [url=http://store.steampowered.com/app/227580]1000000[/url]
 [url=http://store.steampowered.com/app/227580]10000000[/url]
 [url=http://store.steampowered.com/app/260790]1001 Spikes[/url]
-[url=http://store.steampowered.com/app/410110]12 is Better Than 6[/url]
+12 is Better Than 6
 [url=http://store.steampowered.com/app/242820]140[/url]
 [url=http://store.steampowered.com/app/248490]1953 - KGB Unleashed[/url]
 [url=http://store.steampowered.com/app/330820]2064: Read Only Memories[/url]
@@ -163,7 +163,7 @@ BloodRealm: Battlegrounds Debut Champion Lora + 3 Elite Packs
 [url=http://store.steampowered.com/app/348020]Bloodbath Kavkaz[/url]
 [url=http://store.steampowered.com/sub/32848/]Borderlands 2 GOTY[/url]
 Borderlands et DLC
-[url=http://store.steampowered.com/app/261640]Borderlands: The Pre-Sequel[/url]
+Borderlands: The Pre-Sequel
 [url=http://store.steampowered.com/app/302610]Boson X[/url]
 [url=http://store.steampowered.com/app/243930]Bound By Flame[/url]
 Braid
@@ -201,7 +201,7 @@ Chaos on Deponia
 [url=http://store.steampowered.com/app/251130]Chroma Squad[/url]
 [url=http://store.steampowered.com/app/408120]Cibele[/url]
 Cities In Motion 2
-[url=http://store.steampowered.com/app/231140]Cities XL Platinum[/url]
+Cities XL Platinum
 Cities XXL
 Cities in Motion 2
 [url=http://store.steampowered.com/sub/35268]Cities in Motion 2 Collection[/url]
@@ -543,7 +543,7 @@ Half-Life 2
 [url=http://store.steampowered.com/app/239070]Hammerwatch[/url]
 [url=http://store.steampowered.com/app/98400]Hard Reset Extended Edition[/url]
 [url=http://store.steampowered.com/app/431560]Hard Room[/url]
-[url=http://store.steampowered.com/app/307670]Hard West[/url]
+Hard West
 [url=http://store.steampowered.com/app/359810]Hare In The Hat[/url]
 Hatred
 Hearts of Iron 3
@@ -720,7 +720,7 @@ Mass Effect 2
 [url=http://store.steampowered.com/app/18480]Mata Hari[/url]
 [url=http://store.steampowered.com/app/401420]Match 3 Revolution[/url]
 [url=http://store.steampowered.com/sub/71780]Max Gentlemen Triple DLC Pack[/url]
-[url=http://store.steampowered.com/app/204100]Max Payne 3[/url]
+Max Payne 3
 [url=http://store.steampowered.com/app/220860]McPixel[/url]
 [url=http://store.steampowered.com/app/268240]Mechanic Escape[/url]
 [url=http://store.steampowered.com/app/47790]Medal of Honor[/url]
@@ -728,7 +728,7 @@ Mass Effect 2
 [url=http://store.steampowered.com/app/321150]Melissa K. and the Heart of Gold Collector's Edition[/url]
 [url=http://store.steampowered.com/app/268220]Meltdown[/url]
 [url=http://store.steampowered.com/app/200490]Memento Mori[/url]
-[url=http://store.steampowered.com/app/243200]Memoria[/url]
+Memoria
 [url=http://store.steampowered.com/app/307070]Memories of a Vagabond[/url]
 [url=http://store.steampowered.com/app/7830]Men of War[/url]
 [url=http://store.steampowered.com/app/64000]Men of War: Assault Squad GOTY[/url]
@@ -1400,7 +1400,8 @@ Viscera Cleanup Detail - House of Horror DLC
 Volume
 [url=http://store.steampowered.com/app/253510]WARMACHINE Tactics[/url]
 [url=http://store.steampowered.com/app/338518]WARMACHINE Tactics - Mercenaries Faction Bundle[/url]
-[url=http://store.steampowered.com/app/256330]WRC 4[/url]
+WRC 4
+WRC4
 [url=http://store.steampowered.com/app/358380]Wacky Wheels[/url]
 [url=http://store.steampowered.com/app/227200]Waking Mars[/url]
 [url=http://store.steampowered.com/app/308460]War in a Box: Paper Tanks[/url]
@@ -1414,7 +1415,7 @@ Warhammer 40,000: Dawn of War II: Retribution
 Warhammer 40,000: Eternal Crusade
 Warhammer 40K: Space Marine
 [url=http://store.steampowered.com/app/4570]Warhammer 40k - Dawn of War[/url]
-[url=http://store.steampowered.com/app/235540]Warhammer: End Times - Vermintide[/url]
+Warhammer: End Times - Vermintide
 [url=http://store.steampowered.com/app/203630]Warlock : Master of the Arcane[/url]
 Wasted
 [url=http://store.steampowered.com/app/240760]Wasteland 2: Director's Cut - Classic Edition[/url]
