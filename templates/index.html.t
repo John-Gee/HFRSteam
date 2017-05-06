@@ -39,7 +39,7 @@
                 <form>
                     <input type="text" name="library" id="libraryId" placeholder="https://steamcommunity.com/id/PROFILE" size="34"/>
 
-                    <button type="button" id="myButton">Load Steam library</button>
+                    <button type="button" id="myButton">Load Steam Profile</button>
                 </form>
             </div>
             <div id="wata" style="width:auto"></div>
@@ -210,6 +210,7 @@
                             filter: "",
                             hidden: localStorage.getItem("Requirements") ? !("true" == localStorage.getItem("Requirements")) : false,
                         },
+                        steam: {
                         tags: {
                             index: 100,
                             type: "string",
