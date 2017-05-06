@@ -31,7 +31,7 @@
         <div class="main">
             <div>
                 <h1>Liste HFR Steam</h1>
-                <h6>Mise à jour le 2017-05-05</h6>
+                <h6>Mise à jour le 2017-05-06</h6>
                 <a href="https://github.com/John-Gee/HFRSteam">
                     <img style="position: absolute; top: 0; right: 0; border: 0; max-width: 75px;" src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png">
                 </a>
@@ -39,7 +39,7 @@
                 <form>
                     <input type="text" name="library" id="libraryId" placeholder="https://steamcommunity.com/id/PROFILE" size="34"/>
 
-                    <button type="button" id="myButton">Load Steam library</button>
+                    <button type="button" id="myButton">Load Steam Profile</button>
                 </form>
             </div>
             <div id="wata" style="width:auto"></div>
@@ -66,12 +66,16 @@
                         var subpage = page.substring(page.indexOf(divclass));
                         subpage = subpage.substring(subpage.indexOf(beginning) + beginning.length);
                         subpage = subpage.substring(0, subpage.indexOf(";"));
-                        var games = jQuery.parseJSON(subpage);
                         var libraryURLs = {};
-                        var i;
-                        var GAMEURL = "http://store.steampowered.com/app/";
-                        for (i = 0 ; i < games.length; ++i) {
-                            libraryURLs[GAMEURL + games[i].appid] = true;
+                        try {
+                            var games = jQuery.parseJSON(subpage);
+                            var i;
+                            var GAMEURL = "http://store.steampowered.com/app/";
+                            for (i = 0 ; i < games.length; ++i) {
+                                libraryURLs[GAMEURL + games[i].appid] = true;
+                            }
+                        }
+                        catch (e) {
                         }
 
                         // wishlist
@@ -79,8 +83,8 @@
                         $.get(wishlist, function(page) {
                             var body = '<div id="body-mock">' + page.replace(/^[\s\S]*<body.*?>|<\/body>[\s\S]*$/ig, '') + '</div>';
                             var data = $(body);
-                            var games = data.find(".storepage_btn_ctn");
                             var wishlistURLs = {};
+                            var games = data.find(".storepage_btn_ctn");
                             var i;
                             for (i = 0; i < games.length; ++i) {
                                 var href = games[i].innerHTML.substring(games[i].innerHTML.indexOf("\"") + 1);

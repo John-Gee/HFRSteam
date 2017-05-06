@@ -66,12 +66,16 @@
                         var subpage = page.substring(page.indexOf(divclass));
                         subpage = subpage.substring(subpage.indexOf(beginning) + beginning.length);
                         subpage = subpage.substring(0, subpage.indexOf(";"));
-                        var games = jQuery.parseJSON(subpage);
                         var libraryURLs = {};
-                        var i;
-                        var GAMEURL = "http://store.steampowered.com/app/";
-                        for (i = 0 ; i < games.length; ++i) {
-                            libraryURLs[GAMEURL + games[i].appid] = true;
+                        try {
+                            var games = jQuery.parseJSON(subpage);
+                            var i;
+                            var GAMEURL = "http://store.steampowered.com/app/";
+                            for (i = 0 ; i < games.length; ++i) {
+                                libraryURLs[GAMEURL + games[i].appid] = true;
+                            }
+                        }
+                        catch (e) {
                         }
 
                         // wishlist
@@ -79,8 +83,8 @@
                         $.get(wishlist, function(page) {
                             var body = '<div id="body-mock">' + page.replace(/^[\s\S]*<body.*?>|<\/body>[\s\S]*$/ig, '') + '</div>';
                             var data = $(body);
-                            var games = data.find(".storepage_btn_ctn");
                             var wishlistURLs = {};
+                            var games = data.find(".storepage_btn_ctn");
                             var i;
                             for (i = 0; i < games.length; ++i) {
                                 var href = games[i].innerHTML.substring(games[i].innerHTML.indexOf("\"") + 1);
@@ -100,9 +104,14 @@
                                         data.rows[i]["store"] = "Library";
                                     }
 
-                                    if (href in wishlistURLs) {
+                                    else if (href in wishlistURLs) {
                                         data.rows[i]["row-cls"] = "blue";
                                         data.rows[i]["store"] = "Wishlist";
+                                    }
+
+                                    else {
+                                        data.rows[i]["row-cls"] = "";
+                                        data.rows[i]["store"] = "";
                                     }
                                 }
                             }
