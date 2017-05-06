@@ -95,11 +95,15 @@
                                     href = href.substring(href.indexOf("\"") + 1);
                                     href = href.substring(0, href.indexOf("\""));
 
-                                    if (href in libraryURLs)
+                                    if (href in libraryURLs) {
                                         data.rows[i]["row-cls"] = "green";
+                                        data.rows[i]["store"] = "Library";
+                                    }
 
-                                    if (href in wishlistURLs)
+                                    if (href in wishlistURLs) {
                                         data.rows[i]["row-cls"] = "blue";
+                                        data.rows[i]["store"] = "Wishlist";
+                                    }
                                 }
                             }
                             Platform.performMicrotaskCheckpoint();
@@ -210,7 +214,14 @@
                             filter: "",
                             hidden: localStorage.getItem("Requirements") ? !("true" == localStorage.getItem("Requirements")) : false,
                         },
-                        steam: {
+                        store: {
+                            index: 10,
+                            type: "string",
+                            friendly: "Store",
+                            unique: false,
+                            filter: "",
+                            hidden: localStorage.getItem("Store") ? !("true" == localStorage.getItem("Store")) : false,
+                        },
                         tags: {
                             index: 100,
                             type: "string",
