@@ -205,7 +205,7 @@
                         requirements: {
                             index: 9,
                             type: "string",
-                            friendly: "Requirements",
+                            friendly: "List",
                             unique: false,
                             filter: "",
                             hidden: localStorage.getItem("Requirements") ? !("true" == localStorage.getItem("Requirements")) : false,
