@@ -16,14 +16,14 @@ def get_post(url, postid):
     return str(post)
 
 
-def get_games(liste, requirements=None):
+def get_games(liste, requirements):
     striked       = False
     BEGIN_STRIKED = '<strike>'
     END_STRIKED   = '</strike>'
     END_NEW       = '----'
 
     games               = dict()
-    is_new              = (requirements == None)
+    is_new              = (requirements == "Standard")
 
     for name in liste:
         if (not name):
@@ -49,7 +49,7 @@ def get_games(liste, requirements=None):
         cleanname = re.sub('<.*?>', '', name).replace('(+)', '').strip()
         if (cleanname):
             if (is_new):
-                game = Game(is_available, "nouveauté")
+                game = Game(is_available, "Nouveauté")
             else:
                 game = Game(is_available, requirements)
             games[cleanname] = game
@@ -87,7 +87,7 @@ def parse_hfr_std():
     END   = '--------------------------------------------------------------------------'
 
     names = get_names_from_post(post, START, END, True)
-    return get_games(names)
+    return get_games(names, "Standard")
 
 
 def parse_hfr_donateur():
@@ -99,7 +99,7 @@ def parse_hfr_donateur():
     END   = '----'
 
     names = get_names_from_post(post, START, END, False)
-    return get_games(names, "donateur")
+    return get_games(names, "Donateur")
 
 
 def parse_hfr_premium():
@@ -111,7 +111,7 @@ def parse_hfr_premium():
     END   = '----'
 
     names = get_names_from_post(post, START, END, False)
-    return get_games(names, "premium")
+    return get_games(names, "Premium")
 
 def parse_hfr():
     games         = parse_hfr_std()
