@@ -50,7 +50,7 @@ def get_data(games):
         data += writeline('name: "{0}",'.format(gameName))
         if (game.store.link):
             if(game.store.image):
-                data += writeline('nameFormat: "<a href=\\"{0}\\"><b>{1}</b></a><img src=\\"{2}\\" width=\\"100%\\"/>",'
+                data += writeline('nameFormat: "<a href=\\"{0}\\"><b>{1}</b><img src=\\"{2}\\" width=\\"100%\\"/></a>",'
                                   .format(game.store.link, justifyFormat, game.store.image))
             else:
                 data += writeline('nameFormat: "<a href=\\"{0}\\"><b>{1}</b></a>",'
