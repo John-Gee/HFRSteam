@@ -31,7 +31,7 @@
         <div class="main">
             <div>
                 <h1>Liste HFR Steam</h1>
-                <h6>Mise à jour le 2017-05-06</h6>
+                <h6>Mise à jour le 2017-05-29</h6>
                 <a href="https://github.com/John-Gee/HFRSteam">
                     <img style="position: absolute; top: 0; right: 0; border: 0; max-width: 75px;" src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png">
                 </a>
@@ -54,7 +54,7 @@
                 });
 
                 $('button').click(function(){
-                    var profile = document.getElementById('libraryId').value;
+                    var profile = "https://cors-anywhere.herokuapp.com/" + document.getElementById('libraryId').value;
                     if (!profile || /^\s*$/.test(profile))
                         return;
 
@@ -108,7 +108,7 @@
                                         data.rows[i]["row-cls"] = "blue";
                                         data.rows[i]["store"] = "Wishlist";
                                     }
-                                    
+
                                     else {
                                         data.rows[i]["row-cls"] = "";
                                         data.rows[i]["store"] = "";
@@ -11091,23 +11091,6 @@
                 };
                 rows.push(row);
                 var row = {
-                    name: "Rebel Galaxy",
-                    nameFormat: "<a href=\"http://store.steampowered.com/app/290300\"><b><div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">{0}</div></b><img src=\"http://cdn.akamai.steamstatic.com/steam/apps/290300/header.jpg?t=1478022649\" width=\"100%\"/></a>",
-                    description: "Rebel Galaxy is a swashbuckling space adventure, with action-packed combat, exploration, discovery, trade, and “negotiation” with the outlandish denizens at the edge of the known universe.",
-                    category: "Game",
-                    os: "Mac OS, Windows",
-                    price: 19.99,
-                    priceFormat: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">${0}</div>",
-                    genres: "Action, Adventure, Indie, RPG, Simulation",
-                    date: "2015-10-20",
-                    review: "09003795.0 Very Positive",
-                    reviewFormat: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">Very Positive (3795)</div>",
-                    requirements: "Nouveauté",
-                    tags: "2D, Action, Adventure, Atmospheric, Exploration, Great Soundtrack, Indie, Open World, RPG, Sandbox, Sci-fi, Simulation, Singleplayer, Space, Space Sim, Third Person",
-                    details: "Single-player, Steam Achievements, Full controller support, Steam Cloud",
-                };
-                rows.push(row);
-                var row = {
                     name: "Red Faction Guerrilla Steam Edition",
                     nameFormat: "<a href=\"http://store.steampowered.com/app/20500\"><b><div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">{0}</div></b><img src=\"http://cdn.akamai.steamstatic.com/steam/apps/20500/header.jpg?t=1472042691\" width=\"100%\"/></a>",
                     description: "Set 50 years after the climactic events of the original Red Faction, Red Faction: Guerrilla allows players to take the role of an insurgent fighter with the newly re-established Red Faction movement as they battle for liberation from the oppressive Earth Defense Force.",
@@ -12622,23 +12605,6 @@
                     reviewFormat: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">Very Positive (1238)</div>",
                     requirements: "Standard",
                     tags: "4X, Classic, Exploration, Grand Strategy, Historical, Military, Multiplayer, Replay Value, Simulation, Singleplayer, Strategy, Turn-Based, Turn-Based Strategy",
-                    details: "Single-player, Multi-player, Includes level editor",
-                };
-                rows.push(row);
-                var row = {
-                    name: "Sid Meier's Civilization IV: The Complete Edition",
-                    nameFormat: "<a href=\"http://store.steampowered.com/app/3900\"><b><div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">{0}</div></b><img src=\"http://cdn.akamai.steamstatic.com/steam/apps/3900/header.jpg?t=1447366360\" width=\"100%\"/></a>",
-                    description: "With over 6 million units sold and unprecedented critical acclaim from fans and press around the world, Sid Meier's Civilization is recognized as one of the greatest PC game franchises of all-time. Now, Sid Meier and Firaxis Games will take this incredibly fun and addictive game to new heights by adding new ways to play and win, new...",
-                    category: "Game",
-                    os: "Mac OS, Windows",
-                    price: 29.99,
-                    priceFormat: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">${0}</div>",
-                    genres: "Strategy",
-                    date: "2005-10-25",
-                    review: "09000750.0 Very Positive",
-                    reviewFormat: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">Very Positive (750)</div>",
-                    requirements: "Nouveauté",
-                    tags: "4X, Classic, Grand Strategy, Great Soundtrack, Historical, Moddable, Multiplayer, Replay Value, Resource Management, Simulation, Singleplayer, Strategy, Turn-Based, Turn-Based Strategy",
                     details: "Single-player, Multi-player, Includes level editor",
                 };
                 rows.push(row);

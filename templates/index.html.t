@@ -54,7 +54,7 @@
                 });
 
                 $('button').click(function(){
-                    var profile = document.getElementById('libraryId').value;
+                    var profile = "https://cors-anywhere.herokuapp.com/" + document.getElementById('libraryId').value;
                     if (!profile || /^\s*$/.test(profile))
                         return;
 
