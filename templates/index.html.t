@@ -54,13 +54,14 @@
                 });
 
                 $('button').click(function(){
-                    var profile = "https://cors-anywhere.herokuapp.com/" + document.getElementById('libraryId').value;
+                    var profile = document.getElementById('libraryId').value;
                     if (!profile || /^\s*$/.test(profile))
                         return;
 
                     // library
-                    var library = profile + "/games/?tab=all";
-                    $.get(library, function(page) {
+                    var library = 'http://query.yahooapis.com/v1/public/yql?q=' + encodeURIComponent('select * from html where url=\'' + profile + "/games/?tab=all\'");
+                    $.get(library, function(data) {
+                        var page = data.documentElement.innerHTML;
                         var divclass = "<div class=\"profile_small_header_bg\">";
                         var beginning = "var rgGames = ";
                         var subpage = page.substring(page.indexOf(divclass));
@@ -79,15 +80,16 @@
                         }
 
                         // wishlist
-                        var wishlist = profile + "/wishlist/";
-                        $.get(wishlist, function(page) {
+                        var wishlist = 'http://query.yahooapis.com/v1/public/yql?q=' + encodeURIComponent('select * from html where url=\'' + profile  + "/wishlist/\'");
+                        $.get(wishlist, function(data) {
+                            var page = data.documentElement.innerHTML;
                             var body = '<div id="body-mock">' + page.replace(/^[\s\S]*<body.*?>|<\/body>[\s\S]*$/ig, '') + '</div>';
                             var data = $(body);
                             var wishlistURLs = {};
                             var games = data.find(".storepage_btn_ctn");
                             var i;
                             for (i = 0; i < games.length; ++i) {
-                                var href = games[i].innerHTML.substring(games[i].innerHTML.indexOf("\"") + 1);
+                                var href = games[i].innerHTML.substring(games[i].innerHTML.indexOf("href=\"") + 6);
                                 wishlistURLs[href.substring(0, href.indexOf("\""))] = true;
                             }
 
