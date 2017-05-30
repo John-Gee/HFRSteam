@@ -59,7 +59,7 @@
                         return;
 
                     // library
-                    var library = 'http://query.yahooapis.com/v1/public/yql?q=' + encodeURIComponent('select * from html where url=\'' + profile + "/games/?tab=all\'");
+                    var library = 'https://query.yahooapis.com/v1/public/yql?q=' + encodeURIComponent('select * from html where url=\'' + profile + "/games/?tab=all\'");
                     $.get(library, function(data) {
                         var page = data.documentElement.innerHTML;
                         var divclass = "<div class=\"profile_small_header_bg\">";
@@ -80,7 +80,7 @@
                         }
 
                         // wishlist
-                        var wishlist = 'http://query.yahooapis.com/v1/public/yql?q=' + encodeURIComponent('select * from html where url=\'' + profile  + "/wishlist/\'");
+                        var wishlist = 'https://query.yahooapis.com/v1/public/yql?q=' + encodeURIComponent('select * from html where url=\'' + profile  + "/wishlist/\'");
                         $.get(wishlist, function(data) {
                             var page = data.documentElement.innerHTML;
                             var body = '<div id="body-mock">' + page.replace(/^[\s\S]*<body.*?>|<\/body>[\s\S]*$/ig, '') + '</div>';
