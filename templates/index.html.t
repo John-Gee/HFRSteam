@@ -39,7 +39,7 @@
                 <form>
                     <input type="text" name="library" id="libraryId" placeholder="https://steamcommunity.com/id/PROFILE" size="34"/>
 
-                    <button type="button" id="myButton">Load Steam Profile</button>
+                    <button type="button" id="myButton">Charger le profile Steam</button>
                 </form>
             </div>
             <div id="wata" style="width:auto"></div>
@@ -146,7 +146,7 @@
                         name: {
                             index: 1,
                             type: "string",
-                            friendly: "Name",
+                            friendly: "Nom",
                             format: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">{0}</div>",
                             unique: true,
                             sortOrder: "asc",
@@ -184,7 +184,7 @@
                             index: 5,
                             type: "number",
                             decimals: 2,
-                            friendly: "Price",
+                            friendly: "Prix",
                             format: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">{0}</div>",
                             unique: false,
                             filter: "",
@@ -202,7 +202,7 @@
                         date: {
                             index: 7,
                             type: "string",
-                            friendly: "Release Date",
+                            friendly: "Parution",
                             format: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">{0}</div>",
                             unique: false,
                             filter: "",
@@ -211,7 +211,7 @@
                         review: {
                             index: 8,
                             type: "string",
-                            friendly: "Reviews",
+                            friendly: "Revues",
                             format: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">{0}</div>",
                             unique: false,
                             filter: "",
@@ -220,7 +220,7 @@
                         requirements: {
                             index: 9,
                             type: "string",
-                            friendly: "List",
+                            friendly: "Liste HFR",
                             unique: false,
                             filter: "",
                             hidden: localStorage.getItem("Requirements") ? !("true" == localStorage.getItem("Requirements")) : false,
@@ -228,7 +228,7 @@
                         store: {
                             index: 10,
                             type: "string",
-                            friendly: "Store",
+                            friendly: "Liste Steam",
                             unique: false,
                             filter: "",
                             hidden: localStorage.getItem("Store") ? !("true" == localStorage.getItem("Store")) : false,
