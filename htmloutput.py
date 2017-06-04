@@ -86,7 +86,7 @@ def get_data(games):
                 fmt = '%Y'
             else:
                 fmt = '%Y-%m-%d'
-            data += writeline('date: "{0}",'.format(date.strftime(fmt)))
+            data += writeline('date: "{0}",'.format(date.strftime(fmt).replace('-', '&#8209;')))
         if (game.store.avg_review) and (game.store.avg_review in reviewMapping):
             avg_review_text = reviewMapping[game.store.avg_review]
             MIN_POW         = 6
@@ -112,7 +112,12 @@ def get_data(games):
                       format(game.store.avg_review, gameName))
 
         if (game.hfr.requirements):
-            data += writeline('requirements: "{0}",'.format(game.hfr.requirements))
+            if (game.hfr.requirements.lower() in ['standard', 'nouveauté']):
+                stars = '*'
+            else:
+                stars = '**'
+            
+            data += writeline('requirements: "{0}<sup><b>{1}</b></sup>",'.format(game.hfr.requirements, stars))
 
         if (len(game.store.tags) > 0):
             data += writeline('tags: "{0}",'.format(', '.join(game.store.tags)))

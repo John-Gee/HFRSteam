@@ -21,7 +21,7 @@
             }
             .main {
                 margin-top: 0em;
-                margin-bottom: 0em;
+                margin-bottom: 1.5em;
                 margin-left: 0.5em;
                 margin-right: 0.5em;
             }
@@ -43,6 +43,12 @@
                 </form>
             </div>
             <div id="wata" style="width:auto"></div>
+            <div id="rules">
+                <a href="http://forum.hardware.fr/hfr/JeuxVideo/Achat-Ventes/gratuit-origin-download-sujet_171605_1.htm#t8945000" style="color:grey"><small>&nbsp;*<u>Règles pour la liste standard et ses nouveautées.</u></small></a>
+                <br/>
+                <a href="http://forum.hardware.fr/hfr/JeuxVideo/Achat-Ventes/gratuit-origin-download-sujet_171605_1.htm#t8952242" style="color:grey"><small>**<u>Règles pour les listes donateur et premium.</u></small></a>
+                <br/>
+            </div>
             <script type="text/javascript">
                 $(document).ready(function(){
                 $('input').on('keydown', function(event) {
@@ -103,12 +109,12 @@
 
                                     if (href in libraryURLs) {
                                         data.rows[i]["row-cls"] = "green";
-                                        data.rows[i]["store"] = "Library";
+                                        data.rows[i]["store"] = "Librarie";
                                     }
 
                                     else if (href in wishlistURLs) {
                                         data.rows[i]["row-cls"] = "blue";
-                                        data.rows[i]["store"] = "Wishlist";
+                                        data.rows[i]["store"] = "Souhait";
                                     }
 
                                     else {
