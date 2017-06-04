@@ -54,7 +54,7 @@ def get_data(games):
                                   .format(game.store.link, justifyFormat, game.store.image))
             else:
                 data += writeline('nameFormat: "<a href=\\"{0}\\"><b>{1}</b></a>",'
-                                  .format(game.store.link, justifyFormat, game.store.image))
+                                  .format(game.store.link, justifyFormat))
         else:
             data += writeline('nameFormat: "<b>{0}</b>",'.format(justifyFormat))
         if(game.store.description):
