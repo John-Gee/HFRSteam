@@ -44,9 +44,9 @@
             </div>
             <div id="wata" style="width:auto"></div>
             <div id="rules">
-                <a href="http://forum.hardware.fr/hfr/JeuxVideo/Achat-Ventes/gratuit-origin-download-sujet_171605_1.htm#t8945000" style="color:grey"><small>&nbsp;*<u>Règles pour la liste standard et ses nouveautées.</u></small></a>
+                <a href="http://forum.hardware.fr/hfr/JeuxVideo/Achat-Ventes/gratuit-origin-download-sujet_171605_1.htm#t8945000" style="color:grey"><small>&nbsp;*<u>Règles pour la liste standard et ses nouveautées (vers le haut du poste).</u></small></a>
                 <br/>
-                <a href="http://forum.hardware.fr/hfr/JeuxVideo/Achat-Ventes/gratuit-origin-download-sujet_171605_1.htm#t8952242" style="color:grey"><small>**<u>Règles pour les listes donateur et premium.</u></small></a>
+                <a href="http://forum.hardware.fr/hfr/JeuxVideo/Achat-Ventes/gratuit-origin-download-sujet_171605_1.htm#t8952242" style="color:grey"><small>**<u>Règles pour les listes donateur et premium (vers le milieu du poste).</u></small></a>
                 <br/>
             </div>
             <script type="text/javascript">
