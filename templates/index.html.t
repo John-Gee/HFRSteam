@@ -55,13 +55,13 @@
                     // change enter key behavior
                     if (event.which == 13) {
                         event.preventDefault()
-                        $("#myButton").click();
+                        $('#myButton').click();
                     }
                 });
 
                 function ProxyURL(url) {
                     var yqlURL = 'https://query.yahooapis.com/v1/public/yql?q=';
-                    var yql    = encodeURIComponent('select * from htmlstring where url=\'' + url + "\'") + '&env=' + encodeURIComponent('store://datatables.org/alltableswithkeys');
+                    var yql    = encodeURIComponent('select * from htmlstring where url=\'' + url + '\'') + '&env=' + encodeURIComponent('store://datatables.org/alltableswithkeys');
                     return yqlURL + yql;
                 }
 
@@ -71,19 +71,19 @@
                         return;
 
                     // library
-                    var library = ProxyURL(profile + "/games/?tab=all");
+                    var library = ProxyURL(profile + '/games/?tab=all');
                     $.get(library, function(data) {
                         var page = data.documentElement.innerHTML;
-                        var divclass = "<div class=\"profile_small_header_bg\">";
-                        var beginning = "var rgGames = ";
+                        var divclass = '<div class=\"profile_small_header_bg\">';
+                        var beginning = 'var rgGames = ';
                         var subpage = page.substring(page.indexOf(divclass));
                         subpage = subpage.substring(subpage.indexOf(beginning) + beginning.length);
-                        subpage = subpage.substring(0, subpage.indexOf("];") + 1);
+                        subpage = subpage.substring(0, subpage.indexOf('];') + 1);
                         var libraryURLs = {};
                         try {
                             var games = jQuery.parseJSON(subpage);
                             var i;
-                            var GAMEURL = "http://store.steampowered.com/app/";
+                            var GAMEURL = 'http://store.steampowered.com/app/';
                             for (i = 0 ; i < games.length; ++i) {
                                 libraryURLs[GAMEURL + games[i].appid] = true;
                             }
@@ -92,41 +92,41 @@
                         }
 
                         // wishlist
-                        var wishlist = ProxyURL(profile  + "/wishlist/");
+                        var wishlist = ProxyURL(profile  + '/wishlist/');
                         $.get(wishlist, function(data) {
                             var page = data.documentElement.innerHTML;
                             var body = '<div id="body-mock">' + page.replace(/^[\s\S]*<body.*?>|<\/body>[\s\S]*$/ig, '') + '</div>';
                             body = body.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
                             var data = $(body);
                             var wishlistURLs = {};
-                            var games = data.find(".storepage_btn_ctn");
+                            var games = data.find('.storepage_btn_ctn');
                             var i;
                             for (i = 0; i < games.length; ++i) {
-                                var href = games[i].innerHTML.substring(games[i].innerHTML.indexOf("href=\"") + 6);
-                                wishlistURLs[href.substring(0, href.indexOf("\""))] = true;
+                                var href = games[i].innerHTML.substring(games[i].innerHTML.indexOf('href=\"') + 6);
+                                wishlistURLs[href.substring(0, href.indexOf('"'))] = true;
                             }
 
                             var data = waTable.getData();
                             // change the rows
                             for (i = 0; i < data.rows.length; ++i) {
-                                if (data.rows[i]["nameFormat"]) {
-                                    var href = data.rows[i]["nameFormat"];
-                                    href = href.substring(href.indexOf("\"") + 1);
-                                    href = href.substring(0, href.indexOf("\""));
+                                if (data.rows[i]['nameFormat']) {
+                                    var href = data.rows[i]['nameFormat'];
+                                    href = href.substring(href.indexOf('"') + 1);
+                                    href = href.substring(0, href.indexOf('"'));
 
                                     if (href in libraryURLs) {
-                                        data.rows[i]["row-cls"] = "green";
-                                        data.rows[i]["store"] = "Librarie";
+                                        data.rows[i]['row-cls'] = 'green';
+                                        data.rows[i]['store'] = 'Librarie';
                                     }
 
                                     else if (href in wishlistURLs) {
-                                        data.rows[i]["row-cls"] = "blue";
-                                        data.rows[i]["store"] = "Souhait";
+                                        data.rows[i]['row-cls'] = 'blue';
+                                        data.rows[i]['store'] = 'Souhait';
                                     }
 
                                     else {
-                                        data.rows[i]["row-cls"] = "";
-                                        data.rows[i]["store"] = "";
+                                        data.rows[i]['row-cls'] = '';
+                                        data.rows[i]['store'] = '';
                                     }
                                 }
                             }
@@ -144,11 +144,11 @@
                     sorting: true,
                     sortEmptyLast: true,
                     columnPicker: true,
-                    pageSize: $.isNumeric(localStorage.getItem("pageSize")) ? localStorage.getItem("pageSize") : 10,
+                    pageSize: $.isNumeric(localStorage.getItem('pageSize')) ? localStorage.getItem('pageSize') : 10,
                     hidePagerOnEmpty: true,
                     types: {
                         string: {
-                            placeHolder: "filtre"
+                            placeHolder: 'filtre'
                         },
                     },
                     data: getData(),
@@ -158,111 +158,111 @@
                     var cols = {
                         name: {
                             index: 1,
-                            type: "string",
-                            friendly: "Nom",
-                            format: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">{0}</div>",
+                            type: 'string',
+                            friendly: 'Nom',
+                            format: '<div style="white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%">{0}</div>',
                             unique: true,
-                            sortOrder: "asc",
-                            filter: "",
-                            hidden: localStorage.getItem("Name") ? !("true" == localStorage.getItem("Name")) : false,
+                            sortOrder: 'asc',
+                            filter: '',
+                            hidden: localStorage.getItem('Name') ? !('true' == localStorage.getItem('Name')) : false,
                         },
                         description: {
                             index: 2,
-                            type: "string",
-                            friendly: "Description",
-                            format: "<div style=\"white-space: normal; text-indent:1em; text-align: justify; text-justify: inter-word; line-height: 150%\">{0}</div>",
+                            type: 'string',
+                            friendly: 'Description',
+                            format: '<div style=\"white-space: normal; text-indent:1em; text-align: justify; text-justify: inter-word; line-height: 150%\">{0}</div>',
                             unique: true,
-                            filter: "",
+                            filter: '',
                             sorting: false,
-                            hidden: localStorage.getItem("Description") ? !("true" == localStorage.getItem("Description")) : false,
+                            hidden: localStorage.getItem('Description') ? !('true' == localStorage.getItem('Description')) : false,
                         },
                         category: {
                             index: 3,
-                            type: "string",
-                            friendly: "Type",
+                            type: 'string',
+                            friendly: 'Type',
                             unique: false,
-                            filter: "",
-                            hidden: localStorage.getItem("Type") ? !("true" == localStorage.getItem("Type")) : false,
+                            filter: '',
+                            hidden: localStorage.getItem('Type') ? !('true' == localStorage.getItem('Type')) : false,
                         },
                         os: {
                             index: 4,
-                            type: "string",
-                            friendly: "OS",
-                            format: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">{0}</div>",
+                            type: 'string',
+                            friendly: 'OS',
+                            format: '<div style="white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%">{0}</div>',
                             unique: false,
-                            filter: "",
-                            hidden: localStorage.getItem("OS") ? !("true" == localStorage.getItem("OS")) : false,
+                            filter: '',
+                            hidden: localStorage.getItem('OS') ? !('true' == localStorage.getItem('OS')) : false,
                         },
                         price: {
                             index: 5,
-                            type: "number",
+                            type: 'number',
                             decimals: 2,
-                            friendly: "Prix",
-                            format: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">{0}</div>",
+                            friendly: 'Prix',
+                            format: '<div style="white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%">{0}</div>',
                             unique: false,
-                            filter: "",
-                            hidden: localStorage.getItem("Price") ? !("true" == localStorage.getItem("Price")) : false,
+                            filter: '',
+                            hidden: localStorage.getItem('Price') ? !('true' == localStorage.getItem('Price')) : false,
                         },
                         genres: {
                             index: 6,
-                            type: "string",
-                            friendly: "Genres",
-                            format: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">{0}</div>",
+                            type: 'string',
+                            friendly: 'Genres',
+                            format: '<div style="white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%">{0}</div>',
                             unique: false,
-                            filter: "",
-                            hidden: localStorage.getItem("Genres") ? !("true" == localStorage.getItem("Genres")) : false,
+                            filter: '',
+                            hidden: localStorage.getItem('Genres') ? !('true' == localStorage.getItem('Genres')) : false,
                         },
                         date: {
                             index: 7,
-                            type: "string",
-                            friendly: "Parution",
-                            format: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">{0}</div>",
+                            type: 'string',
+                            friendly: 'Parution',
+                            format: '<div style="white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%">{0}</div>',
                             unique: false,
-                            filter: "",
-                            hidden: localStorage.getItem("Release Date") ? !("true" == localStorage.getItem("Release Date")) : false,
+                            filter: '',
+                            hidden: localStorage.getItem('Release Date') ? !('true' == localStorage.getItem('Release Date')) : false,
                         },
                         review: {
                             index: 8,
-                            type: "string",
-                            friendly: "Revues",
-                            format: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">{0}</div>",
+                            type: 'string',
+                            friendly: 'Revues',
+                            format: '<div style="white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%">{0}</div>',
                             unique: false,
-                            filter: "",
-                            hidden: localStorage.getItem("Reviews") ? !("true" == localStorage.getItem("Reviews")) : false,
+                            filter: '',
+                            hidden: localStorage.getItem('Reviews') ? !('true' == localStorage.getItem('Reviews')) : false,
                         },
                         requirements: {
                             index: 9,
-                            type: "string",
-                            friendly: "Liste HFR",
+                            type: 'string',
+                            friendly: 'Liste HFR',
                             unique: false,
-                            filter: "",
-                            hidden: localStorage.getItem("Requirements") ? !("true" == localStorage.getItem("Requirements")) : false,
+                            filter: '',
+                            hidden: localStorage.getItem('Requirements') ? !('true' == localStorage.getItem('Requirements')) : false,
                         },
                         store: {
                             index: 10,
-                            type: "string",
-                            friendly: "Liste Steam",
+                            type: 'string',
+                            friendly: 'Liste Steam',
                             unique: false,
-                            filter: "",
-                            hidden: localStorage.getItem("Store") ? !("true" == localStorage.getItem("Store")) : false,
+                            filter: '',
+                            hidden: localStorage.getItem('Store') ? !('true' == localStorage.getItem('Store')) : false,
                         },
                         tags: {
                             index: 100,
-                            type: "string",
-                            friendly: "Tags",
-                            format: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">{0}</div>",
+                            type: 'string',
+                            friendly: 'Tags',
+                            format: '<div style="white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%">{0}</div>',
                             unique: false,
-                            filter: "",
-                            hidden: localStorage.getItem("Tags") ? !("true" == localStorage.getItem("Tags")) : true,
+                            filter: '',
+                            hidden: localStorage.getItem('Tags') ? !('true' == localStorage.getItem('Tags')) : true,
                         },
                         details: {
                             index: 101,
-                            type: "string",
-                            friendly: "Details",
-                            format: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">{0}</div>",
+                            type: 'string',
+                            friendly: 'Details',
+                            format: '<div style="white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%">{0}</div>',
                             unique: false,
-                            filter: "",
-                            hidden: localStorage.getItem("Details") ? !("true" == localStorage.getItem("Details")) : true,
+                            filter: '',
+                            hidden: localStorage.getItem('Details') ? !('true' == localStorage.getItem('Details')) : true,
                         },
                     };
                     
@@ -287,7 +287,7 @@
                     var items = ul.getElementsByTagName("li");
                     for (var i = 0; i < items.length; ++i) {
                         name = items[i].textContent.trim();
-                        checked = items[i].getElementsByTagName("input")[0].checked;
+                        checked = items[i].getElementsByTagName('input')[0].checked;
                         localStorage.setItem(name, checked);
                     }
                 });
