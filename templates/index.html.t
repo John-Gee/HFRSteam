@@ -59,13 +59,19 @@
                     }
                 });
 
+                function ProxyURL(url) {
+                    var yqlURL = 'https://query.yahooapis.com/v1/public/yql?q=';
+                    var yql    = encodeURIComponent('select * from htmlstring where url=\'' + url + "\'") + '&env=' + encodeURIComponent('store://datatables.org/alltableswithkeys');
+                    return yqlURL + yql;
+                }
+
                 $('button').click(function(){
                     var profile = document.getElementById('libraryId').value;
                     if (!profile || /^\s*$/.test(profile))
                         return;
 
                     // library
-                    var library = 'https://query.yahooapis.com/v1/public/yql?q=' + encodeURIComponent('select * from htmlstring where url=\'' + profile + "/games/?tab=all\'") + '&env=' + encodeURIComponent('store://datatables.org/alltableswithkeys');
+                    var library = ProxyURL(profile + "/games/?tab=all");
                     $.get(library, function(data) {
                         var page = data.documentElement.innerHTML;
                         var divclass = "<div class=\"profile_small_header_bg\">";
@@ -86,7 +92,7 @@
                         }
 
                         // wishlist
-                        var wishlist = 'https://query.yahooapis.com/v1/public/yql?q=' + encodeURIComponent('select * from htmlstring where url=\'' + profile  + "/wishlist/\'") + '&env=' + encodeURIComponent('store://datatables.org/alltableswithkeys');
+                        var wishlist = ProxyURL(profile  + "/wishlist/");
                         $.get(wishlist, function(data) {
                             var page = data.documentElement.innerHTML;
                             var body = '<div id="body-mock">' + page.replace(/^[\s\S]*<body.*?>|<\/body>[\s\S]*$/ig, '') + '</div>';
