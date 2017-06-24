@@ -65,14 +65,14 @@
                         return;
 
                     // library
-                    var library = 'https://query.yahooapis.com/v1/public/yql?q=' + encodeURIComponent('select * from html where url=\'' + profile + "/games/?tab=all\'");
+                    var library = 'https://query.yahooapis.com/v1/public/yql?q=' + encodeURIComponent('select * from htmlstring where url=\'' + profile + "/games/?tab=all\'") + '&env=' + encodeURIComponent('store://datatables.org/alltableswithkeys');
                     $.get(library, function(data) {
                         var page = data.documentElement.innerHTML;
                         var divclass = "<div class=\"profile_small_header_bg\">";
                         var beginning = "var rgGames = ";
                         var subpage = page.substring(page.indexOf(divclass));
                         subpage = subpage.substring(subpage.indexOf(beginning) + beginning.length);
-                        subpage = subpage.substring(0, subpage.indexOf(";"));
+                        subpage = subpage.substring(0, subpage.indexOf("];") + 1);
                         var libraryURLs = {};
                         try {
                             var games = jQuery.parseJSON(subpage);
@@ -86,10 +86,11 @@
                         }
 
                         // wishlist
-                        var wishlist = 'https://query.yahooapis.com/v1/public/yql?q=' + encodeURIComponent('select * from html where url=\'' + profile  + "/wishlist/\'");
+                        var wishlist = 'https://query.yahooapis.com/v1/public/yql?q=' + encodeURIComponent('select * from htmlstring where url=\'' + profile  + "/wishlist/\'") + '&env=' + encodeURIComponent('store://datatables.org/alltableswithkeys');
                         $.get(wishlist, function(data) {
                             var page = data.documentElement.innerHTML;
                             var body = '<div id="body-mock">' + page.replace(/^[\s\S]*<body.*?>|<\/body>[\s\S]*$/ig, '') + '</div>';
+                            body = body.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
                             var data = $(body);
                             var wishlistURLs = {};
                             var games = data.find(".storepage_btn_ctn");
