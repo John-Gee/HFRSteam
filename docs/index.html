@@ -31,7 +31,7 @@
         <div class="main">
             <div>
                 <h1>Liste HFR Steam</h1>
-                <h6>Mise à jour le 2017-06-04</h6>
+                <h6>Mise à jour le 2017-06-24</h6>
                 <a href="https://github.com/John-Gee/HFRSteam">
                     <img style="position: absolute; top: 0; right: 0; border: 0; max-width: 75px;" src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png">
                 </a>
@@ -55,9 +55,15 @@
                     // change enter key behavior
                     if (event.which == 13) {
                         event.preventDefault()
-                        $("#myButton").click();
+                        $('#myButton').click();
                     }
                 });
+
+                function ProxyURL(url) {
+                    var yqlURL = 'https://query.yahooapis.com/v1/public/yql?q=';
+                    var yql    = encodeURIComponent('select * from htmlstring where url=\'' + url + '\'') + '&env=' + encodeURIComponent('store://datatables.org/alltableswithkeys');
+                    return yqlURL + yql;
+                }
 
                 $('button').click(function(){
                     var profile = document.getElementById('libraryId').value;
@@ -65,19 +71,19 @@
                         return;
 
                     // library
-                    var library = 'https://query.yahooapis.com/v1/public/yql?q=' + encodeURIComponent('select * from html where url=\'' + profile + "/games/?tab=all\'");
+                    var library = ProxyURL(profile + '/games/?tab=all');
                     $.get(library, function(data) {
                         var page = data.documentElement.innerHTML;
-                        var divclass = "<div class=\"profile_small_header_bg\">";
-                        var beginning = "var rgGames = ";
+                        var divclass = '<div class=\"profile_small_header_bg\">';
+                        var beginning = 'var rgGames = ';
                         var subpage = page.substring(page.indexOf(divclass));
                         subpage = subpage.substring(subpage.indexOf(beginning) + beginning.length);
-                        subpage = subpage.substring(0, subpage.indexOf(";"));
+                        subpage = subpage.substring(0, subpage.indexOf('];') + 1);
                         var libraryURLs = {};
                         try {
                             var games = jQuery.parseJSON(subpage);
                             var i;
-                            var GAMEURL = "http://store.steampowered.com/app/";
+                            var GAMEURL = 'http://store.steampowered.com/app/';
                             for (i = 0 ; i < games.length; ++i) {
                                 libraryURLs[GAMEURL + games[i].appid] = true;
                             }
@@ -86,40 +92,41 @@
                         }
 
                         // wishlist
-                        var wishlist = 'https://query.yahooapis.com/v1/public/yql?q=' + encodeURIComponent('select * from html where url=\'' + profile  + "/wishlist/\'");
+                        var wishlist = ProxyURL(profile  + '/wishlist/');
                         $.get(wishlist, function(data) {
                             var page = data.documentElement.innerHTML;
                             var body = '<div id="body-mock">' + page.replace(/^[\s\S]*<body.*?>|<\/body>[\s\S]*$/ig, '') + '</div>';
+                            body = body.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
                             var data = $(body);
                             var wishlistURLs = {};
-                            var games = data.find(".storepage_btn_ctn");
+                            var games = data.find('.storepage_btn_ctn');
                             var i;
                             for (i = 0; i < games.length; ++i) {
-                                var href = games[i].innerHTML.substring(games[i].innerHTML.indexOf("href=\"") + 6);
-                                wishlistURLs[href.substring(0, href.indexOf("\""))] = true;
+                                var href = games[i].innerHTML.substring(games[i].innerHTML.indexOf('href=\"') + 6);
+                                wishlistURLs[href.substring(0, href.indexOf('"'))] = true;
                             }
 
                             var data = waTable.getData();
                             // change the rows
                             for (i = 0; i < data.rows.length; ++i) {
-                                if (data.rows[i]["nameFormat"]) {
-                                    var href = data.rows[i]["nameFormat"];
-                                    href = href.substring(href.indexOf("\"") + 1);
-                                    href = href.substring(0, href.indexOf("\""));
+                                if (data.rows[i]['nameFormat']) {
+                                    var href = data.rows[i]['nameFormat'];
+                                    href = href.substring(href.indexOf('"') + 1);
+                                    href = href.substring(0, href.indexOf('"'));
 
                                     if (href in libraryURLs) {
-                                        data.rows[i]["row-cls"] = "green";
-                                        data.rows[i]["store"] = "Librarie";
+                                        data.rows[i]['row-cls'] = 'green';
+                                        data.rows[i]['store'] = 'Librarie';
                                     }
 
                                     else if (href in wishlistURLs) {
-                                        data.rows[i]["row-cls"] = "blue";
-                                        data.rows[i]["store"] = "Souhait";
+                                        data.rows[i]['row-cls'] = 'blue';
+                                        data.rows[i]['store'] = 'Souhait';
                                     }
 
                                     else {
-                                        data.rows[i]["row-cls"] = "";
-                                        data.rows[i]["store"] = "";
+                                        data.rows[i]['row-cls'] = '';
+                                        data.rows[i]['store'] = '';
                                     }
                                 }
                             }
@@ -137,11 +144,11 @@
                     sorting: true,
                     sortEmptyLast: true,
                     columnPicker: true,
-                    pageSize: $.isNumeric(localStorage.getItem("pageSize")) ? localStorage.getItem("pageSize") : 10,
+                    pageSize: $.isNumeric(localStorage.getItem('pageSize')) ? localStorage.getItem('pageSize') : 10,
                     hidePagerOnEmpty: true,
                     types: {
                         string: {
-                            placeHolder: "filtre"
+                            placeHolder: 'filtre'
                         },
                     },
                     data: getData(),
@@ -151,111 +158,111 @@
                     var cols = {
                         name: {
                             index: 1,
-                            type: "string",
-                            friendly: "Nom",
-                            format: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">{0}</div>",
+                            type: 'string',
+                            friendly: 'Nom',
+                            format: '<div style="white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%">{0}</div>',
                             unique: true,
-                            sortOrder: "asc",
-                            filter: "",
-                            hidden: localStorage.getItem("Name") ? !("true" == localStorage.getItem("Name")) : false,
+                            sortOrder: 'asc',
+                            filter: '',
+                            hidden: localStorage.getItem('Name') ? !('true' == localStorage.getItem('Name')) : false,
                         },
                         description: {
                             index: 2,
-                            type: "string",
-                            friendly: "Description",
-                            format: "<div style=\"white-space: normal; text-indent:1em; text-align: justify; text-justify: inter-word; line-height: 150%\">{0}</div>",
+                            type: 'string',
+                            friendly: 'Description',
+                            format: '<div style=\"white-space: normal; text-indent:1em; text-align: justify; text-justify: inter-word; line-height: 150%\">{0}</div>',
                             unique: true,
-                            filter: "",
+                            filter: '',
                             sorting: false,
-                            hidden: localStorage.getItem("Description") ? !("true" == localStorage.getItem("Description")) : false,
+                            hidden: localStorage.getItem('Description') ? !('true' == localStorage.getItem('Description')) : false,
                         },
                         category: {
                             index: 3,
-                            type: "string",
-                            friendly: "Type",
+                            type: 'string',
+                            friendly: 'Type',
                             unique: false,
-                            filter: "",
-                            hidden: localStorage.getItem("Type") ? !("true" == localStorage.getItem("Type")) : false,
+                            filter: '',
+                            hidden: localStorage.getItem('Type') ? !('true' == localStorage.getItem('Type')) : false,
                         },
                         os: {
                             index: 4,
-                            type: "string",
-                            friendly: "OS",
-                            format: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">{0}</div>",
+                            type: 'string',
+                            friendly: 'OS',
+                            format: '<div style="white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%">{0}</div>',
                             unique: false,
-                            filter: "",
-                            hidden: localStorage.getItem("OS") ? !("true" == localStorage.getItem("OS")) : false,
+                            filter: '',
+                            hidden: localStorage.getItem('OS') ? !('true' == localStorage.getItem('OS')) : false,
                         },
                         price: {
                             index: 5,
-                            type: "number",
+                            type: 'number',
                             decimals: 2,
-                            friendly: "Prix",
-                            format: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">{0}</div>",
+                            friendly: 'Prix',
+                            format: '<div style="white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%">{0}</div>',
                             unique: false,
-                            filter: "",
-                            hidden: localStorage.getItem("Price") ? !("true" == localStorage.getItem("Price")) : false,
+                            filter: '',
+                            hidden: localStorage.getItem('Price') ? !('true' == localStorage.getItem('Price')) : false,
                         },
                         genres: {
                             index: 6,
-                            type: "string",
-                            friendly: "Genres",
-                            format: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">{0}</div>",
+                            type: 'string',
+                            friendly: 'Genres',
+                            format: '<div style="white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%">{0}</div>',
                             unique: false,
-                            filter: "",
-                            hidden: localStorage.getItem("Genres") ? !("true" == localStorage.getItem("Genres")) : false,
+                            filter: '',
+                            hidden: localStorage.getItem('Genres') ? !('true' == localStorage.getItem('Genres')) : false,
                         },
                         date: {
                             index: 7,
-                            type: "string",
-                            friendly: "Parution",
-                            format: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">{0}</div>",
+                            type: 'string',
+                            friendly: 'Parution',
+                            format: '<div style="white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%">{0}</div>',
                             unique: false,
-                            filter: "",
-                            hidden: localStorage.getItem("Release Date") ? !("true" == localStorage.getItem("Release Date")) : false,
+                            filter: '',
+                            hidden: localStorage.getItem('Release Date') ? !('true' == localStorage.getItem('Release Date')) : false,
                         },
                         review: {
                             index: 8,
-                            type: "string",
-                            friendly: "Revues",
-                            format: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">{0}</div>",
+                            type: 'string',
+                            friendly: 'Revues',
+                            format: '<div style="white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%">{0}</div>',
                             unique: false,
-                            filter: "",
-                            hidden: localStorage.getItem("Reviews") ? !("true" == localStorage.getItem("Reviews")) : false,
+                            filter: '',
+                            hidden: localStorage.getItem('Reviews') ? !('true' == localStorage.getItem('Reviews')) : false,
                         },
                         requirements: {
                             index: 9,
-                            type: "string",
-                            friendly: "Liste HFR",
+                            type: 'string',
+                            friendly: 'Liste HFR',
                             unique: false,
-                            filter: "",
-                            hidden: localStorage.getItem("Requirements") ? !("true" == localStorage.getItem("Requirements")) : false,
+                            filter: '',
+                            hidden: localStorage.getItem('Requirements') ? !('true' == localStorage.getItem('Requirements')) : false,
                         },
                         store: {
                             index: 10,
-                            type: "string",
-                            friendly: "Liste Steam",
+                            type: 'string',
+                            friendly: 'Liste Steam',
                             unique: false,
-                            filter: "",
-                            hidden: localStorage.getItem("Store") ? !("true" == localStorage.getItem("Store")) : false,
+                            filter: '',
+                            hidden: localStorage.getItem('Store') ? !('true' == localStorage.getItem('Store')) : false,
                         },
                         tags: {
                             index: 100,
-                            type: "string",
-                            friendly: "Tags",
-                            format: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">{0}</div>",
+                            type: 'string',
+                            friendly: 'Tags',
+                            format: '<div style="white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%">{0}</div>',
                             unique: false,
-                            filter: "",
-                            hidden: localStorage.getItem("Tags") ? !("true" == localStorage.getItem("Tags")) : true,
+                            filter: '',
+                            hidden: localStorage.getItem('Tags') ? !('true' == localStorage.getItem('Tags')) : true,
                         },
                         details: {
                             index: 101,
-                            type: "string",
-                            friendly: "Details",
-                            format: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">{0}</div>",
+                            type: 'string',
+                            friendly: 'Details',
+                            format: '<div style="white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%">{0}</div>',
                             unique: false,
-                            filter: "",
-                            hidden: localStorage.getItem("Details") ? !("true" == localStorage.getItem("Details")) : true,
+                            filter: '',
+                            hidden: localStorage.getItem('Details') ? !('true' == localStorage.getItem('Details')) : true,
                         },
                     };
                     
@@ -2393,23 +2400,6 @@
                 };
                 rows.push(row);
                 var row = {
-                    name: "Brothers - A Tale of Two Sons",
-                    nameFormat: "<a href=\"http://store.steampowered.com/app/225080\"><b><div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">{0}</div></b><img src=\"http://cdn.akamai.steamstatic.com/steam/apps/225080/header.jpg?t=1461248665\" width=\"100%\"/></a>",
-                    description: "Guide two brothers on an epic fairy tale journey from visionary Swedish film director, Josef Fares and top-tier developer Starbreeze Studios. Control both brothers at once as you experience co-op play in single player mode, like never before.",
-                    category: "Game",
-                    os: "Windows",
-                    price: 14.99,
-                    priceFormat: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">${0}</div>",
-                    genres: "Action, Adventure, Indie",
-                    date: "2013&#8209;09&#8209;03",
-                    review: "10022309.0 Overwhelmingly Positive",
-                    reviewFormat: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">Overwhelmingly Positive (22309)</div>",
-                    requirements: "Standard<sup><b>*</b></sup>",
-                    tags: "3D Vision, Action, Adventure, Atmospheric, Casual, Colorful, Controller, Fantasy, Great Soundtrack, Indie, Linear, Local Co-Op, Multiplayer, Platformer, Puzzle, Short, Singleplayer, Story Rich, Third Person, Walking Simulator",
-                    details: "Single-player, Full controller support",
-                };
-                rows.push(row);
-                var row = {
                     name: "Bulb Boy",
                     nameFormat: "<a href=\"http://store.steampowered.com/app/390290\"><b><div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">{0}</div></b><img src=\"http://cdn.akamai.steamstatic.com/steam/apps/390290/header.jpg?t=1475062231\" width=\"100%\"/></a>",
                     description: "One gloomy night, Bulb Boy wakes suddenly from a frightening nightmare to discover that evil has overshadowed the Bulbhouse. His family has disappeared and there are horrid monsters lurking in the shadows. Gather the courage and use his glass head to save everything he loves.",
@@ -3166,23 +3156,6 @@
                     requirements: "Donateur<sup><b>**</b></sup>",
                     tags: "2D, 4 Player Local, Action, Adventure, Co-op, Dungeon Crawler, Fantasy, Gore, Great Soundtrack, Horror, Indie, Local Co-Op, Local Multiplayer, Lovecraftian, Multiplayer, Pixel Graphics, RPG, Rogue-like, Rogue-lite, Singleplayer",
                     details: "Single-player, Local Multi-Player, Shared/Split Screen, Steam Achievements, Full controller support, Steam Trading Cards, Steam Cloud",
-                };
-                rows.push(row);
-                var row = {
-                    name: "Crimsonland",
-                    nameFormat: "<a href=\"http://store.steampowered.com/app/262830\"><b><div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">{0}</div></b><img src=\"http://cdn.akamai.steamstatic.com/steam/apps/262830/header.jpg?t=1490703932\" width=\"100%\"/></a>",
-                    description: "Thousands of aliens, giant spiders, mutant lizards, and more are on the attack - can you survive the onslaught? Crimsonland is a top-down shooter with a touch of RPG. Unlock over 30 weapons and over 50 perks from quirky to brutal. Complete the quest and show your skills in five survival modes.",
-                    category: "Game",
-                    os: "Linux, Mac OS, Windows",
-                    price: 13.99,
-                    priceFormat: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">${0}</div>",
-                    genres: "Action, Indie, RPG",
-                    date: "2014&#8209;06&#8209;11",
-                    review: "09000765.0 Very Positive",
-                    reviewFormat: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">Very Positive (765)</div>",
-                    requirements: "Donateur<sup><b>**</b></sup>",
-                    tags: "2D, Action, Aliens, Arcade, Classic, Co-op, Gore, Indie, Local Co-Op, Local Multiplayer, Post-apocalyptic, RPG, Sci-fi, Shoot 'Em Up, Shooter, Survival, Top-Down, Top-Down Shooter, Twin Stick Shooter, Zombies",
-                    details: "Single-player, Shared/Split Screen, Steam Achievements, Full controller support, Steam Trading Cards, Steam Cloud, Stats, Steam Leaderboards",
                 };
                 rows.push(row);
                 var row = {
@@ -3972,23 +3945,6 @@
                     requirements: "Standard<sup><b>*</b></sup>",
                     tags: "Action, Arcade, Arena Shooter, Atmospheric, Bullet Hell, Casual, Demons, Difficult, FPS, Fast-Paced, First-Person, Horror, Indie, Lovecraftian, Pixel Graphics, Retro, Rogue-like, Shooter, Singleplayer, Survival",
                     details: "Single-player",
-                };
-                rows.push(row);
-                var row = {
-                    name: "Devil May Cry 4: Special Edition",
-                    nameFormat: "<a href=\"http://store.steampowered.com/app/329050\"><b><div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">{0}</div></b><img src=\"http://cdn.akamai.steamstatic.com/steam/apps/329050/header.jpg?t=1454479940\" width=\"100%\"/></a>",
-                    description: "The smash-hit stylish action game DMC4 is back and better than ever, boasting new playable characters and game modes!",
-                    category: "Game",
-                    os: "Windows",
-                    price: 24.99,
-                    priceFormat: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">${0}</div>",
-                    genres: "Action",
-                    date: "2015&#8209;06&#8209;23",
-                    review: "09002058.0 Very Positive",
-                    reviewFormat: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">Very Positive (2058)</div>",
-                    requirements: "Premium<sup><b>**</b></sup>",
-                    tags: "Action, Adventure, Anime, Atmospheric, Beat 'em up, Character Action Game, Classic, Controller, Difficult, Female Protagonist, Great Soundtrack, Hack and Slash, RPG, Remake, Replay Value, Singleplayer, Spectacle fighter, Story Rich, Stylized, Third Person",
-                    details: "Single-player, Steam Achievements, Full controller support, Steam Trading Cards, Steam Cloud",
                 };
                 rows.push(row);
                 var row = {
@@ -6163,23 +6119,6 @@
                 };
                 rows.push(row);
                 var row = {
-                    name: "Grey Goo",
-                    nameFormat: "<a href=\"http://store.steampowered.com/app/290790\"><b><div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">{0}</div></b><img src=\"http://cdn.akamai.steamstatic.com/steam/apps/290790/header.jpg?t=1483460691\" width=\"100%\"/></a>",
-                    description: "Grey Goo is a real-time strategy (RTS) game that combines classic strategy mechanics and a balanced combat system with an emphasis on large-scale decision-making.",
-                    category: "Game",
-                    os: "Windows",
-                    price: 29.99,
-                    priceFormat: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">${0}</div>",
-                    genres: "Strategy",
-                    date: "2015&#8209;01&#8209;23",
-                    review: "07001675.0 Mostly Positive",
-                    reviewFormat: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">Mostly Positive (1675)</div>",
-                    requirements: "Donateur<sup><b>**</b></sup>",
-                    tags: "Aliens, Base Building, Competitive, Female Protagonist, Futuristic, Great Soundtrack, Indie, Mechs, Multiplayer, Open World, RTS, Robots, Sci-fi, Singleplayer, Space, Strategy",
-                    details: "Single-player, Multi-player, Steam Achievements, Steam Trading Cards, Steam Workshop, Steam Cloud, Valve Anti-Cheat enabled, Stats, Steam Leaderboards, Includes level editor",
-                };
-                rows.push(row);
-                var row = {
                     name: "Grimind",
                     nameFormat: "<a href=\"http://store.steampowered.com/app/265380\"><b><div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">{0}</div></b><img src=\"http://cdn.akamai.steamstatic.com/steam/apps/265380/header.jpg?t=1475934157\" width=\"100%\"/></a>",
                     description: "Grimind is a 2D, physics based, adventure, platform game in horror/creepy theme. Grimind casts you into forgotten caves and ancient crypts, without memories. While being there you have to demonstrate great manual skills to pass obstacles and solve non trivial puzzles to get out of scary environment and additionally discover what are you...",
@@ -7365,23 +7304,6 @@
                     requirements: "Standard<sup><b>*</b></sup>",
                     tags: "Adventure, Casual, Comedy, Family Friendly, Indie, Pirates, Point & Click, Touch-Friendly",
                     details: "Single-player, Steam Achievements, Steam Cloud",
-                };
-                rows.push(row);
-                var row = {
-                    name: "Jotun",
-                    nameFormat: "<a href=\"http://store.steampowered.com/app/323580\"><b><div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">{0}</div></b><img src=\"http://cdn.akamai.steamstatic.com/steam/apps/323580/header.jpg?t=1482360735\" width=\"100%\"/></a>",
-                    description: "Jotun is a hand-drawn action-exploration game set in Norse mythology.In Jotun, you play Thora, a Viking warrior who died an inglorious death and must prove herself to the Gods to enter Valhalla.Impress the Gods!",
-                    category: "Game",
-                    os: "Linux, Mac OS, Windows",
-                    price: 14.99,
-                    priceFormat: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">${0}</div>",
-                    genres: "Action, Adventure, Indie",
-                    date: "2015&#8209;09&#8209;29",
-                    review: "09001043.0 Very Positive",
-                    reviewFormat: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">Very Positive (1043)</div>",
-                    requirements: "Standard<sup><b>*</b></sup>",
-                    tags: "2D, Action, Adventure, Atmospheric, Difficult, Exploration, Fantasy, Female Protagonist, Great Soundtrack, Hand-drawn, Indie, Isometric, Mythology, Singleplayer",
-                    details: "Single-player, Steam Achievements, Full controller support, Steam Trading Cards, Steam Cloud",
                 };
                 rows.push(row);
                 var row = {
@@ -17500,7 +17422,7 @@
                     var items = ul.getElementsByTagName("li");
                     for (var i = 0; i < items.length; ++i) {
                         name = items[i].textContent.trim();
-                        checked = items[i].getElementsByTagName("input")[0].checked;
+                        checked = items[i].getElementsByTagName('input')[0].checked;
                         localStorage.setItem(name, checked);
                     }
                 });
