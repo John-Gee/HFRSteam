@@ -69,6 +69,10 @@
                     var profile = document.getElementById('libraryId').value;
                     if (!profile || /^\s*$/.test(profile))
                         return;
+                    if (profile.startsWith('http'))
+                        profile = profile.replace('http:', 'https:');
+                    else
+                        profile = 'https://' + profile;
 
                     // library
                     var library = ProxyURL(profile + '/games/?tab=all');
