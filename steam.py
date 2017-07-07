@@ -127,6 +127,10 @@ def get_collection_info(game, name, document):
                                                 class_='leftcol game_description_column')
     items               = domparser.get_elements(game_left_column, 'div',
                                                  class_='tab_item ')
+    if (len(items) == 0):
+        items           = domparser.get_elements(game_left_column, 'div',
+                                                 class_='tab_item')
+
     for item in items:
         itemlink        = domparser.get_value(item, 'a', 'href',
                                               class_='tab_item_overlay')

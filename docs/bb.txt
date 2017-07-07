@@ -90,7 +90,7 @@ BIT.TRIP RUNNER
 [url=http://store.steampowered.com/app/259390]Ballpoint Universe[/url]
 [url=http://store.steampowered.com/app/269490]Bardbarian[/url]
 Batman Arkham City Game of the Year Edition
-Batman: Arkham Knight
+[url=http://store.steampowered.com/app/208650]Batman: Arkham Knight[/url]
 [url=http://store.steampowered.com/app/296050]Battlepaths[/url]
 [url=http://store.steampowered.com/app/285130]Battleplan: American Civil War[/url]
 [url=http://store.steampowered.com/app/6870]Battlestations: Midway[/url]
@@ -137,7 +137,7 @@ Breach & Clear: Deadline
 [url=http://store.steampowered.com/app/232790]Broken Age[/url]
 [url=http://store.steampowered.com/app/33600]Broken Sword 2: The Smoking Mirror[/url]
 Broken Sword 3: The Sleeping Dragon
-Broken Sword 5
+[url=http://store.steampowered.com/app/262940]Broken Sword 5[/url]
 [url=http://store.steampowered.com/app/57640]Broken Sword: Director's Cut[/url]
 Brothers - A Tale of Two Sons
 Burnout Paradise: The Ultimate Box
@@ -572,7 +572,7 @@ Lovers in a Dangerous Spacetime
 [url=http://store.steampowered.com/app/43500]M.U.D. TV[/url]
 METAL SLUG 3
 [url=http://store.steampowered.com/app/58230]MacGuffin's Curse[/url]
-[url=http://store.steampowered.com/app/234140]Mad Max[/url]
+Mad Max
 [url=http://store.steampowered.com/app/25700]Madballs in Babo: Invasion[/url]
 [url=http://store.steampowered.com/app/25700]Madballs in Babo: Invasion DLCs[/url]
 Mafia II
