@@ -115,8 +115,8 @@ def parse_hfr_premium():
 
 def parse_hfr():
     games         = parse_hfr_std()
-    games.update(parse_hfr_donateur())
-    games.update(parse_hfr_premium())
+    #games.update(parse_hfr_donateur())
+    #games.update(parse_hfr_premium())
     return games
 
 if __name__ == '__main__':
