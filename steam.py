@@ -65,7 +65,7 @@ def get_store_info(game, name):
         game.store.description = domparser.get_text(document, 'span',
                                               class_="error")
         print('The page for game {0} shows an error: {1}'
-              .format(game.name, game.description))
+              .format(name, game.description))
         return
 
     if ( ('/sub/' in game.store.link) or ('/bundle/' in game.store.link)):
