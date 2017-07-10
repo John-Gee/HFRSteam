@@ -280,7 +280,7 @@ def get_game_price(purchase_block, name):
             if ('demo' in price.lower()):
                 continue
 
-            price = price.replace('$', '').strip()
+            price = price.replace('$', '').replace('€', '').strip()
             if (price.replace('.','',1).isdigit()):
                 return float(price)
             elif (('free' in price.lower()) or ('play' in price.lower())):
