@@ -11,6 +11,7 @@ class HFRData:
     def __init__(self, is_available, requirements):
         self.is_available = is_available
         self.requirements = requirements
+        self.gift_date   = ''
 
 
 class StoreData:
@@ -28,7 +29,6 @@ class StoreData:
         self.cnt_review   = None
         self.tags         = list()
         self.details      = list()
-
 
 class Game:
     def __init__(self, is_available=False, requirements=None):

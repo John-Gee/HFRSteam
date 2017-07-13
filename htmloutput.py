@@ -124,6 +124,8 @@ def get_data(games):
 
         if (len(game.store.details) > 0):
             data += writeline('details: "{0}",'.format(', '.join(game.store.details)))
+        
+        data += writeline('giftdate: "{0}",'.format(game.hfr.gift_date))
 
         decrease_indent_count()
         data += writeline('};')
