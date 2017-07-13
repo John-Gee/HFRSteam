@@ -1,7 +1,7 @@
+from datetime import datetime
 import os
 import re
 import sys
-from datetime import datetime
 
 import domparser
 from game import Game
@@ -51,10 +51,7 @@ def get_games(liste, requirements):
         if (cleanname):
             if (is_new):
                 game = Game(is_available, "Nouveauté")
-                game.hfr.gift_date = '{0}/{1}'.format(
-                    datetime.now().month,
-                    datetime.now().year
-                )
+                game.hfr.gift_date = datetime.now()
             else:
                 game = Game(is_available, requirements)
             games[cleanname] = game

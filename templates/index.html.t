@@ -270,12 +270,12 @@
                         },
                         giftdate: {
                             index: 102,
-                            type: "string",
-                            friendly: "Ajouté le",
-                            format: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">{0}</div>",
+                            type: 'string',
+                            friendly: 'Ajouté le',
+                            format: '<div style="white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%">{0}</div>',
                             unique: false,
-                            filter: "",
-                            hidden: localStorage.getItem("Gift_Date") ? !("true" == localStorage.getItem("Gift_Date")) : true,
+                            filter: '',
+                            hidden: localStorage.getItem('Gift_Date') ? !('true' == localStorage.getItem('Gift_Date')) : true,
                         },
                     };
                     
