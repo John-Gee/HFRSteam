@@ -7,6 +7,7 @@ import time
 import traceback
 
 import cache
+import cpu
 from game import Category, Game
 from mapper import Mapper
 import namematching
@@ -98,11 +99,12 @@ def get_games_info(options, games):
     keys               = list(steam.get_list_of_games())
 
     if (options.threads):
-        threadpool         = ThreadPoolExecutor(options.threads)
+        threads        = options.threads
     else:
         # get the number of cores
-        threads            = len(os.sched_getaffinity(0))
-        threadpool         = ThreadPoolExecutor(threads)
+        threads        = len(os.sched_getaffinity(0))
+
+    threadpool         = ThreadPoolExecutor(threads)
 
     i                  = 0
 
