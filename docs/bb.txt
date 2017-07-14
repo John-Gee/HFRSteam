@@ -466,7 +466,7 @@ Fuel
 [url=http://store.steampowered.com/app/225280]Full Mojo Rampage[/url]
 [url=http://store.steampowered.com/app/301480]GEARCRACK Arena[/url]
 [url=http://store.steampowered.com/app/332500]GRAV (Early Access)[/url]
-[url=http://store.steampowered.com/app/12750]GRID[/url]
+GRID
 GRID 2
 GRID 2 Drift Pack
 GRID 2 Spa- Francorchamps Track Pack
@@ -543,7 +543,7 @@ Guns of Icarus Online - Collector's Edition
 [url=http://store.steampowered.com/app/63000]HOARD[/url]
 [url=http://store.steampowered.com/app/246070]Hack 'n' Slash[/url]
 [url=http://store.steampowered.com/app/246070]Hack 'n' Slash + Soundtrack[/url]
-[url=http://store.steampowered.com/app/365450]Hacknet[/url]
+Hacknet
 [url=http://store.steampowered.com/app/294770]Haegemonia: Legions of Iron[/url]
 [url=http://store.steampowered.com/app/294790]Haegemonia: The Solon Heritage[/url]
 [url=http://store.steampowered.com/app/214830]Half Minute Hero: Super Mega Neo Climax Ultimate Boy[/url]
@@ -667,9 +667,9 @@ Knights of Pen & Paper 2
 [url=http://store.steampowered.com/app/212030]Kung Fu Strike: The Warrior's Rise[/url]
 LARA CROFT ET LE TEMPLE D'OSIRIS
 LEGO Batman
-[url=http://store.steampowered.com/app/21000]LEGO Batman: The Videogame[/url]
+LEGO Batman: The Videogame
 LEGO Jurassic World
-[url=http://store.steampowered.com/app/405310]LEGO MARVEL's Avengers[/url]
+LEGO MARVEL's Avengers
 LEGO STAR WARS: The Force Awakens
 LEGO Star Wars - The Complete Saga
 LEGO® Star Wars - The Complete Saga
