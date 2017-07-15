@@ -102,7 +102,7 @@ def get_games_info(options, games):
         threads        = options.threads
     else:
         # get the number of cores
-        threads        = len(os.sched_getaffinity(0))
+        threads        = cpu.get_number_of_cores()
 
     threadpool         = ThreadPoolExecutor(threads)
 
