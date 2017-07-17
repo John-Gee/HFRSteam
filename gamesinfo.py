@@ -88,7 +88,7 @@ def get_games_info(options, games):
     urlsmapping        = Mapper(URLS_MAPPING_FILE)
     namesmapping       = Mapper(NAMES_MAPPING_FILE)
 
-    keys = list(steam.get_list_of_games())
+    keys               = list(steam.get_list_of_games())
 
     if (options.threads):
         threadpool         = ThreadPoolExecutor(options.threads)
