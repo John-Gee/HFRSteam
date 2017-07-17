@@ -1,7 +1,5 @@
 from datetime import datetime
-import os
 import re
-import sys
 
 import domparser
 from game import Game

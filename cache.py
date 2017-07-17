@@ -21,5 +21,12 @@ def save_to_cache(db):
     pickle.dump(db, open(_CACHE_FILE, 'wb'))
 
 
-def merge_old_new_cache(db1, db2):
-    return {**db1, **db2}
+def merge_old_new_cache(ignore_cache, db1, db2):
+    for game in db2:
+        if (game in db1) and (db1[game].hfr.gift_date is not None):
+            db2[game].hfr.gift_date = db1[game].hfr.gift_date
+    if ignore_cache:
+        return db2
+    else:
+        return {**db1, **db2}
+

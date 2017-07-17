@@ -1,9 +1,9 @@
 import json
 import requests
-import sys
 
 
 session = requests.Session()
+
 
 def get_utf8_web_page(url):
     headers = {'User-Agent': 'Mozilla/5.0'}

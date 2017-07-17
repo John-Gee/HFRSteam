@@ -1,13 +1,9 @@
 from concurrent.futures import ThreadPoolExecutor
 import datetime
-import os
-import re
 import sys
-import time
 import traceback
 
 import cache
-from game import Category, Game
 from mapper import Mapper
 import namematching
 import steam
@@ -81,10 +77,7 @@ def get_game_info(threadpool, options, games, cachedgames, keys, gameName,
 
 def get_games_info(options, games):
 
-    if (options.ignorecache):
-        cachedgames = dict()
-    else:
-        cachedgames = cache.retrieve_db_from_cache()
+    cachedgames = cache.retrieve_db_from_cache()
 
     if (options.cacheonly):
         return cachedgames
@@ -95,7 +88,7 @@ def get_games_info(options, games):
     urlsmapping        = Mapper(URLS_MAPPING_FILE)
     namesmapping       = Mapper(NAMES_MAPPING_FILE)
 
-    keys               = list(steam.get_list_of_games())
+    keys = list(steam.get_list_of_games())
 
     if (options.threads):
         threadpool         = ThreadPoolExecutor(options.threads)
@@ -128,7 +121,7 @@ def get_games_info(options, games):
             traceback.print_exception(*exc_info)
         raise Exception('An exception was raised in some of the threads, see above.')
 
-    newcachedgames = cache.merge_old_new_cache(cachedgames, games)
+    newcachedgames = cache.merge_old_new_cache(options.ignorecache, cachedgames, games)
     cache.save_to_cache(newcachedgames)
     urlsmapping.save_mapping()
     namesmapping.save_mapping()
