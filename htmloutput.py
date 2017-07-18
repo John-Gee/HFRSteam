@@ -146,6 +146,10 @@ def output_to_html(games, file):
 
     text = text.replace('$DATE$', datetime.date.today().isoformat())
 
+    # These 2 chars proc a unicode encode error on Windows so we replace them
+    text = text.replace('\x97', '')
+    text = text.replace('\u2032', '\'')
+
     f = open(file, 'w')
     f.write(text)
     f.close()
