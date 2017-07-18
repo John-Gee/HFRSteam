@@ -3,14 +3,10 @@ import datetime
 from dateutil import parser
 import os
 import re
-import sys
-import traceback
-import urllib
 
 from game import Category, Game
 import domparser
 import namematching
-import stringutils
 import web
 
 

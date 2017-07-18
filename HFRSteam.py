@@ -2,7 +2,6 @@
 
 from optparse import OptionParser
 import os
-import sys
 
 import bboutput
 import gamesinfo

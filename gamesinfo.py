@@ -1,14 +1,10 @@
 from concurrent.futures import ThreadPoolExecutor
 import datetime
-import os
-import re
 import sys
-import time
 import traceback
 
 import cache
 import cpu
-from game import Category, Game
 from mapper import Mapper
 import namematching
 import steam

@@ -1,7 +1,6 @@
 import datetime
 import math
 import os
-import sys
 
 
 _indentcount = 4
