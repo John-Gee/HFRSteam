@@ -28,11 +28,17 @@ def get_game_info(threadpool, options, games, cachedgames, keys, gameName,
             # or allow the user to do so in the html page.
             return
 
+        # Whether the cache is ignored or not, if a game cached has a gift_date,
+        # we keep it
+        if ((gameName in cachedgames) and (cachedgames[gameName].hfr.gift_date)):
+            game.hfr.gift_date = cachedgames[gameName].hfr.gift_date
+
         if ((gameName in cachedgames) and (cachedgames[gameName].store.link)
+            and (not options.ignorecache)
             and ((options.game == None)
                  or (options.game.lower() not in gameName.lower()))):
 
-            game.store     = cachedgames[gameName].store
+            game.store         = cachedgames[gameName].store
 
         else:
             url          = urlsmapping.get_mapping(gameName)
@@ -78,10 +84,7 @@ def get_game_info(threadpool, options, games, cachedgames, keys, gameName,
 
 def get_games_info(options, games):
 
-    if (options.ignorecache):
-        cachedgames = dict()
-    else:
-        cachedgames = cache.retrieve_db_from_cache()
+    cachedgames = cache.retrieve_db_from_cache()
 
     if (options.cacheonly):
         return cachedgames

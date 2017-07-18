@@ -1,3 +1,4 @@
+from datetime import datetime
 import re
 
 import domparser
@@ -48,6 +49,7 @@ def get_games(liste, requirements):
         if (cleanname):
             if (is_new):
                 game = Game(is_available, "Nouveauté")
+                game.hfr.gift_date = datetime.now()
             else:
                 game = Game(is_available, requirements)
             games[cleanname] = game

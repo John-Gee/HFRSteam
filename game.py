@@ -11,6 +11,7 @@ class HFRData:
     def __init__(self, is_available, requirements):
         self.is_available = is_available
         self.requirements = requirements
+        self.gift_date    = None
 
 
 class StoreData:
@@ -35,15 +36,9 @@ class Game:
         self.hfr          = HFRData(is_available, requirements)
         self.store        = StoreData()
 
-
-    # we're only interested in pickling the store member
     def __getstate__(self):
         state = self.__dict__.copy()
-        if ('hfr' in state):
-            del state['hfr']
         return state
 
-
-    # unpickle the state, which should only be the store member
     def __setstate__(self, state):
         self.__dict__.update(state)
