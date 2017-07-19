@@ -18,7 +18,7 @@ _exc_infos = list()
 
 
 def get_game_info(threadpool, options, games, cachedgames, keys, gameName,
-                  urlsmapping, namesmapping):
+                  urlsmapping):
     global _exc_infos
 
     try:
@@ -40,24 +40,18 @@ def get_game_info(threadpool, options, games, cachedgames, keys, gameName,
 
         else:
             url          = urlsmapping.get_mapping(gameName)
-            mappedname   = namesmapping.get_mapping(gameName)
 
             if (url == None):
-                if (mappedname == None):
-                    appid = str(steam.get_appid(gameName))
-                    if ((options.matchingwords) and (appid == '')):
-                        matchednames = namematching.get_match(gameName.lower(), keys)
-                        if(len(matchednames) > 0):
-                            appid = str(steam.get_appid(matchednames[0]))
-                            if (appid != ''):
-                                namesmapping.add_to_mapping(
-                                    gameName, matchednames[0])
-                                print('Matched {0} with {1}'.
-                                        format(gameName, matchednames[0]))
-                elif (mappedname != 'NA'):
-                    appid = str(steam.get_appid(mappedname))
-                else:
-                    appid = None
+                appid = str(steam.get_appid(gameName))
+                if ((options.matchingwords) and (appid == '')):
+                    matchednames = namematching.get_match(gameName.lower(), keys)
+                    if (len(matchednames) > 0):
+                        appid = str(steam.get_appid(matchednames[0]))
+                        if (appid != ''):
+                            urlsmapping.add_to_mapping(gameName,
+                                                       steam.get_urlmapping_fromappid(appid))
+                            print('Matched {0} with {1}'.
+                                    format(gameName, matchednames[0]))
 
                 if ((appid == None) or (appid == '')):
                     game.store.appid = ''
@@ -92,9 +86,7 @@ def get_games_info(options, games):
 
     MAPPING_FOLDER     = 'mappings'
     URLS_MAPPING_FILE  = MAPPING_FOLDER + '/urlsmapping.txt'
-    NAMES_MAPPING_FILE = MAPPING_FOLDER + '/namesmapping.txt'
     urlsmapping        = Mapper(URLS_MAPPING_FILE)
-    namesmapping       = Mapper(NAMES_MAPPING_FILE)
 
     keys               = list(steam.get_list_of_games())
 
@@ -121,8 +113,7 @@ def get_games_info(options, games):
             break
 
         threadpool.submit(get_game_info, threadpool,
-                          options, games, cachedgames, keys, gameName, urlsmapping,
-                          namesmapping)
+                          options, games, cachedgames, keys, gameName, urlsmapping)
 
     threadpool.shutdown(wait=True)
     if (len(_exc_infos)):
@@ -133,4 +124,3 @@ def get_games_info(options, games):
     newcachedgames = cache.merge_old_new_cache(cachedgames, games)
     cache.save_to_cache(newcachedgames)
     urlsmapping.save_mapping()
-    namesmapping.save_mapping()
