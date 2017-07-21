@@ -3,7 +3,7 @@ import pickle
 import traceback
 
 
-_CACHE_FILE = 'cache.p'
+_CACHE_FILE = 'cache/cache.p'
 
 
 def retrieve_db_from_cache():
