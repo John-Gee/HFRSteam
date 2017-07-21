@@ -17,9 +17,9 @@ def retrieve_db_from_cache():
     return db
 
 
-def save_to_cache(db):
-    pickle.dump(db, open(_CACHE_FILE, 'wb'))
+def save_to_cache(cache):
+    pickle.dump(cache, open(_CACHE_FILE, 'wb'))
 
 
-def merge_old_new_cache(db1, db2):
-    return {**db1, **db2}
+def merge_old_new_cache(cache1, cache2):
+    return {**cache1, **cache2}
