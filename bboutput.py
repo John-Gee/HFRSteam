@@ -1,5 +1,4 @@
 import os
-import sys
 
 
 def output_to_bb(games, file):

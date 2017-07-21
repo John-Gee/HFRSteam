@@ -1,7 +1,6 @@
 import datetime
 import math
 import os
-import sys
 
 
 _indentcount = 4
@@ -125,6 +124,9 @@ def get_data(games):
         if (len(game.store.details) > 0):
             data += writeline('details: "{0}",'.format(', '.join(game.store.details)))
 
+        if (game.hfr.gift_date):
+            data += writeline('giftdate: "{0}",'.format(game.hfr.gift_date.strftime("%Y-%m-%d")))
+
         decrease_indent_count()
         data += writeline('};')
         data += writeline('rows.push(row);')
@@ -146,6 +148,10 @@ def output_to_html(games, file):
     text = templatetext.replace(TEXT_TO_REPLACE, data)
 
     text = text.replace('$DATE$', datetime.date.today().isoformat())
+
+    # These 2 chars proc a unicode encode error on Windows so we replace them
+    text = text.replace('\x97', '')
+    text = text.replace('\u2032', '\'')
 
     f = open(file, 'w')
     f.write(text)

@@ -1,4 +1,3 @@
-import sys
 
 
 def substringafter(string, after, offset=0):
