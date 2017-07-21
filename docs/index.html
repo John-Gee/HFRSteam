@@ -168,7 +168,7 @@
                             unique: true,
                             sortOrder: 'asc',
                             filter: '',
-                            hidden: localStorage.getItem('Name') ? !('true' == localStorage.getItem('Name')) : false,
+                            hidden: localStorage.getItem('Nom') ? !('true' == localStorage.getItem('Nom')) : false,
                         },
                         description: {
                             index: 2,
@@ -205,7 +205,7 @@
                             format: '<div style="white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%">{0}</div>',
                             unique: false,
                             filter: '',
-                            hidden: localStorage.getItem('Price') ? !('true' == localStorage.getItem('Price')) : false,
+                            hidden: localStorage.getItem('Prix') ? !('true' == localStorage.getItem('Prix')) : false,
                         },
                         genres: {
                             index: 6,
@@ -223,7 +223,7 @@
                             format: '<div style="white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%">{0}</div>',
                             unique: false,
                             filter: '',
-                            hidden: localStorage.getItem('Release Date') ? !('true' == localStorage.getItem('Release Date')) : false,
+                            hidden: localStorage.getItem('Parution') ? !('true' == localStorage.getItem('Parution')) : false,
                         },
                         review: {
                             index: 8,
@@ -232,7 +232,7 @@
                             format: '<div style="white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%">{0}</div>',
                             unique: false,
                             filter: '',
-                            hidden: localStorage.getItem('Reviews') ? !('true' == localStorage.getItem('Reviews')) : false,
+                            hidden: localStorage.getItem('Revues') ? !('true' == localStorage.getItem('Revues')) : false,
                         },
                         requirements: {
                             index: 9,
@@ -240,7 +240,7 @@
                             friendly: 'Liste HFR',
                             unique: false,
                             filter: '',
-                            hidden: localStorage.getItem('Requirements') ? !('true' == localStorage.getItem('Requirements')) : false,
+                            hidden: localStorage.getItem('Liste HFR') ? !('true' == localStorage.getItem('Liste HFR')) : false,
                         },
                         store: {
                             index: 10,
@@ -248,7 +248,7 @@
                             friendly: 'Liste Steam',
                             unique: false,
                             filter: '',
-                            hidden: localStorage.getItem('Store') ? !('true' == localStorage.getItem('Store')) : false,
+                            hidden: localStorage.getItem('Liste Steam') ? !('true' == localStorage.getItem('Liste Steam')) : false,
                         },
                         tags: {
                             index: 100,
@@ -275,7 +275,7 @@
                             format: '<div style="white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%">{0}</div>',
                             unique: false,
                             filter: '',
-                            hidden: localStorage.getItem('Gift_Date') ? !('true' == localStorage.getItem('Gift_Date')) : true,
+                            hidden: localStorage.getItem('Ajouté le') ? !('true' == localStorage.getItem('Ajouté le')) : true,
                         },
                     };
                     
