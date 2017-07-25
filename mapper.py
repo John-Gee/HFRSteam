@@ -18,6 +18,10 @@ class Mapper:
                 line = line[1:-1]
                 if (self.LINK in line):
                     tup = line.split(self.LINK)
+                    if (tup[0].lower() in self.__mapping):
+                        print('The key {0} is already in the mapper!'.format(
+                            tup[0].lower()))
+                        continue
                     if (len(tup) == 2):
                         self.__mapping[tup[0].lower()] = (tup[1].lower(),)
                     elif (len(tup) == 3):
