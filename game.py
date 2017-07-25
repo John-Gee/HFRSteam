@@ -29,6 +29,7 @@ class StoreData:
         self.cnt_review   = None
         self.tags         = list()
         self.details      = list()
+        self.override     = False
 
 
 class Game:

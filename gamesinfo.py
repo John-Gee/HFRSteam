@@ -5,6 +5,7 @@ import traceback
 
 import cache
 import cpu
+from game import Category
 from mapper import Mapper
 import namematching
 import steam
@@ -41,9 +42,9 @@ def get_game_info(threadpool, options, games, cachedgames, keys, gameName,
             game.store         = cachedgames[gameName].store
 
         else:
-            url          = urlsmapping.get_mapping(gameName)
+            mapping  = urlsmapping.get_mapping(gameName)
 
-            if (url == None):
+            if (mapping == None):
                 appid = str(steam.get_appid(gameName))
                 if ((options.matchingwords) and (appid == '')):
                     matchednames = namematching.get_match(gameName.lower(), keys)
@@ -64,8 +65,14 @@ def get_game_info(threadpool, options, games, cachedgames, keys, gameName,
                     steam.get_store_info_from_appid(game, gameName, appid)
 
             else:
+                url      = mapping[0]
+                category = mapping[1] if (len(mapping) == 2) else None
                 print('URL mapping found for game {0}'.format(gameName))
                 steam.get_store_info_from_url(game, gameName, url)
+                # overwriting the steam provided category
+                if (category):
+                    game.store.category = Category[category.upper()]
+                    game.store.override = True
 
             print('Info for game {0} was retrieved, {1}'
                   .format(gameName, str(datetime.datetime.now().time())))
