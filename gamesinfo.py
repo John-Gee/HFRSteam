@@ -68,6 +68,11 @@ def get_game_info(threadpool, options, games, cachedgames, keys, gameName,
             else:
                 url      = mapping[0]
                 category = mapping[1] if (len(mapping) == 2) else None
+
+                if (url == 'ignore'):
+                    print ('{0} cannot be found and is to be ignored'.format(gameName))
+                    return
+
                 print('URL mapping found for game {0}'.format(gameName))
                 steam.get_store_info_from_url(game, gameName, url)
                 # overwriting the steam provided category
