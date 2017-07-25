@@ -1,5 +1,6 @@
 from concurrent.futures import ThreadPoolExecutor
 import datetime
+import os
 import sys
 import traceback
 
@@ -91,7 +92,7 @@ def get_games_info(options, games):
         return cachedgames
 
     MAPPING_FOLDER     = 'mappings'
-    URLS_MAPPING_FILE  = MAPPING_FOLDER + '/urlsmapping.txt'
+    URLS_MAPPING_FILE  = os.path.join(MAPPING_FOLDER, 'urlsmapping.txt')
     urlsmapping        = Mapper(URLS_MAPPING_FILE)
 
     keys               = list(steam.get_list_of_games())
