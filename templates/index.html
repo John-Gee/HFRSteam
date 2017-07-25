@@ -25,6 +25,10 @@
                 margin-left: 0.5em;
                 margin-right: 0.5em;
             }
+            .override {
+                font-style: italic;
+                color: Orange;
+            }
         </style>
     </head>
     <body>
@@ -48,6 +52,9 @@
                 <br/>
                 <a href="http://forum.hardware.fr/hfr/JeuxVideo/Achat-Ventes/gratuit-origin-download-sujet_171605_1.htm#t8952242" style="color:grey"><small>**<u>Règles pour les listes donateur et premium (vers le milieu du poste).</u></small></a>
                 <br/>
+            </div>
+            <div class="override">
+                <small>Merci de faire attention au nom, ces lignes ne pointant pas vers leur page exacte, qui n&#39;existe pas.</small>
             </div>
             <script type="text/javascript">
                 $(document).ready(function(){
@@ -117,14 +124,15 @@
                                     var href = data.rows[i]['nameFormat'];
                                     href = href.substring(href.indexOf('"') + 1);
                                     href = href.substring(0, href.indexOf('"'));
+                                    cls  = data.rows[i]['row-cls'];
 
                                     if (href in libraryURLs) {
-                                        data.rows[i]['row-cls'] = 'green';
+                                        data.rows[i]['row-cls'] = 'green,';
                                         data.rows[i]['store'] = 'Librarie';
                                     }
 
                                     else if (href in wishlistURLs) {
-                                        data.rows[i]['row-cls'] = 'blue';
+                                        data.rows[i]['row-cls'] = 'blue,';
                                         data.rows[i]['store'] = 'Souhait';
                                     }
 
@@ -132,6 +140,9 @@
                                         data.rows[i]['row-cls'] = '';
                                         data.rows[i]['store'] = '';
                                     }
+
+                                    if ((typeof cls !== 'undefined') && (cls.includes('override')))
+                                        data.rows[i]['row-cls'] += 'override,'
                                 }
                             }
                             Platform.performMicrotaskCheckpoint();

@@ -89,7 +89,7 @@
 "batman: arkham origins dlc<->app/257070"
 "battle group 2<->app/277490"
 "battle vs chess<->app/211050"
-"battleborn<->app/394230"
+"battleborn<->app/490060"
 "battleborn first born pack<->app/394230<->dlc"
 "battlepaths<->app/296050"
 "battleplan: american civil war<->app/285130"

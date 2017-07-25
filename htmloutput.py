@@ -129,13 +129,18 @@ def get_data(games):
 
         decrease_indent_count()
         data += writeline('};')
+        try:
+            if (game.store.override):
+                data += writeline('row[\'row-cls\'] = \'override\'')
+        except:
+            pass
         data += writeline('rows.push(row);')
 
     return data
 
 
 def output_to_html(games, file):
-    TEMPLATE_FILE   = 'templates/index.html.t'
+    TEMPLATE_FILE   = 'templates/index.html'
     TEXT_TO_REPLACE = '$TEMPLATE$'
     DATE_TO_REPLACE = '$DATE$'
 

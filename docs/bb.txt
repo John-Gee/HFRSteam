@@ -114,11 +114,11 @@ Batman Arkham City Game of the Year Edition
 Batman: Arkham Asylum GOTY
 Batman: Arkham City GOTY Edition
 Batman: Arkham Knight
-Batman: Arkham Origins DLC
+[url=http://store.steampowered.com/app/257070]Batman: Arkham Origins DLC[/url]
 [url=http://store.steampowered.com/app/277490]Battle Group 2[/url]
 [url=http://store.steampowered.com/app/211050]Battle vs Chess[/url]
-[url=http://store.steampowered.com/app/394230]Battleborn[/url]
-Battleborn first born pack
+[url=http://store.steampowered.com/app/490060]Battleborn[/url]
+[url=http://store.steampowered.com/app/394230]Battleborn first born pack[/url]
 [url=http://store.steampowered.com/app/296050]Battlepaths[/url]
 [url=http://store.steampowered.com/app/285130]Battleplan: American Civil War[/url]
 [url=http://store.steampowered.com/app/6870]Battlestations: Midway[/url]
@@ -162,7 +162,7 @@ Blood Bowl: Chaos Edition
 [url=http://store.steampowered.com/app/3810]BloodRayne[/url]
 [url=http://store.steampowered.com/app/3820]BloodRayne 2[/url]
 [url=http://store.steampowered.com/app/281220]BloodRayne Betrayal[/url]
-BloodRealm: Battlegrounds Debut Champion Lora + 3 Elite Packs
+[url=http://store.steampowered.com/app/311700]BloodRealm: Battlegrounds Debut Champion Lora + 3 Elite Packs[/url]
 [url=http://store.steampowered.com/app/348020]Bloodbath Kavkaz[/url]
 [url=http://store.steampowered.com/sub/32848/]Borderlands 2 GOTY[/url]
 Borderlands et DLC
@@ -172,7 +172,7 @@ Borderlands: The Pre-Sequel
 [url=http://store.steampowered.com/app/243930]Bound By Flame[/url]
 Braid
 [url=http://store.steampowered.com/app/266130]Breach & Clear[/url]
-Breach & Clear: Deadline
+[url=http://store.steampowered.com/app/310890]Breach & Clear: Deadline[/url]
 [url=http://store.steampowered.com/app/250460]Bridge Constructor[/url]
 [url=http://store.steampowered.com/app/319850]Bridge Constructor Medieval[/url]
 Broken Age
@@ -194,7 +194,7 @@ Cannon Fodder 3
 [url=http://store.steampowered.com/app/220460]Cargo Commander[/url]
 [url=http://store.steampowered.com/app/241410]CastleStorm[/url]
 [url=http://store.steampowered.com/app/447890]Cat on a Diet[/url]
-Cave Story
+[url=http://store.steampowered.com/app/200900]Cave Story[/url]
 Cave Story+
 [url=http://store.steampowered.com/app/287100]Chaos Domain[/url]
 Chaos on Deponia
@@ -757,7 +757,7 @@ Mercenary Kings
 [url=http://store.steampowered.com/app/223510]Miasmata[/url]
 Middle-earth: Shadow of Mordor - Game of the Year Edition
 Might & Magic Duel of Champions – Starter Pack
-Might & Magic Heroes Online - Angel Starter Pack
+[url=http://store.steampowered.com/app/336520]Might & Magic Heroes Online - Angel Starter Pack[/url]
 Might & Magic Heroes VI - Gold Edition
 [url=http://store.steampowered.com/app/289570]Might & Magic X Legacy - The Falcon & The Unicorn DLC[/url]
 Might & Magic: Clash of Heroes + I Am the Boss DLC
@@ -1024,7 +1024,7 @@ STALKER Shadow of Tchernobyl
 [url=http://store.steampowered.com/app/456540]STAR WARS: Rebel Assault I + II[/url]
 STRIDER
 [url=http://store.steampowered.com/app/404770]SUPERFIGHT[/url]
-SUPERFIGHT - The Joiner Micro Deck
+[url=http://store.steampowered.com/app/404770]SUPERFIGHT - The Joiner Micro Deck[/url]
 [url=http://store.steampowered.com/app/404770]SUPERFIGHT Closed Beta Access[/url]
 [url=http://store.steampowered.com/app/40500]Sacraboar[/url]
 [url=http://store.steampowered.com/app/247950]Sacred 3 Gold[/url]
@@ -1292,7 +1292,7 @@ The Guild II Collection
 [url=http://store.steampowered.com/app/23310]The Last Remnant[/url]
 [url=http://store.steampowered.com/app/260160]The Last Tinker: City of Colors[/url]
 [url=http://store.steampowered.com/app/6310]The Longest Journey[/url]
-The Lord of the Rings Online: Steely Dawn Starter Pack
+[url=http://store.steampowered.com/app/212500]The Lord of the Rings Online: Steely Dawn Starter Pack[/url]
 [url=http://store.steampowered.com/app/32800]The Lord of the Rings: War in the North[/url]
 [url=http://store.steampowered.com/app/323380]The Magic Circle[/url]
 [url=http://store.steampowered.com/app/327310]The Marvellous Miss Take[/url]
@@ -1305,7 +1305,7 @@ The Night of the Rabbit: Premium Edition
 [url=http://store.steampowered.com/app/317040]The Original Strife: Veteran Edition[/url]
 [url=http://store.steampowered.com/app/206020]The Second Avernum Trilogy[/url]
 The Secret World
-The Ship - 2 Pack Gift
+[url=http://store.steampowered.com/app/2400]The Ship - 2 Pack Gift[/url]
 [url=http://store.steampowered.com/app/204080]The Showdown Effect[/url]
 The Silent Age
 [url=http://store.steampowered.com/app/47895]The Sims 3 High End Loft Stuff[/url]
