@@ -110,10 +110,8 @@ BIT.TRIP RUNNER
 [url=http://store.steampowered.com/app/259390]Ballpoint Universe[/url]
 [url=http://store.steampowered.com/app/269490]Bardbarian[/url]
 Bastion
-Batman Arkham City Game of the Year Edition
 Batman: Arkham Asylum GOTY
 Batman: Arkham City GOTY Edition
-Batman: Arkham Knight
 [url=http://store.steampowered.com/app/257070]Batman: Arkham Origins DLC[/url]
 [url=http://store.steampowered.com/app/277490]Battle Group 2[/url]
 [url=http://store.steampowered.com/app/211050]Battle vs Chess[/url]
@@ -169,7 +167,7 @@ Borderlands et DLC
 Borderlands: The Pre-Sequel
 [url=http://store.steampowered.com/app/302610]Boson X[/url]
 [url=http://store.steampowered.com/app/207690]Botanicula[/url]
-[url=http://store.steampowered.com/app/243930]Bound By Flame[/url]
+Bound By Flame
 Braid
 [url=http://store.steampowered.com/app/266130]Breach & Clear[/url]
 [url=http://store.steampowered.com/app/310890]Breach & Clear: Deadline[/url]
@@ -245,7 +243,6 @@ Cossacks: European Wars
 [url=http://store.steampowered.com/app/115100]Costume Quest[/url]
 [url=http://store.steampowered.com/app/275180]Costume Quest 2[/url]
 [url=http://store.steampowered.com/app/11390]Crash Time 2[/url]
-[url=http://store.steampowered.com/app/391730]Crashlands[/url]
 [url=http://store.steampowered.com/app/293780]Crawl[/url]
 Crazy Machines 2
 Crimsonland
@@ -426,7 +423,6 @@ FINAL FANTASY XIII
 [url=http://store.steampowered.com/app/305070]FIST OF AWESOME[/url]
 [url=http://store.steampowered.com/app/249990]FORCED[/url]
 [url=http://store.steampowered.com/app/293480]FRONTIERS[/url]
-FTL: Faster Than Light Advanced Edition
 [url=http://store.steampowered.com/app/244690]Face Noir[/url]
 Fahrenheit: Indigo Prophecy Remastered
 [url=http://store.steampowered.com/app/214590]Fairy Bloom Freesia[/url]
@@ -543,7 +539,6 @@ Guns of Icarus Online - Collector's Edition
 [url=http://store.steampowered.com/app/63000]HOARD[/url]
 [url=http://store.steampowered.com/app/246070]Hack 'n' Slash[/url]
 [url=http://store.steampowered.com/app/246070]Hack 'n' Slash + Soundtrack[/url]
-Hacknet
 [url=http://store.steampowered.com/app/294770]Haegemonia: Legions of Iron[/url]
 [url=http://store.steampowered.com/app/294790]Haegemonia: The Solon Heritage[/url]
 [url=http://store.steampowered.com/app/214830]Half Minute Hero: Super Mega Neo Climax Ultimate Boy[/url]
@@ -667,10 +662,6 @@ Knights of Pen & Paper 2
 [url=http://store.steampowered.com/app/212030]Kung Fu Strike: The Warrior's Rise[/url]
 LARA CROFT ET LE TEMPLE D'OSIRIS
 LEGO Batman
-LEGO Batman: The Videogame
-LEGO Jurassic World
-LEGO MARVEL's Avengers
-LEGO STAR WARS: The Force Awakens
 LEGO Star Wars - The Complete Saga
 LEGO® Star Wars - The Complete Saga
 [url=http://store.steampowered.com/app/48000]LIMBO[/url]
@@ -755,7 +746,6 @@ Mercenary Kings
 [url=http://store.steampowered.com/app/294020]Merchants of Kaidan[/url]
 [url=http://store.steampowered.com/app/265120]Meridian: New World[/url]
 [url=http://store.steampowered.com/app/223510]Miasmata[/url]
-Middle-earth: Shadow of Mordor - Game of the Year Edition
 Might & Magic Duel of Champions – Starter Pack
 [url=http://store.steampowered.com/app/336520]Might & Magic Heroes Online - Angel Starter Pack[/url]
 Might & Magic Heroes VI - Gold Edition
@@ -779,8 +769,6 @@ Mirror's Edge
 Monstrum
 [url=http://store.steampowered.com/app/237110]Mortal Combat Komplete Edition[/url]
 Mortal Kombat Kollection
-Mortal Kombat Komplete Edition
-Mortal Kombat X
 [url=http://store.steampowered.com/app/22100]Mount & Blade[/url]
 [url=http://store.steampowered.com/app/48720]Mount & Blade: With Fire & Sword[/url]
 [url=http://store.steampowered.com/app/313340]Mountain[/url]
@@ -1030,7 +1018,6 @@ STRIDER
 [url=http://store.steampowered.com/app/247950]Sacred 3 Gold[/url]
 [url=http://store.steampowered.com/app/9480]Saints Row 2[/url]
 Saints Row IV
-Saints Row IV: Game of the Century Edition
 Saints Row: The Third - The Full Package
 [url=http://store.steampowered.com/app/48900]Saira[/url]
 [url=http://store.steampowered.com/app/901399]Sam & Max: Devil's Playhouse[/url]
@@ -1040,7 +1027,6 @@ Sanctum 2
 [url=http://store.steampowered.com/sub/17085]Sanctum: Collection[/url]
 [url=http://store.steampowered.com/app/227220]Sang-Froid - Tales of Werewolves[/url]
 [url=http://store.steampowered.com/app/203990]Satazius[/url]
-Satellite Reign
 [url=http://store.steampowered.com/app/263320]Saturday Morning RPG[/url]
 [url=http://store.steampowered.com/app/307880]Savage Lands (Early Access)[/url]
 [url=http://store.steampowered.com/app/301990]School Bus Fun[/url]
@@ -1373,7 +1359,6 @@ Trackmania² Stadium
 [url=http://store.steampowered.com/app/289930]TransOcean: The Shipping Company[/url]
 Transcripted
 [url=http://store.steampowered.com/app/98100]Trauma[/url]
-Trine 2 : Complete Story
 Trine 2: Complete Story
 Trine 3: The Artifacts of Power
 [url=http://store.steampowered.com/app/35700]Trine Enchanted Edition[/url]
