@@ -35,7 +35,7 @@
         <div class="main">
             <div>
                 <h1>Liste HFR Steam</h1>
-                <h6>Mise à jour le 2017-07-31</h6>
+                <h6>Mise à jour le 2017-08-07</h6>
                 <a href="https://github.com/John-Gee/HFRSteam">
                     <img style="position: absolute; top: 0; right: 0; border: 0; max-width: 75px;" src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png">
                 </a>
@@ -216,7 +216,7 @@
                             format: '<div style="white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%">{0}</div>',
                             unique: false,
                             filter: '',
-                            hidden: localStorage.getItem('Prix') ? !('true' == localStorage.getItem('Prix')) : false,
+                            hidden: localStorage.getItem('Prix') ? !('true' == localStorage.getItem('Prix')) : true,
                         },
                         genres: {
                             index: 6,
@@ -234,7 +234,7 @@
                             format: '<div style="white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%">{0}</div>',
                             unique: false,
                             filter: '',
-                            hidden: localStorage.getItem('Parution') ? !('true' == localStorage.getItem('Parution')) : false,
+                            hidden: localStorage.getItem('Parution') ? !('true' == localStorage.getItem('Parution')) : true,
                         },
                         review: {
                             index: 8,
@@ -259,7 +259,7 @@
                             friendly: 'Liste Steam',
                             unique: false,
                             filter: '',
-                            hidden: localStorage.getItem('Liste Steam') ? !('true' == localStorage.getItem('Liste Steam')) : false,
+                            hidden: localStorage.getItem('Liste Steam') ? !('true' == localStorage.getItem('Liste Steam')) : true,
                         },
                         tags: {
                             index: 100,
@@ -2361,24 +2361,6 @@
                     requirements: "Standard<sup><b>*</b></sup>",
                     tags: "3D Platformer, Action, Arcade, Difficult, Great Soundtrack, Indie, Platformer, Runner, Singleplayer",
                     details: "Single-player, Steam Achievements, Full controller support, Steam Trading Cards, Steam Leaderboards",
-                };
-                rows.push(row);
-                var row = {
-                    name: "Botanicula",
-                    nameFormat: "<a href=\"http://store.steampowered.com/app/207690\"><b><div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">{0}</div></b><img src=\"http://cdn.akamai.steamstatic.com/steam/apps/207690/header.jpg?t=1497608935\" width=\"100%\"/></a>",
-                    description: "Humor-filled indie adventure game created by the makers of Machinarium.",
-                    category: "Game",
-                    os: "Mac OS, Windows",
-                    price: 9.99,
-                    priceFormat: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">${0}</div>",
-                    genres: "Adventure, Casual, Indie",
-                    date: "2012&#8209;05&#8209;07",
-                    review: "10001652.0 Overwhelmingly Positive",
-                    reviewFormat: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">Overwhelmingly Positive (1652)</div>",
-                    requirements: "Standard<sup><b>*</b></sup>",
-                    tags: "2D, Adventure, Atmospheric, Casual, Comedy, Cute, Exploration, Family Friendly, Funny, Great Soundtrack, Indie, Point & Click, Puzzle, Relaxing, Singleplayer, Surreal, Touch-Friendly",
-                    details: "Single-player, Steam Achievements",
-                    giftdate: "2017-07-21",
                 };
                 rows.push(row);
                 var row = {
@@ -5961,24 +5943,6 @@
                     requirements: "Standard<sup><b>*</b></sup>",
                     tags: "Action, Casual, Horror, Indie",
                     details: "Single-player, Steam Achievements",
-                };
-                rows.push(row);
-                var row = {
-                    name: "Goat Simulator: GOATY",
-                    nameFormat: "<a href=\"http://store.steampowered.com/bundle/374\"><b><div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">{0}</div></b><img src=\"http://cdn.akamai.steamstatic.com/steam/bundles/374/sbcr97yh71i19b0r/header_586x192.jpg?t=1464293928\" width=\"100%\"/></a>",
-                    description: "Items included in this package:<br/>- Goat Simulator<br/>- Goat Simulator: Original Soundtrack<br/>- Goat Simulator: GoatZ<br/>- Goat Simulator: PAYDAY<br/>- Goat Simulator: Waste of Space",
-                    category: "Collection",
-                    os: "Linux, Mac OS, Windows",
-                    price: 27.85,
-                    priceFormat: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">${0}</div>",
-                    genres: "Casual, Indie, Simulation",
-                    date: "2016&#8209;05&#8209;26",
-                    review: "09007260.0 Very Positive",
-                    reviewFormat: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">Very Positive (7260)</div>",
-                    requirements: "Standard<sup><b>*</b></sup>",
-                    tags: "Action, Adventure, Atmospheric, Casual, Co-op, Comedy, Crafting, Crime, Destruction, Exploration, Family Friendly, Funny, Futuristic, Horror, Indie, Local Co-Op, Local Multiplayer, MMORPG, Memes, Moddable, Multiplayer, Open World, Physics, Sandbox, Sci-fi, Simulation, Singleplayer, Space, Survival, Third Person, Zombies",
-                    details: "Single-player, Shared/Split Screen, Downloadable Content, Steam Achievements, Full controller support, Steam Trading Cards, Steam Workshop, Steam Cloud, Steam Leaderboards, Includes level editor",
-                    giftdate: "2017-07-21",
                 };
                 rows.push(row);
                 var row = {
@@ -11773,23 +11737,6 @@
                 };
                 rows.push(row);
                 var row = {
-                    name: "Runaway: A Twist of Fate",
-                    nameFormat: "<a href=\"http://store.steampowered.com/app/58560\"><b><div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">{0}</div></b><img src=\"http://cdn.akamai.steamstatic.com/steam/apps/58560/header.jpg?t=1447354126\" width=\"100%\"/></a>",
-                    description: "Runaway: A Twist of Fate is the adventure game of the year! Featuring a production worthy of a big 2D animated movie, Runaway follows a story full of twists and turns, and packed with comical highlights. All in all, you will be confronted with more than 200 mysteries and puzzles to keep your brain running through a big adventure that you...",
-                    category: "Game",
-                    os: "Windows",
-                    price: 9.99,
-                    priceFormat: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">${0}</div>",
-                    genres: "Adventure",
-                    date: "2011&#8209;04&#8209;21",
-                    review: "09000145.0 Very Positive",
-                    reviewFormat: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">Very Positive (145)</div>",
-                    requirements: "Standard<sup><b>*</b></sup>",
-                    tags: "Adventure, Mystery, Point & Click",
-                    details: "Single-player",
-                };
-                rows.push(row);
-                var row = {
                     name: "Runaway: The Dream of the Turtle",
                     nameFormat: "<a href=\"http://store.steampowered.com/app/7220\"><b><div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">{0}</div></b><img src=\"http://cdn.akamai.steamstatic.com/steam/apps/7220/header.jpg?t=1447350993\" width=\"100%\"/></a>",
                     description: "Travel to the four corners of the world with Brian and Gina in a crazy story packed full of surprises. Pirates, spies, surfers, soldiers, and even aliens get in on the act - all combining to create a wonderfully rewarding experience to savour and remember forever!",
@@ -12447,23 +12394,6 @@
                     tags: "Adventure, Atmospheric, CRPG, Crowdfunded, Cyberpunk, Dystopian, Fantasy, Female Protagonist, Indie, Isometric, Kickstarter, Moddable, RPG, Sci-fi, Singleplayer, Story Rich, Strategy, Tactical, Turn-Based, Turn-Based Strategy",
                     details: "Single-player, Steam Trading Cards, Steam Workshop, Steam Cloud, Includes level editor",
                     giftdate: "2017-07-21",
-                };
-                rows.push(row);
-                var row = {
-                    name: "Shadowrun: Hong Kong - Extended Edition",
-                    nameFormat: "<a href=\"http://store.steampowered.com/app/346940\"><b><div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">{0}</div></b><img src=\"http://cdn.akamai.steamstatic.com/steam/apps/346940/header.jpg?t=1454717774\" width=\"100%\"/></a>",
-                    description: "Shadowrun: Hong Kong - Extended Edition is the capstone title in Harebrained Schemes' Shadowrun series - and now includes the all-new, 6+ hr Shadows of Hong Kong Bonus Campaign. Experience the most impressive Shadowrun RPG yet, hailed as one of the best cRPG / strategy games of 2015!",
-                    category: "Game",
-                    os: "Linux, Mac OS, Windows",
-                    price: 19.99,
-                    priceFormat: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">${0}</div>",
-                    genres: "Adventure, Indie, RPG, Strategy",
-                    date: "2015&#8209;08&#8209;20",
-                    review: "09001336.0 Very Positive",
-                    reviewFormat: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">Very Positive (1336)</div>",
-                    requirements: "Standard<sup><b>*</b></sup>",
-                    tags: "Action, Adventure, Atmospheric, CRPG, Character Customization, Cyberpunk, Fantasy, Female Protagonist, Great Soundtrack, Indie, Isometric, Kickstarter, RPG, Sci-fi, Singleplayer, Story Rich, Strategy, Turn-Based, Turn-Based Combat, Turn-Based Tactics",
-                    details: "Single-player, Steam Achievements, Steam Workshop, Steam Cloud, Includes level editor",
                 };
                 rows.push(row);
                 var row = {
@@ -16526,23 +16456,6 @@
                     requirements: "Standard<sup><b>*</b></sup>",
                     tags: "2D, Atmospheric, Classic, Cyberpunk, Experimental, Great Soundtrack, Hacking, Indie, Real-Time with Pause, Sci-fi, Simulation, Singleplayer, Story Rich, Strategy",
                     details: "Single-player",
-                };
-                rows.push(row);
-                var row = {
-                    name: "VA-11 Hall-A: Cyberpunk Bartender Action",
-                    nameFormat: "<a href=\"http://store.steampowered.com/app/447530\"><b><div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">{0}</div></b><img src=\"http://cdn.akamai.steamstatic.com/steam/apps/447530/header.jpg?t=1487178065\" width=\"100%\"/></a>",
-                    description: "VA-11 HALL-A: Cyberpunk Bartender Action is a booze em' up about waifus, technology, and post-dystopia life.",
-                    category: "Game",
-                    os: "Linux, Mac OS, Windows",
-                    price: 14.99,
-                    priceFormat: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">${0}</div>",
-                    genres: "Adventure, Indie, Simulation",
-                    date: "2016&#8209;06&#8209;21",
-                    review: "10003554.0 Overwhelmingly Positive",
-                    reviewFormat: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">Overwhelmingly Positive (3554)</div>",
-                    requirements: "Standard<sup><b>*</b></sup>",
-                    tags: "Adventure, Anime, Atmospheric, Casual, Choices Matter, Comedy, Cute, Cyberpunk, Dystopian, Female Protagonist, Funny, Great Soundtrack, Indie, Memes, Pixel Graphics, Sci-fi, Simulation, Singleplayer, Story Rich, Visual Novel",
-                    details: "Single-player, Steam Achievements, Steam Trading Cards, Steam Cloud",
                 };
                 rows.push(row);
                 var row = {

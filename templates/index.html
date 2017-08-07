@@ -216,7 +216,7 @@
                             format: '<div style="white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%">{0}</div>',
                             unique: false,
                             filter: '',
-                            hidden: localStorage.getItem('Prix') ? !('true' == localStorage.getItem('Prix')) : false,
+                            hidden: localStorage.getItem('Prix') ? !('true' == localStorage.getItem('Prix')) : true,
                         },
                         genres: {
                             index: 6,
@@ -234,7 +234,7 @@
                             format: '<div style="white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%">{0}</div>',
                             unique: false,
                             filter: '',
-                            hidden: localStorage.getItem('Parution') ? !('true' == localStorage.getItem('Parution')) : false,
+                            hidden: localStorage.getItem('Parution') ? !('true' == localStorage.getItem('Parution')) : true,
                         },
                         review: {
                             index: 8,
@@ -259,7 +259,7 @@
                             friendly: 'Liste Steam',
                             unique: false,
                             filter: '',
-                            hidden: localStorage.getItem('Liste Steam') ? !('true' == localStorage.getItem('Liste Steam')) : false,
+                            hidden: localStorage.getItem('Liste Steam') ? !('true' == localStorage.getItem('Liste Steam')) : true,
                         },
                         tags: {
                             index: 100,
