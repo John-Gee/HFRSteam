@@ -10,7 +10,7 @@ class Mapper:
         if(os.path.exists(mappingfile)):
             self.__mappingfile = mappingfile
             self.__mapping     = dict()
-            f = open(self.__mappingfile, 'r')
+            f = open(self.__mappingfile, 'r', encoding='utf8')
             for line in iter(f):
                 line = line.strip()
                 # remove the quotes needed to protect spaces
@@ -34,7 +34,7 @@ class Mapper:
         if ((self.__mapping == None) or (len(self.__mapping) == 0)):
             return
 
-        f = open(self.__mappingfile, 'w')
+        f = open(self.__mappingfile, 'w', encoding='utf8')
         for key in sorted(self.__mapping):
             line = '"{0}{1}{2}'.format(key, self.LINK, self.__mapping[key][0])
             if (len(self.__mapping[key]) == 2):

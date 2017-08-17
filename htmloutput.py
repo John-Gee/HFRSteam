@@ -144,7 +144,7 @@ def output_to_html(games, file):
     TEXT_TO_REPLACE = '$TEMPLATE$'
     DATE_TO_REPLACE = '$DATE$'
 
-    f            = open(TEMPLATE_FILE, 'r')
+    f            = open(TEMPLATE_FILE, 'r', encoding='utf8')
     templatetext = f.read()
     f.close()
 
@@ -158,6 +158,6 @@ def output_to_html(games, file):
     text = text.replace('\x97', '')
     text = text.replace('\u2032', '\'')
 
-    f = open(file, 'w')
+    f = open(file, 'w', encoding='utf8')
     f.write(text)
     f.close()

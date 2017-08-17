@@ -11,6 +11,6 @@ def output_to_bb(games, file):
             gamecode = gameName
         bbcode = '{0}{1}{2}'.format(bbcode, gamecode, os.linesep)
 
-    f = open(file, 'w')
+    f = open(file, 'w', encoding='utf8')
     f.write(bbcode)
     f.close()
