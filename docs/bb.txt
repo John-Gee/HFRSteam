@@ -199,7 +199,7 @@ Chaos on Deponia
 [url=http://store.steampowered.com/app/39670]Chaser[/url]
 [url=http://store.steampowered.com/app/259340]Chicken Shoot[/url]
 [url=http://store.steampowered.com/app/259360]Chicken Shoot 2[/url]
-[url=http://store.steampowered.com/app/219640]Chivalry: Medieval Warfare[/url]
+Chivalry: Medieval Warfare
 [url=http://store.steampowered.com/app/359960]Choice Chamber[/url]
 [url=http://store.steampowered.com/app/251130]Chroma Squad[/url]
 [url=http://store.steampowered.com/app/408120]Cibele[/url]
@@ -1051,7 +1051,7 @@ Shadow Warrior Special Edition
 [url=http://store.steampowered.com/app/2500]Shadowgrounds[/url]
 [url=http://store.steampowered.com/app/11200]Shadowgrounds Survivor[/url]
 [url=http://store.steampowered.com/app/267750]Shadowrun Chronicles - Boston Lockdown[/url]
-[url=http://store.steampowered.com/app/234650]Shadowrun Returns[/url]
+Shadowrun Returns
 Shadowrun: Dragonfall - Director's Cut
 Shadowrun: Hong Kong - Extended Edition
 [url=http://store.steampowered.com/app/286360]Shadows on the Vatican Act I: Greed[/url]
@@ -1125,7 +1125,7 @@ Space Engineers (Early Access)
 [url=http://store.steampowered.com/app/361190]Sparkle 3 Genesis[/url]
 [url=http://store.steampowered.com/app/448000]Sparkle Zero[/url]
 [url=http://store.steampowered.com/app/269810]Spate[/url]
-[url=http://store.steampowered.com/app/50300]Spec Ops : The Line[/url]
+Spec Ops : The Line
 Spec Ops: The Line
 [url=http://store.steampowered.com/app/207140]SpeedRunners[/url]
 SpeedRunners (Early Access)
@@ -1355,7 +1355,7 @@ Torchlight II
 TowerFall Ascension
 Toybox Turbos
 Trackmania² Stadium
-[url=http://store.steampowered.com/app/24010]Train Simulator 2016[/url]
+Train Simulator 2016
 [url=http://store.steampowered.com/app/289930]TransOcean: The Shipping Company[/url]
 Transcripted
 [url=http://store.steampowered.com/app/98100]Trauma[/url]
