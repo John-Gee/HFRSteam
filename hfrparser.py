@@ -15,14 +15,13 @@ def get_post(url, postid):
     return str(post)
 
 
-def get_games(liste, requirements):
+def get_games(games, liste, requirements):
     striked       = False
     BEGIN_STRIKED = '<strike>'
     END_STRIKED   = '</strike>'
     END_NEW       = '----'
 
-    games               = dict()
-    is_new              = (requirements == "Standard")
+    is_new        = (requirements == "Standard")
 
     for name in liste:
         if (not name):
@@ -79,7 +78,7 @@ def get_names_from_post(post, start, end, is_std):
     return cleansubpost.splitlines()
 
 
-def parse_hfr_std():
+def parse_hfr_std(games):
     POST_ID = 'para8945000'
     URL     = 'http://forum.hardware.fr/hfr/JeuxVideo/Achat-Ventes/gratuit-origin-download-sujet_171605_1.htm'
     post    = get_post(URL, POST_ID)
@@ -88,10 +87,10 @@ def parse_hfr_std():
     END   = '--------------------------------------------------------------------------'
 
     names = get_names_from_post(post, START, END, True)
-    return get_games(names, "Standard")
+    return get_games(games, names, "Standard")
 
 
-def parse_hfr_donateur():
+def parse_hfr_donateur(games):
     POST_ID = 'para8952242'
     URL     = 'http://forum.hardware.fr/hfr/JeuxVideo/Achat-Ventes/gratuit-origin-download-sujet_171605_1.htm'
     post    = get_post(URL, POST_ID)
@@ -100,10 +99,10 @@ def parse_hfr_donateur():
     END   = '----'
 
     names = get_names_from_post(post, START, END, False)
-    return get_games(names, "Donateur")
+    return get_games(games, names, "Donateur")
 
 
-def parse_hfr_premium():
+def parse_hfr_premium(games):
     POST_ID = 'para8952242'
     URL     = 'http://forum.hardware.fr/hfr/JeuxVideo/Achat-Ventes/gratuit-origin-download-sujet_171605_1.htm'
     post    = get_post(URL, POST_ID)
@@ -112,12 +111,13 @@ def parse_hfr_premium():
     END   = '----'
 
     names = get_names_from_post(post, START, END, False)
-    return get_games(names, "Premium")
+    return get_games(games, names, "Premium")
 
 def parse_hfr():
-    games         = parse_hfr_std()
-    games.update(parse_hfr_donateur())
-    games.update(parse_hfr_premium())
+    games = dict()
+    parse_hfr_std(games)
+    parse_hfr_donateur(games)
+    parse_hfr_premium(games)
     return games
 
 if __name__ == '__main__':
