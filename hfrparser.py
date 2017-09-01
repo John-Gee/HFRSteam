@@ -52,7 +52,8 @@ def get_games(liste, requirements):
                 game.hfr.gift_date = datetime.now()
             else:
                 game = Game(is_available, requirements)
-            games[cleanname] = game
+            if((cleanname not in games) or ((not games[cleanname].hfr.is_available) and (is_available))):
+                games[cleanname] = game
     return games
 
 
