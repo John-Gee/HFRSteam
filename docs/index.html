@@ -79,7 +79,10 @@
                     if (profile.startsWith('http'))
                         profile = profile.replace('http:', 'https:');
                     else
-                        profile = 'https://' + profile;
+                        if (profile.indexOf('/') == -1)
+                            profile = 'https://steamcommunity.com/id/' + profile
+                        else
+                            profile = 'https://' + profile;
 
                     // library
                     var library = ProxyURL(profile + '/games/?tab=all');
