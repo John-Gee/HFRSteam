@@ -102,7 +102,7 @@ def get_standalone_info(game, name, document):
                                                     class_='glance_ctn')
     game.store.image        = get_game_image(glance_ctn_block)
     game.store.avg_review,\
-    game.store.cnt_review   = get_game_review(glance_ctn_block)
+    game.store.cnt_review   = get_game_review(glance_ctn_block, name)
     game.store.release_date = get_game_release_date(glance_ctn_block)
     game.store.tags         = get_game_tags(glance_ctn_block)
 
@@ -204,13 +204,13 @@ def get_dlc_description(document):
     return None
 
 
-def get_game_review(glance_ctn_block):
+def get_game_review(glance_ctn_block, name):
     overall_block = domparser.get_element(
         glance_ctn_block, 'div', class_='subtitle column',
         string='Overall:')
 
     if (overall_block == None):
-        print('None overall_block for game of appid: {0}'.format(appid))
+        print('None overall_block for game: {0}'.format(name))
         return '', '0'
 
     user_reviews_block = domparser.get_parent(overall_block, 'div')
