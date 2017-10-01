@@ -206,11 +206,11 @@ def get_dlc_description(document):
 
 def get_game_review(glance_ctn_block, name):
     overall_block = domparser.get_element(
-        glance_ctn_block, 'div', class_='subtitle column',
-        string='Overall:')
+        glance_ctn_block, 'div', class_='subtitle column all',
+        string='All Reviews:')
 
     if (overall_block == None):
-        print('None overall_block for game: {0}'.format(name))
+        print('Cannot find the review block for game: {0}'.format(name))
         return '', '0'
 
     user_reviews_block = domparser.get_parent(overall_block, 'div')
