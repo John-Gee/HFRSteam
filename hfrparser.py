@@ -64,7 +64,7 @@ def get_names_from_post(post, start, end, is_std):
     cleansubpost = cleansubpost.replace('&amp;', "&")
     cleansubpost = cleansubpost.replace('"', '')
     if (not is_std):
-        cleansubpost = re.sub('.*\( *(Uplay|Rockstar Game Social club|GoG|GOG Galaxy|Battlenet|Android|clef Square Enix|Desura|Origin) *\).*', '', 
+        cleansubpost = re.sub('.*(Humble Bundle|\( *(Uplay|Rockstar Game Social club|GoG|GOG Galaxy|Battlenet|Android|clef Square Enix|Desura|Origin) *\)).*', '', 
                               cleansubpost, flags=re.IGNORECASE)
         cleansubpost = re.sub('.*Clef Origin Humble Bundle.*', '', cleansubpost, flags=re.IGNORECASE)
         cleansubpost = re.sub('\(.+\)', '', cleansubpost)
