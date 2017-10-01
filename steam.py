@@ -295,6 +295,11 @@ def get_game_price(purchase_block, name):
     if (play_game_span):
         return 0
 
+    download_span  = domparser.get_element(purchase_block, 'span',
+                                           string='Download')
+    if (download_span):
+        return 0
+
     print('No price found for {0}'.format(name))
     return -1
 
