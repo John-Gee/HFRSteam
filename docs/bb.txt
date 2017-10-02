@@ -51,7 +51,7 @@ Alien Breed Complete Pack
 [url=http://store.steampowered.com/app/22610]Alien Breed: Trilogy[/url]
 [url=http://store.steampowered.com/app/217920]Alien Rage: Unlimited[/url]
 [url=http://store.steampowered.com/app/207000]Alien Spidy + 2 DLCs[/url]
-[url=http://store.steampowered.com/app/214490]Alien: Isolation[/url]
+Alien: Isolation
 [url=http://store.steampowered.com/app/265870]Alpha Kimori 1[/url]
 [url=http://store.steampowered.com/app/2590]Alpha Prime[/url]
 [url=http://store.steampowered.com/app/274310]Always Sometimes Monsters[/url]
@@ -783,7 +783,7 @@ Mercenary Kings
 [url=http://store.steampowered.com/app/294020]Merchants of Kaidan[/url]
 [url=http://store.steampowered.com/app/265120]Meridian: New World[/url]
 [url=http://store.steampowered.com/app/223510]Miasmata[/url]
-[url=http://store.steampowered.com/sub/51209]Middle-earth: Shadow of Mordor Game of the Year Edition[/url]
+Middle-earth: Shadow of Mordor Game of the Year Edition
 Might & Magic Duel of Champions – Starter Pack
 [url=http://store.steampowered.com/app/336520]Might & Magic Heroes Online - Angel Starter Pack[/url]
 Might & Magic Heroes VI - Gold Edition
@@ -1002,7 +1002,7 @@ Remember Me
 [url=http://store.steampowered.com/app/360010]Remnants of Isolation[/url]
 [url=http://store.steampowered.com/sub/27830]Renegade Ops Collection[/url]
 Renowned Explorers: International Society
-[url=http://store.steampowered.com/app/339340]Resident Evil 0 HD REMASTER[/url]
+Resident Evil 0 HD REMASTER
 [url=http://store.steampowered.com/app/254700]Resident Evil 4[/url]
 Resident Evil 5
 Resident Evil 6
@@ -1285,7 +1285,7 @@ Take On Helicopters
 [url=http://store.steampowered.com/sub/13794]Take On Helicopters Bundle[/url]
 [url=http://store.steampowered.com/app/206370]Tales From Space: Mutant Blobs Attack[/url]
 [url=http://store.steampowered.com/app/277540]Tales From The Dragon Mountain: The Strix[/url]
-[url=http://store.steampowered.com/app/330830]Tales from the Borderlands[/url]
+Tales from the Borderlands
 [url=http://store.steampowered.com/app/259680]Tales of Maj'Eyal[/url]
 [url=http://store.steampowered.com/app/258200]Talisman Prologue[/url]
 Talisman: Digital Edition
