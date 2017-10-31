@@ -270,7 +270,7 @@ Cthulhu Saves the World
 [url=http://store.steampowered.com/app/235720]Cubetractor[/url]
 [url=http://store.steampowered.com/app/351870]Cultures: Northland + 8th Wonder of the World[/url]
 [url=http://store.steampowered.com/app/343170]Cyberpunk 3776[/url]
-[url=http://store.steampowered.com/app/427190]DEAD RISING[/url]
+DEAD RISING
 DEADBOLT
 [url=http://store.steampowered.com/app/353610]DEUS EX MACHINA 2[/url]
 DEUS EX: HUMAN REVOLUTION - DIRECTOR'S CUT
@@ -1003,7 +1003,7 @@ Remember Me
 [url=http://store.steampowered.com/sub/27830]Renegade Ops Collection[/url]
 Renowned Explorers: International Society
 Resident Evil 0 HD REMASTER
-[url=http://store.steampowered.com/app/254700]Resident Evil 4[/url]
+Resident Evil 4
 Resident Evil 5
 Resident Evil 6
 Resident Evil HD REMASTER
@@ -1167,7 +1167,7 @@ Sniper: Ghost Warrior 2 - Collector's Edition
 [url=http://store.steampowered.com/app/97000]Solar 2[/url]
 [url=http://store.steampowered.com/app/251910]Solar Flux[/url]
 [url=http://store.steampowered.com/app/213610]Sonic Adventure 2[/url]
-[url=http://store.steampowered.com/app/71340]Sonic Generations Collection[/url]
+Sonic Generations Collection
 [url=http://store.steampowered.com/app/411000]Sorcery! Parts 1 and 2[/url]
 Soul Axiom
 [url=http://store.steampowered.com/app/213670]South Park: The Stick of Truth[/url]
@@ -1244,7 +1244,7 @@ Stikbold
 [url=http://store.steampowered.com/app/8340]Strong Bad's Cool Game for Attractive People: Season 1[/url]
 [url=http://store.steampowered.com/app/232890]Stronghold Crusader 2[/url]
 [url=http://store.steampowered.com/app/324750]StuntMANIA Reloaded[/url]
-[url=http://store.steampowered.com/app/242640]Styx: Master of Shadows[/url]
+Styx: Master of Shadows
 [url=http://store.steampowered.com/app/233350]Sudeki[/url]
 [url=http://store.steampowered.com/app/212110]Sugar Cube: Bittersweet Factory[/url]
 Sunless Sea
@@ -1511,8 +1511,8 @@ Warhammer 40,000: Dawn of War II: Retribution
 Warhammer 40,000: Eternal Crusade
 Warhammer 40K: Space Marine
 [url=http://store.steampowered.com/app/4570]Warhammer 40k - Dawn of War[/url]
-[url=http://store.steampowered.com/app/235540]Warhammer: End Times - Vermintide[/url]
-[url=http://store.steampowered.com/app/453280]Warhammer: End Times - Vermintide Drachenfels DLC[/url]
+Warhammer: End Times - Vermintide
+Warhammer: End Times - Vermintide Drachenfels DLC
 Warhammer: End Times - Vermintide Item: Razorfang Poison
 [url=http://store.steampowered.com/app/203630]Warlock : Master of the Arcane[/url]
 [url=http://store.steampowered.com/app/327510]Wasted[/url]
