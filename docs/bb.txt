@@ -20,6 +20,7 @@
 [url=http://store.steampowered.com/app/294190]A-Men 2[/url]
 [url=http://store.steampowered.com/app/386540]A.I. Invasion[/url]
 [url=http://store.steampowered.com/app/423180]A.I. Space Corps[/url]
+[url=http://store.steampowered.com/app/384190]ABZU[/url]
 ADR1FT
 [url=http://store.steampowered.com/app/40400]AI War + 4 DLC packs & Tidalis[/url]
 [url=http://store.steampowered.com/sub/49306]AI War Collection[/url]
@@ -124,7 +125,7 @@ Batman: Arkham City GOTY Edition
 [url=http://store.steampowered.com/app/259490]Beast Boxing Turbo[/url]
 [url=http://store.steampowered.com/app/487030]Beasts Battle[/url]
 [url=http://store.steampowered.com/app/231040]Beatbuddy: Tale of the Guardians[/url]
-[url=http://store.steampowered.com/app/475550]Beholder[/url]
+Beholder
 [url=http://store.steampowered.com/app/243120]Betrayer[/url]
 [url=http://store.steampowered.com/app/285070]Between Me and The Night[/url]
 [url=http://store.steampowered.com/app/267340]Beware Planet Earth![/url]
@@ -164,9 +165,16 @@ Blood Bowl: Chaos Edition
 [url=http://store.steampowered.com/app/281220]BloodRayne Betrayal[/url]
 [url=http://store.steampowered.com/app/311700]BloodRealm: Battlegrounds Debut Champion Lora + 3 Elite Packs[/url]
 [url=http://store.steampowered.com/app/348020]Bloodbath Kavkaz[/url]
+[url=http://store.steampowered.com/app/492220]Bohemian Killing[/url]
 [url=http://store.steampowered.com/sub/817]Bone - Episode 1 & Episode 2[/url]
+[url=http://store.steampowered.com/app/49520]Borderlands 2[/url]
 [url=http://store.steampowered.com/sub/32848/]Borderlands 2 GOTY[/url]
+[url=http://store.steampowered.com/app/213230]Borderlands 2 Mechromancer Character Pack[/url]
+[url=http://store.steampowered.com/app/230090]Borderlands 2 Psycho Character Pack[/url]
+[url=http://store.steampowered.com/app/224200]Borderlands 2 Ultimate Vault Hunter Upgrade Pack[/url]
+[url=http://store.steampowered.com/app/224180]Borderlands 2 Ultimate Vault Hunter Upgrade Pack 2[/url]
 Borderlands et DLC
+[url=http://store.steampowered.com/app/8980]Borderlands: Game of the Year Edition[/url]
 Borderlands: The Pre-Sequel
 [url=http://store.steampowered.com/app/302610]Boson X[/url]
 Botanicula
@@ -247,7 +255,7 @@ Cossacks II: Napoleonic Wars
 [url=http://store.steampowered.com/app/4850]Cossacks: Back to War[/url]
 [url=http://store.steampowered.com/app/4856]Cossacks: Campaign Expansion[/url]
 Cossacks: European Wars
-[url=http://store.steampowered.com/app/115100]Costume Quest[/url]
+Costume Quest
 [url=http://store.steampowered.com/app/275180]Costume Quest 2[/url]
 [url=http://store.steampowered.com/app/11390]Crash Time 2[/url]
 [url=http://store.steampowered.com/app/293780]Crawl[/url]
@@ -277,6 +285,7 @@ DEUS EX: HUMAN REVOLUTION - DIRECTOR'S CUT
 [url=http://store.steampowered.com/app/395170]DISTRAINT[/url]
 [url=http://store.steampowered.com/app/242980]Daikatana[/url]
 [url=http://store.steampowered.com/app/12790]Damnation[/url]
+[url=http://store.steampowered.com/app/251170]Damned[/url]
 [url=http://store.steampowered.com/app/405500]Dangerous Golf[/url]
 [url=http://store.steampowered.com/app/1600]Dangerous Waters[/url]
 [url=http://store.steampowered.com/app/454160]Dark Fear[/url]
@@ -336,6 +345,7 @@ Deus Ex: The Fall
 [url=http://store.steampowered.com/app/422970]Devil Daggers[/url]
 Devil May Cry 4: Special Edition
 [url=http://store.steampowered.com/app/363960]Devils & Demons[/url]
+[url=http://store.steampowered.com/app/269650]Dex[/url]
 DiRT Showdown
 [url=http://store.steampowered.com/app/70000]Dino D-Day[/url]
 [url=http://store.steampowered.com/app/10270]Disciples III: Reincarnation[/url]
@@ -408,11 +418,13 @@ Element4l
 [url=http://store.steampowered.com/app/25850]Elven Legacy[/url]
 Empire: Total War
 [url=http://store.steampowered.com/app/253980]Enclave[/url]
+[url=http://store.steampowered.com/sub/43168]Endless Legend - Classic Edition[/url]
 Endless Space Emperor Edition
 [url=http://store.steampowered.com/app/428430]Endorlight[/url]
 [url=http://store.steampowered.com/app/207570]English Country Tune[/url]
 [url=http://store.steampowered.com/app/382050]Eon Altar: Episode 1[/url]
 [url=http://store.steampowered.com/app/265610]Epic Battle Fantasy 4[/url]
+[url=http://store.steampowered.com/app/398850]Epistory - Typing Chronicles[/url]
 [url=http://store.steampowered.com/app/261700]Eryi's Action[/url]
 [url=http://store.steampowered.com/app/404810]Escape from Puzzlegate[/url]
 [url=http://store.steampowered.com/app/25600]Eschalon: Book I[/url]
@@ -446,6 +458,7 @@ FINAL FANTASY XIII
 Fahrenheit: Indigo Prophecy Remastered
 [url=http://store.steampowered.com/app/214590]Fairy Bloom Freesia[/url]
 [url=http://store.steampowered.com/app/216390]Fallen Enchantress[/url]
+[url=http://store.steampowered.com/bundle/1484]Fallen Enchantress Ultimate Edition[/url]
 [url=http://store.steampowered.com/app/228260]Fallen Enchantress: Legendary Heroes[/url]
 [url=http://store.steampowered.com/app/63900]Fantasy Wars[/url]
 Far Cry 3
@@ -462,6 +475,7 @@ Fieldrunners 2
 [url=http://store.steampowered.com/app/409070]Fist Slash: Of Ultimate Fury[/url]
 Five Nights at Freddy's
 [url=http://store.steampowered.com/app/506610]Five Nights at Freddy’s: Sister Location[/url]
+[url=http://store.steampowered.com/app/401710]Flinthook[/url]
 [url=http://store.steampowered.com/app/260330]Flockers[/url]
 Fly'N
 Fly'n
@@ -497,6 +511,7 @@ GTR 2: FIA GT Racing Game
 [url=http://store.steampowered.com/app/249610]Galactic Arms Race[/url]
 [url=http://store.steampowered.com/app/214150]Galactic Civilizations I: Ultimate Edition[/url]
 [url=http://store.steampowered.com/app/202200]Galactic Civilizations II: Ultimate Edition[/url]
+[url=http://store.steampowered.com/app/226860]Galactic Civilizations III[/url]
 [url=http://store.steampowered.com/app/300580]Galak-Z[/url]
 [url=http://store.steampowered.com/app/212010]Galaxy on Fire 2 Full HD[/url]
 [url=http://store.steampowered.com/app/44200]Galcon Fusion[/url]
@@ -539,7 +554,7 @@ Goodbye Deponia
 [url=http://store.steampowered.com/app/46400]Greed: Black Border[/url]
 [url=http://store.steampowered.com/app/371500]Grey Cubes[/url]
 Grey Goo
-Grey Goo Definitive Edition
+[url=http://store.steampowered.com/app/290790]Grey Goo Definitive Edition[/url]
 [url=http://store.steampowered.com/app/316790]Grim Fandango Remastered[/url]
 [url=http://store.steampowered.com/app/265380]Grimind[/url]
 [url=http://store.steampowered.com/app/252150]Grimm (Complete Serie)[/url]
@@ -549,8 +564,10 @@ Grey Goo Definitive Edition
 [url=http://store.steampowered.com/app/358650]Gryphon Knight Epic[/url]
 Guacamelee! Gold Edition
 Guacamelee! Super Turbo Championship Edition
+[url=http://store.steampowered.com/app/463680]Guardians of Ember - Fanatical Edition[/url]
 [url=http://store.steampowered.com/app/111900]Guardians of Middle-earth[/url]
 [url=http://store.steampowered.com/app/385080]Guardians of Victoria[/url]
+[url=http://store.steampowered.com/app/317820]Guild of Dungeoneering[/url]
 [url=http://store.steampowered.com/app/314030]Guilty Gear X2 #Reload[/url]
 [url=http://store.steampowered.com/app/2520]Gumboy - Crazy Adventures[/url]
 [url=http://store.steampowered.com/app/239450]Gun Monkeys[/url]
@@ -564,6 +581,8 @@ Guns of Icarus Online - Collector's Edition
 [url=http://store.steampowered.com/app/63000]HOARD[/url]
 [url=http://store.steampowered.com/app/246070]Hack 'n' Slash[/url]
 [url=http://store.steampowered.com/app/246070]Hack 'n' Slash + Soundtrack[/url]
+[url=http://store.steampowered.com/app/365450]Hacknet[/url]
+[url=http://store.steampowered.com/app/521840]Hacknet Labyrinths DLC[/url]
 [url=http://store.steampowered.com/app/294770]Haegemonia: Legions of Iron[/url]
 [url=http://store.steampowered.com/app/294790]Haegemonia: The Solon Heritage[/url]
 [url=http://store.steampowered.com/app/214830]Half Minute Hero: Super Mega Neo Climax Ultimate Boy[/url]
@@ -571,6 +590,7 @@ Half-Life 2
 [url=http://store.steampowered.com/app/420]Half-Life 2: Episode Two[/url]
 [url=http://store.steampowered.com/app/41100]Hammerfight[/url]
 [url=http://store.steampowered.com/app/239070]Hammerwatch[/url]
+[url=http://store.steampowered.com/app/266510]Hand of Fate[/url]
 [url=http://store.steampowered.com/app/98400]Hard Reset Extended Edition[/url]
 [url=http://store.steampowered.com/app/431560]Hard Room[/url]
 Hard West
@@ -604,6 +624,7 @@ Homefront: The Revolution
 [url=http://store.steampowered.com/app/267980]Hostile Waters: Antaeus Rising[/url]
 [url=http://store.steampowered.com/app/373810]Hot Pinball Thrills[/url]
 [url=http://store.steampowered.com/app/250400]How to Survive ( Gift Steam )[/url]
+[url=http://store.steampowered.com/app/360170]How to Survive 2[/url]
 [url=http://store.steampowered.com/app/375820]Human Resource Machine[/url]
 [url=http://store.steampowered.com/app/477160]Human: Fall Flat[/url]
 [url=http://store.steampowered.com/app/271640]Humanity Asset[/url]
@@ -611,7 +632,7 @@ Humble SEGA Strategy Bundle Part 1
 Humble SEGA Strategy Bundle Part 2
 Humble THQ Bundle
 [url=http://store.steampowered.com/app/246740]Huntsman: The Orphanage - Halloween Edition[/url]
-Hurtworld
+[url=http://store.steampowered.com/app/393420]Hurtworld[/url]
 [url=http://store.steampowered.com/app/92000]Hydrophobia: Prophecy[/url]
 [url=http://store.steampowered.com/app/270410]I Want To Be Human[/url]
 [url=http://store.steampowered.com/app/327890]I am Bread[/url]
@@ -680,6 +701,7 @@ Kane & Lynch Collection
 [url=http://store.steampowered.com/app/63910]King's Bounty: Crossworlds[/url]
 [url=http://store.steampowered.com/app/289520]King's Bounty: Dark Side[/url]
 [url=http://store.steampowered.com/app/25900]King's Bounty: The Legend[/url]
+[url=http://store.steampowered.com/app/496300]Kingdom: New Lands[/url]
 [url=http://store.steampowered.com/app/254060]Knight Shift[/url]
 [url=http://store.steampowered.com/app/294000]Knight Squad[/url]
 [url=http://store.steampowered.com/app/25830]Knights of Honor[/url]
@@ -719,6 +741,7 @@ Legend of Grimrock II
 Lego Star Wars the complete Saga
 Leisure Suit Larry Reloaded
 [url=http://store.steampowered.com/app/261180]Lethal League[/url]
+[url=http://store.steampowered.com/app/407780]Lethe - Episode One[/url]
 [url=http://store.steampowered.com/app/328730]Letter Quest: Grimm's Journey[/url]
 [url=http://store.steampowered.com/app/202270]Leviathan: Warships[/url]
 [url=http://store.steampowered.com/app/261760]Lichdom: Battlemage[/url]
@@ -731,6 +754,8 @@ Limbo
 [url=http://store.steampowered.com/app/221260]Little Inferno[/url]
 [url=http://store.steampowered.com/app/262690]Little Racers STREET[/url]
 Lone Survivor
+[url=http://store.steampowered.com/app/443880]Loot Rascals[/url]
+[url=http://store.steampowered.com/app/583670]Loot Rascals Soundtrack[/url]
 [url=http://store.steampowered.com/app/264580]Lost Civilization[/url]
 [url=http://store.steampowered.com/app/40350]Lost Horizon[/url]
 Lost Planet 3 Complete Pack
@@ -858,7 +883,7 @@ Oceanhorn: Monster of the Uncharted Seas
 Octodad: Dadliest Catch
 [url=http://store.steampowered.com/app/319480]Odallus: The Dark Call[/url]
 Oddworld: Abe's Oddysee
-Oddworld: New 'n' Tasty
+[url=http://store.steampowered.com/app/314660]Oddworld: New 'n' Tasty[/url]
 [url=http://store.steampowered.com/app/302590]Of Guards And Thieves[/url]
 [url=http://store.steampowered.com/app/216910]Of Orcs And Men[/url]
 Of Orcs and Men
@@ -957,7 +982,9 @@ Prison Architect
 [url=http://store.steampowered.com/app/263420]Probably Archery[/url]
 [url=http://store.steampowered.com/app/21400]Project Aftermath[/url]
 Project CARS
+[url=http://store.steampowered.com/app/475090]Project Remedium[/url]
 [url=http://store.steampowered.com/app/290320]Project Temporality[/url]
+[url=http://store.steampowered.com/app/115320]Prototype 2[/url]
 [url=http://store.steampowered.com/app/3830]Psychonauts[/url]
 [url=http://store.steampowered.com/app/394310]Punch Club[/url]
 [url=http://store.steampowered.com/app/31270]Puzzle Agent[/url]
@@ -1045,7 +1072,7 @@ Rocket League
 [url=http://store.steampowered.com/app/409630]Rumble[/url]
 Runaway: A Road Adventure
 Runaway: A Twist of Fate
-[url=http://store.steampowered.com/app/7220]Runaway: The Dream of the Turtle[/url]
+Runaway: The Dream of the Turtle
 [url=http://store.steampowered.com/app/339400]Runestone Keeper[/url]
 [url=http://store.steampowered.com/app/234490]Rush Bros.[/url]
 Rust (Early Access)
@@ -1060,6 +1087,7 @@ SEGA Make War not Love 3
 SPINTIRES
 STALKER Shadow of Tchernobyl
 [url=http://store.steampowered.com/app/456540]STAR WARS: Rebel Assault I + II[/url]
+[url=http://store.steampowered.com/app/380150]STASIS[/url]
 [url=http://store.steampowered.com/app/235210]STRIDER[/url]
 [url=http://store.steampowered.com/app/404770]SUPERFIGHT[/url]
 [url=http://store.steampowered.com/app/404770]SUPERFIGHT - The Joiner Micro Deck[/url]
@@ -1078,13 +1106,14 @@ Saints Row: The Third - The Full Package
 [url=http://store.steampowered.com/app/901399]Sam & Max: Devil's Playhouse[/url]
 [url=http://store.steampowered.com/app/901660]Sam & Max: Season 1[/url]
 [url=http://store.steampowered.com/app/901663]Sam & Max: Season 2[/url]
-[url=http://store.steampowered.com/app/40720]Samorost 2[/url]
+Samorost 2
 [url=http://store.steampowered.com/app/421120]Samorost 3[/url]
 [url=http://store.steampowered.com/app/328760]SanctuaryRPG: Black Edition[/url]
 Sanctum 2
 [url=http://store.steampowered.com/sub/17085]Sanctum: Collection[/url]
 [url=http://store.steampowered.com/app/227220]Sang-Froid - Tales of Werewolves[/url]
 [url=http://store.steampowered.com/app/203990]Satazius[/url]
+[url=http://store.steampowered.com/app/268870]Satellite Reign[/url]
 [url=http://store.steampowered.com/app/263320]Saturday Morning RPG[/url]
 [url=http://store.steampowered.com/app/307880]Savage Lands (Early Access)[/url]
 [url=http://store.steampowered.com/app/301990]School Bus Fun[/url]
@@ -1143,6 +1172,7 @@ Sid Meier's Railroads!
 [url=http://store.steampowered.com/app/321870]Silence of the sleep[/url]
 Sine Mora
 [url=http://store.steampowered.com/app/340320]Sinless + OST[/url]
+[url=http://store.steampowered.com/app/204880]Sins of a Solar Empire: Rebellion[/url]
 [url=http://store.steampowered.com/app/201290]Sins of a Solar Empire: Trinity[/url]
 [url=http://store.steampowered.com/app/242880]Sir, You Are Being Hunted[/url]
 [url=http://store.steampowered.com/app/274620]Skara - The Blade Remains[/url]
@@ -1168,6 +1198,7 @@ Sniper: Ghost Warrior 2 - Collector's Edition
 [url=http://store.steampowered.com/app/251910]Solar Flux[/url]
 [url=http://store.steampowered.com/app/213610]Sonic Adventure 2[/url]
 Sonic Generations Collection
+[url=http://store.steampowered.com/app/496730]Sorcerer King: Rivals[/url]
 [url=http://store.steampowered.com/app/411000]Sorcery! Parts 1 and 2[/url]
 Soul Axiom
 [url=http://store.steampowered.com/app/213670]South Park: The Stick of Truth[/url]
@@ -1202,7 +1233,7 @@ Spider: Rite of the Shrouded Moon
 [url=http://store.steampowered.com/app/115110]Stacking[/url]
 [url=http://store.steampowered.com/app/70900]Star Ruler[/url]
 [url=http://store.steampowered.com/app/203250]Star Trek[/url]
-[url=http://store.steampowered.com/app/6060]Star Wars Battlefront II[/url]
+Star Wars Battlefront II
 Star Wars Empire At War: Gold Pack
 [url=http://store.steampowered.com/app/356500]Star Wars Galactic Battlegrounds Saga[/url]
 [url=http://store.steampowered.com/app/6030]Star Wars Jedi Knight II: Jedi Outcast[/url]
@@ -1228,6 +1259,7 @@ Star Wolves
 [url=http://store.steampowered.com/app/408750]Starsphere[/url]
 [url=http://store.steampowered.com/app/243040]Startopia[/url]
 [url=http://store.steampowered.com/app/252410]SteamWorld Dig[/url]
+[url=http://store.steampowered.com/app/723760]Steamburg[/url]
 [url=http://store.steampowered.com/app/322190]Steamworld Heist[/url]
 [url=http://store.steampowered.com/app/96200]Steel Storm: Burning Retribution[/url]
 [url=http://store.steampowered.com/app/96200]Steel Storm: Burning Retribution + DLC[/url]
@@ -1305,6 +1337,7 @@ Teslagrad
 [url=http://store.steampowered.com/app/255920]The 7th Guest[/url]
 [url=http://store.steampowered.com/app/355520]The Albino Hunter[/url]
 [url=http://store.steampowered.com/app/18070]The Baconing[/url]
+[url=http://store.steampowered.com/app/41900]The Bard's Tale[/url]
 The Beginner's Guide
 [url=http://store.steampowered.com/app/277470]The Book of Legends[/url]
 [url=http://store.steampowered.com/app/215160]The Book of Unwritten Tales Digital Deluxe Edition[/url]
@@ -1313,6 +1346,7 @@ The Beginner's Guide
 [url=http://store.steampowered.com/app/283020]The Campaign Series: Fall Weiss[/url]
 [url=http://store.steampowered.com/app/253110]The Cat Lady[/url]
 [url=http://store.steampowered.com/app/242530]The Chaos Engine[/url]
+[url=http://store.steampowered.com/app/351080]The Corporate Machine[/url]
 [url=http://store.steampowered.com/app/241560]The Crew[/url]
 [url=http://store.steampowered.com/app/297020]The Culling Of The Cows[/url]
 [url=http://store.steampowered.com/app/203830]The Dark Eye: Chains of Satinav[/url]
@@ -1335,6 +1369,7 @@ The Guild II Collection
 [url=http://store.steampowered.com/app/272470]The Incredible Adventure of Van Helsing 2[/url]
 [url=http://store.steampowered.com/app/215530]The Incredible Adventures of Van Helsing[/url]
 [url=http://store.steampowered.com/app/272470]The Incredible Adventures of Van Helsing II + 2 DLCs[/url]
+[url=http://store.steampowered.com/app/400170]The Incredible Adventures of Van Helsing: Final Cut[/url]
 [url=http://store.steampowered.com/app/251430]The Inner World[/url]
 [url=http://store.steampowered.com/app/330420]The Interactive Adventures of Dog Mendonça and Pizza Boy[/url]
 [url=http://store.steampowered.com/app/220090]The Journey Down 1 + 2 Bundle[/url]
@@ -1357,8 +1392,10 @@ The Masterplan
 The Night of the Rabbit: Premium Edition
 [url=http://store.steampowered.com/app/245150]The Novelist[/url]
 [url=http://store.steampowered.com/app/317040]The Original Strife: Veteran Edition[/url]
+[url=http://store.steampowered.com/app/404620]The Political Machine 2016[/url]
 [url=http://store.steampowered.com/app/206020]The Second Avernum Trilogy[/url]
 The Secret World
+The Sexy Brutale
 [url=http://store.steampowered.com/app/2400]The Ship - 2 Pack Gift[/url]
 [url=http://store.steampowered.com/app/204080]The Showdown Effect[/url]
 [url=http://store.steampowered.com/app/352520]The Silent Age[/url]
@@ -1368,6 +1405,7 @@ The Secret World
 [url=http://store.steampowered.com/app/321560]The Sun and Moon[/url]
 The Swapper
 [url=http://store.steampowered.com/app/387930]The Tape[/url]
+[url=http://store.steampowered.com/app/406970]The Uncertain: Episode 1 - The Last Quiet Day[/url]
 The Vanishing of Ethan Carter
 [url=http://store.steampowered.com/app/37000]The Void[/url]
 [url=http://store.steampowered.com/bundle/2542]The Walking Dead - Season 1[/url]
@@ -1376,10 +1414,11 @@ The Walking Dead: 400 Days
 The Walking Dead: Michonne - A Telltale Miniseries
 The Walking Dead: Season 1
 [url=http://store.steampowered.com/app/261030]The Walking Dead: Season 2[/url]
+[url=http://store.steampowered.com/app/324740]The Warlock of Firetop Mountain[/url]
 [url=http://store.steampowered.com/app/268540]The Whispered World[/url]
 [url=http://store.steampowered.com/app/268540]The Whispered World: Special Edition[/url]
 The Witcher: Enhanced Edition Director's Cut
-[url=http://store.steampowered.com/app/250320]The Wolf Among Us[/url]
+The Wolf Among Us
 [url=http://store.steampowered.com/app/46340]Theatre of War 2: Africa 1943[/url]
 [url=http://store.steampowered.com/app/46360]Theatre of War 2: Kursk + DLC[/url]
 [url=http://store.steampowered.com/app/407290]There Was A Caveman[/url]
@@ -1418,6 +1457,7 @@ Tomb Raider: Anniversary
 [url=http://store.steampowered.com/app/7000]Tomb Raider: Legend[/url]
 [url=http://store.steampowered.com/app/8140]Tomb Raider: Underworld[/url]
 Torchlight II
+[url=http://store.steampowered.com/app/500670]Tormentor X Punisher[/url]
 [url=http://store.steampowered.com/app/261050]Total War: ROME II - Caesar in Gaul ( DLC )[/url]
 [url=http://store.steampowered.com/app/214360]Tower Wars[/url]
 [url=http://store.steampowered.com/app/266110]Tower of Guns[/url]
@@ -1433,11 +1473,12 @@ Trine 3: The Artifacts of Power
 Trine Enchanted Edition
 Tropico 4 ( Steam Special Edition )
 [url=http://store.steampowered.com/sub/19282]Tropico 4 Collector's Bundle[/url]
-[url=http://store.steampowered.com/app/245620]Tropico 5[/url]
+Tropico 5
 [url=http://store.steampowered.com/sub/12169]Tropico Trilogy[/url]
 Truck Racer
 [url=http://store.steampowered.com/app/302260]Truffle Saga[/url]
 [url=http://store.steampowered.com/app/331340]Tulpa[/url]
+[url=http://store.steampowered.com/app/457890]TumbleSeed[/url]
 [url=http://store.steampowered.com/app/58400]Turba[/url]
 Turmoil
 [url=http://store.steampowered.com/app/259760]Two Brothers (   Ne pas confondre avec Brothers : A Tale of Two Sons  )[/url]
@@ -1450,10 +1491,10 @@ Turmoil
 [url=http://store.steampowered.com/app/258890]Type:Rider[/url]
 [url=http://store.steampowered.com/app/237950]UFO: Afterlight[/url]
 [url=http://store.steampowered.com/app/281350]US and THEM[/url]
-[url=http://store.steampowered.com/app/386940]Ultimate Chicken Horse[/url]
+Ultimate Chicken Horse
 [url=http://store.steampowered.com/app/306660]Ultimate General Gettysburg[/url]
 Ultra Street Fighter® IV
-[url=http://store.steampowered.com/app/45760]Ultra street fighter IV arcade edition[/url]
+Ultra street fighter IV arcade edition
 [url=http://store.steampowered.com/app/390340]Umbrella Corps[/url]
 [url=http://store.steampowered.com/app/450000]Umbrella Corps Deluxe Edition Upgrade Pack[/url]
 UnEpic
@@ -1466,6 +1507,7 @@ VA-11 Hall-A: Cyberpunk Bartender Action
 [url=http://store.steampowered.com/app/70300]VVVVVV[/url]
 Valdis Story: Abyssal City
 [url=http://store.steampowered.com/app/351910]Valhalla Hills[/url]
+[url=http://store.steampowered.com/app/378610]Valley[/url]
 [url=http://store.steampowered.com/app/262150]Vanguard Princess[/url]
 [url=http://store.steampowered.com/app/511170]Vanguard Princess - Artwork and Soundtrack DLC[/url]
 [url=http://store.steampowered.com/app/281050]Vanguard Princess Director's Cut DLC[/url]
@@ -1478,7 +1520,7 @@ Vector Thrust
 [url=http://store.steampowered.com/app/6210]Vegas Make It Big[/url]
 [url=http://store.steampowered.com/app/16720]Velvet Assassin[/url]
 [url=http://store.steampowered.com/app/338140]Venetica - Gold Edition[/url]
-[url=http://store.steampowered.com/app/242860]Verdun[/url]
+Verdun
 [url=http://store.steampowered.com/app/311480]Vertical Drop Heroes HD[/url]
 Vertiginous Golf
 [url=http://store.steampowered.com/app/108500]Vessel[/url]
@@ -1516,6 +1558,7 @@ Warhammer: End Times - Vermintide Drachenfels DLC
 Warhammer: End Times - Vermintide Item: Razorfang Poison
 [url=http://store.steampowered.com/app/203630]Warlock : Master of the Arcane[/url]
 [url=http://store.steampowered.com/app/327510]Wasted[/url]
+[url=http://store.steampowered.com/app/259130]Wasteland[/url]
 Wasteland 2: Director's Cut - Classic Edition
 [url=http://store.steampowered.com/app/46520]Wasteland Angel[/url]
 [url=http://store.steampowered.com/app/226120]Weird Worlds: Return to Infinite Space[/url]
@@ -1537,6 +1580,7 @@ Worms Armageddon
 Worms Reloaded
 Worms Revolution GOLD
 Worms Ultimate Mayhem: Deluxe Edition
+[url=http://store.steampowered.com/app/366220]Wurm Unlimited[/url]
 [url=http://store.steampowered.com/app/7510]X-Blades[/url]
 [url=http://store.steampowered.com/app/7660]X-COM: Apocalypse[/url]
 X-COM: Complete Pack + 3 DLCs Civilization V
