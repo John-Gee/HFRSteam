@@ -80,10 +80,10 @@ def get_names_from_post(post, start, end, is_std):
 
 def parse_hfr_std(games):
     POST_ID = 'para8945000'
-    URL     = 'http://forum.hardware.fr/hfr/JeuxVideo/Achat-Ventes/gratuit-origin-download-sujet_171605_1.htm'
+    URL     = 'https://forum.hardware.fr/hfr/JeuxVideo/Achat-Ventes/gratuit-origin-download-sujet_171605_1.htm'
     post    = get_post(URL, POST_ID)
 
-    START = '<strong>Clefs  <img alt="[:icon4]" src="http://forum-images.hardware.fr/images/perso/icon4.gif" title="[:icon4]"/> Steam <img alt="[:icon4]" src="http://forum-images.hardware.fr/images/perso/icon4.gif" title="[:icon4]"/> :</strong> <br/><strong> <br/>'
+    START = '<strong>Clefs  <img alt="[:icon4]" src="https://forum-images.hardware.fr/images/perso/icon4.gif" title="[:icon4]"/> Steam <img alt="[:icon4]" src="https://forum-images.hardware.fr/images/perso/icon4.gif" title="[:icon4]"/> :</strong> <br/><strong> <br/>'
     END   = '--------------------------------------------------------------------------'
 
     names = get_names_from_post(post, START, END, True)
@@ -92,7 +92,7 @@ def parse_hfr_std(games):
 
 def parse_hfr_donateur(games):
     POST_ID = 'para8952242'
-    URL     = 'http://forum.hardware.fr/hfr/JeuxVideo/Achat-Ventes/gratuit-origin-download-sujet_171605_1.htm'
+    URL     = 'https://forum.hardware.fr/hfr/JeuxVideo/Achat-Ventes/gratuit-origin-download-sujet_171605_1.htm'
     post    = get_post(URL, POST_ID)
 
     START = '<strong>Liste donateur:</strong>'
@@ -104,7 +104,7 @@ def parse_hfr_donateur(games):
 
 def parse_hfr_premium(games):
     POST_ID = 'para8952242'
-    URL     = 'http://forum.hardware.fr/hfr/JeuxVideo/Achat-Ventes/gratuit-origin-download-sujet_171605_1.htm'
+    URL     = 'https://forum.hardware.fr/hfr/JeuxVideo/Achat-Ventes/gratuit-origin-download-sujet_171605_1.htm'
     post    = get_post(URL, POST_ID)
 
     START = '<strong>Liste Premium ( exclusivement réservée aux donateurs réguliers ):</strong>'
