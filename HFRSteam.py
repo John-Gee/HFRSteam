@@ -16,6 +16,8 @@ def main():
                             help='Does not skip games that are not available')
     optionparser.add_option('-c', '--cache-only', action='store_true', dest='cacheonly',
                             help='Does not query steam and only work on games in cache')
+    optionparser.add_option('-d', '--dry-run', action='store_true', dest='dryrun',
+                            help='Performs a dry run, does not modify anything on disk')
     optionparser.add_option('-i', '--ignore-cache', action='store_true', dest='ignorecache',
                             help='Ignore the data stored in cache')
     optionparser.add_option('-m', '--matching-words', action='store_true', dest='matchingwords',
@@ -34,6 +36,10 @@ def main():
     games = hfrparser.parse_hfr()
 
     gamesinfo.get_games_info(options, games)
+
+    if (options.dryrun):
+        return
+
     OUTPUT_FOLDER = 'docs'
     HTML_FILE     = os.path.join(OUTPUT_FOLDER, 'index.html')
     BB_FILE       = os.path.join(OUTPUT_FOLDER, 'bb.txt')

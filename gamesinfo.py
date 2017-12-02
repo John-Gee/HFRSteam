@@ -133,6 +133,9 @@ def get_games_info(options, games):
             traceback.print_exception(*exc_info)
         raise Exception('An exception was raised in some of the threads, see above.')
 
+    if (options.dryrun):
+        return
+
     newcachedgames = cache.merge_old_new_cache(cachedgames, games)
     cache.save_to_cache(newcachedgames)
     urlsmapping.save_mapping()
