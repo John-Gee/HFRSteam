@@ -75,7 +75,7 @@
                 }
 
                 $('button').click(function(){
-                    var profile = document.getElementById('libraryId').value;
+                    var profile = $.trim(document.getElementById('libraryId').value);
                     if (!profile || /^\s*$/.test(profile))
                         return;
                     if (profile.startsWith('http'))
