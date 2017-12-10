@@ -6,6 +6,7 @@
         <script src="jquery.watable.js"></script>
         <link href="bootstrap.min.css" rel="stylesheet"/>
         <link href="watable.css" rel="stylesheet"/>
+        <link href="fontawesome/css/fontawesome-all.min.css" rel="stylesheet"/>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <style>
             .watable input[type=text].filter {
@@ -41,11 +42,11 @@
                 </a>
 
                 <form>
-                    <a href="#" data-toggle="tooltip" title="URL du profil, ex: https://steamcommunity.com/id/geeHFR ou simplement le nom, ex: geeHFR">
+                    <a data-toggle="tooltip" title="URL du profil, ex: https://steamcommunity.com/id/geeHFR ou simplement le nom, ex: geeHFR">
                         <input type="text" name="library" id="libraryId" placeholder="Votre profile Steam" size="25"/>
                     </a>
 
-                    <button type="button" id="myButton">Charger le profile Steam</button>
+                    <button type="button" id="myButton">Charger le profile Steam <span id="spinner"></span></button>
                 </form>
             </div>
             <div id="wata" style="width:auto"></div>
@@ -74,10 +75,71 @@
                     return yqlURL + yql;
                 }
 
+                function SpinSpinner() {
+                    RemoveSpinner();
+                    $('#spinner').addClass('fas fa-sync fa-spin fa-1x fa-fw');
+                }
+
+                function StopSpinner() {
+                    $('#spinner').removeClass('fa-spin');
+                }
+
+                function RemoveSpinner() {
+                    $('#spinner').removeClass();
+                }
+
+                function ColorSpinner(color) {
+                    $('#spinner').css('color', color);
+                }
+
+                function ProfileError(error){
+                    StopSpinner();
+                    ColorSpinner('red');
+                    alert(error);
+                }
+
+                function UpdateTable(libraryURLs, wishlistURLs) {
+                    var data = waTable.getData();
+                    // change the rows
+                    for (i = 0; i < data.rows.length; ++i) {
+                        if (data.rows[i]['nameFormat']) {
+                            var href = data.rows[i]['nameFormat'];
+                            href = href.substring(href.indexOf('"') + 1);
+                            href = href.substring(0, href.indexOf('"'));
+                            cls  = data.rows[i]['row-cls'];
+
+                            if (href in libraryURLs) {
+                                data.rows[i]['row-cls'] = 'green,';
+                                data.rows[i]['store'] = 'Librarie';
+                            }
+
+                            else if (href in wishlistURLs) {
+                                data.rows[i]['row-cls'] = 'blue,';
+                                data.rows[i]['store'] = 'Souhait';
+                            }
+
+                            else {
+                                data.rows[i]['row-cls'] = '';
+                                data.rows[i]['store'] = '';
+                            }
+
+                            if ((typeof cls !== 'undefined') && (cls.includes('override')))
+                                data.rows[i]['row-cls'] += 'override,'
+                        }
+                    }
+                    Platform.performMicrotaskCheckpoint();
+                    waTable.setData(data);
+                    StopSpinner();
+                }
+
                 $('button').click(function(){
+                    SpinSpinner();
+                    ColorSpinner('orange');
                     var profile = $.trim(document.getElementById('libraryId').value);
-                    if (!profile || /^\s*$/.test(profile))
+                    if (!profile || /^\s*$/.test(profile)) {
+                        ProfileError('Aucun profile!');
                         return;
+                    }
                     if (profile.startsWith('http'))
                         profile = profile.replace('http:', 'https:');
                     else
@@ -90,69 +152,50 @@
                     var library = ProxyURL(profile + '/games/?tab=all');
                     $.get(library, function(data) {
                         var page = data.documentElement.innerHTML;
-                        var divclass = '<div class=\"profile_small_header_bg\">';
-                        var beginning = 'var rgGames = ';
-                        var subpage = page.substring(page.indexOf(divclass));
-                        subpage = subpage.substring(subpage.indexOf(beginning) + beginning.length);
-                        subpage = subpage.substring(0, subpage.indexOf('];') + 1);
-                        var libraryURLs = {};
-                        try {
-                            var games = jQuery.parseJSON(subpage);
-                            var i;
-                            var GAMEURL = 'http://store.steampowered.com/app/';
-                            for (i = 0 ; i < games.length; ++i) {
-                                libraryURLs[GAMEURL + games[i].appid] = true;
-                            }
-                        }
-                        catch (e) {
-                        }
 
-                        // wishlist
-                        var wishlist = ProxyURL(profile  + '/wishlist/');
-                        $.get(wishlist, function(data) {
-                            var page = data.documentElement.innerHTML;
-                            var body = '<div id="body-mock">' + page.replace(/^[\s\S]*<body.*?>|<\/body>[\s\S]*$/ig, '') + '</div>';
-                            body = body.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
-                            var data = $(body);
-                            var wishlistURLs = {};
-                            var games = data.find('.storepage_btn_ctn');
-                            var i;
-                            for (i = 0; i < games.length; ++i) {
-                                var href = games[i].innerHTML.substring(games[i].innerHTML.indexOf('href=\"') + 6);
-                                wishlistURLs[href.substring(0, href.indexOf('"'))] = true;
-                            }
-
-                            var data = waTable.getData();
-                            // change the rows
-                            for (i = 0; i < data.rows.length; ++i) {
-                                if (data.rows[i]['nameFormat']) {
-                                    var href = data.rows[i]['nameFormat'];
-                                    href = href.substring(href.indexOf('"') + 1);
-                                    href = href.substring(0, href.indexOf('"'));
-                                    cls  = data.rows[i]['row-cls'];
-
-                                    if (href in libraryURLs) {
-                                        data.rows[i]['row-cls'] = 'green,';
-                                        data.rows[i]['store'] = 'Librarie';
-                                    }
-
-                                    else if (href in wishlistURLs) {
-                                        data.rows[i]['row-cls'] = 'blue,';
-                                        data.rows[i]['store'] = 'Souhait';
-                                    }
-
-                                    else {
-                                        data.rows[i]['row-cls'] = '';
-                                        data.rows[i]['store'] = '';
-                                    }
-
-                                    if ((typeof cls !== 'undefined') && (cls.includes('override')))
-                                        data.rows[i]['row-cls'] += 'override,'
+                        // Verify that the profile exists
+                        var profileerror = 'The specified profile could not be found.';
+                        if (page.includes(profileerror)) {
+                            ProfileError('Profile non valide!');
+                            UpdateTable({}, {});
+                        } else {
+                            ColorSpinner('blue');
+                            var divclass = '<div class=\"profile_small_header_bg\">';
+                            var beginning = 'var rgGames = ';
+                            var subpage = page.substring(page.indexOf(divclass));
+                            subpage = subpage.substring(subpage.indexOf(beginning) + beginning.length);
+                            subpage = subpage.substring(0, subpage.indexOf('];') + 1);
+                            try {
+                                var libraryURLs = {};
+                                var games = jQuery.parseJSON(subpage);
+                                var i;
+                                var GAMEURL = 'http://store.steampowered.com/app/';
+                                for (i = 0 ; i < games.length; ++i) {
+                                    libraryURLs[GAMEURL + games[i].appid] = true;
                                 }
                             }
-                            Platform.performMicrotaskCheckpoint();
-                            waTable.setData(data);
-                        });
+                            catch (e) {
+                            }
+
+                            // wishlist
+                            var wishlist = ProxyURL(profile  + '/wishlist/');
+                            $.get(wishlist, function(data) {
+                                ColorSpinner('green');
+                                var page = data.documentElement.innerHTML;
+                                var body = '<div id="body-mock">' + page.replace(/^[\s\S]*<body.*?>|<\/body>[\s\S]*$/ig, '') + '</div>';
+                                body = body.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
+                                var data = $(body);
+                                var games = data.find('.storepage_btn_ctn');
+                                var wishlistURLs = {};
+                                var i;
+                                for (i = 0; i < games.length; ++i) {
+                                    var href = games[i].innerHTML.substring(games[i].innerHTML.indexOf('href=\"') + 6);
+                                    wishlistURLs[href.substring(0, href.indexOf('"'))] = true;
+                                }
+
+                                UpdateTable(libraryURLs, wishlistURLs)
+                            });
+                        }
                     });
                 });
             });
