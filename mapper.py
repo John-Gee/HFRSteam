@@ -18,17 +18,19 @@ class Mapper:
                 line = line[1:-1]
                 if (self.LINK in line):
                     tup = line.split(self.LINK)
-                    if (tup[0].lower() in self.__mapping):
-                        print('The key {0} is already in the mapper!'.format(
-                            tup[0].lower()))
-                        continue
-                    if (len(tup) == 2):
-                        self.__mapping[tup[0].lower()] = (tup[1].lower(),)
-                    elif (len(tup) == 3):
-                        self.__mapping[tup[0].lower()] = (tup[1].lower(),
-                                                          tup[2].lower())
-                    else:
-                        print('More members in the line than excepted!')
+                    if (len(tup) > 1):
+                        key   = tup[0].lower()
+                        value = tup[1].lower().strip('/');
+                        if (key in self.__mapping):
+                            print('The key {0} is already in the mapper!'.format(
+                                key))
+                            continue
+                        if (len(tup) == 2):
+                            self.__mapping[key] = (value,)
+                        elif (len(tup) == 3):
+                            self.__mapping[key] = (value, tup[2].lower())
+                        else:
+                            print('More members in the line than excepted!')
 
     def save_mapping(self):
         if ((self.__mapping == None) or (len(self.__mapping) == 0)):
