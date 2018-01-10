@@ -634,7 +634,7 @@
 "out of the park baseball 15<->app/272670"
 "out of the park baseball 17<->app/402430"
 "outland<->app/305050"
-"outland - special edition<->sub/51714"
+"outland - special edition<->app/305050"
 "overlord<->app/11450"
 "overlord 2<->app/12810"
 "overlord and overlord raising hell<->app/12710"
