@@ -20,6 +20,8 @@ def main():
                             help='Performs a dry run, does not modify anything on disk')
     optionparser.add_option('-i', '--ignore-cache', action='store_true', dest='ignorecache',
                             help='Ignore the data stored in cache')
+    optionparser.add_option('-l', '--list', dest='list',
+                            help='Provide a text list to parse instead of parsing HFR')
     optionparser.add_option('-m', '--matching-words', action='store_true', dest='matchingwords',
                             help='Use a word matching algorithm to find a name matching in the steamdb (potentially wrong)')
     optionparser.add_option('-n', '--number-games', dest='number_games',
@@ -33,7 +35,13 @@ def main():
 
     (options, args) = optionparser.parse_args()
 
-    games = hfrparser.parse_hfr()
+    if (options.list == None):
+        games = hfrparser.parse_hfr()
+    else:
+        f     = open(options.list, 'r')
+        games = dict()
+        hfrparser.get_games(games, f.read().splitlines(), '')
+        f.close()
 
     gamesinfo.get_games_info(options, games)
 
