@@ -159,5 +159,5 @@ def output_to_html(games, file):
     text = text.replace('\u2032', '\'')
 
     f = open(file, 'w', encoding='utf8')
-    f.write(text)
+    f.write(text.strip())
     f.close()
