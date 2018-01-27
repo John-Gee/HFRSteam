@@ -22,5 +22,5 @@ def output_to_bb(games, file):
                 bbcode, gameName, os.linesep)
 
     f = open(file, 'w', encoding='utf8')
-    f.write(bbcode)
+    f.write(bbcode.strip())
     f.close()
