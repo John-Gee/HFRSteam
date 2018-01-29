@@ -2,7 +2,7 @@ from datetime import datetime
 import re
 
 import domparser
-from game import Game
+from game import Category, Game
 import stringutils
 import web
 
@@ -22,6 +22,7 @@ def get_games(games, liste, requirements):
     END_NEW       = '----'
 
     is_new        = (requirements == 'Standard')
+    basename      = ''
 
     for name in liste:
         # ignore lines including icon4.gif
@@ -52,6 +53,14 @@ def get_games(games, liste, requirements):
                 game.hfr.gift_date = datetime.now()
             else:
                 game = Game(is_available, requirements)
+
+            if ('(+)' not in name):
+                basename = cleanname
+            else:
+                if ((basename) and (basename.split(' ')[0] not in cleanname)):
+                    cleanname = '{0} {1}'.format(basename, cleanname)
+                game.store.category = Category.DLC
+
             if((cleanname not in games) or ((not games[cleanname].hfr.is_available) and (is_available))):
                 games[cleanname] = game
     return games
@@ -68,7 +77,7 @@ def get_names_from_post(post, start, end, is_std):
         cleansubpost = re.sub('.*(Humble Bundle|\( *(Uplay|Rockstar Game Social club|GoG|GOG Galaxy|Battlenet|Android|clef Square Enix|Desura|Origin) *\)).*', '', 
                               cleansubpost, flags=re.IGNORECASE)
         cleansubpost = re.sub('.*Clef Origin Humble Bundle.*', '', cleansubpost, flags=re.IGNORECASE)
-        cleansubpost = re.sub('\(.+\)', '', cleansubpost)
+        cleansubpost = re.sub('\([^+].+\)', '', cleansubpost)
         cleansubpost = re.sub(' *X[0-9] *', '', cleansubpost)
         cleansubpost = re.sub('<strike>X[0-9]</strike>', '', cleansubpost)
         cleansubpost = cleansubpost.replace('****', '')
