@@ -21,10 +21,11 @@ def get_games(games, liste, requirements):
     END_STRIKED   = '</strike>'
     END_NEW       = '----'
 
-    is_new        = (requirements == "Standard")
+    is_new        = (requirements == 'Standard')
 
     for name in liste:
-        if (not name):
+        # ignore lines including icon4.gif
+        if ((not name) or ('icon4.gif' in name)):
             continue
         name = name.strip()
 
