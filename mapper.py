@@ -50,7 +50,7 @@ class Mapper:
             if (right):
                 self.__mapping[left.lower()] = (middle.lower(), right.lower())
             else:
-                self.__mapping[left.lower()] = (middle.lower())
+                self.__mapping[left.lower()] = (middle.lower(),)
         else:
             print('Impossible to add mapping, {0} is already in the mapper'.
                   format(left))
