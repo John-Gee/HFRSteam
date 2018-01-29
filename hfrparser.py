@@ -8,9 +8,9 @@ import web
 
 
 def get_post(url, postid):
-    status, html = web.get_utf8_web_page(url)
-    document     = domparser.load_html(html)
-    post         = domparser.get_element(document, 'div', id = postid)
+    url, status, html = web.get_utf8_web_page(url)
+    document          = domparser.load_html(html)
+    post              = domparser.get_element(document, 'div', id = postid)
 
     return str(post)
 

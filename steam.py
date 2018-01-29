@@ -48,9 +48,9 @@ def get_store_info_from_url(game, name, url):
 
 
 def get_store_info(game, name):
-    status, page = web.get_utf8_web_page(game.store.link)
+    url, status, page = web.get_utf8_web_page(game.store.link)
 
-    if (status == 302):
+    if (game.store.link not in url):
         game.store.description = 'The app is not on steam anymore.'
         print('The page for app {0} redirects somewhere else'
               .format(name))
