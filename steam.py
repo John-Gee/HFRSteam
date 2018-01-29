@@ -10,10 +10,10 @@ import namematching
 import web
 
 
-APPLIST_URL = 'http://api.steampowered.com/ISteamApps/GetAppList/v0001/'
+APPLIST_URL = 'http://api.steampowered.com/ISteamApps/GetAppList/v2/'
 _games = dict()
 _applist = web.get_json_data_from_url(APPLIST_URL)
-for app in iter(_applist['applist']['apps']['app']):
+for app in iter(_applist['applist']['apps']):
     name = app['name'].lower()
     if (name not in _games):
         _games[name] = app['appid']
