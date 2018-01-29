@@ -23,11 +23,18 @@ def get_games(games, liste, requirements):
 
     is_new        = (requirements == 'Standard')
     basename      = ''
+    ignore        = False
 
     for name in liste:
         # ignore lines including icon4.gif
         if ((not name) or ('icon4.gif' in name)):
             continue
+        ignore_list = ['humble bundle', 'uplay', 'rockstar game social club',
+                        'gog', 'battlenet', 'android', 'square enix', 'desura', 'origin']
+        if any(word in name.lower() for word in ignore_list):
+            ignore = True
+            continue
+
         name = name.strip()
 
         if (name.startswith(END_NEW)):
@@ -46,7 +53,8 @@ def get_games(games, liste, requirements):
             else:
                 is_available = True
 
-        cleanname = re.sub('<.*?>', '', name).replace('(+)', '').strip()
+        cleanname = re.sub('<.*?>', '', name).replace('(+)', '')
+        cleanname = re.sub('\( .+ \)', '', cleanname).strip()
         if (cleanname):
             if (is_new):
                 game = Game(is_available, "Nouveauté")
@@ -60,6 +68,8 @@ def get_games(games, liste, requirements):
                 if ((basename) and (basename.split(' ')[0] not in cleanname)):
                     cleanname = '{0} {1}'.format(basename, cleanname)
                 game.store.category = Category.DLC
+                if (ignore):
+                    continue
 
             if((cleanname not in games) or ((not games[cleanname].hfr.is_available) and (is_available))):
                 games[cleanname] = game
@@ -74,10 +84,6 @@ def get_names_from_post(post, start, end, is_std):
     cleansubpost = cleansubpost.replace('&amp;', "&")
     cleansubpost = cleansubpost.replace('"', '')
     if (not is_std):
-        cleansubpost = re.sub('.*(Humble Bundle|\( *(Uplay|Rockstar Game Social club|GoG|GOG Galaxy|Battlenet|Android|clef Square Enix|Desura|Origin) *\)).*', '', 
-                              cleansubpost, flags=re.IGNORECASE)
-        cleansubpost = re.sub('.*Clef Origin Humble Bundle.*', '', cleansubpost, flags=re.IGNORECASE)
-        cleansubpost = re.sub('\([^+].+\)', '', cleansubpost)
         cleansubpost = re.sub(' *X[0-9] *', '', cleansubpost)
         cleansubpost = re.sub('<strike>X[0-9]</strike>', '', cleansubpost)
         cleansubpost = cleansubpost.replace('****', '')
