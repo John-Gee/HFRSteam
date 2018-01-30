@@ -3,11 +3,14 @@ import pickle
 import traceback
 
 
+import utils
+
+
 _CACHE_FILE = 'cache/cache.p'
 
 
 def retrieve_db_from_cache():
-    db = dict()
+    db = utils.DictCaseInsensitive()
     try:
         if(os.path.exists(_CACHE_FILE)):
             db = pickle.load(open(_CACHE_FILE, 'rb'))

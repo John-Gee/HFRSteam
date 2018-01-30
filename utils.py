@@ -1,6 +1,10 @@
 import requests
 
 
+class DictCaseInsensitive(requests.structures.CaseInsensitiveDict):
+    pass
+
+
 class ComparableClass():
     def compare(self, other):
         for key in self.__dict__:

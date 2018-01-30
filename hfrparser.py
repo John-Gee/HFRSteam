@@ -4,6 +4,7 @@ import re
 import domparser
 from game import Category, Game
 import stringutils
+import utils
 import web
 
 
@@ -72,9 +73,9 @@ def get_games(games, liste, requirements):
                     continue
 
             #TODO: case insensitive dict!
-            if ((cleanname.lower() not in games) or
+            if ((cleanname not in games) or
                 ((not games[cleanname].hfr.is_available) and (is_available))):
-                games[cleanname.lower()] = game
+                games[cleanname] = game
     return games
 
 
@@ -132,7 +133,7 @@ def parse_hfr_premium(games):
     return get_games(games, names, "Premium")
 
 def parse_hfr():
-    games = dict()
+    games = utils.DictCaseInsensitive()
     parse_hfr_std(games)
     parse_hfr_donateur(games)
     parse_hfr_premium(games)

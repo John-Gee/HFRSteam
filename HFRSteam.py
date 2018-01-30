@@ -7,6 +7,7 @@ import bboutput
 import gamesinfo
 import hfrparser
 import htmloutput
+import utils
 
 
 def main():
@@ -39,7 +40,7 @@ def main():
         games = hfrparser.parse_hfr()
     else:
         f     = open(options.list, 'r')
-        games = dict()
+        games = utils.DictCaseInsensitive()
         hfrparser.get_games(games, f.read().splitlines(), '')
         f.close()
 
