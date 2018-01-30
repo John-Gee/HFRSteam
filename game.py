@@ -1,20 +1,23 @@
 from enum import Enum, auto
 
 
+import utils
+
+
 class Category(Enum):
     Game       = auto()
     DLC        = auto()
     Collection = auto()
 
 
-class HFRData:
+class HFRData(utils.ComparableClass):
     def __init__(self, is_available, requirements):
         self.is_available = is_available
         self.requirements = requirements
         self.gift_date    = None
 
 
-class StoreData:
+class StoreData(utils.ComparableClass):
     def __init__(self):
         self.description  = ''
         self.image        = ''
@@ -32,7 +35,7 @@ class StoreData:
         self.override     = False
 
 
-class Game:
+class Game(utils.ComparableClass):
     def __init__(self, is_available=False, requirements=None):
         self.hfr          = HFRData(is_available, requirements)
         self.store        = StoreData()
