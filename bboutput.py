@@ -5,7 +5,7 @@ def output_to_bb(games, file):
     bbcode = ''
     requirements = ''
     for gameName, game in sorted(
-        games.items(), key = lambda x: (x[1].hfr.requirements, x[0])):
+        games.items(), key = lambda x: (x[1].hfr.requirements, x[0].lower())):
         if (not game.hfr.is_available):
             continue
 

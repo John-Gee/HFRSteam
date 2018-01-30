@@ -39,7 +39,7 @@ def get_data(games):
     data = ''
     justifyFormat = '<div style=\\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\\">{0}</div>'
 
-    for gameName in sorted(games):
+    for gameName in sorted(games, key=str.lower):
         game = games[gameName]
         if (not game.hfr.is_available):
             continue
