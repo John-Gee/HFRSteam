@@ -1069,7 +1069,7 @@
 "the deadly tower of monsters special edition<->app/353700"
 "the dream machine<->app/94300"
 "the elder scrolls: legends: 2 card packs<->app/364470<->dlc"
-"the elder scrolls: legends: 2 card packs (skyrim) 1 event ticket 100 gold 100 souls<->364470<->dlc"
+"the elder scrolls: legends: 2 card packs (skyrim) 1 event ticket 100 gold 100 souls<->app/364470<->dlc"
 "the escapists - base game<->app/298630"
 "the escapists - fhurst peak<->app/349310"
 "the escapists dlc: alcatraz<->app/349350"
