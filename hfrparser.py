@@ -72,7 +72,6 @@ def get_games(games, liste, requirements):
                 if (ignore):
                     continue
 
-            #TODO: case insensitive dict!
             if ((cleanname not in games) or
                 ((not games[cleanname].hfr.is_available) and (is_available))):
                 games[cleanname] = game
