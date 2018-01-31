@@ -55,7 +55,7 @@ def get_games(games, liste, requirements):
                 is_available = True
 
         cleanname = re.sub('<.*?>', '', name).replace('(+)', '')
-        cleanname = re.sub('\( .+ \)', '', cleanname).strip()
+        cleanname = re.sub('\( .+ *\)', '', cleanname).strip()
         if (cleanname):
             if (is_new):
                 game = Game(is_available, "Nouveauté")
