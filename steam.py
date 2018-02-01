@@ -227,7 +227,7 @@ def get_game_review(glance_ctn_block, name):
 
 
 def get_game_release_date(glance_ctn_block):
-    date = domparser.get_text(glance_ctn_block, 'span',
+    date = domparser.get_text(glance_ctn_block, 'div',
                               class_='date')
     if (date):
         return parser.parse(date.strip(), fuzzy_with_tokens=True)
