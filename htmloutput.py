@@ -111,12 +111,16 @@ def get_data(games):
                       format(game.store.avg_review, gameName))
 
         if (game.hfr.requirements):
-            if (game.hfr.requirements.lower() in ['standard', 'nouveauté']):
+            if (game.hfr.requirements.lower() == 'standard'):
                 stars = '*'
             else:
                 stars = '**'
-            
-            data += writeline('requirements: "{0}<sup><b>{1}</b></sup>",'.format(game.hfr.requirements, stars))
+
+            if (game.hfr.is_new):
+                requirements = '{0}: Nouveauté'.format(game.hfr.requirements)
+            else:
+                requirements = game.hfr.requirements
+            data += writeline('requirements: "{0}<sup><b>{1}</b></sup>",'.format(requirements, stars))
 
         if (len(game.store.tags) > 0):
             data += writeline('tags: "{0}",'.format(', '.join(game.store.tags)))

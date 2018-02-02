@@ -11,10 +11,11 @@ class Category(Enum):
 
 
 class HFRData(utils.ComparableClass):
-    def __init__(self, is_available, requirements):
+    def __init__(self, is_available, requirements, is_new, gift_date):
         self.is_available = is_available
         self.requirements = requirements
-        self.gift_date    = None
+        self.is_new       = is_new
+        self.gift_date    = gift_date
 
 
 class StoreData(utils.ComparableClass):
@@ -36,8 +37,10 @@ class StoreData(utils.ComparableClass):
 
 
 class Game(utils.ComparableClass):
-    def __init__(self, is_available=False, requirements=None):
-        self.hfr          = HFRData(is_available, requirements)
+    def __init__(self, is_available=False, requirements=None,
+                 is_new=False, gift_date=None):
+        self.hfr          = HFRData(is_available, requirements,
+                                    is_new, gift_date)
         self.store        = StoreData()
 
     def __getstate__(self):

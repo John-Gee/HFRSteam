@@ -17,18 +17,19 @@ def get_post(url, postid):
 
 
 def get_games(games, liste, requirements):
-    striked       = False
     BEGIN_STRIKED = '<strike>'
     END_STRIKED   = '</strike>'
-    END_NEW       = '----'
+    BEGIN_NEW     = '<strong>'
+    END_NEW       = '</strong>'
 
-    is_new        = (requirements == 'Standard')
-    basename      = ''
+    is_new        = False
     ignore        = False
+    striked       = False
+    basename      = ''
 
     for name in liste:
         # ignore lines including icon4.gif
-        if ((not name) or ('icon4.gif' in name)):
+        if ((not name) or ('icon4.gif' in name) or (re.match('----', name))):
             continue
         ignore_list = ['humble bundle', 'uplay', 'rockstar game social club',
                         'gog', 'battlenet', 'android', 'square enix', 'desura', 'origin']
@@ -38,9 +39,8 @@ def get_games(games, liste, requirements):
 
         name = name.strip()
 
-        if (name.startswith(END_NEW)):
-            is_new = False
-            continue
+        if (name.startswith(BEGIN_NEW)):
+            is_new = True
 
         if (name.startswith(BEGIN_STRIKED)):
             is_available = False
@@ -54,15 +54,16 @@ def get_games(games, liste, requirements):
             else:
                 is_available = True
 
+        if (is_new):
+            game = Game(is_available, requirements, True, datetime.now())
+        else:
+            game = Game(is_available, requirements)
+        if (name.endswith(END_NEW)):
+            is_new = False
+
         cleanname = re.sub('<.*?>', '', name).replace('(+)', '')
         cleanname = re.sub('\( .+ *\)', '', cleanname).strip()
         if (cleanname):
-            if (is_new):
-                game = Game(is_available, "Nouveauté")
-                game.hfr.gift_date = datetime.now()
-            else:
-                game = Game(is_available, requirements)
-
             if ('(+)' not in name):
                 basename = cleanname
             else:
@@ -101,7 +102,7 @@ def parse_hfr_std(games):
     URL     = 'https://forum.hardware.fr/hfr/JeuxVideo/Achat-Ventes/gratuit-origin-download-sujet_171605_1.htm'
     post    = get_post(URL, POST_ID)
 
-    START = '<strong>Clefs  <img alt="[:icon4]" src="https://forum-images.hardware.fr/images/perso/icon4.gif" title="[:icon4]"/> Steam <img alt="[:icon4]" src="https://forum-images.hardware.fr/images/perso/icon4.gif" title="[:icon4]"/> :</strong> <br/><strong> <br/>'
+    START = '<strong>Clefs  <img alt="[:icon4]" src="https://forum-images.hardware.fr/images/perso/icon4.gif" title="[:icon4]"/> Steam <img alt="[:icon4]" src="https://forum-images.hardware.fr/images/perso/icon4.gif" title="[:icon4]"/> :</strong> <br/>'
     END   = '--------------------------------------------------------------------------'
 
     names = get_names_from_post(post, START, END, True)
