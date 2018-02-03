@@ -45,7 +45,7 @@ def get_texts(element, name, **kwargs):
     for newelement in elements:
         text = newelement.get_text()
         if (text):
-            texts.append(text)
+            texts.append(text.strip())
     return texts
 
 
