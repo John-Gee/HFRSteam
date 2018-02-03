@@ -114,6 +114,8 @@ def get_standalone_info(game, name, document):
         game.store.description  = ''
         print('The category {0} is not implemented yet!'.format(game.store.category.name))
 
+    game.store.languages    = get_game_languages(document)
+
 
 def get_collection_info(game, name, document):
     game.store.category = Category.Collection
@@ -340,6 +342,15 @@ def get_game_tags(glance_ctn_block):
         # \r\n\t\t\t\t\t\t\t\t\t\t\t\tTAG\t\t\t\t\t\t\t\t\t\t\t\t
         return sorted(list(map(lambda s: s.strip(),
                                domparser.get_texts(tags_block, 'a'))))
+    return list()
+
+
+def get_game_languages(document):
+    language_block = domparser.get_element(document, 'table',
+                                    class_='game_language_options')
+    if (language_block):
+        return domparser.get_texts(language_block, 'td',
+                                   class_='ellipsis')
     return list()
 
 

@@ -131,6 +131,9 @@ def get_data(games):
         if (game.hfr.gift_date):
             data += writeline('giftdate: "{0}",'.format(game.hfr.gift_date.strftime("%Y-%m-%d")))
 
+        if (len(game.store.languages) > 0):
+            data += writeline('languages: "{0}",'.format(', '.join(game.store.languages)))
+
         decrease_indent_count()
         data += writeline('};')
         try:

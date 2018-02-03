@@ -309,6 +309,15 @@
                             filter: '',
                             hidden: localStorage.getItem('Liste Steam') ? !('true' == localStorage.getItem('Liste Steam')) : true,
                         },
+                        languages: {
+                            index: 10,
+                            type: 'string',
+                            friendly: 'Langues',
+                            format: '<div style="white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%">{0}</div>',
+                            unique: false,
+                            filter: '',
+                            hidden: localStorage.getItem('Langues') ? !('true' == localStorage.getItem('Langues')) : true,
+                        },
                         tags: {
                             index: 100,
                             type: 'string',

@@ -34,6 +34,7 @@ class StoreData(utils.ComparableClass):
         self.tags         = list()
         self.details      = list()
         self.override     = False
+        self.languages    = list()
 
 
 class Game(utils.ComparableClass):
