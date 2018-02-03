@@ -41,9 +41,9 @@
                     <img style="position: absolute; top: 0; right: 0; border: 0; max-width: 75px;" src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png">
                 </a>
 
-                <form>
+                <form onsubmit="return false">
                     <a data-toggle="tooltip" title="URL du profil, ex: https://steamcommunity.com/id/geeHFR ou simplement le nom, ex: geeHFR">
-                        <input type="text" name="library" id="libraryId" placeholder="Votre profile Steam" size="25" autocomplete="on"/>
+                        <input type="text" name="library" id="libraryId" placeholder="Votre profile Steam" size="25"/>
                     </a>
 
                     <button type="button" id="myButton">Charger le profile Steam <span id="spinner"></span></button>
@@ -62,9 +62,7 @@
             <script type="text/javascript">
                 $(document).ready(function(){
                 $('#libraryId').keypress(function(e){
-                    // change enter key behavior
                     if (e.keyCode==13) {
-                        event.preventDefault()
                         $('#myButton').click();
                     }
                 });
