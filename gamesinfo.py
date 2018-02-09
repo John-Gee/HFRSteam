@@ -24,7 +24,7 @@ def get_game_info(threadpool, options, games, cachedgames, keys, gameName,
             return
 
         game = games[gameName]
-        if ((options.all == None) and (not game.hfr.is_available)):
+        if ((not options.all) and (not game.hfr.is_available)):
             # Ignoring not available games for now
             # it may be better in the future to ignore them in output
             # or allow the user to do so in the html page.
@@ -37,7 +37,7 @@ def get_game_info(threadpool, options, games, cachedgames, keys, gameName,
 
         if ((gameName in cachedgames) and (cachedgames[gameName].store.link)
             and (not options.ignorecache)
-            and ((options.game == None)
+            and ((not options.game)
                  or (options.game.lower() not in gameName.lower()))):
 
             game.store         = cachedgames[gameName].store
