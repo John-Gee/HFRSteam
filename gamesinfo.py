@@ -91,7 +91,9 @@ def get_game_info(threadpool, options, games, cachedgames, keys, gameName,
 
 def get_games_info(options, games):
 
-    cachedgames = cache.retrieve_db_from_cache()
+    CACHE_PATH = 'cache/cache.p'
+    gamecache = cache.Cache(CACHE_PATH)
+    cachedgames = gamecache.retrieve_db_from_cache()
 
     if (options.cacheonly):
         return cachedgames
@@ -136,6 +138,6 @@ def get_games_info(options, games):
     if (options.dryrun):
         return
 
-    newcachedgames = cache.merge_old_new_cache(cachedgames, games)
-    cache.save_to_cache(newcachedgames)
+    newcachedgames = gamecache.merge_old_new_cache(cachedgames, games)
+    gamecache.save_to_cache(newcachedgames)
     urlsmapping.save_mapping()

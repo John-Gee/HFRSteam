@@ -5,24 +5,24 @@ import traceback
 
 import utils
 
-
-_CACHE_FILE = 'cache/cache.p'
-
-
-def retrieve_db_from_cache():
-    db = utils.DictCaseInsensitive()
-    try:
-        if(os.path.exists(_CACHE_FILE)):
-            db = pickle.load(open(_CACHE_FILE, 'rb'))
-    except:
-        traceback.print_exc()
-
-    return db
+class Cache():
+    def __init__(self, path):
+        self.path = path
 
 
-def save_to_cache(cache):
-    pickle.dump(cache, open(_CACHE_FILE, 'wb'))
+    def retrieve_db_from_cache(self):
+        db = utils.DictCaseInsensitive()
+        try:
+            if(os.path.exists(self.path)):
+                db = pickle.load(open(self.path, 'rb'))
+        except:
+            traceback.print_exc()
+        return db
 
 
-def merge_old_new_cache(cache1, cache2):
-    return {**cache1, **cache2}
+    def save_to_cache(self, cache):
+        pickle.dump(cache, open(self.path, 'wb'))
+
+
+    def merge_old_new_cache(self, cache1, cache2):
+        return {**cache1, **cache2}
