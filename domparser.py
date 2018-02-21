@@ -1,8 +1,9 @@
 import bs4
+import html5lib
 
 
 def load_html(html):
-    return bs4.BeautifulSoup(html, 'html.parser')
+    return bs4.BeautifulSoup(html, 'html5lib')
 
 
 def get_element(document, name, **kwargs):
