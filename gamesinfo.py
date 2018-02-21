@@ -91,7 +91,7 @@ def get_game_info(threadpool, options, games, cachedgames, keys, gameName,
 
 def get_games_info(options, games):
 
-    CACHE_PATH = 'cache/cache.p'
+    CACHE_PATH = 'cache/games.p'
     gamecache = cache.Cache(CACHE_PATH)
     cachedgames = gamecache.retrieve_db_from_cache()
 
