@@ -357,5 +357,5 @@ def get_game_languages(document):
 # simple test
 if __name__ == '__main__':
     game = Game()
-    get_store_info_from_appid(game, 'STAR WARS™: TIE Fighter Special Edition', '355250')
+    get_store_info_from_appid(game, 'From the Depths', '268650')
     print(game.store.price)
