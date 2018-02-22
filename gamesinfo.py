@@ -53,7 +53,7 @@ def get_game_info(threadpool, options, games, cachedgames, keys, gameName,
                         appid = str(steam.get_appid(matchednames[0]))
                         if (appid != ''):
                             urlsmapping.add_to_mapping(gameName,
-                                                       steam.get_urlmapping_fromappid(appid))
+                                                       steam.get_urlmapping_from_appid(appid))
                             print('Matched {0} with {1}'.
                                     format(gameName, matchednames[0]))
 

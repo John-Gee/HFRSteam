@@ -31,14 +31,14 @@ def get_list_of_games():
     return _games.keys()
 
 
-def get_urlmapping_fromappid(appid):
+def get_urlmapping_from_appid(appid):
     # defaulting to the standard game url for now
     return 'app/{0}'.format(appid)
 
 
 def get_store_info_from_appid(game, name, appid):
     game.store.link = 'http://store.steampowered.com/{0}'.format(
-                       get_urlmapping_fromappid(appid))
+                       get_urlmapping_from_appid(appid))
     get_store_info(game, name)
 
 
