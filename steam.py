@@ -374,6 +374,11 @@ def get_game_languages(document):
     return list()
 
 
+def get_title(document):
+    return domparser.get_text(document, 'div',
+                                   class_='apphub_AppName')
+
+
 # simple test
 if __name__ == '__main__':
     game = Game()
