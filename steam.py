@@ -37,9 +37,13 @@ def get_urlmapping_from_appid(appid):
     return 'app/{0}'.format(appid)
 
 
+def get_store_link_from_appid(appid):
+    return 'http://store.steampowered.com/{0}'.format(
+        get_urlmapping_from_appid(appid))
+
+
 def get_store_info_from_appid(game, name, appid):
-    game.store.link = 'http://store.steampowered.com/{0}'.format(
-                       get_urlmapping_from_appid(appid))
+    game.store.link = get_store_link_from_appid(appid)
     get_store_info(game, name)
 
 
@@ -48,14 +52,14 @@ def get_store_info_from_url(game, name, url):
     get_store_info(game, name)
 
 
-def get_store_info(game, name):
-    url, status, page = web.get_utf8_web_page(game.store.link)
+def get_pagedocument(storelink, name):
+    url, status, page = web.get_utf8_web_page(storelink)
 
-    if ('http://store.steampowered.com/' == url):
-        game.store.description = 'The app is not on steam anymore.'
+    if ((not url) or ('http://store.steampowered.com/' == url)):
+        description = 'The app is not on steam anymore.'
         print('The page for app {0} redirects somewhere else'
               .format(name))
-        return
+        return None, description
 
     document = domparser.load_html(page)
 
@@ -64,10 +68,20 @@ def get_store_info(game, name):
                                         string='Oops, sorry!')
 
     if (sorry_block):
-        game.store.description = domparser.get_text(document, 'span',
+        description = domparser.get_text(document, 'span',
                                               class_="error")
         print('The page for game {0} shows an error: {1}'
-              .format(name, game.store.description))
+              .format(name, description))
+        return None, description
+
+    return document, None
+
+
+def get_store_info(game, name):
+    document, description = get_pagedocument(game.store.link, name)
+
+    if (not document):
+        game.store.description = description
         return
 
     if ( ('/sub/' in game.store.link) or ('/bundle/' in game.store.link)):
