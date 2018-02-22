@@ -8,6 +8,7 @@ class Category(Enum):
     Game       = auto()
     DLC        = auto()
     Collection = auto()
+    Video      = auto()
 
 
 class HFRData(utils.ComparableClass):

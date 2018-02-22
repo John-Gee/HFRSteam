@@ -93,7 +93,7 @@ def get_standalone_info(game, name, document):
 
     purchase_block      = domparser.get_element(game_left_column, 'div',
                                                 id='game_area_purchase')
-    game.store.category = get_game_category(purchase_block)
+    game.store.category = get_game_category(purchase_block, document)
     game.store.price    = get_game_price(purchase_block, name)
     game.store.os       = get_game_os(game_left_column)
 
@@ -106,7 +106,7 @@ def get_standalone_info(game, name, document):
     game.store.release_date = get_game_release_date(glance_ctn_block)
     game.store.tags         = get_game_tags(glance_ctn_block)
 
-    if (game.store.category is Category.Game):
+    if (game.store.category in [Category.Game, Category.Video]):
         game.store.description  = get_game_description(glance_ctn_block)
     elif (game.store.category is Category.DLC):
         game.store.description  = get_dlc_description(document)
@@ -237,13 +237,18 @@ def get_game_release_date(glance_ctn_block):
     return None
 
 
-def get_game_category(purchase_block):
+def get_game_category(purchase_block, document):
     dlc_block = domparser.get_element(purchase_block, 'div',
                                       class_='game_area_dlc_bubble game_area_bubble')
-    if (dlc_block is None):
-        return Category.Game
-    else:
+    if (dlc_block):
         return Category.DLC
+
+    videos_href = domparser.get_element(document, 'a',
+                                      text='All Streaming Videos')
+    if (videos_href):
+        return Category.Video
+
+    return Category.Game
 
 
 def get_game_price(purchase_block, name):
@@ -357,5 +362,6 @@ def get_game_languages(document):
 # simple test
 if __name__ == '__main__':
     game = Game()
-    get_store_info_from_appid(game, 'From the Depths', '268650')
-    print(game.store.price)
+    #get_store_info_from_appid(game, 'From the Depths', '268650')
+    get_store_info_from_appid(game, 'Death Note', '627680')
+    print(game.store.category)
