@@ -1,6 +1,7 @@
 import calendar
 import datetime
 from dateutil import parser
+import json
 import os
 import re
 
@@ -12,7 +13,7 @@ import web
 
 APPLIST_URL = 'http://api.steampowered.com/ISteamApps/GetAppList/v2/'
 _games = dict()
-_applist = web.get_json_data_from_url(APPLIST_URL)
+_applist = json.loads(web.get_utf8_web_page(APPLIST_URL)[2])
 for app in iter(_applist['applist']['apps']):
     name = app['name'].lower()
     if (name not in _games):
