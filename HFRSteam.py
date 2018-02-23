@@ -26,8 +26,6 @@ def main():
                         help='Provide a text list to parse instead of parsing HFR')
     parser.add_argument('-m', '--matching-words', action='store_true', dest='matchingwords',
                         help='Use a word matching algorithm to find a name matching in the steamdb (potentially wrong)')
-    parser.add_argument('-n', '--number-games', dest='number_games', type=int,
-                        help='Number of games to work on. Only for dev purposes')
     parser.add_argument('-r', '--refresh-named', dest='game',
                         help='Refresh the game listed, and all games not in cache')
     parser.add_argument('-t', '--threads', dest='threads', default='0', type=int,
