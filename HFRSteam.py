@@ -8,6 +8,7 @@ import bboutput
 import gamesinfo
 import hfrparser
 import htmloutput
+import steam
 import utils
 
 
@@ -75,10 +76,12 @@ if __name__ == '__main__':
     options    = get_parser().parse_args()
     threadpool = cpu.ThreadPool(options.threads)
     games      = utils.DictCaseInsensitive()
+    steamgames = utils.DictCaseInsensitive()
 
     threadpool.submit_work(parse_list, (options, games))
+    threadpool.submit_work(steam.get_list_of_games, (steamgames,))
     threadpool.wait()
 
-    gamesinfo.get_games_info(threadpool, options, games)
+    gamesinfo.get_games_info(threadpool, options, games, steamgames)
 
     write_output_files(threadpool, options.dryrun, games)

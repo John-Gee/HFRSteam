@@ -82,15 +82,13 @@ def get_game_info(options, game, cachedgames, steamgames, name, urlsmapping):
                 .format(name, str(datetime.datetime.now().time())))
 
 
-def get_games_info(threadpool, options, games):
+def get_games_info(threadpool, options, games, steamgames):
     CACHE_PATH    = os.path.join('cache', 'games.p')
     cache         = Cache(CACHE_PATH)
     cachedgames   = utils.DictCaseInsensitive(cache.load_from_cache())
 
     URLS_MAPPING  = os.path.join('mappings', 'urlsmapping.txt')
     urlsmapping   = Mapper(URLS_MAPPING)
-
-    steamgames    = steam.get_list_of_games()
 
     for name in iter(games):
         if (threadpool.is_error()):

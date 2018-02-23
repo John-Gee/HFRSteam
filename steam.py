@@ -50,8 +50,8 @@ def get_applist_from_server():
     return get_games_from_applist(applist)
 
 
-def get_list_of_games():
-    return utils.DictCaseInsensitive(get_applist_from_server())
+def get_list_of_games(games):
+    games.update(get_applist_from_server())
 
 
 def get_urlmapping_from_appid(appid):
