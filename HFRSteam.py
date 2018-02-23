@@ -27,7 +27,7 @@ class MyFormatter(argparse.ArgumentDefaultsHelpFormatter,
                                 args_string.upper())
 
 
-def main():
+def get_parser():
     parser = argparse.ArgumentParser(description=('Parses the HFR list of Steam games'
                                      ' offered and convert it to bb/html.'''),
                             usage='%(prog)s [options]',
@@ -48,29 +48,36 @@ def main():
                         help='refresh the games matching the string')
     parser.add_argument('-t', '--threads', dest='threads', default='0', type=int,
                         help='number of parallel threads to use')
+    return parser
 
-    options = parser.parse_args()
+
+def parse_list(options):
     if (options.liste == None):
         games = hfrparser.parse_hfr()
     else:
-        f     = open(options.liste, 'r')
         games = utils.DictCaseInsensitive()
-        hfrparser.get_games(games, f.read().splitlines(), '')
-        f.close()
+        with open(options.liste, 'r') as f:
+            hfrparser.get_games(games, f.read().splitlines(), '')
+    return games
 
-    gamesinfo.get_games_info(options, games)
 
-    if (options.dryrun):
-        return
-
+def write_output_files(games):
     OUTPUT_FOLDER = 'docs'
     HTML_FILE     = os.path.join(OUTPUT_FOLDER, 'index.html')
     BB_FILE       = os.path.join(OUTPUT_FOLDER, 'bb.txt')
-    if not os.path.exists(OUTPUT_FOLDER):
+    if (not os.path.exists(OUTPUT_FOLDER)):
         os.makedirs(OUTPUT_FOLDER)
     htmloutput.output_to_html(games, HTML_FILE)
     bboutput.output_to_bb(games, BB_FILE)
 
 
 if __name__ == '__main__':
-    main()
+    options = get_parser().parse_args()
+    games   = parse_list(options)
+
+    gamesinfo.get_games_info(options, games)
+
+    if (options.dryrun):
+        sys.exit(0)
+
+    write_output_files(games)
