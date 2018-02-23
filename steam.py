@@ -31,8 +31,8 @@ def save_steam_applist_to_local(applist):
     js_dict['applist'] = {'apps': sorted_data}
     if (not os.path.exists('steamlist')):
         os.makedirs('steamlist')
-    with open(APPLIST_LOCAL, 'w', encoding='utf8') as f:
-        json.dump(js_dict, f, sort_keys=True, indent='\t', ensure_ascii=False)
+    json.dump(js_dict, open(APPLIST_LOCAL, 'w', encoding='utf8'),
+              sort_keys=True, indent='\t', ensure_ascii=False)
 
 
 def get_steam_applist_from_local():
