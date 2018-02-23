@@ -2,15 +2,15 @@ import os.path
 import pickle
 import traceback
 
-
 import utils
+
 
 class Cache():
     def __init__(self, path):
         self.path = path
 
 
-    def retrieve_db_from_cache(self):
+    def load_from_cache(self):
         db = utils.DictCaseInsensitive()
         try:
             if(os.path.exists(self.path)):

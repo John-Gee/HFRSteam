@@ -93,7 +93,7 @@ def get_games_info(options, games):
 
     CACHE_PATH = 'cache/games.p'
     gamecache = cache.Cache(CACHE_PATH)
-    cachedgames = gamecache.retrieve_db_from_cache()
+    cachedgames = gamecache.load_from_cache()
 
     if (options.cacheonly):
         return cachedgames
