@@ -1,5 +1,8 @@
+from concurrent import futures
 import os
 import sys
+import time
+import traceback
 
 
 def get_number_of_cores():
@@ -13,3 +16,42 @@ def get_number_of_cores():
             if (cores):
                 return cores
     return 1
+
+
+def wrap_thread(threadpool, exceptions, func, arguments):
+    try:
+        if (not len(exceptions)):
+            func(*arguments)
+    except:
+        print('Exception raised for', func)
+        exceptions.append(sys.exc_info())
+        threadpool.shutdown(wait=False)
+
+class ThreadPool():
+    def __init__(self, nthreads):
+        if (nthreads):
+            threads = nthreads
+        else:
+            threads = get_number_of_cores()
+        self.threadpool = futures.ThreadPoolExecutor(threads)
+        self.exceptions = []
+        self.future     = []
+
+
+    def submit_work(self, func, arguments):
+        self.future.append(self.threadpool.submit(wrap_thread, self.threadpool,
+                                                  self.exceptions, func,
+                                                  arguments))
+
+    def is_error(self):
+        if (len(self.exceptions)):
+            return True
+        return False
+
+
+    def wait(self):
+        futures.wait(self.future, timeout=None)
+        if (self.is_error()):
+            for exception in self.exceptions:
+                traceback.print_exception(*exception)
+            raise Exception('An exception was raised in some of the threads, see above.')

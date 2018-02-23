@@ -146,25 +146,22 @@ def get_data(games):
     return data
 
 
-def output_to_html(games, file):
+def output_to_html(dryrun, games, path):
     TEMPLATE_FILE   = 'templates/index.html'
     TEXT_TO_REPLACE = '$TEMPLATE$'
     DATE_TO_REPLACE = '$DATE$'
 
-    f            = open(TEMPLATE_FILE, 'r', encoding='utf8')
-    templatetext = f.read()
-    f.close()
+    with open(TEMPLATE_FILE, 'r', encoding='utf8') as f:
+        templatetext = f.read()
 
     data = get_data(games)
 
     text = templatetext.replace(TEXT_TO_REPLACE, data)
-
     text = text.replace('$DATE$', datetime.date.today().isoformat())
-
     # These 2 chars proc a unicode encode error on Windows so we replace them
     text = text.replace('\x97', '')
     text = text.replace('\u2032', '\'')
 
-    f = open(file, 'w', encoding='utf8')
-    f.write(text.strip())
-    f.close()
+    if (not dryrun):
+        with open(path, 'w', encoding='utf8') as f:
+            f.write(text.strip())

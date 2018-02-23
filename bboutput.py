@@ -1,7 +1,7 @@
 import os
 
 
-def output_to_bb(games, file):
+def output_to_bb(dryrun, games, path):
     bbcode = ''
     requirements = ''
     # sort first by name, then by is_new and finally by requirements
@@ -33,6 +33,6 @@ def output_to_bb(games, file):
 
         bbcode = '{0}{1}'.format(bbcode, newbbcode)
 
-    f = open(file, 'w', encoding='utf8')
-    f.write(bbcode.strip())
-    f.close()
+    if (not dryrun):
+        with open(path, 'w', encoding='utf8') as f:
+            f.write(bbcode.strip())

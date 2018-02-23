@@ -306,7 +306,7 @@ def get_game_price(purchase_block, name):
 
         sortedprices = list()
         if (len(names)):
-            matches = namematching.get_match(name.lower(), names, len(names))
+            matches = namematching.get_matches(name.lower(), names, len(names))
             for match in matches:
                 index = names.index(match)
                 sortedprices.append(prices[index])

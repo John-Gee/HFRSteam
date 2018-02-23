@@ -132,8 +132,7 @@ def parse_hfr_premium(games):
     names = get_names_from_post(post, START, END, False)
     return get_games(games, names, "Premium")
 
-def parse_hfr():
-    games = utils.DictCaseInsensitive()
+def parse_hfr(games):
     parse_hfr_std(games)
     parse_hfr_donateur(games)
     parse_hfr_premium(games)

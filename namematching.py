@@ -9,7 +9,7 @@ def get_matches(sentence, possibilities, n=1):
 
 def get_match(sentence, possibilities, n=1):
     matches = get_matches(sentence, possibilities, n)
-    if (len(matchednames) > 0):
+    if (len(matches) > 0):
         return matches[0]
     return None
 

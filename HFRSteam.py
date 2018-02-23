@@ -3,6 +3,7 @@
 import argparse
 import os
 
+import cpu
 import bboutput
 import gamesinfo
 import hfrparser
@@ -51,33 +52,33 @@ def get_parser():
     return parser
 
 
-def parse_list(options):
+def parse_list(options, games):
     if (options.liste == None):
-        games = hfrparser.parse_hfr()
+        hfrparser.parse_hfr(games)
     else:
-        games = utils.DictCaseInsensitive()
         with open(options.liste, 'r') as f:
             hfrparser.get_games(games, f.read().splitlines(), '')
-    return games
 
 
-def write_output_files(games):
+def write_output_files(threadpool, dryrun, games):
     OUTPUT_FOLDER = 'docs'
     HTML_FILE     = os.path.join(OUTPUT_FOLDER, 'index.html')
     BB_FILE       = os.path.join(OUTPUT_FOLDER, 'bb.txt')
     if (not os.path.exists(OUTPUT_FOLDER)):
         os.makedirs(OUTPUT_FOLDER)
-    htmloutput.output_to_html(games, HTML_FILE)
-    bboutput.output_to_bb(games, BB_FILE)
+
+    threadpool.submit_work(htmloutput.output_to_html, (dryrun, games, HTML_FILE))
+    threadpool.submit_work(bboutput.output_to_bb, (dryrun, games, BB_FILE))
 
 
 if __name__ == '__main__':
-    options = get_parser().parse_args()
-    games   = parse_list(options)
+    options    = get_parser().parse_args()
+    threadpool = cpu.ThreadPool(options.threads)
+    games      = utils.DictCaseInsensitive()
 
-    gamesinfo.get_games_info(options, games)
+    threadpool.submit_work(parse_list, (options, games))
+    threadpool.wait()
 
-    if (options.dryrun):
-        sys.exit(0)
+    gamesinfo.get_games_info(threadpool, options, games)
 
-    write_output_files(games)
+    write_output_files(threadpool, options.dryrun, games)
