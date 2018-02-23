@@ -43,15 +43,10 @@ class ThreadPool():
                                                   self.exceptions, func,
                                                   arguments))
 
-    def is_error(self):
-        if (len(self.exceptions)):
-            return True
-        return False
-
 
     def wait(self):
         futures.wait(self.future, timeout=None)
-        if (self.is_error()):
+        if (len(self.exceptions)):
             for exception in self.exceptions:
                 traceback.print_exception(*exception)
             raise Exception('An exception was raised in some of the threads, see above.')

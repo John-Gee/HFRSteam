@@ -91,9 +91,6 @@ def get_games_info(threadpool, options, games, steamgames):
     urlsmapping   = Mapper(URLS_MAPPING)
 
     for name in iter(games):
-        if (threadpool.is_error()):
-            break
-
         threadpool.submit_work(get_game_info, (options, games[name],
                                                cachedgames, steamgames,
                                                name, urlsmapping))
