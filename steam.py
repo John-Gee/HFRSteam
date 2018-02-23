@@ -15,12 +15,12 @@ def get_games_from_applist(applist):
     games = {}
 
     for app in iter(json.loads(applist)['applist']['apps']):
-        games[app['name'].lower()] = app['appid']
+        games[app['name']] = app['appid']
 
     return games
 
 
-def save_steam_applist_to_local(applist):
+def save_applist_to_local(applist):
     APPLIST_LOCAL = 'steamlist/AppList.json'
     js_dict       = {}
     data          = []
@@ -35,7 +35,7 @@ def save_steam_applist_to_local(applist):
               sort_keys=True, indent='\t', ensure_ascii=False)
 
 
-def get_steam_applist_from_local():
+def get_applist_from_local():
     APPLIST_LOCAL = 'steamlist/AppList.json'
     if (os.path.exists(APPLIST_LOCAL)):
         applist       = open(APPLIST_LOCAL, 'r', encoding='utf8').read()
@@ -43,14 +43,14 @@ def get_steam_applist_from_local():
     return {}
 
 
-def get_steam_applist_from_server():
+def get_applist_from_server():
     APPLIST_URL = 'http://api.steampowered.com/ISteamApps/GetAppList/v2/'
     applist     = web.get_utf8_web_page(APPLIST_URL)[2]
     return get_games_from_applist(applist)
 
 
 def get_list_of_games():
-    return get_steam_applist_from_server()
+    return map(str.lower, get_applist_from_server())
 
 
 def get_urlmapping_from_appid(appid):
