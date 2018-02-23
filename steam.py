@@ -11,15 +11,46 @@ import namematching
 import web
 
 
-def get_list_of_games():
-    APPLIST_URL = 'http://api.steampowered.com/ISteamApps/GetAppList/v2/'
-    games = dict()
-    applist = json.loads(web.get_utf8_web_page(APPLIST_URL)[2])
-    for app in iter(applist['applist']['apps']):
-        name = app['name'].lower()
-        if (name not in games):
-            games[name] = app['appid']
+def get_games_from_applist(applist):
+    games = {}
+
+    for app in iter(json.loads(applist)['applist']['apps']):
+        games[app['name'].lower()] = app['appid']
+
     return games
+
+
+def save_steam_applist_to_local(applist):
+    APPLIST_LOCAL = 'steamlist/AppList.json'
+    js_dict       = {}
+    data          = []
+
+    for app in iter(applist):
+        data.append({'appid': applist[app], 'name': app})
+    sorted_data = sorted(data, key=lambda k: k['appid'])
+    js_dict['applist'] = {'apps': sorted_data}
+    if (not os.path.exists('steamlist')):
+        os.makedirs('steamlist')
+    with open(APPLIST_LOCAL, 'w', encoding='utf8') as f:
+        json.dump(js_dict, f, sort_keys=True, indent='\t', ensure_ascii=False)
+
+
+def get_steam_applist_from_local():
+    APPLIST_LOCAL = 'steamlist/AppList.json'
+    if (os.path.exists(APPLIST_LOCAL)):
+        applist       = open(APPLIST_LOCAL, 'r', encoding='utf8').read()
+        return get_games_from_applist(applist)
+    return {}
+
+
+def get_steam_applist_from_server():
+    APPLIST_URL = 'http://api.steampowered.com/ISteamApps/GetAppList/v2/'
+    applist     = web.get_utf8_web_page(APPLIST_URL)[2]
+    return get_games_from_applist(applist)
+
+
+def get_list_of_games():
+    return get_steam_applist_from_server()
 
 
 def get_urlmapping_from_appid(appid):
