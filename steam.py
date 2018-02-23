@@ -8,6 +8,7 @@ import re
 from game import Category, Game
 import domparser
 import namematching
+import utils
 import web
 
 
@@ -50,7 +51,7 @@ def get_applist_from_server():
 
 
 def get_list_of_games():
-    return map(str.lower, get_applist_from_server())
+    return utils.DictCaseInsensitive(get_applist_from_server())
 
 
 def get_urlmapping_from_appid(appid):
