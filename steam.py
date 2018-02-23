@@ -11,25 +11,15 @@ import namematching
 import web
 
 
-APPLIST_URL = 'http://api.steampowered.com/ISteamApps/GetAppList/v2/'
-_games = dict()
-_applist = json.loads(web.get_utf8_web_page(APPLIST_URL)[2])
-for app in iter(_applist['applist']['apps']):
-    name = app['name'].lower()
-    if (name not in _games):
-        _games[name] = app['appid']
-
-
-def get_appid(name):
-    cleanname = name.lower()
-    if (cleanname in _games):
-        return str(_games[cleanname])
-    else:
-        return None
-
-
 def get_list_of_games():
-    return _games.keys()
+    APPLIST_URL = 'http://api.steampowered.com/ISteamApps/GetAppList/v2/'
+    games = dict()
+    applist = json.loads(web.get_utf8_web_page(APPLIST_URL)[2])
+    for app in iter(applist['applist']['apps']):
+        name = app['name'].lower()
+        if (name not in games):
+            games[name] = app['appid']
+    return games
 
 
 def get_urlmapping_from_appid(appid):

@@ -15,10 +15,18 @@ import steam
 _exc_infos = list()
 
 
+def get_appid(name, games):
+    cleanname = name.lower()
+    if (cleanname in games):
+        return str(games[cleanname])
+    else:
+        return None
+
+
 def get_namematching(name, steamgames):
-    matchedname = namematching.get_match(name, steamgames)
+    matchedname = namematching.get_match(name, steamgames.keys())
     if (matchedname):
-        appid = steam.get_appid(matchedname)
+        appid = get_appid(matchedname, steamgames)
         if (appid != ''):
             urlsmapping.add_to_mapping(name,
                                         steam.get_urlmapping_from_appid(appid))
@@ -55,7 +63,7 @@ def get_game_info(threadpool, options, game, cachedgames, steamgames, name,
             mapping  = urlsmapping.get_mapping(name)
 
             if (mapping == None):
-                appid = steam.get_appid(name)
+                appid = get_appid(name, steamgames)
                 if ((options.matchingwords) and (not appid)):
                     matchedname = get_namematching(name, steamgames)
 
@@ -98,7 +106,7 @@ def get_games_info(options, games):
     URLS_MAPPING  = os.path.join('mappings', 'urlsmapping.txt')
     urlsmapping   = Mapper(URLS_MAPPING)
 
-    steamgames    = list(steam.get_list_of_games())
+    steamgames    = steam.get_list_of_games()
 
     global _exc_infos
 
