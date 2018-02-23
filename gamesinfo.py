@@ -4,7 +4,7 @@ import os
 import sys
 import traceback
 
-import cache
+from cache import Cache
 import cpu
 from game import Category
 from mapper import Mapper
@@ -15,7 +15,17 @@ import steam
 _exc_infos = list()
 
 
-def get_game_info(threadpool, options, games, cachedgames, keys, gameName,
+def get_namematching(name, steamgames):
+    matchedname = namematching.get_match(name, steamgames)
+    if (matchedname):
+        appid = steam.get_appid(matchedname)
+        if (appid != ''):
+            urlsmapping.add_to_mapping(name,
+                                        steam.get_urlmapping_from_appid(appid))
+            print('Matched {0} with {1}'.format(name, matchedname))
+
+
+def get_game_info(threadpool, options, game, cachedgames, steamgames, name,
                   urlsmapping):
     global _exc_infos
 
@@ -23,111 +33,87 @@ def get_game_info(threadpool, options, games, cachedgames, keys, gameName,
         if (len(_exc_infos)):
             return
 
-        game = games[gameName]
         if ((not options.all) and (not game.hfr.is_available)):
             # Ignoring not available games for now
             # it may be better in the future to ignore them in output
             # or allow the user to do so in the html page.
             return
 
-        # Whether the cache is ignored or not, if a game cached has a gift_date,
-        # we keep it
-        if ((gameName in cachedgames) and (cachedgames[gameName].hfr.gift_date)):
-            game.hfr.gift_date = cachedgames[gameName].hfr.gift_date
+        # Whether the cache is ignored or not,
+        # if a game cached has a gift_date we keep it
+        if ((name in cachedgames) and (cachedgames[name].hfr.gift_date)):
+            game.hfr.gift_date = cachedgames[name].hfr.gift_date
 
-        if ((gameName in cachedgames) and (cachedgames[gameName].store.link)
+        if ((name in cachedgames) and (cachedgames[name].store.link)
             and (not options.ignorecache)
             and ((not options.game)
-                 or (options.game.lower() not in gameName.lower()))):
+                 or (options.game.lower() not in name.lower()))):
 
-            game.store         = cachedgames[gameName].store
+            game.store         = cachedgames[name].store
 
-        else:
-            mapping  = urlsmapping.get_mapping(gameName)
+        elif (not options.cacheonly):
+            mapping  = urlsmapping.get_mapping(name)
 
             if (mapping == None):
-                appid = str(steam.get_appid(gameName))
-                if ((options.matchingwords) and (appid == '')):
-                    matchednames = namematching.get_match(gameName.lower(), keys)
-                    if (len(matchednames) > 0):
-                        appid = str(steam.get_appid(matchednames[0]))
-                        if (appid != ''):
-                            urlsmapping.add_to_mapping(gameName,
-                                                       steam.get_urlmapping_from_appid(appid))
-                            print('Matched {0} with {1}'.
-                                    format(gameName, matchednames[0]))
+                appid = steam.get_appid(name)
+                if ((options.matchingwords) and (not appid)):
+                    matchedname = get_namematching(name, steamgames)
 
-                if ((appid == None) or (appid == '')):
+                if (not appid):
                     game.store.appid = ''
                     game.store.description = 'The game was not found in the steam db.'
-                    print('The game {0} was not found in the steam db.'.format(gameName))
+                    print('The game {0} was not found in the steam db.'.format(name))
                     return
                 else:
-                    steam.get_store_info_from_appid(game, gameName, appid)
+                    steam.get_store_info_from_appid(game, name, appid)
 
             else:
                 url      = mapping[0]
-                category = mapping[1] if (len(mapping) == 2) else None
 
                 if (url == 'ignore'):
-                    print ('{0} cannot be found and is to be ignored'.format(gameName))
+                    print ('{0} cannot be found and is to be ignored'.format(name))
                     return
 
-                print('URL mapping found for game {0}'.format(gameName))
-                steam.get_store_info_from_url(game, gameName, url)
+                print('URL mapping found for game {0}'.format(name))
+                steam.get_store_info_from_url(game, name, url)
                 # overwriting the steam provided category
-                if (category):
-                    game.store.category = Category[category.upper()]
+                if (len(mapping) == 2):
+                    game.store.category = Category[mapping[1].upper()]
                     game.store.override = True
 
             print('Info for game {0} was retrieved, {1}'
-                  .format(gameName, str(datetime.datetime.now().time())))
+                  .format(name, str(datetime.datetime.now().time())))
 
     except:
-        print('Exception raised for app {0}'.format(gameName))
+        print('Exception raised for app {0}'.format(name))
         _exc_infos.append(sys.exc_info())
         threadpool.shutdown(wait=False)
 
 
 def get_games_info(options, games):
+    CACHE_PATH    = os.path.join('cache', 'games.p')
+    cache         = Cache(CACHE_PATH)
+    cachedgames   = cache.load_from_cache()
 
-    CACHE_PATH = 'cache/games.p'
-    gamecache = cache.Cache(CACHE_PATH)
-    cachedgames = gamecache.load_from_cache()
+    URLS_MAPPING  = os.path.join('mappings', 'urlsmapping.txt')
+    urlsmapping   = Mapper(URLS_MAPPING)
 
-    if (options.cacheonly):
-        return cachedgames
-
-    MAPPING_FOLDER     = 'mappings'
-    URLS_MAPPING_FILE  = os.path.join(MAPPING_FOLDER, 'urlsmapping.txt')
-    urlsmapping        = Mapper(URLS_MAPPING_FILE)
-
-    keys               = list(steam.get_list_of_games())
-
-    if (options.threads):
-        threads        = options.threads
-    else:
-        # get the number of cores
-        threads        = cpu.get_number_of_cores()
-
-    threadpool         = ThreadPoolExecutor(threads)
-
-    i                  = 0
+    steamgames    = list(steam.get_list_of_games())
 
     global _exc_infos
 
-    for gameName in iter(games):
-        # Allow to break for dev purposes
-        i += 1
-        if ((options.number_games != None) and (options.number_games.isdigit())
-            and (i == int(options.number_games))):
-            break
+    if (options.threads):
+        threads   = options.threads
+    else:
+        threads   = cpu.get_number_of_cores()
+    threadpool    = ThreadPoolExecutor(threads)
 
+    for name in iter(games):
         if (len(_exc_infos)):
             break
 
-        threadpool.submit(get_game_info, threadpool,
-                          options, games, cachedgames, keys, gameName, urlsmapping)
+        threadpool.submit(get_game_info, threadpool, options, games[name],
+                          cachedgames, steamgames, name, urlsmapping)
 
     threadpool.shutdown(wait=True)
     if (len(_exc_infos)):
@@ -138,6 +124,6 @@ def get_games_info(options, games):
     if (options.dryrun):
         return
 
-    newcachedgames = gamecache.merge_old_new_cache(cachedgames, games)
-    gamecache.save_to_cache(newcachedgames)
+    newcachedgames = cache.merge_old_new_cache(cachedgames, games)
+    cache.save_to_cache(newcachedgames)
     urlsmapping.save_mapping()

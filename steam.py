@@ -23,9 +23,9 @@ for app in iter(_applist['applist']['apps']):
 def get_appid(name):
     cleanname = name.lower()
     if (cleanname in _games):
-        return _games[cleanname]
+        return str(_games[cleanname])
     else:
-        return ''
+        return None
 
 
 def get_list_of_games():
