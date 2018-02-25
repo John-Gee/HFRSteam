@@ -30,10 +30,10 @@ class MyFormatter(argparse.ArgumentDefaultsHelpFormatter,
 
 
 def get_parser():
-    parser = argparse.ArgumentParser(description=('Parses the HFR list of Steam games'
-                                     ' offered and convert it to bb/html.'''),
-                            usage='%(prog)s [options]',
-                            formatter_class=MyFormatter,)
+    parser = argparse.ArgumentParser(description=('Parse the HFR list of Steam'
+                                     ' games offered, output it to bb/html'),
+                                     usage='%(prog)s [options]',
+                                     formatter_class=MyFormatter)
     parser.add_argument('-a', '--all', action='store_true', dest='all',
                         help='do not skip nonavailable games')
     parser.add_argument('-c', '--cache-only', action='store_true', dest='cacheonly',
@@ -68,8 +68,10 @@ def write_output_files(threadpool, dryrun, games):
     if (not os.path.exists(OUTPUT_FOLDER)):
         os.makedirs(OUTPUT_FOLDER)
 
-    threadpool.submit_work(htmloutput.output_to_html, (dryrun, games, HTML_FILE))
-    threadpool.submit_work(bboutput.output_to_bb, (dryrun, games, BB_FILE))
+    threadpool.submit_work(htmloutput.output_to_html,
+                           (dryrun, games, HTML_FILE))
+    threadpool.submit_work(bboutput.output_to_bb,
+                           (dryrun, games, BB_FILE))
 
 
 if __name__ == '__main__':
