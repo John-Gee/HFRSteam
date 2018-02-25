@@ -37,7 +37,7 @@ def get_parser():
     parser.add_argument('-a', '--all', action='store_true', dest='all',
                         help='do not skip nonavailable games')
     parser.add_argument('-c', '--cache-only', action='store_true', dest='cacheonly',
-                        help='do not query the store, cache-only')
+                        help='do not query the store')
     parser.add_argument('-d', '--dry-run', action='store_true', dest='dryrun',
                         help='do not modify anything on disk')
     parser.add_argument('-i', '--ignore-cache', action='store_true', dest='ignorecache',
