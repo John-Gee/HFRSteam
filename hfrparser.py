@@ -8,12 +8,13 @@ import utils
 import web
 
 
-def get_post(url, postid):
-    url, status, html = web.get_utf8_web_page(url)
-    document          = domparser.load_html(html)
-    post              = domparser.get_element(document, 'div', id = postid)
+def get_document(url):
+    _, _, html = web.get_utf8_web_page(url)
+    return domparser.load_html(html)
 
-    return str(post)
+
+def get_post(document, postid):
+    return str(domparser.get_element(document, 'div', id = postid))
 
 
 def get_games(games, liste, requirements):
@@ -76,7 +77,6 @@ def get_games(games, liste, requirements):
             if ((cleanname not in games) or
                 ((not games[cleanname].hfr.is_available) and (is_available))):
                 games[cleanname] = game
-    return games
 
 
 def get_names_from_post(post, start, end, is_std):
@@ -97,48 +97,41 @@ def get_names_from_post(post, start, end, is_std):
     return cleansubpost.splitlines()
 
 
-def parse_hfr_std(games):
+def parse_hfr_std(games, document):
     POST_ID = 'para8945000'
-    URL     = 'https://forum.hardware.fr/hfr/JeuxVideo/Achat-Ventes/gratuit-origin-download-sujet_171605_1.htm'
-    post    = get_post(URL, POST_ID)
+    post    = get_post(document, POST_ID)
 
     START = '<strong>Clefs  <img alt="[:icon4]" src="https://forum-images.hardware.fr/images/perso/icon4.gif" title="[:icon4]"/> Steam <img alt="[:icon4]" src="https://forum-images.hardware.fr/images/perso/icon4.gif" title="[:icon4]"/> :</strong>'
     END   = '--------------------------------------------------------------------------'
 
     names = get_names_from_post(post, START, END, True)
-    return get_games(games, names, "Standard")
+    get_games(games, names, "Standard")
 
 
-def parse_hfr_donateur(games):
+def parse_hfr_donateur_and_premium(games, document):
     POST_ID = 'para8952242'
-    URL     = 'https://forum.hardware.fr/hfr/JeuxVideo/Achat-Ventes/gratuit-origin-download-sujet_171605_1.htm'
-    post    = get_post(URL, POST_ID)
+    post    = get_post(document, POST_ID)
 
+    #donateur
     START = '<strong>Liste donateur:</strong>'
     END   = '----'
-
     names = get_names_from_post(post, START, END, False)
-    return get_games(games, names, "Donateur")
+    get_games(games, names, "Donateur")
 
-
-def parse_hfr_premium(games):
-    POST_ID = 'para8952242'
-    URL     = 'https://forum.hardware.fr/hfr/JeuxVideo/Achat-Ventes/gratuit-origin-download-sujet_171605_1.htm'
-    post    = get_post(URL, POST_ID)
-
+    #premium
     START = '<strong>Liste Premium ( exclusivement réservée aux donateurs réguliers ):</strong>'
     END   = '----'
-
     names = get_names_from_post(post, START, END, False)
-    return get_games(games, names, "Premium")
+    get_games(games, names, "Premium")
+
 
 def parse_hfr(games):
-    parse_hfr_std(games)
-    parse_hfr_donateur(games)
-    parse_hfr_premium(games)
-    return games
+    URL      = 'https://forum.hardware.fr/hfr/JeuxVideo/Achat-Ventes/gratuit-origin-download-sujet_171605_1.htm'
+    document = get_document(URL)
+    parse_hfr_std(games, document)
+    parse_hfr_donateur_and_premium(games, document)
+
 
 if __name__ == '__main__':
-    games = parse_hfr_donateur()
-    for game in games:
-        print(game)
+    games = {}
+    parse_hfr(games)
