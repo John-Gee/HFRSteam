@@ -39,6 +39,11 @@ threadpool = ThreadPool()
 exceptions = []
 future     = []
 
+
+def create(nthreads):
+    threadpool.create(nthreads)
+
+
 def wrap_thread(func, *args):
     try:
         if (not len(exceptions)):

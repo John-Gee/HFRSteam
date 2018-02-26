@@ -3,12 +3,12 @@
 import argparse
 import os
 
-import cpu
 import bboutput
 import gamesinfo
 import hfrparser
 import htmloutput
 import steam
+import threadpool
 import utils
 
 
@@ -68,9 +68,9 @@ def write_output_files(dryrun, games):
     if (not os.path.exists(OUTPUT_FOLDER)):
         os.makedirs(OUTPUT_FOLDER)
 
-    cpu.submit_work(htmloutput.output_to_html,
+    threadpool.submit_work(htmloutput.output_to_html,
                            dryrun, games, HTML_FILE)
-    cpu.submit_work(bboutput.output_to_bb,
+    threadpool.submit_work(bboutput.output_to_bb,
                            dryrun, games, BB_FILE)
 
 
@@ -79,10 +79,10 @@ if __name__ == '__main__':
     games      = utils.DictCaseInsensitive()
     steamgames = utils.DictCaseInsensitive()
 
-    cpu.threadpool.create(options.threads)
-    cpu.submit_work(parse_list, options, games)
-    cpu.submit_work(steam.get_list_of_games, steamgames)
-    cpu.wait()
+    threadpool.create(options.threads)
+    threadpool.submit_work(parse_list, options, games)
+    threadpool.submit_work(steam.get_list_of_games, steamgames)
+    threadpool.wait()
 
     gamesinfo.get_games_info(options, games, steamgames)
 
