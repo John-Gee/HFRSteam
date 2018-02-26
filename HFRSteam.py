@@ -7,7 +7,7 @@ import bboutput
 import gamesinfo
 import hfrparser
 import htmloutput
-import steam
+import steamlist
 import threadpool
 import utils
 
@@ -81,7 +81,7 @@ if __name__ == '__main__':
 
     threadpool.create(options.threads)
     threadpool.submit_work(parse_list, options, games)
-    threadpool.submit_work(steam.get_list_of_games, steamgames)
+    threadpool.submit_work(steamlist.refresh_applist, steamgames)
     threadpool.wait()
 
     gamesinfo.get_games_info(options, games, steamgames)

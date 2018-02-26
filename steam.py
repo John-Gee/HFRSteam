@@ -397,8 +397,7 @@ def get_game_languages(document):
 
 
 def get_titles(document):
-    titles = []
-    titles.append(domparser.get_text(document, 'div', class_='apphub_AppName'))
+    titles = [domparser.get_text(document, 'div', class_='apphub_AppName')]
     wrappers = domparser.get_elements(document, 'div',
                                       class_='game_area_purchase_game_wrapper')
 
@@ -407,9 +406,8 @@ def get_titles(document):
             if ('Bundle info' in domparser.get_texts(wrapper, 'span')):
                 continue
             title = domparser.get_text(wrapper, 'h1')[4:]
-            if (title not in titles):
+            if ((title) and (title not in titles)):
                 titles.append(title)
-
     return titles
 
 
