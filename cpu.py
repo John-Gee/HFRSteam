@@ -25,6 +25,8 @@ def wrap_thread(threadpool, exceptions, func, arguments):
     except:
         print('Exception raised for', func)
         exceptions.append(sys.exc_info())
+        # this won't actually end the threadpool
+        # until all running threads are done
         threadpool.shutdown(wait=False)
 
 class ThreadPool():
@@ -46,6 +48,7 @@ class ThreadPool():
 
     def wait(self):
         futures.wait(self.future, timeout=None)
+        self.future.clear()
         if (len(self.exceptions)):
             for exception in self.exceptions:
                 traceback.print_exception(*exception)
