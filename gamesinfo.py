@@ -4,6 +4,7 @@ import sys
 import traceback
 
 from cache import Cache
+import cpu
 from game import Category
 from mapper import Mapper
 import namematching
@@ -82,7 +83,7 @@ def get_game_info(options, game, cachedgames, steamgames, name, urlsmapping):
                 .format(name, str(datetime.datetime.now().time())))
 
 
-def get_games_info(threadpool, options, games, steamgames):
+def get_games_info(options, games, steamgames):
     CACHE_PATH    = os.path.join('cache', 'games.p')
     cache         = Cache(CACHE_PATH)
     cachedgames   = utils.DictCaseInsensitive(cache.load_from_cache())
@@ -91,11 +92,11 @@ def get_games_info(threadpool, options, games, steamgames):
     urlsmapping   = Mapper(URLS_MAPPING)
 
     for name in iter(games):
-        threadpool.submit_work(get_game_info, (options, games[name],
+        cpu.submit_work(get_game_info, options, games[name],
                                                cachedgames, steamgames,
-                                               name, urlsmapping))
+                                               name, urlsmapping)
 
-    threadpool.wait()
+    cpu.wait()
 
     if (options.dryrun):
         return

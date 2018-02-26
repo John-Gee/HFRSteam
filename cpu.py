@@ -18,10 +18,31 @@ def get_number_of_cores():
     return 1
 
 
-def wrap_thread(threadpool, exceptions, func, arguments):
+class ThreadPool():
+    def create(self, nthreads):
+        if (nthreads):
+            threads = nthreads
+        else:
+            threads = get_number_of_cores()
+        self.threadpool = futures.ThreadPoolExecutor(threads)
+
+
+    def shutdown(self, **kwargs):
+        return self.threadpool.shutdown(**kwargs)
+
+
+    def submit(self, fn, *args):
+        return self.threadpool.submit(fn, *args)
+
+
+threadpool = ThreadPool()
+exceptions = []
+future     = []
+
+def wrap_thread(func, *args):
     try:
         if (not len(exceptions)):
-            func(*arguments)
+            func(*args)
     except:
         print('Exception raised for', func)
         exceptions.append(sys.exc_info())
@@ -29,27 +50,15 @@ def wrap_thread(threadpool, exceptions, func, arguments):
         # until all running threads are done
         threadpool.shutdown(wait=False)
 
-class ThreadPool():
-    def __init__(self, nthreads):
-        if (nthreads):
-            threads = nthreads
-        else:
-            threads = get_number_of_cores()
-        self.threadpool = futures.ThreadPoolExecutor(threads)
-        self.exceptions = []
-        self.future     = []
+
+def submit_work(func, *args):
+    future.append(threadpool.submit(wrap_thread, func, *args))
 
 
-    def submit_work(self, func, arguments):
-        self.future.append(self.threadpool.submit(wrap_thread, self.threadpool,
-                                                  self.exceptions, func,
-                                                  arguments))
-
-
-    def wait(self):
-        futures.wait(self.future, timeout=None)
-        self.future.clear()
-        if (len(self.exceptions)):
-            for exception in self.exceptions:
-                traceback.print_exception(*exception)
-            raise Exception('An exception was raised in some of the threads, see above.')
+def wait():
+    futures.wait(future, timeout=None)
+    future.clear()
+    if (len(exceptions)):
+        for exception in exceptions:
+            traceback.print_exception(*exception)
+        raise Exception('An exception was raised in some of the threads, see above.')

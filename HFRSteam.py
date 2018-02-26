@@ -61,29 +61,29 @@ def parse_list(options, games):
             hfrparser.get_games(games, f.read().splitlines(), '')
 
 
-def write_output_files(threadpool, dryrun, games):
+def write_output_files(dryrun, games):
     OUTPUT_FOLDER = 'docs'
     HTML_FILE     = os.path.join(OUTPUT_FOLDER, 'index.html')
     BB_FILE       = os.path.join(OUTPUT_FOLDER, 'bb.txt')
     if (not os.path.exists(OUTPUT_FOLDER)):
         os.makedirs(OUTPUT_FOLDER)
 
-    threadpool.submit_work(htmloutput.output_to_html,
-                           (dryrun, games, HTML_FILE))
-    threadpool.submit_work(bboutput.output_to_bb,
-                           (dryrun, games, BB_FILE))
+    cpu.submit_work(htmloutput.output_to_html,
+                           dryrun, games, HTML_FILE)
+    cpu.submit_work(bboutput.output_to_bb,
+                           dryrun, games, BB_FILE)
 
 
 if __name__ == '__main__':
     options    = get_parser().parse_args()
-    threadpool = cpu.ThreadPool(options.threads)
     games      = utils.DictCaseInsensitive()
     steamgames = utils.DictCaseInsensitive()
 
-    threadpool.submit_work(parse_list, (options, games))
-    threadpool.submit_work(steam.get_list_of_games, (steamgames,))
-    threadpool.wait()
+    cpu.threadpool.create(options.threads)
+    cpu.submit_work(parse_list, options, games)
+    cpu.submit_work(steam.get_list_of_games, steamgames)
+    cpu.wait()
 
-    gamesinfo.get_games_info(threadpool, options, games, steamgames)
+    gamesinfo.get_games_info(options, games, steamgames)
 
-    write_output_files(threadpool, options.dryrun, games)
+    write_output_files(options.dryrun, games)
