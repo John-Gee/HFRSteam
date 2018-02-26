@@ -60,9 +60,13 @@ def wrap_thread(func, *args):
 
 
 def submit_work(func, *args):
-    calname = utils.get_caller_name()
-    if (calname not in future):
+    if (func not in future):
+        calname         = utils.get_caller_name()
+        future[func]    = calname
         future[calname] = []
+    else:
+        calname         = future[func]
+
     future[calname].append(threadpool.submit(wrap_thread, func, *args))
 
 
