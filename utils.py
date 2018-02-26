@@ -1,3 +1,5 @@
+import inspect
+import os
 import requests
 
 
@@ -13,3 +15,11 @@ class ComparableClass():
             elif (self.__dict__[key] != other.__dict__[key]):
                 print('{0} vs {1} for {2}'.format(
                     self.__dict__[key], other.__dict__[key], key))
+
+def get_caller_name():
+    curframe = inspect.currentframe()
+    calframe = inspect.getouterframes(curframe, 3)
+    filename = os.path.basename(calframe[2][1])
+    function = calframe[2][3]
+    calname  = '{0}-{1}'.format(filename, function)
+    return calname

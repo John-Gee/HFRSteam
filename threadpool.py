@@ -4,6 +4,8 @@ import sys
 import time
 import traceback
 
+import utils
+
 
 def get_number_of_cores():
     if (sys.platform.startswith('linux')):
@@ -37,7 +39,7 @@ class ThreadPool():
 
 threadpool = ThreadPool()
 exceptions = []
-future     = []
+future     = {}
 
 
 def create(nthreads):
@@ -57,12 +59,19 @@ def wrap_thread(func, *args):
 
 
 def submit_work(func, *args):
-    future.append(threadpool.submit(wrap_thread, func, *args))
+    calname = utils.get_caller_name()
+    if (calname not in future):
+        future[calname] = []
+    future[calname].append(threadpool.submit(wrap_thread, func, *args))
 
 
 def wait():
-    futures.wait(future, timeout=None)
-    future.clear()
+    calname = utils.get_caller_name()
+    if (calname not in future):
+        return
+
+    futures.wait(future[calname], timeout=None)
+    future[calname].clear()
     if (len(exceptions)):
         for exception in exceptions:
             traceback.print_exception(*exception)
