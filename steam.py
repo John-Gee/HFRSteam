@@ -396,14 +396,29 @@ def get_game_languages(document):
     return list()
 
 
-def get_title(document):
-    return domparser.get_text(document, 'div',
-                                   class_='apphub_AppName')
+def get_titles(document):
+    titles = []
+    titles.append(domparser.get_text(document, 'div', class_='apphub_AppName'))
+    wrappers = domparser.get_elements(document, 'div',
+                                      class_='game_area_purchase_game_wrapper')
+
+    if (wrappers):
+        for wrapper in wrappers:
+            if ('Bundle info' in domparser.get_texts(wrapper, 'span')):
+                continue
+            title = domparser.get_text(wrapper, 'h1')[4:]
+            if (title not in titles):
+                titles.append(title)
+
+    return titles
 
 
 # simple test
 if __name__ == '__main__':
     game = Game()
     #get_store_info_from_appid(game, 'From the Depths', '268650')
-    get_store_info_from_appid(game, 'Death Note', '627680')
-    print(game.store.category)
+    #get_store_info_from_appid(game, 'Death Note', '627680')
+    storelink  = get_store_link_from_appid('291650')
+    document,_ = get_pagedocument(storelink, 'Pillars of Eternity')
+    titles     = get_titles(document)
+    print(titles)
