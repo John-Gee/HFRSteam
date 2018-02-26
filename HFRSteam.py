@@ -74,6 +74,7 @@ def write_output_files(dryrun, games):
                            dryrun, games, HTML_FILE)
     threadpool.submit_work(bboutput.output_to_bb,
                            dryrun, games, BB_FILE)
+    threadpool.wait()
 
 
 if __name__ == '__main__':
