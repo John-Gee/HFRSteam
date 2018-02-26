@@ -1,4 +1,5 @@
 import steam
+import styledprint
 import threadpool
 
 
@@ -14,11 +15,11 @@ def get_newgame_info(local_applist, name, appid):
 
 
 def refresh_applist(games):
-    print('******* AppList Refresh *******')
+    styledprint.print_info_begin('AppList Refresh')
     local_applist   = steam.get_applist_from_local()
-    print('Apps in cache at start:', len(local_applist))
+    styledprint.print_info('Apps in cache at start:', len(local_applist))
     foreign_applist = steam.get_applist_from_server()
-    print('Apps in server:', len(foreign_applist))
+    styledprint.print_info('Apps in server:', len(foreign_applist))
 
     for name in iter(foreign_applist):
         if (name in local_applist):
@@ -28,10 +29,10 @@ def refresh_applist(games):
         threadpool.submit_work(get_newgame_info, local_applist, name, appid)
     threadpool.wait()
 
-    print('Apps in cache now:', len(local_applist))
+    styledprint.print_info('Apps in cache at end:', len(local_applist))
     steam.save_applist_to_local(local_applist)
     games.update(local_applist)
-    print('******* AppList Refresh *******')
+    styledprint.print_info_end('AppList Refresh')
 
 
 if __name__ == '__main__':

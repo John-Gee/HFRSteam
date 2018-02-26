@@ -2,6 +2,8 @@ import datetime
 import math
 import os
 
+import styledprint
+
 
 _indentcount = 4
 _INDENTSTEP = 4
@@ -107,7 +109,7 @@ def get_data(games):
                                                                   game.store.cnt_review))))
         else:
             if (game.store.avg_review):
-                print('The average review {0} for game {1} is not in the mapping!'.
+                styledprint.print_info('The average review {0} for game {1} is not in the mapping!'.
                       format(game.store.avg_review, gameName))
 
         if (game.hfr.requirements):

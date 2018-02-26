@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
 import argparse
+import colorama
 import os
 
 import bboutput
@@ -8,6 +9,7 @@ import gamesinfo
 import hfrparser
 import htmloutput
 import steamlist
+import styledprint
 import threadpool
 import utils
 

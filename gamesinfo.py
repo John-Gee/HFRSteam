@@ -9,6 +9,7 @@ from game import Category
 from mapper import Mapper
 import namematching
 import steam
+import styledprint
 import utils
 
 
@@ -27,7 +28,8 @@ def get_namematching(name, steamgames):
         if (appid != ''):
             urlsmapping.add_to_mapping(name,
                                         steam.get_urlmapping_from_appid(appid))
-            print('Matched {0} with {1}'.format(name, matchedname))
+            styledprint.print_info('Matched {0} with {1}'
+                                   .format(name, matchedname))
 
 
 def get_game_info(options, game, cachedgames, steamgames, name, urlsmapping):
@@ -59,8 +61,9 @@ def get_game_info(options, game, cachedgames, steamgames, name, urlsmapping):
 
             if (not appid):
                 game.store.appid = ''
-                game.store.description = 'The game was not found in the steam db.'
-                print('The game {0} was not found in the steam db.'.format(name))
+                game.store.description = 'The game was not found in the steam db'
+                styledprint.print_error('{0}: {1}'
+                                       .format(game.store.description, name))
                 return
             else:
                 steam.get_store_info_from_appid(game, name, appid)
@@ -69,21 +72,25 @@ def get_game_info(options, game, cachedgames, steamgames, name, urlsmapping):
             url      = mapping[0]
 
             if (url == 'ignore'):
-                print ('{0} cannot be found and is to be ignored'.format(name))
+                styledprint.print_info('{0} cannot be found and is to be ignored'
+                                       .format(name))
                 return
 
-            print('URL mapping found for game {0}'.format(name))
+            styledprint.print_info('URL mapping found for game {0}'
+                                   .format(name))
             steam.get_store_info_from_url(game, name, url)
             # overwriting the steam provided category
             if (len(mapping) == 2):
                 game.store.category = Category[mapping[1].upper()]
                 game.store.override = True
 
-        print('Info for game {0} was retrieved, {1}'
-                .format(name, str(datetime.datetime.now().time())))
+        styledprint.print_info('Info for game {0} was retrieved, {1}'
+                               .format(name,
+                                       str(datetime.datetime.now().time())))
 
 
 def get_games_info(options, games, steamgames):
+    styledprint.print_info_begin('Pulling games information')
     CACHE_PATH    = os.path.join('cache', 'games.p')
     cache         = Cache(CACHE_PATH)
     cachedgames   = utils.DictCaseInsensitive(cache.load_from_cache())
@@ -98,9 +105,9 @@ def get_games_info(options, games, steamgames):
 
     threadpool.wait()
 
-    if (options.dryrun):
-        return
+    if (not options.dryrun):
+        newcachedgames = cache.merge_old_new_cache(cachedgames, games)
+        cache.save_to_cache(newcachedgames)
+        urlsmapping.save_mapping()
 
-    newcachedgames = cache.merge_old_new_cache(cachedgames, games)
-    cache.save_to_cache(newcachedgames)
-    urlsmapping.save_mapping()
+    styledprint.print_info_end('Pulling games information')

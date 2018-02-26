@@ -8,6 +8,7 @@ import re
 from game import Category, Game
 import domparser
 import namematching
+import styledprint
 import utils
 import web
 
@@ -79,8 +80,8 @@ def get_pagedocument(storelink, name):
 
     if ((not url) or ('http://store.steampowered.com/' == url)):
         description = 'The app is not on steam anymore.'
-        print('The page for app {0} redirects somewhere else'
-              .format(name))
+        styledprint.print_info('The page for app {0} redirects somewhere else'
+                               .format(name))
         return None, description
 
     document = domparser.load_html(page)
@@ -91,9 +92,9 @@ def get_pagedocument(storelink, name):
 
     if (sorry_block):
         description = domparser.get_text(document, 'span',
-                                              class_="error")
-        print('The page for game {0} shows an error: {1}'
-              .format(name, description))
+                                         class_="error")
+        styledprint.print_info('The page for game {0} shows an error: {1}'
+                               .format(name, description))
         return None, description
 
     return document, None
@@ -111,7 +112,8 @@ def get_store_info(game, name):
     elif ('/app/' in game.store.link):
         get_standalone_info(game, name, document)
     else:
-        print('Unknown type of link {0}'.format(game.store.link))
+        styledprint.print_info('Unknown type of link {0}'
+                               .format(game.store.link))
 
     # middle right column
     game.store.genres       = get_game_genres(document)
@@ -149,7 +151,8 @@ def get_standalone_info(game, name, document):
         game.store.description  = get_dlc_description(document)
     else:
         game.store.description  = ''
-        print('The category {0} is not implemented yet!'.format(game.store.category.name))
+        styledprint.print_info('The category {0} is not implemented yet!'
+                               .format(game.store.category.name))
 
     game.store.languages    = get_game_languages(document)
 
@@ -249,7 +252,8 @@ def get_game_review(glance_ctn_block, name):
         string='All Reviews:')
 
     if (overall_block == None):
-        print('Cannot find the review block for game: {0}'.format(name))
+        styledprint.print_info('Cannot find the review block for game: {0}'
+                               .format(name))
         return '', '0'
 
     user_reviews_block = domparser.get_parent(overall_block, 'div')
@@ -331,7 +335,8 @@ def get_game_price(purchase_block, name):
             elif (('free' in price.lower()) or ('play' in price.lower())):
                 return 0
             else:
-                print('Unexpected price: {0} for {1}'.format(price, name))
+                styledprint.print_info('Unexpected price: {0} for {1}'
+                                       .format(price, name))
                 return -1
 
     play_game_span = domparser.get_element(purchase_block, 'span',
@@ -344,7 +349,7 @@ def get_game_price(purchase_block, name):
     if (download_span):
         return 0
 
-    print('No price found for {0}'.format(name))
+    styledprint.print_info('No price found for {0}'.format(name))
     return -1
 
 

@@ -4,6 +4,7 @@ import sys
 import time
 import traceback
 
+import styledprint
 import utils
 
 
@@ -51,7 +52,7 @@ def wrap_thread(func, *args):
         if (not len(exceptions)):
             func(*args)
     except:
-        print('Exception raised for', func)
+        styledprint.print_error('Exception raised for:', func)
         exceptions.append(sys.exc_info())
         # this won't actually end the threadpool
         # until all running threads are done
