@@ -1,16 +1,14 @@
 import os.path
 
 import styledprint
+import utils
 
 class Mapper:
-    LINK        = '<->'
-    mappingfile = ''
-    mapping     = {}
-
     def __init__(self, mappingfile):
         if(os.path.exists(mappingfile)):
+            self.LINK        = '<->'
             self.mappingfile = mappingfile
-            self.mapping     = dict()
+            self.mapping     = utils.DictCaseInsensitive()
             f = open(self.mappingfile, 'r', encoding='utf8')
             for line in iter(f):
                 line = line.strip()
@@ -25,7 +23,7 @@ class Mapper:
                                                line)
                         continue
 
-                    key   = tup[0].lower()
+                    key   = tup[0]
                     value = tup[1].lower().strip('/');
                     if (key in self.mapping):
                         styledprint.print_info('The key {0} is already in the mapper!'
@@ -34,7 +32,7 @@ class Mapper:
                     if (len(tup) == 2):
                         self.mapping[key] = (value,)
                     elif (len(tup) == 3):
-                        self.mapping[key] = (value, tup[2].lower())
+                        self.mapping[key] = (value, tup[2])
                     else:
                         styledprint.print_info('More members in the line than excepted!')
 
@@ -56,9 +54,9 @@ class Mapper:
     def add_to_mapping(self, left, middle, right=None):
         if (left not in self.mapping):
             if (right):
-                self.mapping[left.lower()] = (middle.lower(), right.lower())
+                self.mapping[left] = (middle.lower(), right)
             else:
-                self.mapping[left.lower()] = (middle.lower(),)
+                self.mapping[left] = (middle.lower(),)
         else:
             styledprint.print_info('Impossible to add mapping, {0} is already in the mapper'.
                   format(left))
@@ -66,12 +64,12 @@ class Mapper:
 
     def remove_from_mapping(self, left):
         try:
-            del self.mapping[left.lower()]
+            del self.mapping[left]
         except:
             pass
 
 
     def get_mapping(self, left):
-        if (left.lower() in self.mapping):
-            return self.mapping[left.lower()]
+        if (left in self.mapping):
+            return self.mapping[left]
         return None

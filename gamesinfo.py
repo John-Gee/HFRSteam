@@ -14,7 +14,7 @@ import utils
 
 
 def get_appid(name, games):
-    cleanname = name.lower()
+    cleanname = name
     if (cleanname in games):
         return str(games[cleanname])
     else:
