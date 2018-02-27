@@ -10,7 +10,7 @@ def get_newgame_info(local_applist, name, appid):
     titles.append(name)
 
     for title in titles:
-        if (title not in local_applist):
+        if ((title) and (title not in local_applist)):
             local_applist[title] = appid
 
 
@@ -41,4 +41,4 @@ def refresh_applist(dryrun, games, from_scratch=False):
 
 if __name__ == '__main__':
     threadpool.create(8)
-    refresh_applist(False, {}, True)
+    refresh_applist(False, {}, False)
