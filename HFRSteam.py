@@ -84,7 +84,9 @@ if __name__ == '__main__':
 
     threadpool.create(options.threads)
     threadpool.submit_work(parse_list, options.liste, games)
-    threadpool.submit_work(steamlist.refresh_applist, options.dryrun, steamgames)
+    # Can't thread refresh_applist, because it will create more threads itself
+    # which will deadlock the whole program when options.threads is 1.
+    steamlist.refresh_applist(options.dryrun, steamgames)
     threadpool.wait()
 
     gamesinfo.get_games_info(options, games, steamgames)
