@@ -14,7 +14,7 @@ def get_newgame_info(local_applist, name, appid):
             local_applist[title] = appid
 
 
-def refresh_applist(games):
+def refresh_applist(dryrun, games):
     styledprint.print_info_begin('AppList Refresh')
     local_applist   = steam.get_applist_from_local()
     styledprint.print_info('Apps in cache at start:', len(local_applist))
@@ -30,7 +30,8 @@ def refresh_applist(games):
     threadpool.wait()
 
     styledprint.print_info('Apps in cache at end:', len(local_applist))
-    steam.save_applist_to_local(local_applist)
+    if (not dryrun):
+        steam.save_applist_to_local(local_applist)
     games.update(local_applist)
     styledprint.print_info_end('AppList Refresh')
 

@@ -55,11 +55,11 @@ def get_parser():
     return parser
 
 
-def parse_list(options, games):
-    if (options.liste == None):
+def parse_list(liste, games):
+    if (liste == None):
         hfrparser.parse_hfr(games)
     else:
-        with open(options.liste, 'r') as f:
+        with open(liste, 'r') as f:
             hfrparser.get_games(games, f.read().splitlines(), '')
 
 
@@ -83,8 +83,8 @@ if __name__ == '__main__':
     steamgames = utils.DictCaseInsensitive()
 
     threadpool.create(options.threads)
-    threadpool.submit_work(parse_list, options, games)
-    threadpool.submit_work(steamlist.refresh_applist, steamgames)
+    threadpool.submit_work(parse_list, options.liste, games)
+    threadpool.submit_work(steamlist.refresh_applist, options.dryrun, steamgames)
     threadpool.wait()
 
     gamesinfo.get_games_info(options, games, steamgames)
