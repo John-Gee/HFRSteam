@@ -21,5 +21,4 @@ def get_caller_name():
     calframe = inspect.getouterframes(curframe, 3)
     filename = os.path.basename(calframe[2][1])
     function = calframe[2][3]
-    calname  = '{0}-{1}'.format(filename, function)
-    return calname
+    return '{0}-{1}'.format(filename, function)
