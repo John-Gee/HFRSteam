@@ -64,8 +64,14 @@ class Mapper:
                   format(left))
 
 
+    def remove_from_mapping(self, left):
+        try:
+            del self.mapping[left.lower()]
+        except:
+            pass
+
+
     def get_mapping(self, left):
         if (left.lower() in self.mapping):
             return self.mapping[left.lower()]
         return None
-
