@@ -14,9 +14,12 @@ def get_newgame_info(local_applist, name, appid):
             local_applist[title] = appid
 
 
-def refresh_applist(dryrun, games):
+def refresh_applist(dryrun, games, from_scratch=False):
     styledprint.print_info_begin('AppList Refresh')
-    local_applist   = steam.get_applist_from_local()
+    if (from_scratch):
+        local_applist = {}
+    else:
+        local_applist   = steam.get_applist_from_local()
     styledprint.print_info('Apps in cache at start:', len(local_applist))
     foreign_applist = steam.get_applist_from_server()
     styledprint.print_info('Apps in server:', len(foreign_applist))
@@ -37,4 +40,5 @@ def refresh_applist(dryrun, games):
 
 
 if __name__ == '__main__':
-    rebuild_applist()
+    threadpool.create(8)
+    refresh_applist(False, {}, True)
