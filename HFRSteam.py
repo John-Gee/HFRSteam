@@ -70,11 +70,10 @@ def write_output_files(dryrun, games):
     if (not os.path.exists(OUTPUT_FOLDER)):
         os.makedirs(OUTPUT_FOLDER)
 
-    threadpool.submit_work(htmloutput.output_to_html,
-                           dryrun, games, HTML_FILE)
-    threadpool.submit_work(bboutput.output_to_bb,
-                           dryrun, games, BB_FILE)
-    threadpool.wait()
+    threadpool.submit_jobs(x for x in [(htmloutput.output_to_html,
+                                         dryrun, games, HTML_FILE),
+                                        (bboutput.output_to_bb,
+                                        dryrun, games, BB_FILE)])
 
 
 if __name__ == '__main__':
@@ -83,11 +82,9 @@ if __name__ == '__main__':
     steamgames = utils.DictCaseInsensitive()
 
     threadpool.create(options.threads)
-    threadpool.submit_work(parse_list, options.liste, games)
-    # Can't thread refresh_applist, because it will create more threads itself
-    # which will deadlock the whole program when options.threads is 1.
-    steamlist.refresh_applist(options.dryrun, steamgames)
-    threadpool.wait()
+    threadpool.submit_jobs(x for x in[(parse_list, options.liste, games),
+                            (steamlist.refresh_applist, options.dryrun,
+                             steamgames)])
 
     gamesinfo.get_games_info(options, games, steamgames)
 

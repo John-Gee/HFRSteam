@@ -24,13 +24,9 @@ def refresh_applist(dryrun, games, from_scratch=False):
     foreign_applist = steam.get_applist_from_server()
     styledprint.print_info('Apps in server:', len(foreign_applist))
 
-    for name in iter(foreign_applist):
-        if (name in local_applist):
-            continue
-
-        appid = foreign_applist[name]
-        threadpool.submit_work(get_newgame_info, local_applist, name, appid)
-    threadpool.wait()
+    threadpool.submit_jobs(((get_newgame_info, local_applist, name, foreign_applist[name])
+                            for name in iter(foreign_applist)
+                            if name not in local_applist))
 
     styledprint.print_info('Apps in cache at end:', len(local_applist))
     if (not dryrun):

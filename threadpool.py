@@ -59,7 +59,11 @@ def wrap_thread(func, *args):
         threadpool.shutdown(wait=False)
 
 
-def submit_work(func, *args):
+def submit_job_calname(calname, func, *args):
+    future[calname].append(threadpool.submit(wrap_thread, func, *args))
+
+
+def submit_job(func, *args):
     if (func not in future):
         calname         = utils.get_caller_name()
         future[func]    = calname
@@ -68,17 +72,40 @@ def submit_work(func, *args):
     if (calname not in future):
         future[calname] = []
 
-    future[calname].append(threadpool.submit(wrap_thread, func, *args))
+    submit_job_calname(calname, func, *args)
 
 
-def wait():
-    calname = utils.get_caller_name()
-    if (calname not in future):
+def submit_jobs(args):
+    try:
+        argn = next(args)
+    except StopIteration:
         return
+    calname         = utils.get_caller_name()
+    future[calname] = []
+    while True:
+        try:
+            arg  = argn
+            argn = next(args)
+            submit_job_calname(calname, *arg)
+        except StopIteration:
+            break
 
+    func, *args2 = argn
+    func(*args2)
+    wait_calname(calname)
+
+
+def wait_calname(calname):
     futures.wait(future[calname], timeout=None)
     future[calname].clear()
     if (len(exceptions)):
         for exception in exceptions:
             traceback.print_exception(*exception)
         raise Exception('An exception was raised in some of the threads, see above.')
+
+
+def wait():
+    calname = utils.get_caller_name()
+    if (calname not in future):
+        return
+    wait_calname(calname)

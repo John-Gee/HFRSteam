@@ -98,12 +98,9 @@ def get_games_info(options, games, steamgames):
     URLS_MAPPING  = os.path.join('mappings', 'urlsmapping.txt')
     urlsmapping   = Mapper(URLS_MAPPING)
 
-    for name in iter(games):
-        threadpool.submit_work(get_game_info, options, games[name],
-                                               cachedgames, steamgames,
-                                               name, urlsmapping)
-
-    threadpool.wait()
+    threadpool.submit_jobs(((get_game_info, options, games[name],
+                              cachedgames, steamgames, name, urlsmapping)
+                             for name in games))
 
     if (not options.dryrun):
         newcachedgames = cache.merge_old_new_cache(cachedgames, games)
