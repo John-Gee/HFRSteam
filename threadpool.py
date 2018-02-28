@@ -80,8 +80,10 @@ def submit_jobs(args):
         argn = next(args)
     except StopIteration:
         return
+
     calname         = utils.get_caller_name()
     future[calname] = []
+
     while True:
         try:
             arg  = argn
