@@ -142,7 +142,7 @@ def get_standalone_info(game, name, document):
     game.store.image        = get_game_image(glance_ctn_block)
     game.store.avg_review,\
     game.store.cnt_review   = get_game_review(glance_ctn_block, name)
-    game.store.release_date = get_game_release_date(glance_ctn_block)
+    game.store.release_date = get_game_release_date(glance_ctn_block, name)
     game.store.tags         = get_game_tags(glance_ctn_block)
 
     if (game.store.category in [Category.Game, Category.Video]):
@@ -269,11 +269,15 @@ def get_game_review(glance_ctn_block, name):
     return None, None
 
 
-def get_game_release_date(glance_ctn_block):
+def get_game_release_date(glance_ctn_block, name):
     date = domparser.get_text(glance_ctn_block, 'div',
                               class_='date')
     if (date):
-        return parser.parse(date.strip(), fuzzy_with_tokens=True)
+        try:
+            return parser.parse(date.strip(), fuzzy_with_tokens=True)
+        except:
+            styledprint.print_info('date: {0} for game: {1} is no good'.format(date, name))
+            pass
 
     return None
 
