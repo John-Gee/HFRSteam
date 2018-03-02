@@ -51,7 +51,7 @@ def get_game_info(options, game, cachedgames, steamgames,
                 appid, typ = get_appid_and_type(name, steamgames)
                 if ((not options.nofuzzymatching) and (not appid)):
                     cleanname = namematching.nameclean(name)
-                    appid, typ = get_appid_and_type(name, cleansteamgames)
+                    appid, typ = get_appid_and_type(cleanname, cleansteamgames)
                     if (not appid):
                         matchedname = namematching.get_match(cleanname,
                                                              cleansteamgames.keys(),
