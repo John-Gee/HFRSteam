@@ -51,10 +51,10 @@ def wrap_thread(func, *args):
     try:
         if (not len(exceptions)):
             func(*args)
-    except:
-        styledprint.print_error('Exception raised for:', func)
+    except Exception as e:
+        styledprint.print_error('Exception raised for:', func, e)
         exceptions.append(sys.exc_info())
-        print(sys.exc_info())
+        exceptions.append(traceback.format_exc(e))
         # this won't actually end the threadpool
         # until all running threads are done
         threadpool.shutdown(wait=False)
