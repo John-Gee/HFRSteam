@@ -11,8 +11,6 @@ def get_matches(sentence, possibilities, n=3, cutoff=0.6):
 def get_match(sentence, possibilities, tried, cutoff=0.6):
     matches = get_matches(sentence, possibilities, 10, cutoff)
     if (len(matches) > 0):
-        if ("OVERLORD" in sentence.upper()):
-            print(matches)
         for match in matches:
             if (match in tried):
                 continue
