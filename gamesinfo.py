@@ -6,6 +6,7 @@ import traceback
 from cache import Cache
 import threadpool
 from game import Category
+from game import StoreData
 from mapper import Mapper
 import namematching
 import steam
@@ -13,26 +14,15 @@ import styledprint
 import utils
 
 
-def get_appid(name, games):
-    cleanname = name
-    if (cleanname in games):
-        return str(games[cleanname])
+def get_appid_and_type(name, games):
+    if (name in games):
+        return games[name]
     else:
-        return None
+        return None, None
 
 
-def get_namematching(name, steamgames):
-    matchedname = namematching.get_match(name, steamgames.keys())
-    if (matchedname):
-        appid = get_appid(matchedname, steamgames)
-        if (appid != ''):
-            urlsmapping.add_to_mapping(name,
-                                        steam.get_urlmapping_from_appid(appid))
-            styledprint.print_info('Matched {0} with {1}'
-                                   .format(name, matchedname))
-
-
-def get_game_info(options, game, cachedgames, steamgames, name, urlsmapping):
+def get_game_info(options, game, cachedgames, steamgames,
+                  cleansteamgames, name, urlsmapping):
     if ((not options.all) and (not game.hfr.is_available)):
         # Ignoring not available games for now
         # it may be better in the future to ignore them in output
@@ -52,21 +42,40 @@ def get_game_info(options, game, cachedgames, steamgames, name, urlsmapping):
         game.store         = cachedgames[name].store
 
     elif (not options.cacheonly):
-        mapping  = urlsmapping.get_mapping(name)
+        mapping = urlsmapping.get_mapping(name)
 
         if (mapping == None):
-            appid = get_appid(name, steamgames)
-            if ((options.matchingwords) and (not appid)):
-                matchedname = get_namematching(name, steamgames)
+            namestried  = []
+            appidstried = []
+            while (True):
+                appid, typ = get_appid_and_type(name, steamgames)
+                if ((not options.nofuzzymatching) and (not appid)):
+                    cleanname = namematching.nameclean(name)
+                    appid, typ = get_appid_and_type(name, cleansteamgames)
+                    if (not appid):
+                        matchedname = namematching.get_match(cleanname,
+                                                             cleansteamgames.keys(),
+                                                             namestried, 0.92)
+                        if (matchedname):
+                            appid, typ = get_appid_and_type(matchedname,
+                                                            cleansteamgames)
+                            score = namematching.get_match_score(cleanname.lower(),
+                                                                 matchedname.lower())
+                            print('Matched {0} with {1} at score {2}'
+                                  .format(name, matchedname, score))
+                            namestried.append(matchedname)
 
-            if (not appid):
-                game.store.appid = ''
-                game.store.description = 'The game was not found in the steam db'
-                styledprint.print_error('{0}: {1}'
-                                       .format(game.store.description, name))
-                return
-            else:
-                steam.get_store_info_from_appid(game, name, appid)
+                if ( (appid in appidstried) or (not appid)):
+                    game.store = StoreData()
+                    game.store.description = 'The game was not found in the steam db'
+                    styledprint.print_error('{0}: {1}'
+                                            .format(game.store.description, name))
+                    return
+                else:
+                    appidstried.append(appid)
+
+                    if (steam.get_store_info_from_appid(game, name, appid, typ)):
+                        break
 
         else:
             url      = mapping[0]
@@ -91,15 +100,18 @@ def get_game_info(options, game, cachedgames, steamgames, name, urlsmapping):
 
 def get_games_info(options, games, steamgames):
     styledprint.print_info_begin('Pulling games information')
-    CACHE_PATH    = os.path.join('cache', 'games.p')
-    cache         = Cache(CACHE_PATH)
-    cachedgames   = utils.DictCaseInsensitive(cache.load_from_cache())
+    CACHE_PATH      = os.path.join('cache', 'games.p')
+    cache           = Cache(CACHE_PATH)
+    cachedgames     = cache.load_from_cache()
+    cleansteamgames = utils.DictCaseInsensitive()
+    for game in steamgames:
+        cleansteamgames[namematching.nameclean(game)] = steamgames[game]
 
     URLS_MAPPING  = os.path.join('mappings', 'urlsmapping.txt')
     urlsmapping   = Mapper(URLS_MAPPING)
 
-    threadpool.submit_jobs(((get_game_info, options, games[name],
-                              cachedgames, steamgames, name, urlsmapping)
+    threadpool.submit_jobs(((get_game_info, options, games[name], cachedgames,
+                              steamgames, cleansteamgames, name, urlsmapping)
                              for name in games))
 
     if (not options.dryrun):

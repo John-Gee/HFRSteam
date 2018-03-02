@@ -17,7 +17,10 @@ def get_games_from_applist(applist):
     games = {}
 
     for app in iter(json.loads(applist)['applist']['apps']):
-        games[app['name']] = app['appid']
+        if ('type' in app):
+            games[app['name']] = (app['appid'], app['type'])
+        else:
+            games[app['name']] = (app['appid'], 'app')
 
     return games
 
@@ -28,7 +31,11 @@ def save_applist_to_local(applist):
     data          = []
 
     for app in iter(applist):
-        data.append({'appid': applist[app], 'name': app})
+        if('app' == applist[app][1]):
+            data.append({'appid': int(applist[app][0]), 'name': app})
+        else:
+            data.append({'appid': int(applist[app][0]), 'name': app,
+                         'type': applist[app][1]})
     sorted_data = sorted(data, key=lambda k: k['appid'])
     js_dict['applist'] = {'apps': sorted_data}
     if (not os.path.exists('steamlist')):
@@ -51,28 +58,19 @@ def get_applist_from_server():
     return get_games_from_applist(applist)
 
 
-def get_list_of_games(games):
-    games.update(get_applist_from_server())
+
+def get_store_link(appid, typ):
+    return 'http://store.steampowered.com/{0}/{1}'.format(typ, appid)
 
 
-def get_urlmapping_from_appid(appid):
-    # defaulting to the standard game url for now
-    return 'app/{0}'.format(appid)
-
-
-def get_store_link_from_appid(appid):
-    return 'http://store.steampowered.com/{0}'.format(
-        get_urlmapping_from_appid(appid))
-
-
-def get_store_info_from_appid(game, name, appid):
-    game.store.link = get_store_link_from_appid(appid)
-    get_store_info(game, name)
+def get_store_info_from_appid(game, name, appid, typ):
+    game.store.link = get_store_link(appid, typ)
+    return get_store_info(game, name)
 
 
 def get_store_info_from_url(game, name, url):
     game.store.link= 'http://store.steampowered.com/' + url
-    get_store_info(game, name)
+    return get_store_info(game, name)
 
 
 def get_pagedocument(storelink, name):
@@ -82,7 +80,7 @@ def get_pagedocument(storelink, name):
         description = 'The app is not on steam anymore.'
         styledprint.print_info('The page for app {0} redirects somewhere else'
                                .format(name))
-        return None, description
+        return None, description, url
 
     document = domparser.load_html(page)
 
@@ -95,17 +93,19 @@ def get_pagedocument(storelink, name):
                                          class_="error")
         styledprint.print_info('The page for game {0} shows an error: {1}'
                                .format(name, description))
-        return None, description
+        return None, description, url
 
-    return document, None
+    return document, None, url
 
 
 def get_store_info(game, name):
-    document, description = get_pagedocument(game.store.link, name)
+    document, description, url = get_pagedocument(game.store.link, name)
 
     if (not document):
         game.store.description = description
-        return
+        return False
+    game.store.link = re.sub(r'(http://store.steampowered.com/[^/]*/[^/]*)/.*',
+                              r'\1', url, flags=re.IGNORECASE)
 
     if ( ('/sub/' in game.store.link) or ('/bundle/' in game.store.link)):
         get_collection_info(game, name, document)
@@ -116,13 +116,14 @@ def get_store_info(game, name):
                                .format(game.store.link))
 
     # middle right column
-    game.store.genres       = get_game_genres(document)
-    game.store.details      = get_game_details(document)
+    game.store.genres     = get_game_genres(document)
+    game.store.details    = get_game_details(document)
 
-    price_date              = str(datetime.datetime.now().date())
-    game.store.price_date   = ('{0} {1}, {2}'
-                         .format(calendar.month_abbr[int(price_date[5:7])],
-                                 price_date[8:], price_date[:4]))
+    price_date            = str(datetime.datetime.now().date())
+    game.store.price_date = ('{0} {1}, {2}'
+                             .format(calendar.month_abbr[int(price_date[5:7])],
+                                     price_date[8:], price_date[:4]))
+    return True
 
 
 def get_standalone_info(game, name, document):
@@ -405,18 +406,32 @@ def get_game_languages(document):
     return list()
 
 
-def get_titles(document):
-    titles = [domparser.get_text(document, 'div', class_='apphub_AppName')]
+def get_titles(document, shortlink):
+    titles = {}
+    titles[shortlink] = [domparser.get_text(document, 'div', class_='apphub_AppName')]
+
     wrappers = domparser.get_elements(document, 'div',
                                       class_='game_area_purchase_game_wrapper')
 
     if (wrappers):
         for wrapper in wrappers:
-            if ('Bundle info' in domparser.get_texts(wrapper, 'span')):
-                continue
+            if (any (i in ['Bundle info', 'Package info']
+                     for i in domparser.get_texts(wrapper, 'span'))):
+                href = domparser.get_value(wrapper, 'a', 'href',
+                                        class_='btnv6_blue_blue_innerfade')
+                link = re.sub(r'http://store.steampowered.com/([^/]*/[^/]*)/.*',
+                              r'\1', href, flags=re.IGNORECASE)
+            else:
+                link = shortlink
             title = domparser.get_text(wrapper, 'h1')[4:]
-            if ((title) and (title not in titles)):
-                titles.append(title)
+            if (title):
+                if (title.lower().endswith('demo')):
+                    continue
+                title = re.sub(r'(Buy )?([^\t]*)(.*)', r'\2', title).strip()
+                if (link not in titles):
+                    titles[link] = []
+                if (title not in titles[link]):
+                    titles[link].append(title)
     return titles
 
 
@@ -425,7 +440,7 @@ if __name__ == '__main__':
     game = Game()
     #get_store_info_from_appid(game, 'From the Depths', '268650')
     #get_store_info_from_appid(game, 'Death Note', '627680')
-    storelink  = get_store_link_from_appid('291650')
-    document,_ = get_pagedocument(storelink, 'Pillars of Eternity')
-    titles     = get_titles(document)
+    storelink  = get_store_link_from_appid('64000')
+    document,_ = get_pagedocument(storelink, 'Men of War: Assault Squad - Game of the Year ')
+    titles     = get_titles(document, 'app/64000')
     print(titles)
