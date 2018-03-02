@@ -52,6 +52,9 @@ def get_parser():
                         help='refresh the games matching the string')
     parser.add_argument('-t', '--threads', dest='threads', default='0',
                         type=int, help='number of parallel threads to use')
+    parser.add_argument('-v', '--verbosity', dest='verbosity', default='1',
+                        type=int,
+                        help='verbosity to use (0: E, 1: W, 2: D)')
     return parser
 
 
@@ -80,6 +83,7 @@ if __name__ == '__main__':
     options    = get_parser().parse_args()
     games      = utils.DictCaseInsensitive()
     steamgames = utils.DictCaseInsensitive()
+    styledprint.set_verbosity(options.verbosity)
 
     threadpool.create(options.threads)
     threadpool.submit_jobs(x for x in[(parse_list, options.liste, games),
