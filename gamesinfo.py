@@ -14,11 +14,34 @@ import styledprint
 import utils
 
 
-def get_appid_and_type(name, games):
+def get_appid_and_type(name, games, appidstried):
     if (name in games):
-        return games[name]
-    else:
-        return None, None
+        for app in games[name]:
+            if (app[0] not in appidstried):
+                return app
+    return None, None
+
+
+def get_appid_and_type_from_namematching(origname, name, games, appidstried,
+                                         namestried, lastmatch):
+    while (True):
+        if ((not lastmatch[-1]) or (lastmatch[-1] in namestried)):
+            matchedname = namematching.get_match(name, games.keys(),
+                                                 namestried, 0.92)
+        else:
+            matchedname = lastmatch[-1]
+        if (matchedname):
+            score         = namematching.get_match_score(name, matchedname)
+            lastmatch[-1] = matchedname
+            print('Matched {0} with {1} at score {2}'
+                  .format(origname, matchedname, score))
+            appid, typ    = get_appid_and_type(matchedname, games, appidstried)
+            if (appid):
+                return appid, typ
+            else:
+                namestried.append(matchedname)
+        else:
+            return None, None
 
 
 def get_game_info(options, game, cachedgames, steamgames,
@@ -45,27 +68,31 @@ def get_game_info(options, game, cachedgames, steamgames,
         mapping = urlsmapping.get_mapping(name)
 
         if (mapping == None):
-            namestried  = []
             appidstried = []
+            namestried  = []
+            lastmatch   = ['']
             while (True):
-                appid, typ = get_appid_and_type(name, steamgames)
-                if ((not options.nofuzzymatching) and (not appid)):
+                appid, typ = get_appid_and_type(name, steamgames, appidstried)
+                if (appid):
+                    styledprint.print_debug('The game {0} got its appid simply'
+                                            .format(name))
+                elif (not options.nofuzzymatching):
                     cleanname = namematching.nameclean(name)
-                    appid, typ = get_appid_and_type(cleanname, cleansteamgames)
-                    if (not appid):
-                        matchedname = namematching.get_match(cleanname,
-                                                             cleansteamgames.keys(),
-                                                             namestried, 0.92)
-                        if (matchedname):
-                            appid, typ = get_appid_and_type(matchedname,
-                                                            cleansteamgames)
-                            score = namematching.get_match_score(cleanname.lower(),
-                                                                 matchedname.lower())
-                            print('Matched {0} with {1} at score {2}'
-                                  .format(name, matchedname, score))
-                            namestried.append(matchedname)
+                    appid, typ = get_appid_and_type(cleanname, cleansteamgames,
+                                                    appidstried)
+                    if (appid):
+                        styledprint.print_debug('The game {0} got its appid '
+                                                'by namecleaning'
+                                                .format(name))
+                    else:
+                        appid, typ = get_appid_and_type_from_namematching(name,
+                                                                          cleanname,
+                                                                          cleansteamgames,
+                                                                          appidstried,
+                                                                          namestried,
+                                                                          lastmatch)
 
-                if ( (appid in appidstried) or (not appid)):
+                if ((appid in appidstried) or (not appid)):
                     game.store = StoreData()
                     game.store.description = 'The game was not found in the steam db'
                     styledprint.print_error('{0}: {1}'

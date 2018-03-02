@@ -3,21 +3,25 @@ import styledprint
 import threadpool
 
 
-def get_newgame_info(local_applist, name, values):
-    appid, typ = values
-    link           = steam.get_store_link(appid, typ)
-    document, _, _ = steam.get_pagedocument(link, name)
-    shortlink      = '{0}/{1}'.format(typ, appid)
-    titles         = steam.get_titles(document, shortlink) if (document) else {}
-    if (shortlink not in titles):
-        titles[shortlink] = []
-    titles[shortlink].append(name)
+def get_newgame_info(local_applist, name, apps):
+    for app in apps:
+        appid, typ     = app
+        link           = steam.get_store_link(appid, typ)
+        document, _, _ = steam.get_pagedocument(link, name)
+        shortlink      = '{0}/{1}'.format(typ, appid)
+        titles         = steam.get_titles(document, shortlink) if (document) else {}
+        if (shortlink not in titles):
+            titles[shortlink] = []
+        titles[shortlink].append(name)
 
-    for link in sorted(titles.keys()):
-        t, a = link.split('/')
-        for title in titles[link]:
-            if ((title) and (title not in local_applist)):
-                local_applist[title] = (a, t)
+        for link in sorted(titles.keys()):
+            t, a = link.split('/')
+            for title in titles[link]:
+                if (title):
+                    if (title not in local_applist):
+                        local_applist[title] = []
+                    if ((a, t) not in local_applist[title]):
+                        local_applist[title].append((a, t))
 
 
 def refresh_applist(dryrun, games, from_scratch=False):

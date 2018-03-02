@@ -17,11 +17,12 @@ def get_games_from_applist(applist):
     games = {}
 
     for app in iter(json.loads(applist)['applist']['apps']):
+        if (app['name'] not in games):
+            games[app['name']] = []
         if ('type' in app):
-            games[app['name']] = (app['appid'], app['type'])
+            games[app['name']].append((app['appid'], app['type']))
         else:
-            games[app['name']] = (app['appid'], 'app')
-
+            games[app['name']].append((app['appid'], 'app'))
     return games
 
 
@@ -30,12 +31,13 @@ def save_applist_to_local(applist):
     js_dict       = {}
     data          = []
 
-    for app in iter(applist):
-        if('app' == applist[app][1]):
-            data.append({'appid': int(applist[app][0]), 'name': app})
-        else:
-            data.append({'appid': int(applist[app][0]), 'name': app,
-                         'type': applist[app][1]})
+    for name in iter(applist):
+        for app in applist[name]:
+            if('app' == app[1]):
+                data.append({'appid': int(app[0]), 'name': name})
+            else:
+                data.append({'appid': int(app[0]), 'name': name,
+                            'type': app[1]})
     sorted_data = sorted(data, key=lambda k: k['appid'])
     js_dict['applist'] = {'apps': sorted_data}
     if (not os.path.exists('steamlist')):
