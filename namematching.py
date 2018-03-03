@@ -8,18 +8,22 @@ def get_matches(sentence, possibilities, n=3, cutoff=0.6):
                                       n, cutoff)
 
 
-def get_match(sentence, possibilities, tried, cutoff=0.6):
-    matches = get_matches(sentence, possibilities, 10, cutoff)
-    if (len(matches) > 0):
-        for match in matches:
-            if (match in tried):
-                continue
-            ms = re.search('.*(\d+)\Z', sentence)
-            mm = re.search('.*(\d+)\Z', match)
-            if ((ms) and (mm) and (ms.group(1) == mm.group(1))):
-                return match
-            if ((not ms) and (not mm)):
-                return match
+def get_clean_matches(sentence, possibilities, cutoff=0.6):
+    matches      = get_matches(sentence, possibilities, 10, cutoff)
+    cleanmatches = []
+    for match in matches:
+        ms = re.search('.*(\d+)\Z', sentence)
+        mm = re.search('.*(\d+)\Z', match)
+        if (((ms) and (mm) and (ms.group(1) == mm.group(1)))
+            or ((not ms) and (not mm))):
+            cleanmatches.append(match)
+    return cleanmatches
+
+
+def get_match(sentence, possibilities, cutoff=0.6):
+    matches = get_matches(sentence, possibilities, 1, cutoff)
+    if (len(matches) == 1):
+        return matches[0]
     return None
 
 

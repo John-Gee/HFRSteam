@@ -23,23 +23,25 @@ def get_appid_and_type(name, games, appidstried):
 
 
 def get_appid_and_type_from_namematching(origname, name, games, appidstried,
-                                         namestried, lastmatch):
+                                         matches):
     while (True):
-        if ((not lastmatch[-1]) or (lastmatch[-1] in namestried)):
-            matchedname = namematching.get_match(name, games.keys(),
-                                                 namestried, 0.92)
-        else:
-            matchedname = lastmatch[-1]
+        if (len(matches) == 0):
+            matches.extend(namematching.get_clean_matches(name, games.keys(),
+                                                          0.92))
+
+        if (len(matches) == 0):
+            return None, None
+
+        matchedname = matches[0]
         if (matchedname):
             score         = namematching.get_match_score(name, matchedname)
-            lastmatch[-1] = matchedname
             print('Matched {0} with {1} at score {2}'
                   .format(origname, matchedname, score))
             appid, typ    = get_appid_and_type(matchedname, games, appidstried)
             if (appid):
                 return appid, typ
             else:
-                namestried.append(matchedname)
+                matches.pop(0)
         else:
             return None, None
 
@@ -69,8 +71,7 @@ def get_game_info(options, game, cachedgames, steamgames,
 
         if (mapping == None):
             appidstried = []
-            namestried  = []
-            lastmatch   = ['']
+            matches     = []
             while (True):
                 appid, typ = get_appid_and_type(name, steamgames, appidstried)
                 if (appid):
@@ -89,8 +90,7 @@ def get_game_info(options, game, cachedgames, steamgames,
                                                                           cleanname,
                                                                           cleansteamgames,
                                                                           appidstried,
-                                                                          namestried,
-                                                                          lastmatch)
+                                                                          matches)
 
                 if ((appid in appidstried) or (not appid)):
                     game.store = StoreData()
@@ -150,17 +150,17 @@ def get_games_info(options, games, steamgames):
 
 
 if __name__ == '__main__':
-    origname = "My Test2 is the good"
+    origname = "My Test1 is the good"
     name     = "MYTEST1ISGOOD"
     games    = {'MYTEST1ISGOOD': [('1', 'app'), ('2', 'app')],
                 'MYTEST1ISGOODS': [('3', 'app'), ('4', 'app'), ('5', 'app')],
                 'MYTEST1ISSOOOOOGOODSS': [('6', 'app'), ('7', 'app')]}
     appidstried = []
-    namestried  = []
-    lastmatch   = ['']
+    matches     = []
     appid       = ''
     while (appid != '4'):
         appid, typ = get_appid_and_type_from_namematching(origname, name, games, appidstried,
-                                         namestried, lastmatch)
+                                         matches)
         appidstried.append(appid)
-    print(appid)
+        print(appid)
+    print('Got the appid needed!')
