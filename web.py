@@ -1,16 +1,17 @@
 from cachecontrol import CacheControl
+from cachecontrol.caches.file_cache import FileCache
 import requests
 
 
-session        = requests.Session()
-cached_session = CacheControl(session)
+cached_session = CacheControl(requests.Session())
+                              #cache=FileCache('.webcache', forever=True))
+headers = {'User-Agent': 'Mozilla/5.0'}
+jar = requests.cookies.RequestsCookieJar()
+jar.set('birthtime', '1')
+jar.set('mature_content', '1')
 
 
 def get_utf8_web_page(url):
-    headers = {'User-Agent': 'Mozilla/5.0'}
-    jar = requests.cookies.RequestsCookieJar()
-    jar.set('birthtime', '1')
-    jar.set('mature_content', '1')
     try:
         req = cached_session.get(url, headers=headers,
                                  cookies=jar, allow_redirects=True)
