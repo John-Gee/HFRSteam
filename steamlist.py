@@ -1,3 +1,5 @@
+import logging
+
 import steam
 import styledprint
 import threadpool
@@ -38,7 +40,7 @@ def refresh_applist(dryrun, games, from_scratch=False):
                             for name in iter(foreign_applist)
                             if name not in local_applist))
 
-    styledprint.print_info('Apps in cache at end:', len(local_applist))
+    styledprint.print_info('Apps in cache at end (duplicate names not in the count):', len(local_applist))
     if (not dryrun):
         steam.save_applist_to_local(local_applist)
     for game in local_applist:
@@ -49,5 +51,8 @@ def refresh_applist(dryrun, games, from_scratch=False):
 
 
 if __name__ == '__main__':
+    logging.basicConfig(filename="mylog.log", level=logging.DEBUG)
+    logging.info("Program started")
     threadpool.create(8)
-    refresh_applist(False, {}, False)
+    styledprint.set_verbosity(1)
+    refresh_applist(False, {}, True)
