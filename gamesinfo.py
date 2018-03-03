@@ -147,3 +147,20 @@ def get_games_info(options, games, steamgames):
         urlsmapping.save_mapping()
 
     styledprint.print_info_end('Pulling games information')
+
+
+if __name__ == '__main__':
+    origname = "My Test2 is the good"
+    name     = "MYTEST1ISGOOD"
+    games    = {'MYTEST1ISGOOD': [('1', 'app'), ('2', 'app')],
+                'MYTEST1ISGOODS': [('3', 'app'), ('4', 'app'), ('5', 'app')],
+                'MYTEST1ISSOOOOOGOODSS': [('6', 'app'), ('7', 'app')]}
+    appidstried = []
+    namestried  = []
+    lastmatch   = ['']
+    appid       = ''
+    while (appid != '4'):
+        appid, typ = get_appid_and_type_from_namematching(origname, name, games, appidstried,
+                                         namestried, lastmatch)
+        appidstried.append(appid)
+    print(appid)
