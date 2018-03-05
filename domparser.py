@@ -3,7 +3,7 @@ import lxml
 
 
 def load_html(html):
-    return bs4.BeautifulSoup(html, 'lxml')
+    return bs4.BeautifulSoup(html, 'lxml-xml')
 
 
 def get_element(document, name, **kwargs):
