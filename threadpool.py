@@ -1,7 +1,10 @@
 from concurrent import futures
+import datetime
+import logging
 import os
 import sys
 import time
+import threading
 import traceback
 
 import styledprint
@@ -31,37 +34,76 @@ class ThreadPool():
 
 
     def shutdown(self, **kwargs):
-        return self.threadpool.shutdown(**kwargs)
+        styledprint.print_error('shutting down the threadpool!')
+        self.threadpool.shutdown(**kwargs)
 
 
     def submit(self, fn, *args):
         return self.threadpool.submit(fn, *args)
 
 
-threadpool = ThreadPool()
-exceptions = []
-future     = {}
-
+threadpool   = ThreadPool()
+exceptions   = []
+future       = {}
+shuttingdown = False
+lock         = threading.Lock()
 
 def create(nthreads):
     threadpool.create(nthreads)
 
 
+def shutdown(**kwargs):
+    lock.acquire()
+    global shuttingdown
+    if (not shuttingdown):
+        shuttingdown = True
+        threadpool.shutdown(**kwargs)
+        for calname in future:
+            for f in future[calname]:
+                f.cancel()
+    lock.release()
+
+
 def wrap_thread(func, *args):
     try:
-        if (not len(exceptions)):
-            func(*args)
+        func(*args)
     except Exception as e:
         styledprint.print_error('Exception raised for:', func, e)
-        exceptions.append(sys.exc_info())
-        exceptions.append(traceback.format_exc(e))
+        tb = traceback.format_exc()
+        if (tb not in exceptions):
+            exceptions.append(tb)
         # this won't actually end the threadpool
         # until all running threads are done
-        threadpool.shutdown(wait=False)
+        shutdown(wait=False)
+        #raise e
+
+
+def wait_calname(calname):
+    logging.debug('futures.wait() started at: ' + str(datetime.datetime.now().time()))
+    logging.debug('len(future[calname]: ' + str(len(future[calname])))
+    futures.wait(future[calname], timeout=None)
+    logging.debug('futures.wait() done at: ' + str(datetime.datetime.now().time()))
+    future[calname].clear()
+    check_for_errors()
+
+
+def wait():
+    calname = utils.get_caller_name()
+    if (calname not in future):
+        return
+    wait_calname(calname)
+
+
+def check_for_errors():
+    if (len(exceptions)):
+        for exception in exceptions:
+            styledprint.print_error(exception)
+        raise Exception('An exception was raised in some of the threads, see above.')
 
 
 def submit_job_calname(calname, func, *args):
-    future[calname].append(threadpool.submit(wrap_thread, func, *args))
+    if (not len(exceptions)):
+        future[calname].append(threadpool.submit(wrap_thread, func, *args))
 
 
 def submit_job(func, *args):
@@ -77,38 +119,12 @@ def submit_job(func, *args):
 
 
 def submit_jobs(args):
-    try:
-        argn = next(args)
-    except StopIteration:
-        return
-
     calname         = utils.get_caller_name()
     future[calname] = []
-
     while True:
         try:
-            arg  = argn
-            argn = next(args)
+            arg  = next(args)
             submit_job_calname(calname, *arg)
         except StopIteration:
             break
-
-    func, *args2 = argn
-    func(*args2)
-    wait_calname(calname)
-
-
-def wait_calname(calname):
-    futures.wait(future[calname], timeout=None)
-    future[calname].clear()
-    if (len(exceptions)):
-        for exception in exceptions:
-            traceback.print_exception(*exception)
-        raise Exception('An exception was raised in some of the threads, see above.')
-
-
-def wait():
-    calname = utils.get_caller_name()
-    if (calname not in future):
-        return
     wait_calname(calname)
