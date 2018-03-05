@@ -2,6 +2,7 @@ import calendar
 import datetime
 from dateutil import parser
 import json
+import logging
 import os
 import re
 
@@ -80,21 +81,17 @@ def get_pagedocument(storelink, name):
 
     if ((not url) or ('http://store.steampowered.com/' == url)):
         description = 'The app is not on steam anymore.'
-        styledprint.print_info('The page for app {0} redirects somewhere else'
+        logging.debug('The page for app {0} redirects somewhere else'
                                .format(name))
         return None, description, url
 
     document = domparser.load_html(page)
 
-    sorry_block = domparser.get_element(document, 'h2',
-                                        class_='pageheader',
-                                        string='Oops, sorry!')
-
-    if (sorry_block):
+    if ('Oops, sorry!' in document):
         description = domparser.get_text(document, 'span',
                                          class_="error")
-        styledprint.print_info('The page for game {0} shows an error: {1}'
-                               .format(name, description))
+        logging.debug('The page for game {0} shows an error: {1}'
+                       .format(name, description))
         return None, description, url
 
     return document, None, url
