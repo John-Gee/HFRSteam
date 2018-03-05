@@ -1,9 +1,9 @@
 import bs4
-import html5lib
+import lxml
 
 
 def load_html(html):
-    return bs4.BeautifulSoup(html, 'html5lib')
+    return bs4.BeautifulSoup(html, 'lxml')
 
 
 def get_element(document, name, **kwargs):

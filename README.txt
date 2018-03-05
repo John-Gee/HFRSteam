@@ -1,7 +1,7 @@
 This is a python (v3) script that will parse either a text list of game names (one game per line) or a MyDiscussion specific post, then map these names to games in the Steam catalog, query some more information and output it in a nice dynamic webpage that allows filtering, sorting on many keys.
 A simple bb code outputer is also included.
 
-The outside dependencies are python itself, BeautifulSoup v4, CacheControl v0.12, Colorama v0.3, DateUtil v2, html5lib v1, Requests v2.
+The outside dependencies are python itself, BeautifulSoup v4, CacheControl v0.12, Colorama v0.3, DateUtil v2, lxml v4.1, Requests v2.
 
 This software is released under the GNU GPLv3 license.
 
