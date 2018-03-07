@@ -3,6 +3,7 @@ from cachecontrol.caches.file_cache import FileCache
 from cachecontrol import heuristics
 import logging
 import requests
+import time
 
 
 session = requests.Session()
@@ -19,14 +20,17 @@ cached_session = CacheControl(session,
 
 
 def get_utf8_web_page(url):
-    try:
-        logging.debug('About to get the url: ' + url)
-        req = cached_session.get(url)
-        logging.debug('Got the url: ' + url)
-        return req.url, req.status_code, req.text
-    except requests.exceptions.TooManyRedirects:
-        logging.debug('TooManyRedirects for url: ' + url)
-        return None, None, None
+    for retry in range(5):
+        try:
+            logging.debug('About to get the url: ' + url)
+            req = cached_session.get(url)
+            logging.debug('Got the url: ' + url)
+            return req.url, req.status_code, req.text
+        except requests.exceptions.TooManyRedirects:
+            logging.debug('TooManyRedirects for url: ' + url)
+            return None, None, None
+        except Exception:
+            time.sleep(10)
 
 
 if __name__ == '__main__':
