@@ -1,9 +1,8 @@
-import bs4
-import lxml
+import html5_parser
 
 
 def load_html(html):
-    return bs4.BeautifulSoup(html, 'lxml-xml')
+    return html5_parser.parse(html, treebuilder='soup')
 
 
 def get_element(document, name, **kwargs):
