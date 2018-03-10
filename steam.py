@@ -1,3 +1,4 @@
+import asyncio
 import calendar
 import datetime
 from dateutil import parser
@@ -14,9 +15,9 @@ import utils
 import web
 
 
-def get_games_from_applist(applist):
+def get_games_from_applist(applist, max_apps=None):
     games = {}
-
+    i = 0
     for app in iter(json.loads(applist)['applist']['apps']):
         if (app['name'] not in games):
             games[app['name']] = []
@@ -24,10 +25,17 @@ def get_games_from_applist(applist):
             games[app['name']].append((app['appid'], app['type']))
         else:
             games[app['name']].append((app['appid'], 'app'))
+        i += 1
+        if ((max_apps) and (i >= max_apps)):
+            break
     return games
 
 
 def save_applist_to_local(applist):
+    if ((not applist) or (not len(applist))):
+        logging.debug('no applist to save to local')
+        return
+
     APPLIST_LOCAL = 'steamlist/AppList.json'
     js_dict       = {}
     data          = []
@@ -55,10 +63,10 @@ def get_applist_from_local():
     return {}
 
 
-def get_applist_from_server():
+def get_applist_from_server(max_apps=None):
     APPLIST_URL = 'http://api.steampowered.com/ISteamApps/GetAppList/v2/'
-    applist     = web.get_utf8_web_page(APPLIST_URL)[2]
-    return get_games_from_applist(applist)
+    applist     = web.get_utf8_web_page_sync(APPLIST_URL)[2]
+    return get_games_from_applist(applist, max_apps)
 
 
 
@@ -76,15 +84,18 @@ def get_store_info_from_url(game, name, url):
     return get_store_info(game, name)
 
 
-def get_pagedocument(storelink, name):
-    url, status, page = web.get_utf8_web_page(storelink)
-
+async def get_page(storelink, name):
+    badurl = 'http://store.steampowered.com/'
+    url, status, page = await web.get_utf8_web_page(storelink, badurl)
     if ((not url) or ('http://store.steampowered.com/' == url)):
         description = 'The app is not on steam anymore.'
         logging.debug('The page for app {0} redirects somewhere else'
-                               .format(name))
+                      .format(name))
         return None, description, url
 
+    return page, None, url
+
+def get_document(page, name):
     document = domparser.load_html(page)
 
     if ('Oops, sorry!' in document):
@@ -92,13 +103,18 @@ def get_pagedocument(storelink, name):
                                          class_="error")
         logging.debug('The page for game {0} shows an error: {1}'
                        .format(name, description))
-        return None, description, url
+        return None, description
 
-    return document, None, url
+    return document, None
 
 
 def get_store_info(game, name):
-    document, description, url = get_pagedocument(game.store.link, name)
+    page, description, url     = get_page(game.store.link, name)
+    if (not page):
+        game.store.description = description
+        return False
+
+    document, description, url = get_document(page, name)
 
     if (not document):
         game.store.description = description
@@ -410,15 +426,15 @@ def get_titles(document, shortlink):
     titles[shortlink] = [domparser.get_text(document, 'div', class_='apphub_AppName')]
 
     wrappers = domparser.get_elements(document, 'div',
-                                      class_='game_area_purchase_game_wrapper')
+                                      class_=re.compile('game_area_purchase_game_wrapper'))
 
     if (wrappers):
         for wrapper in wrappers:
             if (any (i in ['Bundle info', 'Package info']
                      for i in domparser.get_texts(wrapper, 'span'))):
                 href = domparser.get_value(wrapper, 'a', 'href',
-                                        class_='btnv6_blue_blue_innerfade')
-                link = re.sub(r'http://store.steampowered.com/([^/]*/[^/]*)/.*',
+                                        class_=re.compile('btnv6_blue_blue_innerfade'))
+                link = re.sub(r'.*steampowered.com/([^/]+/[^/]+)/.*',
                               r'\1', href, flags=re.IGNORECASE)
             else:
                 link = shortlink
@@ -426,7 +442,9 @@ def get_titles(document, shortlink):
             if (title):
                 if (title.lower().endswith('demo')):
                     continue
-                title = re.sub(r'(Buy )?([^\t]*)(.*)', r'\2', title).strip()
+                #merge the regexp?
+                title = re.sub(r'\s*Buy ?', r'', title)
+                title = re.sub(r'(\n|\r|\t).*', r'', title)
                 if (link not in titles):
                     titles[link] = []
                 if (title not in titles[link]):
@@ -436,10 +454,21 @@ def get_titles(document, shortlink):
 
 # simple test
 if __name__ == '__main__':
+    logging.basicConfig(filename='mylog.log', filemode = 'w', level=logging.DEBUG)
     game = Game()
-    #get_store_info_from_appid(game, 'From the Depths', '268650')
-    #get_store_info_from_appid(game, 'Death Note', '627680')
-    storelink  = get_store_link_from_appid('64000')
-    document,_ = get_pagedocument(storelink, 'Men of War: Assault Squad - Game of the Year ')
-    titles     = get_titles(document, 'app/64000')
-    print(titles)
+    styledprint.set_verbosity(2)
+    typ = 'app'
+    appid = '100'
+    name = 'Counter-Strike: Condition Zero'
+    storelink   = get_store_link(appid, typ)
+    loop = asyncio.get_event_loop()
+    loop.set_debug(True)
+    web.create_session(loop)
+    try:
+        page, _, _  = loop.run_until_complete(get_page(storelink, name))
+        document, _ = get_document(page, name)
+        titles      = get_titles(document, '{}/{}'.format(typ, appid))
+        print(titles)
+    finally:
+        web.close_session()
+        loop.close()

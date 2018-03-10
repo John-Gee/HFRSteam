@@ -1,3 +1,4 @@
+import asyncio
 from concurrent import futures
 import datetime
 import logging
@@ -5,6 +6,7 @@ import os
 import sys
 import time
 import threading
+import tqdm
 import traceback
 
 import styledprint
@@ -34,7 +36,7 @@ class ThreadPool():
 
 
     def shutdown(self, **kwargs):
-        styledprint.print_error('shutting down the threadpool!')
+        logging.debug('shutting down!')
         self.threadpool.shutdown(**kwargs)
 
 
@@ -47,8 +49,11 @@ exceptions   = []
 future       = {}
 shuttingdown = False
 lock         = threading.Lock()
+loop         = None
 
-def create(nthreads):
+def create(nthreads, lloop):
+    global loop
+    loop = lloop
     threadpool.create(nthreads)
 
 
@@ -61,6 +66,9 @@ def shutdown(**kwargs):
         for calname in future:
             for f in future[calname]:
                 f.cancel()
+        logging.debug('futures and threadpool stopped')
+        loop.call_soon_threadsafe(loop.stop)
+        logging.debug('loop stopped')
     lock.release()
 
 
@@ -72,16 +80,19 @@ def wrap_thread(func, *args):
         tb = traceback.format_exc()
         if (tb not in exceptions):
             exceptions.append(tb)
+            styledprint.print_error(tb)
         # this won't actually end the threadpool
         # until all running threads are done
         shutdown(wait=False)
-        #raise e
+        raise e
 
 
 def wait_calname(calname):
     logging.debug('futures.wait() started at: ' + str(datetime.datetime.now().time()))
     logging.debug('len(future[calname]: ' + str(len(future[calname])))
-    futures.wait(future[calname], timeout=None)
+    styledprint.print_info('threadpool tasks:')
+    for f in tqdm.tqdm(futures.as_completed(future[calname]), total=len(future[calname])):
+        pass
     logging.debug('futures.wait() done at: ' + str(datetime.datetime.now().time()))
     future[calname].clear()
     check_for_errors()
@@ -106,16 +117,20 @@ def submit_job_calname(calname, func, *args):
         future[calname].append(threadpool.submit(wrap_thread, func, *args))
 
 
+def submit_job_from(name, func, *args):
+    if (name not in future):
+        future[name] = []
+    submit_job_calname(name, func, *args)
+
+
 def submit_job(func, *args):
     if (func not in future):
         calname         = utils.get_caller_name()
         future[func]    = calname
     else:
         calname         = future[func]
-    if (calname not in future):
-        future[calname] = []
 
-    submit_job_calname(calname, func, *args)
+    submit_job_from(calname, func, *args)
 
 
 def submit_jobs(args):
