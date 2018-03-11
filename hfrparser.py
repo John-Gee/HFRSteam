@@ -9,7 +9,7 @@ import web
 
 
 def get_document(url):
-    _, _, html = web.get_utf8_web_page(url)
+    _, _, html = web.get_web_page(url)
     return domparser.load_html(html)
 
 

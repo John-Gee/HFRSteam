@@ -65,9 +65,8 @@ def get_applist_from_local():
 
 def get_applist_from_server(max_apps=None):
     APPLIST_URL = 'http://api.steampowered.com/ISteamApps/GetAppList/v2/'
-    applist     = web.get_utf8_web_page_sync(APPLIST_URL)[2]
+    applist     = web.get_web_page_sync(APPLIST_URL)[2]
     return get_games_from_applist(applist, max_apps)
-
 
 
 def get_store_link(appid, typ):
@@ -86,7 +85,7 @@ def get_store_info_from_url(game, name, url):
 
 async def get_page(storelink, name):
     badurl = 'http://store.steampowered.com/'
-    url, status, page = await web.get_utf8_web_page(storelink, badurl)
+    url, status, page = await web.get_web_page(storelink, badurl)
     if ((not url) or ('http://store.steampowered.com/' == url)):
         description = 'The app is not on steam anymore.'
         logging.debug('The page for app {0} redirects somewhere else'

@@ -64,7 +64,7 @@ def close_session():
 
 beforesleep = None
 
-async def get_utf8_web_page(url, badurl=None):
+async def get_web_page(url, badurl=None):
     global beforesleep
     for retry in range(200):
         try:
@@ -114,11 +114,11 @@ async def get_utf8_web_page(url, badurl=None):
     raise Exception('Get did not worked even after many retries for url', url)
 
 
-def get_utf8_web_page_sync(url):
+def get_web_page_sync(url):
     loop = asyncio.get_event_loop()
     if (not session.loop):
         session.create(loop)
-    return loop.run_until_complete(get_utf8_web_page(url))
+    return loop.run_until_complete(get_web_page(url))
 
 
 if __name__ == '__main__':
