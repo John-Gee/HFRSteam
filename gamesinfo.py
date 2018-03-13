@@ -4,11 +4,11 @@ import sys
 import traceback
 
 from cache import Cache
-import threadpool
 from game import Category
 from game import StoreData
 from mapper import Mapper
 import namematching
+import parallelism
 import steam
 import styledprint
 import utils
@@ -137,7 +137,7 @@ def get_games_info(options, games, steamgames):
     URLS_MAPPING  = os.path.join('mappings', 'urlsmapping.txt')
     urlsmapping   = Mapper(URLS_MAPPING)
 
-    threadpool.submit_jobs(((get_game_info, options, games[name], cachedgames,
+    parallelism.submit_jobs(((get_game_info, options, games[name], cachedgames,
                               steamgames, cleansteamgames, name, urlsmapping)
                              for name in games))
 

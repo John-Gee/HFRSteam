@@ -8,9 +8,9 @@ import bboutput
 import gamesinfo
 import hfrparser
 import htmloutput
+import parallelism
 import steamlist
 import styledprint
-import threadpool
 import utils
 
 
@@ -73,10 +73,10 @@ def write_output_files(dryrun, games):
     if (not os.path.exists(OUTPUT_FOLDER)):
         os.makedirs(OUTPUT_FOLDER)
 
-    threadpool.submit_jobs(x for x in [(htmloutput.output_to_html,
+    parallelism.submit_jobs(x for x in [(htmloutput.output_to_html,
                                          dryrun, games, HTML_FILE),
                                         (bboutput.output_to_bb,
-                                        dryrun, games, BB_FILE)])
+                                         dryrun, games, BB_FILE)])
 
 
 if __name__ == '__main__':
@@ -85,8 +85,8 @@ if __name__ == '__main__':
     steamgames = utils.DictCaseInsensitive()
     styledprint.set_verbosity(options.verbosity)
 
-    threadpool.create(options.threads)
-    threadpool.submit_jobs(x for x in[(parse_list, options.liste, games),
+    parallelism.create_pool(options.threads)
+    parallelism.submit_jobs(x for x in[(parse_list, options.liste, games),
                             (steamlist.refresh_applist, options.dryrun,
                              steamgames)])
 

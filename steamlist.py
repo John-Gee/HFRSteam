@@ -7,45 +7,43 @@ import traceback
 
 import steam
 import styledprint
-import threadpool
+import parallelism
 import web
 
 
-def get_newgame_info(local_applist, name, appid, typ, page):
-    document, _ = steam.get_document(page, name)
-
+def get_newgame_info(name, appid, typ, page):
+    local_applist = {}
+    document, _   = steam.get_document(page, name)
     logging.debug('got document for name {} ? {}'.format(name, document != None))
-    shortlink   = '{0}/{1}'.format(typ, appid)
-    titles      = steam.get_titles(document, shortlink) if (document) else {}
+    shortlink     = '{0}/{1}'.format(typ, appid)
+    titles        = steam.get_titles(document, shortlink) if (document) else {}
     logging.debug('got titles {0} for name {1}'.format(titles, name))
     if (shortlink not in titles):
         titles[shortlink] = []
     titles[shortlink].append(name)
 
     for shortlink in titles.keys():
-        logging.debug('shortlink {0} for name {1}'.format(shortlink, name))
         t, a = shortlink.split('/')
         for title in titles[shortlink]:
-            logging.debug('title {0} for shortlink {1} for name {2}'.format(title, shortlink, name))
             if (title):
                 if (title not in local_applist):
                     local_applist[title] = []
-                    logging.debug('title {} was not in applist'.format(title))
                 if ((a, t) not in local_applist[title]):
                     local_applist[title].append((a, t))
-                    logging.debug('tuple {} was not in applist for title {}'.format((a, t), title))
     logging.debug('appid {0} done for name {1}'.format(appid, name))
+    return local_applist
 
 
-def poolsubmit(calname, get_newgame_info, local_applist, name, appid, typ,
+def poolsubmit(calname, get_newgame_info, name, appid, typ,
                tasks, future):
     exception = future.exception()
     if (exception):
         styledprint.print_error('the future has an exception: {}'.format(exception))
+        styledprint.print_error(traceback.format_exc())
     else:
         page, _, _ = future.result()
-        threadpool.submit_job_from(calname, get_newgame_info, local_applist, name,
-                                   appid, typ, page)
+        parallelism.submit_job_from(calname, get_newgame_info, name,
+                                    appid, typ, page)
 
     # Memory cleanup
     tasks.remove(future)
@@ -81,7 +79,6 @@ def refresh_applist(loop, dryrun, games, from_scratch=False, max_apps=None):
                     poolsubmit,
                     calname,
                     get_newgame_info,
-                    local_applist,
                     name,
                     appid,
                     typ,
@@ -90,7 +87,9 @@ def refresh_applist(loop, dryrun, games, from_scratch=False, max_apps=None):
         if (len(tasks)):
             styledprint.print_info('async tasks:')
             loop.run_until_complete(progress_bar(tasks))
-            threadpool.wait_calname(calname)
+            fs = parallelism.wait_calname(calname)
+            for f in fs:
+                local_applist.update(f.result())
     except Exception as e:
         styledprint.print_error('Error happened while running the async loop:', e)
         styledprint.print_error(traceback.format_exc())
@@ -118,7 +117,7 @@ if __name__ == '__main__':
     styledprint.set_verbosity(2)
     loop = asyncio.get_event_loop()
     #loop.set_debug(True)
-    threadpool.create(16, loop)
+    parallelism.create_pool(16, loop)
     web.create_session(loop)
     try:
         refresh_applist(loop, False, {}, False)
@@ -126,7 +125,7 @@ if __name__ == '__main__':
         print(e)
         print(traceback.format_exc())
     web.close_session()
-    threadpool.shutdown(wait=True)
+    parallelism.shutdown_pool(wait=True)
     # this genereates a stack overflow
     # when the loop was previously stopped
     # loop.close()

@@ -2,10 +2,10 @@ import asyncio
 from concurrent import futures
 import datetime
 import logging
+import multiprocessing
 import os
 import sys
 import time
-import threading
 import tqdm
 import traceback
 
@@ -26,76 +26,80 @@ def get_number_of_cores():
     return 1
 
 
-class ThreadPool():
-    def create(self, nthreads):
-        if (nthreads):
-            threads = nthreads
-        else:
-            threads = get_number_of_cores()
-        self.threadpool = futures.ThreadPoolExecutor(threads)
+class Pool():
+    def create(self, ncpus):
+        if (not ncpus):
+            ncpus = get_number_of_cores()
+        self.pool = futures.ProcessPoolExecutor(ncpus)
 
 
     def shutdown(self, **kwargs):
         logging.debug('shutting down!')
-        self.threadpool.shutdown(**kwargs)
+        self.pool.shutdown(**kwargs)
 
 
     def submit(self, fn, *args):
-        return self.threadpool.submit(fn, *args)
+        return self.pool.submit(fn, *args)
 
 
-threadpool   = ThreadPool()
+pool         = Pool()
 exceptions   = []
 future       = {}
 shuttingdown = False
-lock         = threading.Lock()
+lock         = multiprocessing.Lock()
 loop         = None
 
-def create(nthreads, lloop):
+
+def create_pool(ncpus, lloop):
     global loop
     loop = lloop
-    threadpool.create(nthreads)
+    pool.create(ncpus)
 
 
-def shutdown(**kwargs):
+def shutdown_pool(**kwargs):
     lock.acquire()
     global shuttingdown
     if (not shuttingdown):
         shuttingdown = True
-        threadpool.shutdown(**kwargs)
+        pool.shutdown(**kwargs)
         for calname in future:
             for f in future[calname]:
                 f.cancel()
-        logging.debug('futures and threadpool stopped')
+        logging.debug('futures and pool stopped')
         loop.call_soon_threadsafe(loop.stop)
         logging.debug('loop stopped')
     lock.release()
 
 
-def wrap_thread(func, *args):
+def wrap_task(func, *args):
     try:
-        func(*args)
+        return func(*args)
     except Exception as e:
         styledprint.print_error('Exception raised for:', func, e)
         tb = traceback.format_exc()
         if (tb not in exceptions):
             exceptions.append(tb)
             styledprint.print_error(tb)
-        # this won't actually end the threadpool
-        # until all running threads are done
-        shutdown(wait=False)
         raise e
+
+
+def check_task(f):
+    if (f.exception()):
+        # this won't actually end the pool
+        # until all running tasks are done
+        shutdown(wait=False)
 
 
 def wait_calname(calname):
     logging.debug('futures.wait() started at: ' + str(datetime.datetime.now().time()))
     logging.debug('len(future[calname]: ' + str(len(future[calname])))
-    styledprint.print_info('threadpool tasks:')
+    styledprint.print_info('pool tasks:')
     for f in tqdm.tqdm(futures.as_completed(future[calname]), total=len(future[calname])):
         pass
     logging.debug('futures.wait() done at: ' + str(datetime.datetime.now().time()))
-    future[calname].clear()
-    check_for_errors()
+    fs = future[calname]
+    del future[calname]
+    return fs
 
 
 def wait():
@@ -109,18 +113,20 @@ def check_for_errors():
     if (len(exceptions)):
         for exception in exceptions:
             styledprint.print_error(exception)
-        raise Exception('An exception was raised in some of the threads, see above.')
+        raise Exception('An exception was raised in some of the parallel tasks, see above.')
 
 
 def submit_job_calname(calname, func, *args):
     if (not len(exceptions)):
-        future[calname].append(threadpool.submit(wrap_thread, func, *args))
+        f = pool.submit(wrap_task, func, *args)
+        f.add_done_callback(check_task)
+        future[calname].append(f)
 
 
 def submit_job_from(name, func, *args):
     if (name not in future):
         future[name] = []
-    submit_job_calname(name, func, *args)
+    return submit_job_calname(name, func, *args)
 
 
 def submit_job(func, *args):
