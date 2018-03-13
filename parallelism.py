@@ -2,7 +2,6 @@ import asyncio
 from concurrent import futures
 import datetime
 import logging
-import multiprocessing
 import os
 import sys
 import time
@@ -46,7 +45,6 @@ pool         = Pool()
 exceptions   = []
 future       = {}
 shuttingdown = False
-lock         = multiprocessing.Lock()
 loop         = None
 
 
@@ -57,7 +55,6 @@ def create_pool(ncpus, lloop):
 
 
 def shutdown_pool(**kwargs):
-    lock.acquire()
     global shuttingdown
     if (not shuttingdown):
         shuttingdown = True
@@ -68,7 +65,6 @@ def shutdown_pool(**kwargs):
         logging.debug('futures and pool stopped')
         loop.call_soon_threadsafe(loop.stop)
         logging.debug('loop stopped')
-    lock.release()
 
 
 def wrap_task(func, *args):
@@ -87,7 +83,7 @@ def check_task(f):
     if (f.exception()):
         # this won't actually end the pool
         # until all running tasks are done
-        shutdown(wait=False)
+        shutdown_pool(wait=False)
 
 
 def wait_calname(calname):
