@@ -7,19 +7,13 @@ import time
 import traceback
 
 import styledprint
+import utils
 
 
 class Session():
-    def __init__(self):
-        self.loop    = None
-        self.aiohttp = None
-
-
-    def create(self, loop):
+    def create(self):
         minver = str(random.randint(0,5))
-        self.loop    = loop
-        self.aiohttp = aiohttp.ClientSession(loop=self.loop,
-                                             headers={'User-Agent':
+        self.aiohttp = aiohttp.ClientSession(headers={'User-Agent':
                                                           'Mozilla/5.0' + minver},
                                              cookies={'birthtime': '1',
                                                       'mature_content': '1'},
@@ -48,14 +42,14 @@ class Session():
 
 
     def close(self):
-        self.loop.run_until_complete(self.aiohttp.close())
+        utils.sync(self.aiohttp.close)
 
 
 session = Session()
 
 
-def create_session(loop):
-    session.create(loop)
+def create_session():
+    session.create()
 
 
 def close_session():
@@ -112,13 +106,6 @@ async def get_web_page(url, badurl=None):
             await asyncio.sleep(5)
 
     raise Exception('Get did not worked even after many retries for url', url)
-
-
-def get_web_page_sync(url):
-    loop = asyncio.get_event_loop()
-    if (not session.loop):
-        session.create(loop)
-    return loop.run_until_complete(get_web_page(url))
 
 
 if __name__ == '__main__':

@@ -118,7 +118,7 @@ if __name__ == '__main__':
     loop = asyncio.get_event_loop()
     #loop.set_debug(True)
     parallelism.create_pool(16, loop)
-    web.create_session(loop)
+    web.create_session()
     try:
         refresh_applist(loop, False, {}, False)
     except Exception as e:

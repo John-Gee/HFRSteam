@@ -58,14 +58,14 @@ def save_applist_to_local(applist):
 def get_applist_from_local():
     APPLIST_LOCAL = 'steamlist/AppList.json'
     if (os.path.exists(APPLIST_LOCAL)):
-        applist       = open(APPLIST_LOCAL, 'r', encoding='utf8').read()
+        applist = open(APPLIST_LOCAL, 'r', encoding='utf8').read()
         return get_games_from_applist(applist)
     return {}
 
 
 def get_applist_from_server(max_apps=None):
     APPLIST_URL = 'http://api.steampowered.com/ISteamApps/GetAppList/v2/'
-    applist     = web.get_web_page_sync(APPLIST_URL)[2]
+    applist     = utils.sync(web.get_web_page, APPLIST_URL)[2]
     return get_games_from_applist(applist, max_apps)
 
 
