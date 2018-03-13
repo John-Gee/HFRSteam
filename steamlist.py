@@ -11,29 +11,8 @@ import threadpool
 import web
 
 
-def get_newgame_info(local_applist, name, appid, typ, tasks, future):
-    if (not future.done()):
-        styledprint.print_error('the future not done!')
-        # Memory cleanup
-        tasks.remove(future)
-        return
-    if (future.cancelled()):
-        styledprint.print_error('the future has been canceled!')
-        # Memory cleanup
-        tasks.remove(future)
-        return
-    exception = future.exception()
-    if (exception):
-        styledprint.print_error('the future has an exception: {}'.format(exception))
-        # Memory cleanup
-        tasks.remove(future)
-        return
-
-    page, _, _  = future.result()
+def get_newgame_info(local_applist, name, appid, typ, page):
     document, _ = steam.get_document(page, name)
-
-    # Memory cleanup
-    tasks.remove(future)
 
     logging.debug('got document for name {} ? {}'.format(name, document != None))
     shortlink   = '{0}/{1}'.format(typ, appid)
@@ -56,6 +35,20 @@ def get_newgame_info(local_applist, name, appid, typ, tasks, future):
                     local_applist[title].append((a, t))
                     logging.debug('tuple {} was not in applist for title {}'.format((a, t), title))
     logging.debug('appid {0} done for name {1}'.format(appid, name))
+
+
+def poolsubmit(calname, get_newgame_info, local_applist, name, appid, typ,
+               tasks, future):
+    exception = future.exception()
+    if (exception):
+        styledprint.print_error('the future has an exception: {}'.format(exception))
+    else:
+        page, _, _ = future.result()
+        threadpool.submit_job_from(calname, get_newgame_info, local_applist, name,
+                                   appid, typ, page)
+
+    # Memory cleanup
+    tasks.remove(future)
 
 
 async def progress_bar(tasks):
@@ -85,7 +78,7 @@ def refresh_applist(loop, dryrun, games, from_scratch=False, max_apps=None):
                 link           = steam.get_store_link(appid, typ)
                 f = asyncio.ensure_future(steam.get_page(link, name))
                 f.add_done_callback(functools.partial(
-                    threadpool.submit_job_from,
+                    poolsubmit,
                     calname,
                     get_newgame_info,
                     local_applist,
