@@ -80,16 +80,29 @@ def write_output_files(dryrun, games):
 
 
 if __name__ == '__main__':
+    logging.basicConfig(filename='mylog.log',
+                        filemode = 'w',
+                        level=logging.DEBUG,
+                        format='%(asctime)s %(name)-12s %(levelname)-8s %(message)s')
+    console = logging.StreamHandler()
+    console.setLevel(logging.INFO)
+    logging.getLogger('').addHandler(console)
+    styledprint.set_verbosity(2)
+    parallelism.create_pool(options.threads)
     options    = get_parser().parse_args()
     games      = utils.DictCaseInsensitive()
     steamgames = utils.DictCaseInsensitive()
     styledprint.set_verbosity(options.verbosity)
 
-    parallelism.create_pool(options.threads)
-    parallelism.submit_jobs(x for x in[(parse_list, options.liste, games),
-                            (steamlist.refresh_applist, options.dryrun,
-                             steamgames)])
+    try:
+        parallelism.submit_jobs(x for x in[(parse_list, options.liste, games),
+                                (steamlist.refresh_applist, options.dryrun,
+                                steamgames)])
 
-    gamesinfo.get_games_info(options, games, steamgames)
+        gamesinfo.get_games_info(options, games, steamgames)
 
-    write_output_files(options.dryrun, games)
+        write_output_files(options.dryrun, games)
+    except Exception as e:
+        print(e)
+        print(traceback.format_exc())
+    parallelism.shutdown_pool(wait=True)
