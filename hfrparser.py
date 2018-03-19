@@ -101,7 +101,7 @@ def parse_hfr_std(games, document):
     POST_ID = 'para8945000'
     post    = get_post(document, POST_ID)
 
-    START = '<strong>Clefs  <img alt="[:icon4]" src="https://forum-images.hardware.fr/images/perso/icon4.gif" title="[:icon4]"/> Steam <img alt="[:icon4]" src="https://forum-images.hardware.fr/images/perso/icon4.gif" title="[:icon4]"/> :</strong>'
+    START = '<strong>Clefs  <img alt="[:icon4]" src="https://forum-images.hardware.fr/images/perso/icon4.gif" title="[:icon4]"></img> Steam <img alt="[:icon4]" src="https://forum-images.hardware.fr/images/perso/icon4.gif" title="[:icon4]"></img> :</strong>'
     END   = '--------------------------------------------------------------------------'
 
     names = get_names_from_post(post, START, END, True)
