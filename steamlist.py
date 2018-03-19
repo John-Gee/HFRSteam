@@ -5,6 +5,7 @@ import logging
 import tqdm
 import traceback
 
+import progressbar
 import steam
 import styledprint
 import parallelism
@@ -49,22 +50,19 @@ def poolsubmit(calname, get_newgame_info, name, appid, typ,
     tasks.remove(future)
 
 
-async def progress_bar(tasks):
-    for f in tqdm.tqdm(asyncio.as_completed(tasks), total=len(tasks)):
-        if (f):
-            await f
-
-
-def refresh_applist(loop, dryrun, games, from_scratch=False, max_apps=None):
+async def refresh_applist(loop, dryrun, games, from_scratch=False, max_apps=None):
     styledprint.print_info_begin('AppList Refresh')
+    tasks = [asyncio.ensure_future(steam.get_applist_from_server(max_apps))]
+    if (not from_scratch):
+        tasks.append(asyncio.ensure_future(steam.get_applist_from_local()))
+    await asyncio.gather(*tasks)
+    foreign_applist = tasks[0].result()
     if (from_scratch):
         local_applist = {}
     else:
-        local_applist   = steam.get_applist_from_local()
-    styledprint.print_info('Apps in cache at start:', len(local_applist))
-    foreign_applist = steam.get_applist_from_server(max_apps)
+        local_applist = tasks[1].result()
     styledprint.print_info('Apps in server:', len(foreign_applist))
-
+    styledprint.print_info('Apps in cache at start:', len(local_applist))
     try:
         calname = 'refresh_applist'
         tasks = []
@@ -86,7 +84,7 @@ def refresh_applist(loop, dryrun, games, from_scratch=False, max_apps=None):
                 tasks.append(f)
         if (len(tasks)):
             styledprint.print_info('async tasks:')
-            loop.run_until_complete(progress_bar(tasks))
+            await asyncio.gather(progressbar.progress_bar(tasks))
             fs = parallelism.wait_calname(calname)
             for f in fs:
                 local_applist.update(f.result())
@@ -98,7 +96,7 @@ def refresh_applist(loop, dryrun, games, from_scratch=False, max_apps=None):
     styledprint.print_info('Apps in cache at end (duplicate names not in the count):', len(local_applist))
     if (not dryrun):
         logging.debug('not dryrun so saving local_applist to disk')
-        steam.save_applist_to_local(local_applist)
+        await steam.save_applist_to_local(local_applist)
     for game in local_applist:
         if(not game.lower().endswith('demo')):
             games[game] = local_applist[game]
@@ -117,15 +115,18 @@ if __name__ == '__main__':
     styledprint.set_verbosity(2)
     loop = asyncio.get_event_loop()
     #loop.set_debug(True)
+    web.create_session(300)
     parallelism.create_pool(8, loop)
-    web.create_session()
+
     try:
-        refresh_applist(loop, False, {}, False)
+        tasks = [asyncio.ensure_future(refresh_applist(loop, False, {}, False))]
+        loop.run_until_complete(asyncio.gather(*tasks))
     except Exception as e:
         print(e)
         print(traceback.format_exc())
-    web.close_session()
+
     parallelism.shutdown_pool(wait=True)
+    web.close_session()
     # this genereates a stack overflow
     # when the loop was previously stopped
     # loop.close()

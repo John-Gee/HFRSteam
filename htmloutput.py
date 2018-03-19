@@ -1,3 +1,4 @@
+import aiofiles
 import datetime
 import math
 import os
@@ -148,13 +149,13 @@ def get_data(games):
     return data
 
 
-def output_to_html(dryrun, games, path):
+async def output_to_html(dryrun, games, path):
     TEMPLATE_FILE   = 'templates/index.html'
     TEXT_TO_REPLACE = '$TEMPLATE$'
     DATE_TO_REPLACE = '$DATE$'
 
-    with open(TEMPLATE_FILE, 'r', encoding='utf8') as f:
-        templatetext = f.read()
+    async with aiofiles.open(TEMPLATE_FILE, 'r', encoding='utf8') as f:
+        templatetext = await f.read()
 
     data = get_data(games)
 
@@ -165,5 +166,5 @@ def output_to_html(dryrun, games, path):
     text = text.replace('\u2032', '\'')
 
     if (not dryrun):
-        with open(path, 'w', encoding='utf8') as f:
-            f.write(text.strip())
+        async with aiofiles.open(path, 'w', encoding='utf8') as f:
+            await f.write(text.strip())

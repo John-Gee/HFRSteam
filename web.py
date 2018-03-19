@@ -6,17 +6,18 @@ import random
 import time
 import traceback
 
+import asynchelpers
 import styledprint
-import utils
 
 
 class Session():
-    def create(self):
+    def create(self, timeout):
         minver = str(random.randint(0,5))
         self.aiohttp = aiohttp.ClientSession(headers={'User-Agent':
                                                           'Mozilla/5.0' + minver},
                                              cookies={'birthtime': '1',
                                                       'mature_content': '1'},
+                                             read_timeout=timeout,
                                              connector=aiohttp.TCPConnector(limit=100,
                                                                             ttl_dns_cache=600))
 
@@ -42,14 +43,14 @@ class Session():
 
 
     def close(self):
-        utils.sync(self.aiohttp.close)
+        asynchelpers.sync(self.aiohttp.close)
 
 
 session = Session()
 
 
-def create_session():
-    session.create()
+def create_session(timeout=300):
+    session.create(timeout)
 
 
 def close_session():
@@ -65,7 +66,7 @@ async def get_web_page(url, badurl=None):
             await asyncio.sleep(random.randint(10,19)/100000)
             logging.debug('About to get the url: {}, {}'
                             .format(url, str(datetime.datetime.now())))
-            async with session.get(url, timeout=300) as resp:
+            async with session.get(url) as resp:
                 logging.debug('Got the url: {} {}'
                                 .format(url, str(datetime.datetime.now())))
                 if (len(resp.history) >= 10):

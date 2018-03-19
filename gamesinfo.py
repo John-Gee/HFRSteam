@@ -1,3 +1,4 @@
+import asyncio
 import datetime
 import os
 import sys
@@ -9,6 +10,7 @@ from game import StoreData
 from mapper import Mapper
 import namematching
 import parallelism
+import progressbar
 import steam
 import styledprint
 import utils
@@ -45,7 +47,7 @@ def get_appid_and_type_from_namematching(origname, name, games, appidstried,
             return None, None
 
 
-def get_game_info(options, game, cachedgames, steamgames,
+async def get_game_info(options, game, cachedgames, steamgames,
                   cleansteamgames, name, urlsmapping):
     if ((not options.all) and (not game.hfr.is_available)):
         # Ignoring not available games for now
@@ -100,7 +102,7 @@ def get_game_info(options, game, cachedgames, steamgames,
                 else:
                     appidstried.append(appid)
 
-                    if (steam.get_store_info_from_appid(game, name, appid, typ)):
+                    if (await steam.get_store_info_from_appid(game, name, appid, typ)):
                         break
 
         else:
@@ -113,7 +115,7 @@ def get_game_info(options, game, cachedgames, steamgames,
 
             styledprint.print_info('URL mapping found for game {0}'
                                    .format(name))
-            steam.get_store_info_from_url(game, name, url)
+            await steam.get_store_info_from_url(game, name, url)
             # overwriting the steam provided category
             if (len(mapping) == 2):
                 game.store.category = Category[mapping[1].upper()]
@@ -124,7 +126,7 @@ def get_game_info(options, game, cachedgames, steamgames,
                                        str(datetime.datetime.now().time())))
 
 
-def get_games_info(options, games, steamgames):
+def get_games_info(loop, options, games, steamgames):
     styledprint.print_info_begin('Pulling games information')
     CACHE_PATH      = os.path.join('cache', 'games.p')
     cache           = Cache(CACHE_PATH)
@@ -136,9 +138,12 @@ def get_games_info(options, games, steamgames):
     URLS_MAPPING  = os.path.join('mappings', 'urlsmapping.txt')
     urlsmapping   = Mapper(URLS_MAPPING)
 
-    parallelism.submit_jobs(((get_game_info, options, games[name], cachedgames,
-                              steamgames, cleansteamgames, name, urlsmapping)
-                             for name in games))
+    tasks = []
+    for name in games:
+        tasks.append(asyncio.ensure_future(get_game_info(options, games[name], cachedgames, steamgames,
+                                                         cleansteamgames, name, urlsmapping)))
+
+    loop.run_until_complete(asyncio.gather(progressbar.progress_bar(tasks)))
 
     if (not options.dryrun):
         newcachedgames = cache.merge_old_new_cache(cachedgames, games)

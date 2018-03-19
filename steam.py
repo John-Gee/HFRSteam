@@ -1,3 +1,4 @@
+import aiofiles
 import asyncio
 import calendar
 import datetime
@@ -19,6 +20,8 @@ def get_games_from_applist(applist, max_apps=None):
     games = {}
     i = 0
     for app in iter(json.loads(applist)['applist']['apps']):
+        if ((max_apps is not None) and (i >= max_apps)):
+            break
         if (app['name'] not in games):
             games[app['name']] = []
         if ('type' in app):
@@ -26,12 +29,10 @@ def get_games_from_applist(applist, max_apps=None):
         else:
             games[app['name']].append((app['appid'], 'app'))
         i += 1
-        if ((max_apps) and (i >= max_apps)):
-            break
     return games
 
 
-def save_applist_to_local(applist):
+async def save_applist_to_local(applist):
     if ((not applist) or (not len(applist))):
         logging.debug('no applist to save to local')
         return
@@ -51,21 +52,23 @@ def save_applist_to_local(applist):
     js_dict['applist'] = {'apps': sorted_data}
     if (not os.path.exists('steamlist')):
         os.makedirs('steamlist')
-    json.dump(js_dict, open(APPLIST_LOCAL, 'w', encoding='utf8'),
-              sort_keys=True, indent='\t', ensure_ascii=False)
+    async with aiofiles.open(APPLIST_LOCAL, 'w', encoding='utf8') as f:
+        content = json.dumps(js_dict, sort_keys=True, indent='\t', ensure_ascii=False)
+        await f.write(content)
 
 
-def get_applist_from_local():
+async def get_applist_from_local():
     APPLIST_LOCAL = 'steamlist/AppList.json'
     if (os.path.exists(APPLIST_LOCAL)):
-        applist = open(APPLIST_LOCAL, 'r', encoding='utf8').read()
-        return get_games_from_applist(applist)
+        async with aiofiles.open(APPLIST_LOCAL, 'r', encoding='utf8') as f:
+            applist = await f.read()
+            return get_games_from_applist(applist)
     return {}
 
 
-def get_applist_from_server(max_apps=None):
+async def get_applist_from_server(max_apps=None):
     APPLIST_URL = 'http://api.steampowered.com/ISteamApps/GetAppList/v2/'
-    applist     = utils.sync(web.get_web_page, APPLIST_URL)[2]
+    applist     = (await web.get_web_page(APPLIST_URL))[2]
     return get_games_from_applist(applist, max_apps)
 
 
@@ -73,14 +76,14 @@ def get_store_link(appid, typ):
     return 'http://store.steampowered.com/{0}/{1}'.format(typ, appid)
 
 
-def get_store_info_from_appid(game, name, appid, typ):
+async def get_store_info_from_appid(game, name, appid, typ):
     game.store.link = get_store_link(appid, typ)
-    return get_store_info(game, name)
+    return await get_store_info(game, name)
 
 
-def get_store_info_from_url(game, name, url):
+async def get_store_info_from_url(game, name, url):
     game.store.link= 'http://store.steampowered.com/' + url
-    return get_store_info(game, name)
+    return await get_store_info(game, name)
 
 
 async def get_page(storelink, name):
@@ -107,13 +110,13 @@ def get_document(page, name):
     return document, None
 
 
-def get_store_info(game, name):
-    page, description, url     = get_page(game.store.link, name)
+async def get_store_info(game, name):
+    page, description, url     = await get_page(game.store.link, name)
     if (not page):
         game.store.description = description
         return False
 
-    document, description, url = get_document(page, name)
+    document, description = get_document(page, name)
 
     if (not document):
         game.store.description = description
@@ -122,7 +125,7 @@ def get_store_info(game, name):
                               r'\1', url, flags=re.IGNORECASE)
 
     if ( ('/sub/' in game.store.link) or ('/bundle/' in game.store.link)):
-        get_collection_info(game, name, document)
+        await get_collection_info(game, name, document)
     elif ('/app/' in game.store.link):
         get_standalone_info(game, name, document)
     else:
@@ -172,7 +175,7 @@ def get_standalone_info(game, name, document):
     game.store.languages    = get_game_languages(document)
 
 
-def get_collection_info(game, name, document):
+async def get_collection_info(game, name, document):
     game.store.category = Category.Collection
 
     descriptions        = list()
@@ -198,7 +201,7 @@ def get_collection_info(game, name, document):
 
         itemgame            = Game()
         itemgame.store.link = itemlink
-        get_store_info(itemgame, itemname)
+        await get_store_info(itemgame, itemname)
         for o in itemgame.store.os:
             if (o not in OS):
                 OS.append(o)

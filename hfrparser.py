@@ -8,8 +8,8 @@ import utils
 import web
 
 
-def get_document(url):
-    _, _, html = web.get_web_page(url)
+async def get_document(url):
+    _, _, html = await web.get_web_page(url)
     return domparser.load_html(html)
 
 
@@ -39,7 +39,6 @@ def get_games(games, liste, requirements):
             continue
 
         name = name.strip()
-
         if (name.startswith(BEGIN_NEW)):
             is_new = True
 
@@ -83,6 +82,7 @@ def get_names_from_post(post, start, end, is_std):
     subpost = stringutils.substringafter(post, start)
     subpost = stringutils.substringbefore(subpost, end)
     cleansubpost = subpost.replace('<br/>', '\r\n')
+    cleansubpost = subpost.replace('<br></br>', '\r\n')
 
     cleansubpost = cleansubpost.replace('&amp;', "&")
     cleansubpost = cleansubpost.replace('"', '')
@@ -125,9 +125,9 @@ def parse_hfr_donateur_and_premium(games, document):
     get_games(games, names, "Premium")
 
 
-def parse_hfr(games):
+async def parse_hfr(games):
     URL      = 'https://forum.hardware.fr/hfr/JeuxVideo/Achat-Ventes/gratuit-origin-download-sujet_171605_1.htm'
-    document = get_document(URL)
+    document = await get_document(URL)
     parse_hfr_std(games, document)
     parse_hfr_donateur_and_premium(games, document)
 

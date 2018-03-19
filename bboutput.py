@@ -1,7 +1,8 @@
+import aiofiles
 import os
 
 
-def output_to_bb(dryrun, games, path):
+async def output_to_bb(dryrun, games, path):
     bbcode = ''
     requirements = ''
     # sort first by name, then by is_new and finally by requirements
@@ -34,5 +35,5 @@ def output_to_bb(dryrun, games, path):
         bbcode = '{0}{1}'.format(bbcode, newbbcode)
 
     if (not dryrun):
-        with open(path, 'w', encoding='utf8') as f:
-            f.write(bbcode.strip())
+        async with aiofiles.open(path, 'w', encoding='utf8') as f:
+            await f.write(bbcode.strip())

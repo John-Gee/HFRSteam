@@ -63,8 +63,9 @@ def shutdown_pool(**kwargs):
             for f in future[calname]:
                 f.cancel()
         logging.debug('futures and pool stopped')
-        loop.call_soon_threadsafe(loop.stop)
-        logging.debug('loop stopped')
+        if (len(exceptions)):
+            loop.call_soon_threadsafe(loop.stop)
+            logging.debug('loop stopped')
 
 
 def wrap_task(func, *args):

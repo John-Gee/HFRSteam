@@ -1,8 +1,11 @@
 #!/usr/bin/python
 
+import aiofiles
 import argparse
-import colorama
+import asyncio
+import logging
 import os
+import traceback
 
 import bboutput
 import gamesinfo
@@ -12,6 +15,7 @@ import parallelism
 import steamlist
 import styledprint
 import utils
+import web
 
 
 class MyFormatter(argparse.ArgumentDefaultsHelpFormatter,
@@ -58,12 +62,13 @@ def get_parser():
     return parser
 
 
-def parse_list(liste, games):
+async def parse_list(liste, games):
     if (liste == None):
-        hfrparser.parse_hfr(games)
+        await hfrparser.parse_hfr(games)
     else:
-        with open(liste, 'r') as f:
-            hfrparser.get_games(games, f.read().splitlines(), '')
+        async with aiofiles.open(liste, 'r') as f:
+            content = await f.read()
+            hfrparser.get_games(games, content.splitlines(), '')
 
 
 def write_output_files(dryrun, games):
@@ -73,10 +78,10 @@ def write_output_files(dryrun, games):
     if (not os.path.exists(OUTPUT_FOLDER)):
         os.makedirs(OUTPUT_FOLDER)
 
-    parallelism.submit_jobs(x for x in [(htmloutput.output_to_html,
-                                         dryrun, games, HTML_FILE),
-                                        (bboutput.output_to_bb,
-                                         dryrun, games, BB_FILE)])
+    tasks = [asyncio.ensure_future(htmloutput.output_to_html(dryrun, games, HTML_FILE)),
+             asyncio.ensure_future(bboutput.output_to_bb(dryrun, games, BB_FILE))]
+
+    loop.run_until_complete(asyncio.gather(*tasks))
 
 
 if __name__ == '__main__':
@@ -87,22 +92,33 @@ if __name__ == '__main__':
     console = logging.StreamHandler()
     console.setLevel(logging.INFO)
     logging.getLogger('').addHandler(console)
-    styledprint.set_verbosity(2)
-    parallelism.create_pool(options.threads)
+    loop = asyncio.get_event_loop()
+    #loop.set_debug(True)
     options    = get_parser().parse_args()
     games      = utils.DictCaseInsensitive()
     steamgames = utils.DictCaseInsensitive()
     styledprint.set_verbosity(options.verbosity)
+    web.create_session(10)
+    parallelism.create_pool(8, loop)
 
     try:
-        parallelism.submit_jobs(x for x in[(parse_list, options.liste, games),
-                                (steamlist.refresh_applist, options.dryrun,
-                                steamgames)])
+        tasks = [asyncio.ensure_future(steamlist.refresh_applist(loop,
+                                                                 options.dryrun,
+                                                                 steamgames,
+                                                                 False)),
+                 asyncio.ensure_future(parse_list(options.liste, games))]
 
-        gamesinfo.get_games_info(options, games, steamgames)
+        loop.run_until_complete(asyncio.gather(*tasks))
+
+        gamesinfo.get_games_info(loop, options, games, steamgames)
 
         write_output_files(options.dryrun, games)
     except Exception as e:
         print(e)
         print(traceback.format_exc())
+
     parallelism.shutdown_pool(wait=True)
+    web.close_session()
+    # this genereates a stack overflow
+    # when the loop was previously stopped
+    #loop.close()

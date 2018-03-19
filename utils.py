@@ -23,12 +23,3 @@ def get_caller_name():
     filename = os.path.basename(calframe[2][1])
     function = calframe[2][3]
     return '{0}-{1}'.format(filename, function)
-
-
-def sync(fn, *args, **kwargs):
-    try:
-        loop = asyncio.get_event_loop()
-    except Exception as e:
-        print(type(e))
-        loop = asyncio.new_event_loop()
-    return loop.run_until_complete(fn(*args, **kwargs))
