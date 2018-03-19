@@ -25,9 +25,8 @@ def get_appid_and_type(name, games, appidstried):
 def get_appid_and_type_from_namematching(origname, name, games, appidstried,
                                          matches):
     while (True):
-        if (len(matches) == 0):
-            matches.extend(namematching.get_clean_matches(name, games.keys(),
-                                                          0.92))
+        if (matches is None):
+            matches = namematching.get_clean_matches(name, games.keys(), 0.92)
 
         if (len(matches) == 0):
             return None, None
@@ -71,7 +70,7 @@ def get_game_info(options, game, cachedgames, steamgames,
 
         if (mapping == None):
             appidstried = []
-            matches     = []
+            matches     = None
             while (True):
                 appid, typ = get_appid_and_type(name, steamgames, appidstried)
                 if (appid):
