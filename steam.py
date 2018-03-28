@@ -62,8 +62,8 @@ async def save_applist_to_local(applist):
             await f.write(content)
 
 
-async def get_applist_from_local():
-    APPLIST_LOCAL = 'steamlist/AppList.json'
+async def get_applist_from_local(filename='AppList.json'):
+    APPLIST_LOCAL = os.path.join('steamlist', filename)
     if (os.path.exists(APPLIST_LOCAL)):
         async with aiofiles.open(APPLIST_LOCAL, 'r', encoding='utf8') as f:
             applist = await f.read()
