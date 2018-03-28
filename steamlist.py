@@ -50,13 +50,16 @@ def poolsubmit(calname, get_newgame_info, name, appid, typ,
     tasks.remove(future)
 
 
-async def refresh_applist(loop, dryrun, games, from_scratch=False, max_apps=None):
+async def refresh_applist(loop, dryrun, games, from_scratch=False, max_apps=None, applist=None):
     styledprint.print_info_begin('AppList Refresh')
     tasks = [asyncio.ensure_future(steam.get_applist_from_server(max_apps))]
     if (not from_scratch):
         tasks.append(asyncio.ensure_future(steam.get_applist_from_local()))
     await asyncio.gather(*tasks)
-    foreign_applist = tasks[0].result()
+    if (applist):
+        foreign_applist = applist
+    else:
+        foreign_applist = tasks[0].result()
     if (from_scratch):
         local_applist = {}
     else:
@@ -68,7 +71,7 @@ async def refresh_applist(loop, dryrun, games, from_scratch=False, max_apps=None
         tasks = []
         for name in foreign_applist:
             for app in foreign_applist[name]:
-                if ((name in local_applist) and (app in local_applist[name])):
+                if ((name in local_applist) and (app in local_applist[name]) and (not applist)):
                     continue
                 appid, typ     = app
                 link           = steam.get_store_link(appid, typ)
@@ -118,8 +121,10 @@ if __name__ == '__main__':
     web.create_session(300)
     parallelism.create_pool(8, loop)
 
+    applist = {'Endless Legend': [(289130, 'app')]}
+
     try:
-        tasks = [asyncio.ensure_future(refresh_applist(loop, False, {}, False))]
+        tasks = [asyncio.ensure_future(refresh_applist(loop, False, {}, False, applist=applist))]
         loop.run_until_complete(asyncio.gather(*tasks))
     except Exception as e:
         print(e)
