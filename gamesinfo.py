@@ -36,8 +36,8 @@ def get_appid_and_type_from_namematching(origname, name, games, appidstried,
         matchedname = matches[0]
         if (matchedname):
             score         = namematching.get_match_score(name, matchedname)
-            print('Matched {0} with {1} at score {2}'
-                  .format(origname, matchedname, score))
+            styledprint.print_info('Matched {0} with {1} at score {2}'
+                                   .format(origname, matchedname, score))
             appid, typ    = get_appid_and_type(matchedname, games, appidstried)
             if (appid):
                 return appid, typ
@@ -136,8 +136,15 @@ def get_games_info(loop, options, games, steamgames):
     cache           = Cache(CACHE_PATH)
     cachedgames     = cache.load_from_cache()
     cleansteamgames = utils.DictCaseInsensitive()
-    for game in steamgames:
-        cleansteamgames[namematching.nameclean(game)] = steamgames[game]
+
+    for name in steamgames:
+        cleanname = namematching.nameclean(name)
+        if (cleanname in cleansteamgames):
+            for t in steamgames[name]:
+                if (t not in cleansteamgames[cleanname]):
+                    cleansteamgames[cleanname].append(t)
+        else:
+            cleansteamgames[cleanname] = steamgames[name]
 
     URLS_MAPPING  = os.path.join('mappings', 'urlsmapping.txt')
     urlsmapping   = Mapper(URLS_MAPPING)
