@@ -49,81 +49,85 @@ def get_appid_and_type_from_namematching(origname, name, games, appidstried,
 
 async def get_game_info(options, game, cachedgames, steamgames,
                   cleansteamgames, name, urlsmapping):
-    if ((not options.all) and (not game.hfr.is_available)):
-        # Ignoring not available games for now
-        # it may be better in the future to ignore them in output
-        # or allow the user to do so in the html page.
-        return
+    try:
+        if ((not options.all) and (not game.hfr.is_available)):
+            # Ignoring not available games for now
+            # it may be better in the future to ignore them in output
+            # or allow the user to do so in the html page.
+            return
 
-    # Whether the cache is ignored or not,
-    # if a game cached has a gift_date we keep it
-    if ((name in cachedgames) and (cachedgames[name].hfr.gift_date)):
-        game.hfr.gift_date = cachedgames[name].hfr.gift_date
+        # Whether the cache is ignored or not,
+        # if a game cached has a gift_date we keep it
+        if ((name in cachedgames) and (cachedgames[name].hfr.gift_date)):
+            game.hfr.gift_date = cachedgames[name].hfr.gift_date
 
-    if ((name in cachedgames) and (cachedgames[name].store.link)
-        and (not options.ignorecache)
-        and ((not options.game)
-                or (options.game.lower() not in name.lower()))):
+        if ((name in cachedgames) and (cachedgames[name].store.link)
+            and (not options.ignorecache)
+            and ((not options.game)
+                    or (options.game.lower() not in name.lower()))):
 
-        game.store         = cachedgames[name].store
+            game.store         = cachedgames[name].store
 
-    elif (not options.cacheonly):
-        mapping = urlsmapping.get_mapping(name)
+        elif (not options.cacheonly):
+            mapping = urlsmapping.get_mapping(name)
 
-        if (mapping == None):
-            appidstried = []
-            matches     = None
-            while (True):
-                appid, typ = get_appid_and_type(name, steamgames, appidstried)
-                if (appid):
-                    styledprint.print_debug('The game {0} got its appid simply'
-                                            .format(name))
-                elif (not options.nofuzzymatching):
-                    cleanname = namematching.nameclean(name)
-                    appid, typ = get_appid_and_type(cleanname, cleansteamgames,
-                                                    appidstried)
+            if (mapping == None):
+                appidstried = []
+                matches     = None
+                while (True):
+                    appid, typ = get_appid_and_type(name, steamgames, appidstried)
                     if (appid):
-                        styledprint.print_debug('The game {0} got its appid '
-                                                'by namecleaning'
+                        styledprint.print_debug('The game {0} got its appid simply'
                                                 .format(name))
+                    elif (not options.nofuzzymatching):
+                        cleanname = namematching.nameclean(name)
+                        appid, typ = get_appid_and_type(cleanname, cleansteamgames,
+                                                        appidstried)
+                        if (appid):
+                            styledprint.print_debug('The game {0} got its appid '
+                                                    'by namecleaning'
+                                                    .format(name))
+                        else:
+                            appid, typ = get_appid_and_type_from_namematching(name,
+                                                                            cleanname,
+                                                                            cleansteamgames,
+                                                                            appidstried,
+                                                                            matches)
+
+                    if ((appid in appidstried) or (not appid)):
+                        game.store = StoreData()
+                        game.store.description = 'The game was not found in the steam db'
+                        styledprint.print_error('{0}: {1}'
+                                                .format(game.store.description, name))
+                        return
                     else:
-                        appid, typ = get_appid_and_type_from_namematching(name,
-                                                                          cleanname,
-                                                                          cleansteamgames,
-                                                                          appidstried,
-                                                                          matches)
+                        appidstried.append(appid)
 
-                if ((appid in appidstried) or (not appid)):
-                    game.store = StoreData()
-                    game.store.description = 'The game was not found in the steam db'
-                    styledprint.print_error('{0}: {1}'
-                                            .format(game.store.description, name))
+                        if (await steam.get_store_info_from_appid(game, name, appid, typ)):
+                            break
+
+            else:
+                url      = mapping[0]
+
+                if (url == 'ignore'):
+                    styledprint.print_info('{0} cannot be found and is to be ignored'
+                                        .format(name))
                     return
-                else:
-                    appidstried.append(appid)
 
-                    if (await steam.get_store_info_from_appid(game, name, appid, typ)):
-                        break
+                styledprint.print_info('URL mapping found for game {0}'
+                                    .format(name))
+                await steam.get_store_info_from_url(game, name, url)
+                # overwriting the steam provided category
+                if (len(mapping) == 2):
+                    game.store.category = Category[mapping[1].upper()]
+                    game.store.override = True
 
-        else:
-            url      = mapping[0]
-
-            if (url == 'ignore'):
-                styledprint.print_info('{0} cannot be found and is to be ignored'
-                                       .format(name))
-                return
-
-            styledprint.print_info('URL mapping found for game {0}'
-                                   .format(name))
-            await steam.get_store_info_from_url(game, name, url)
-            # overwriting the steam provided category
-            if (len(mapping) == 2):
-                game.store.category = Category[mapping[1].upper()]
-                game.store.override = True
-
-        styledprint.print_info('Info for game {0} was retrieved, {1}'
-                               .format(name,
-                                       str(datetime.datetime.now().time())))
+            styledprint.print_info('Info for game {0} was retrieved, {1}'
+                                .format(name,
+                                        str(datetime.datetime.now().time())))
+    except Exception as e:
+        styledprint.print_error('An exception was raised for', name)
+        raise e
 
 
 def get_games_info(loop, options, games, steamgames):
