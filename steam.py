@@ -32,12 +32,11 @@ def get_games_from_applist(applist, max_apps=None):
     return games
 
 
-async def save_applist_to_local(applist):
+def applist_to_json(applist):
     if ((not applist) or (not len(applist))):
-        logging.debug('no applist to save to local')
+        logging.debug('no applist to serialize')
         return
 
-    APPLIST_LOCAL = 'steamlist/AppList.json'
     js_dict       = {}
     data          = []
 
@@ -52,8 +51,13 @@ async def save_applist_to_local(applist):
     js_dict['applist'] = {'apps': sorted_data}
     if (not os.path.exists('steamlist')):
         os.makedirs('steamlist')
+    return json.dumps(js_dict, sort_keys=True, indent='\t', ensure_ascii=False)
+
+
+async def save_applist_to_local(applist):
+    APPLIST_LOCAL = 'steamlist/AppList.json'
     async with aiofiles.open(APPLIST_LOCAL, 'w', encoding='utf8') as f:
-        content = json.dumps(js_dict, sort_keys=True, indent='\t', ensure_ascii=False)
+        content = applist_to_json(applist)
         await f.write(content)
 
 
@@ -495,8 +499,8 @@ if __name__ == '__main__':
     game = Game()
     styledprint.set_verbosity(2)
     typ = 'app'
-    appid = '284990'
-    name = 'Solarix'
+    appid = '289130'
+    name = 'name'
     storelink   = get_store_link(appid, typ)
     loop = asyncio.get_event_loop()
     loop.set_debug(True)
@@ -505,11 +509,7 @@ if __name__ == '__main__':
         page, _, _  = loop.run_until_complete(get_page(storelink, name))
         document, _ = get_document(page, name)
         titles      = get_titles(document, '{}/{}'.format(typ, appid))
-        interface, audio, subtitles = get_game_languages(document)
-        #print(titles)
-        print('Interface:', interface)
-        print('Audio:', audio)
-        print('Subtitles:', subtitles)
+        print(titles)
     finally:
         web.close_session()
         loop.close()
