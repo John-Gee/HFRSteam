@@ -35,7 +35,9 @@ class StoreData(utils.ComparableClass):
         self.tags         = list()
         self.details      = list()
         self.override     = False
-        self.languages    = list()
+        self.interface    = list()
+        self.audio        = list()
+        self.subtitles    = list()
 
 
 class Game(utils.ComparableClass):

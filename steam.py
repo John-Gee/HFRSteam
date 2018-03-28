@@ -172,7 +172,9 @@ def get_standalone_info(game, name, document):
         styledprint.print_info('The category {0} is not implemented yet!'
                                .format(game.store.category.name))
 
-    game.store.languages    = get_game_languages(document)
+    game.store.interface,\
+    game.store.audio,\
+    game.store.subtitles    = get_game_languages(document)
 
 
 async def get_collection_info(game, name, document):
@@ -184,6 +186,10 @@ async def get_collection_info(game, name, document):
     avg_reviews         = 0
     cnt_reviews         = 0
     tags                = list()
+    interface           = list()
+    audio               = list()
+    subtitles           = list()
+
     game_left_column    = domparser.get_element(document, 'div',
                                                 class_='leftcol game_description_column')
     items               = domparser.get_elements(game_left_column, 'div',
@@ -214,6 +220,15 @@ async def get_collection_info(game, name, document):
         for tag in itemgame.store.tags:
             if (tag not in tags):
                 tags.append(tag)
+        for language in itemgame.store.interface:
+            if (language not in interface):
+                interface.append(language)
+        for language in itemgame.store.audio:
+            if (language not in audio):
+                audio.append(language)
+        for language in itemgame.store.subtitles:
+            if (language not in subtitles):
+                subtitles.append(language)
 
     game.store.image            = get_collection_image(game_left_column)
     game.store.description      = 'Items included in this package:{0}{1}'.format(
@@ -225,6 +240,9 @@ async def get_collection_info(game, name, document):
         game.store.avg_review   = int(avg_reviews / cnt_reviews)
         game.store.cnt_review   = int(cnt_reviews/len(items))
     game.store.tags             = sorted(tags)
+    game.store.interface        = sorted(interface)
+    game.store.audio            = sorted(audio)
+    game.store.subtitles        = sorted(subtitles)
 
     purchase_block      = domparser.get_element(game_left_column, 'div',
                                                 id='game_area_purchase')
@@ -415,12 +433,33 @@ def get_game_tags(glance_ctn_block):
 
 
 def get_game_languages(document):
-    language_block = domparser.get_element(document, 'table',
-                                    class_='game_language_options')
-    if (language_block):
-        return domparser.get_texts(language_block, 'td',
-                                   class_='ellipsis')
-    return list()
+    interface = list()
+    audio     = list()
+    subtitles = list()
+
+    try:
+
+        language_block = domparser.get_element(document, 'table',
+                                        class_='game_language_options')
+        if (language_block):
+            rows = domparser.get_elements(language_block, 'tr')
+            if (rows):
+                for row in rows[1:]:
+                    language       = domparser.get_text(row, 'td', class_='ellipsis').strip()
+                    availabilities = domparser.get_elements(row, 'td', class_='checkcol')
+                    if(availabilities):
+                        if(domparser.get_element(availabilities[0], 'img')):
+                            interface.append(language)
+                        if(domparser.get_element(availabilities[1], 'img')):
+                            audio.append(language)
+                        if(domparser.get_element(availabilities[2], 'img')):
+                            subtitles.append(language)
+    except Exception as e:
+        titles = get_titles(document, 'N/A')
+        print(titles)
+        raise e
+
+    return interface, audio, subtitles
 
 
 def get_titles(document, shortlink):
@@ -460,17 +499,21 @@ if __name__ == '__main__':
     game = Game()
     styledprint.set_verbosity(2)
     typ = 'app'
-    appid = '100'
-    name = 'Counter-Strike: Condition Zero'
+    appid = '284990'
+    name = 'Solarix'
     storelink   = get_store_link(appid, typ)
     loop = asyncio.get_event_loop()
     loop.set_debug(True)
-    web.create_session(loop)
+    web.create_session(1)
     try:
         page, _, _  = loop.run_until_complete(get_page(storelink, name))
         document, _ = get_document(page, name)
         titles      = get_titles(document, '{}/{}'.format(typ, appid))
-        print(titles)
+        interface, audio, subtitles = get_game_languages(document)
+        #print(titles)
+        print('Interface:', interface)
+        print('Audio:', audio)
+        print('Subtitles:', subtitles)
     finally:
         web.close_session()
         loop.close()

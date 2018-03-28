@@ -134,8 +134,12 @@ def get_data(games):
         if (game.hfr.gift_date):
             data += writeline('giftdate: "{0}",'.format(game.hfr.gift_date.strftime("%Y-%m-%d")))
 
-        if (len(game.store.languages) > 0):
-            data += writeline('languages: "{0}",'.format(', '.join(game.store.languages)))
+        if (len(game.store.interface) > 0):
+            data += writeline('interface: "{0}",'.format(', '.join(game.store.interface)))
+        if (len(game.store.audio) > 0):
+            data += writeline('audio: "{0}",'.format(', '.join(game.store.audio)))
+        if (len(game.store.subtitles) > 0):
+            data += writeline('subtitles: "{0}",'.format(', '.join(game.store.subtitles)))
 
         decrease_indent_count()
         data += writeline('};')
