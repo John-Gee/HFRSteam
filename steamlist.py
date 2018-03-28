@@ -90,7 +90,20 @@ async def refresh_applist(loop, dryrun, games, from_scratch=False, max_apps=None
             await asyncio.gather(progressbar.progress_bar(tasks))
             fs = parallelism.wait_calname(calname)
             for f in fs:
-                local_applist.update(f.result())
+                ext_applist = f.result()
+                for name in ext_applist:
+                    if (name in local_applist):
+                        styledprint.print_debug('{} in local_applist'.format(name))
+                        styledprint.print_debug(local_applist[name])
+                        for t in ext_applist[name]:
+                            if (t not in local_applist[name]):
+                                styledprint.print_debug('t {} not in local_applist[name]'.format(t))
+                                local_applist[name].append(t)
+                            else:
+                                styledprint.print_debug('t {} in local_applist[name]'.format(t))
+                    else:
+                        styledprint.print_debug('{} not in local_applist'.format(name))
+                        local_applist[name] = ext_applist[name]
     except Exception as e:
         styledprint.print_error('Error happened while running the async loop:', e)
         styledprint.print_error(traceback.format_exc())
