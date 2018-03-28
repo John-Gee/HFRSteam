@@ -136,10 +136,6 @@ async def get_store_info(game, name):
     game.store.genres     = get_game_genres(document)
     game.store.details    = get_game_details(document)
 
-    price_date            = str(datetime.datetime.now().date())
-    game.store.price_date = ('{0} {1}, {2}'
-                             .format(calendar.month_abbr[int(price_date[5:7])],
-                                     price_date[8:], price_date[:4]))
     return True
 
 

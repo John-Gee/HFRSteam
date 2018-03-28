@@ -25,7 +25,6 @@ class StoreData(utils.ComparableClass):
         self.image        = ''
         self.os           = list()
         self.price        = None
-        self.price_date   = ''
         self.genres       = list()
         self.release_date = None
         self.link         = ''
