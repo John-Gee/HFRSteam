@@ -50,6 +50,21 @@ def poolsubmit(calname, get_newgame_info, name, appid, typ,
     tasks.remove(future)
 
 
+def merge_applist(first, second):
+    for name in second:
+        if (name in first):
+            styledprint.print_debug('{} in first'.format(name))
+            for t in second[name]:
+                if (t not in first[name]):
+                    styledprint.print_debug('t {} not in first[name]'.format(t))
+                    first[name].append(t)
+                else:
+                    styledprint.print_debug('t {} in first[name]'.format(t))
+        else:
+            styledprint.print_debug('{} not in first'.format(name))
+            first[name] = second[name]
+
+
 async def refresh_applist(loop, dryrun, games, from_scratch=False, max_apps=None, applist=None):
     styledprint.print_info_begin('AppList Refresh')
     tasks = [asyncio.ensure_future(steam.get_applist_from_server(max_apps))]
@@ -91,19 +106,7 @@ async def refresh_applist(loop, dryrun, games, from_scratch=False, max_apps=None
             fs = parallelism.wait_calname(calname)
             for f in fs:
                 ext_applist = f.result()
-                for name in ext_applist:
-                    if (name in local_applist):
-                        styledprint.print_debug('{} in local_applist'.format(name))
-                        styledprint.print_debug(local_applist[name])
-                        for t in ext_applist[name]:
-                            if (t not in local_applist[name]):
-                                styledprint.print_debug('t {} not in local_applist[name]'.format(t))
-                                local_applist[name].append(t)
-                            else:
-                                styledprint.print_debug('t {} in local_applist[name]'.format(t))
-                    else:
-                        styledprint.print_debug('{} not in local_applist'.format(name))
-                        local_applist[name] = ext_applist[name]
+                merge_applist(local_applist, ext_applist)
     except Exception as e:
         styledprint.print_error('Error happened while running the async loop:', e)
         styledprint.print_error(traceback.format_exc())
@@ -128,7 +131,7 @@ if __name__ == '__main__':
     console = logging.StreamHandler()
     console.setLevel(logging.INFO)
     logging.getLogger('').addHandler(console)
-    styledprint.set_verbosity(2)
+    styledprint.set_verbosity(1)
     loop = asyncio.get_event_loop()
     #loop.set_debug(True)
     web.create_session(300)
@@ -137,7 +140,7 @@ if __name__ == '__main__':
     applist = {'Endless Legend': [(289130, 'app')]}
 
     try:
-        tasks = [asyncio.ensure_future(refresh_applist(loop, False, {}, False, applist=applist))]
+        tasks = [asyncio.ensure_future(refresh_applist(loop, False, {}, True, applist=None))]
         loop.run_until_complete(asyncio.gather(*tasks))
     except Exception as e:
         print(e)
