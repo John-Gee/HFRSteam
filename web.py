@@ -18,7 +18,7 @@ class Session():
                                              cookies={'birthtime': '1',
                                                       'mature_content': '1'},
                                              read_timeout=timeout,
-                                             connector=aiohttp.TCPConnector(limit=100,
+                                             connector=aiohttp.TCPConnector(limit=50,
                                                                             ttl_dns_cache=600))
 
 
@@ -57,13 +57,13 @@ def close_session():
     session.close()
 
 
-beforesleep = None
+beforesleep = datetime.datetime.utcnow() + datetime.timedelta(days=1)
 
 async def get_web_page(url, badurl=None):
     global beforesleep
     for retry in range(200):
         try:
-            await asyncio.sleep(random.randint(10,19)/100000)
+            await asyncio.sleep(random.randint(10,39)/100000)
             logging.debug('About to get the url: {}, {}'
                             .format(url, str(datetime.datetime.now())))
             async with session.get(url) as resp:
@@ -85,12 +85,12 @@ async def get_web_page(url, badurl=None):
                                   .format(resp.status, resp.url))
                     respdate = datetime.datetime.strptime(resp.headers['date'],
                                                           '%a, %d %b %Y %X %Z')
-                    diff     = (respdate - beforesleep).totalseconds()
+                    diff     = (respdate - beforesleep).total_seconds()
                     if (diff <= 1):
-                        beforesleep = datetime.datetime.nowutc()
+                        beforesleep = datetime.datetime.utcnow()
                         logging.debug('sleep not yet done, sleeping')
                         #time.sleep(5 * retry)
-                        time.sleep(12)
+                        time.sleep(min(5 * retry, 120))
                 elif (resp.status in [408, 500, 502, 503, 504]):
                     logging.debug('HTTP status is {} for: {}, retrying!'.format(resp.status, resp.url))
                     await asyncio.sleep(0.001 * retry)
