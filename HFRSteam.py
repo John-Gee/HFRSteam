@@ -56,7 +56,7 @@ def get_parser():
                         help='refresh the games matching the string')
     parser.add_argument('-t', '--threads', dest='threads', default='0',
                         type=int, help='number of parallel threads to use')
-    parser.add_argument('-v', '--verbosity', dest='verbosity', default='1',
+    parser.add_argument('-v', '--verbosity', dest='verbosity', default='0',
                         type=int,
                         help='verbosity to use (0: E, 1: W, 2: D)')
     return parser
