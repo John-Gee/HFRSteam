@@ -110,12 +110,12 @@ async def get_game_info(options, game, cachedgames, steamgames,
                 url      = mapping[0]
 
                 if (url == 'ignore'):
-                    styledprint.print_info('{0} cannot be found and is to be ignored'
-                                        .format(name))
+                    styledprint.print_debug('{0} cannot be found and is to be ignored'
+                                            .format(name))
                     return
 
-                styledprint.print_info('URL mapping found for game {0}'
-                                    .format(name))
+                styledprint.print_debug('URL mapping found for game {0}'
+                                        .format(name))
                 await steam.get_store_info_from_url(game, name, url)
                 # overwriting the steam provided category
                 if (len(mapping) == 2):
