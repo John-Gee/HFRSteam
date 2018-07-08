@@ -86,7 +86,7 @@ async def refresh_applist(loop, dryrun, games, from_scratch=False, max_apps=None
         tasks = []
         for name in foreign_applist:
             for app in foreign_applist[name]:
-                if ((name in local_applist) and (app in local_applist[name]) and (not applist)):
+                if ((not applist) and (name in local_applist) and (app in local_applist[name]) ):
                     continue
                 appid, typ     = app
                 link           = steam.get_store_link(appid, typ)
