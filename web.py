@@ -63,7 +63,7 @@ async def get_web_page(url, badurl=None):
     global beforesleep
     for retry in range(200):
         try:
-            await asyncio.sleep(random.randint(10,39)/100000)
+            await asyncio.sleep(random.randint(10,59)/10000)
             logging.debug('About to get the url: {}, {}'
                             .format(url, str(datetime.datetime.now())))
             async with session.get(url) as resp:
