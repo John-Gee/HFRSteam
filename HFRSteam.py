@@ -54,6 +54,8 @@ def get_parser():
                          dest='nofuzzymatching', help='disable fuzzy matching')
     parser.add_argument('-r', '--refresh', dest='game', type=str,
                         help='refresh the games matching the string')
+    parser.add_argument('-s', '--skip', dest='skip', action='store_true',
+                        help='disable updating the Steam database')
     parser.add_argument('-t', '--threads', dest='threads', default='0',
                         type=int, help='number of parallel threads to use')
     parser.add_argument('-v', '--verbosity', dest='verbosity', default='1',
@@ -102,13 +104,14 @@ if __name__ == '__main__':
     parallelism.create_pool(8, loop)
 
     try:
-        tasks = [asyncio.ensure_future(steamlist.refresh_applist(loop,
-                                                                 options.dryrun,
-                                                                 steamgames,
-                                                                 False)),
-                 asyncio.ensure_future(parse_list(options.liste, games))]
+        if (not options.skip):
+            tasks = [asyncio.ensure_future(steamlist.refresh_applist(loop,
+                                                                    options.dryrun,
+                                                                    steamgames,
+                                                                    False)),
+                    asyncio.ensure_future(parse_list(options.liste, games))]
 
-        loop.run_until_complete(asyncio.gather(*tasks))
+            loop.run_until_complete(asyncio.gather(*tasks))
 
         gamesinfo.get_games_info(loop, options, games, steamgames)
 
