@@ -176,19 +176,22 @@
                             }
 
                             // wishlist
-                            var wishlist = ProxyURL(profile  + '/wishlist/');
+                            var wishlist = ProxyURL(profile.replace('steamcommunity.com/id', 'store.steampowered.com/wishlist/id'));
                             $.get(wishlist, function(data) {
                                 ColorSpinner('green');
                                 var page = data.documentElement.innerHTML;
-                                var body = '<div id="body-mock">' + page.replace(/^[\s\S]*<body.*?>|<\/body>[\s\S]*$/ig, '') + '</div>';
-                                body = body.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
-                                var data = $(body);
-                                var games = data.find('.storepage_btn_ctn');
+                                var subpage = page.substring(page.indexOf('g_rgAppInfo'))
+                                subpage = subpage.substring(subpage.indexOf('{'))
+                                subpage = subpage.substring(0, subpage.indexOf('}}') + 2)
+                                subpage = subpage.replace(/\\"/g, '');
+                                cleansubpage = subpage.replace(/"platform_icons":"[^"]+"/g, '"platform_icons":""');
+                                cleansubpage = cleansubpage.replace(/"discount_block":"[^"]+"/g, '"discount_block":""');
+                                var games = jQuery.parseJSON(cleansubpage);
                                 var wishlistURLs = {};
                                 var i;
-                                for (i = 0; i < games.length; ++i) {
-                                    var href = games[i].innerHTML.substring(games[i].innerHTML.indexOf('href=\"') + 6);
-                                    wishlistURLs[href.substring(0, href.indexOf('"'))] = true;
+                                var GAMEURL = 'http://store.steampowered.com/app/';
+                                for (x in games) {
+                                    wishlistURLs[GAMEURL + x] = true;
                                 }
 
                                 UpdateTable(libraryURLs, wishlistURLs)
