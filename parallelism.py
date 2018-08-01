@@ -104,7 +104,7 @@ def wait_calname(calname):
 
 def wait():
     calname = utils.get_caller_name()
-    wait_calname(calname)
+    return wait_calname(calname)
 
 
 def check_for_errors():
