@@ -88,6 +88,9 @@ def check_task(f):
 
 
 def wait_calname(calname):
+    if (calname not in future):
+        return []
+
     logging.debug('futures.wait() started at: ' + str(datetime.datetime.now().time()))
     logging.debug('len(future[calname]: ' + str(len(future[calname])))
     styledprint.print_info('pool tasks:')
@@ -101,8 +104,6 @@ def wait_calname(calname):
 
 def wait():
     calname = utils.get_caller_name()
-    if (calname not in future):
-        return
     wait_calname(calname)
 
 
