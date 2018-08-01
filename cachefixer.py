@@ -1,19 +1,22 @@
 #!/usr/bin/python
 
 
-import cache
+from cache import Cache
 import game
 import styledprint
 
+import os
+
 def main():
 
-    cachedgames = cache.retrieve_db_from_cache()
+    CACHE_PATH      = os.path.join('cache', 'games.p')
+    cache           = Cache(CACHE_PATH)
+    cachedgames = cache.load_from_cache()
     i = 0
     for name in iter(cachedgames):
         game = cachedgames[name]
-        if (game.store.link and (game.store.link[len(game.store.link) -1] == '/')):
-            game.store.link = game.store.link.strip('/')
-            styledprint.print_info('Slash removed from the link')
+        if (game.store.link):
+            game.store.link = game.store.link.replace('http:', 'https:')
             i = i + 1
     styledprint.print_info('{0} games cleaned'.format(i))
     cache.save_to_cache(cachedgames)

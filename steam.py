@@ -72,13 +72,13 @@ async def get_applist_from_local(filename='AppList.json'):
 
 
 async def get_applist_from_server(max_apps=None):
-    APPLIST_URL = 'http://api.steampowered.com/ISteamApps/GetAppList/v2/'
+    APPLIST_URL = 'https://api.steampowered.com/ISteamApps/GetAppList/v2/'
     applist     = (await web.get_web_page(APPLIST_URL))[2]
     return get_games_from_applist(applist, max_apps)
 
 
 def get_store_link(appid, typ):
-    return 'http://store.steampowered.com/{0}/{1}'.format(typ, appid)
+    return 'https://store.steampowered.com/{0}/{1}'.format(typ, appid)
 
 
 async def get_store_info_from_appid(game, name, appid, typ):
@@ -87,14 +87,14 @@ async def get_store_info_from_appid(game, name, appid, typ):
 
 
 async def get_store_info_from_url(game, name, url):
-    game.store.link= 'http://store.steampowered.com/' + url
+    game.store.link= 'https://store.steampowered.com/' + url
     return await get_store_info(game, name)
 
 
 async def get_page(storelink, name):
-    badurl = 'http://store.steampowered.com/'
+    badurl = 'https://store.steampowered.com/'
     url, status, page = await web.get_web_page(storelink, badurl)
-    if ((not url) or ('http://store.steampowered.com/' == url)):
+    if ((not url) or ('https://store.steampowered.com/' == url)):
         description = 'The app is not on steam anymore.'
         logging.debug('The page for app {0} redirects somewhere else'
                       .format(name))
@@ -126,7 +126,7 @@ async def get_store_info(game, name):
     if (not document):
         game.store.description = description
         return False
-    game.store.link = re.sub(r'(http://store.steampowered.com/[^/]*/[^/]*)/.*',
+    game.store.link = re.sub(r'(https://store.steampowered.com/[^/]*/[^/]*)/.*',
                               r'\1', url, flags=re.IGNORECASE)
 
     if ( ('/sub/' in game.store.link) or ('/bundle/' in game.store.link)):

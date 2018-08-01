@@ -167,7 +167,7 @@
                                 var libraryURLs = {};
                                 var games = jQuery.parseJSON(subpage);
                                 var i;
-                                var GAMEURL = 'http://store.steampowered.com/app/';
+                                var GAMEURL = 'https://store.steampowered.com/app/';
                                 for (i = 0 ; i < games.length; ++i) {
                                     libraryURLs[GAMEURL + games[i].appid] = true;
                                 }
@@ -189,7 +189,7 @@
                                 var games = jQuery.parseJSON(cleansubpage);
                                 var wishlistURLs = {};
                                 var i;
-                                var GAMEURL = 'http://store.steampowered.com/app/';
+                                var GAMEURL = 'https://store.steampowered.com/app/';
                                 for (x in games) {
                                     wishlistURLs[GAMEURL + x] = true;
                                 }
