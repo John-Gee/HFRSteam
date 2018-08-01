@@ -81,9 +81,9 @@ async def refresh_applist(loop, dryrun, games, from_scratch=False, max_apps=None
         local_applist = tasks[1].result()
     styledprint.print_info('Apps in server:', len(foreign_applist))
     styledprint.print_info('Apps in cache at start:', len(local_applist))
-    tasks = []
+    calname = 'refresh_applist'
     try:
-        calname = 'refresh_applist'
+        tasks = []
         for name in foreign_applist:
             for app in foreign_applist[name]:
                 if ((not applist) and (name in local_applist) and (app in local_applist[name]) ):
@@ -107,11 +107,10 @@ async def refresh_applist(loop, dryrun, games, from_scratch=False, max_apps=None
         styledprint.print_error('Error happened while running the async loop:', e)
         styledprint.print_error(traceback.format_exc())
         pass
-    if (len(tasks)):
-        fs = parallelism.wait_calname(calname)
-        for f in fs:
-            ext_applist = f.result()
-            merge_applist(local_applist, ext_applist)
+    fs = parallelism.wait_calname(calname)
+    for f in fs:
+        ext_applist = f.result()
+        merge_applist(local_applist, ext_applist)
     styledprint.print_info('Apps in cache at end (duplicate names not in the count):', len(local_applist))
     if (not dryrun):
         logging.debug('not dryrun so saving local_applist to disk')
