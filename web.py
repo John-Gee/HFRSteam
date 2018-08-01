@@ -18,7 +18,7 @@ class Session():
                                              cookies={'birthtime': '1',
                                                       'mature_content': '1'},
                                              read_timeout=timeout,
-                                             connector=aiohttp.TCPConnector(limit=50,
+                                             connector=aiohttp.TCPConnector(limit=40,
                                                                             ttl_dns_cache=600))
 
 
