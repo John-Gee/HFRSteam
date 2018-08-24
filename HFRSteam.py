@@ -16,6 +16,7 @@ import steamlist
 import styledprint
 import utils
 import web
+import winelist
 
 
 class MyFormatter(argparse.ArgumentDefaultsHelpFormatter,
@@ -104,7 +105,8 @@ if __name__ == '__main__':
     parallelism.create_pool(8, loop)
 
     try:
-        tasks = [asyncio.ensure_future(parse_list(options.liste, games))]
+        tasks = [asyncio.ensure_future(parse_list(options.liste, games)),
+                 asyncio.ensure_future(winelist.get_ratings())]
         if (not options.skip):
             tasks.insert(0, asyncio.ensure_future(steamlist.refresh_applist(loop,
                                                                     options.dryrun,
@@ -112,8 +114,10 @@ if __name__ == '__main__':
                                                                     False)))
 
         loop.run_until_complete(asyncio.gather(*tasks))
+        #wine is last
+        winedb = tasks[-1].result()
 
-        gamesinfo.get_games_info(loop, options, games, steamgames)
+        gamesinfo.get_games_info(loop, options, games, steamgames, winedb)
 
         write_output_files(options.dryrun, games)
     except Exception as e:

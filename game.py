@@ -45,9 +45,13 @@ class Game(utils.ComparableClass):
         self.hfr          = HFRData(is_available, requirements,
                                     is_new, gift_date)
         self.store        = StoreData()
+        self.wine         = None
 
     def __getstate__(self):
         state = self.__dict__.copy()
+        # no need to cache wine
+        if ('wine' in state):
+            del state['wine']
         return state
 
     def __setstate__(self, state):

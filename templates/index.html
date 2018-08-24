@@ -217,7 +217,7 @@
                     },
                     data: getData(),
                 }).data('WATable');
-                
+
                 function getData() {
                     var cols = {
                         name: {
@@ -336,6 +336,15 @@
                             filter: '',
                             hidden: localStorage.getItem('Sous-Titres') ? !('true' == localStorage.getItem('Sous-Titres')) : true,
                         },
+                        wine: {
+                            index: 14,
+                            type: 'string',
+                            friendly: 'Wine',
+                            format: '<div style="white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%">{0}</div>',
+                            unique: false,
+                            filter: '',
+                            hidden: localStorage.getItem('Wine') ? !('true' == localStorage.getItem('Wine')) : true,
+                        },
                         tags: {
                             index: 100,
                             type: 'string',
@@ -363,7 +372,7 @@
                             hidden: localStorage.getItem('Ajouté le') ? !('true' == localStorage.getItem('Ajouté le')) : true,
                         },
                     };
-                    
+
                     var rows = [];
 
     $TEMPLATE$
@@ -372,7 +381,7 @@
                         cols: cols,
                         rows: rows,
                     };
-                    
+
                     return data;
                 }
                 $(document).on('click', 'a', '.btn-group.dropup.pagesize', function(e){

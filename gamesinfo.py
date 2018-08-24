@@ -47,8 +47,8 @@ def get_appid_and_type_from_namematching(origname, name, games, appidstried,
             return None, None
 
 
-async def get_game_info(options, game, cachedgames, steamgames,
-                  cleansteamgames, name, urlsmapping):
+async def get_game_info(options, game, cachedgames, steamgames, winedb,
+                  cleansteamgames, cleanwinedb, name, urlsmapping):
     try:
         if ((not options.all) and (not game.hfr.is_available)):
             # Ignoring not available games for now
@@ -125,34 +125,50 @@ async def get_game_info(options, game, cachedgames, steamgames,
             styledprint.print_info('Info for game {0} was retrieved, {1}'
                                 .format(name,
                                         str(datetime.datetime.now().time())))
+
+        if (name in winedb):
+            game.wine = winedb[name]
+        else:
+            cleanname = namematching.nameclean(name)
+            if (cleanname in cleanwinedb):
+                game.wine = cleanwinedb[cleanname]
+
     except Exception as e:
         styledprint.print_error('An exception was raised for', name)
         raise e
 
 
-def get_games_info(loop, options, games, steamgames):
+def clean_names(names):
+    cleannames = utils.DictCaseInsensitive()
+    for name in names:
+        cleanname = namematching.nameclean(name)
+        if (cleanname in cleannames):
+            for t in names[name]:
+                if (t not in cleannames[cleanname]):
+                    cleannames[cleanname].append(t)
+        else:
+            cleannames[cleanname] = names[name]
+    return cleannames
+
+
+def get_games_info(loop, options, games, steamgames, winedb):
     styledprint.print_info_begin('Pulling games information')
     CACHE_PATH      = os.path.join('cache', 'games.p')
     cache           = Cache(CACHE_PATH)
     cachedgames     = cache.load_from_cache()
-    cleansteamgames = utils.DictCaseInsensitive()
+    cleansteamgames = clean_names(steamgames)
+    cleanwinedb     = clean_names(winedb)
 
-    for name in steamgames:
-        cleanname = namematching.nameclean(name)
-        if (cleanname in cleansteamgames):
-            for t in steamgames[name]:
-                if (t not in cleansteamgames[cleanname]):
-                    cleansteamgames[cleanname].append(t)
-        else:
-            cleansteamgames[cleanname] = steamgames[name]
-
-    URLS_MAPPING  = os.path.join('mappings', 'urlsmapping.txt')
-    urlsmapping   = Mapper(URLS_MAPPING)
+    URLS_MAPPING    = os.path.join('mappings', 'urlsmapping.txt')
+    urlsmapping     = Mapper(URLS_MAPPING)
 
     tasks = []
     for name in games:
-        tasks.append(asyncio.ensure_future(get_game_info(options, games[name], cachedgames, steamgames,
-                                                         cleansteamgames, name, urlsmapping)))
+        tasks.append(asyncio.ensure_future(get_game_info(options, games[name],
+                                                         cachedgames, steamgames,
+                                                         winedb, cleansteamgames,
+                                                         cleanwinedb, name,
+                                                         urlsmapping)))
 
     loop.run_until_complete(asyncio.gather(progressbar.progress_bar(tasks)))
 

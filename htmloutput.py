@@ -4,6 +4,7 @@ import math
 import os
 
 import styledprint
+import winelist
 
 
 _indentcount = 4
@@ -141,6 +142,13 @@ def get_data(games):
         if (len(game.store.subtitles) > 0):
             data += writeline('subtitles: "{0}",'.format(', '.join(game.store.subtitles)))
 
+        if (game.wine):
+            data += writeline('wine: "{0}",'.format(', '.join([app.rating for app in game.wine])))
+            data += writeline('wineFormat: "{0}",'
+                              .format(justifyFormat
+                                  .format(', '.join(
+                                      ['<a href=\\"{0}\\" target=\\"_blank\\"><b>{1}</b></a>'
+                                           .format(app.link, app.rating) for app in game.wine]))))
         decrease_indent_count()
         data += writeline('};')
         try:
