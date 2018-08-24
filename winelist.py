@@ -1,6 +1,6 @@
 import asyncio
 from enum import Enum, auto
-
+import progressbar
 
 import domparser
 import utils
@@ -43,18 +43,25 @@ async def get_forOneRating(url, rating):
                 fullURL = domparser.get_value(a, 'href')
 
     print(len(apps), 'apps for rating', rating)
-    return apps
+    return apps, rating
 
 async def get_ratings():
     URL = 'https://appdb.winehq.org/objectManager.php?sClass=application&sTitle=Browse+Applications&iappVersion-ratingOp0=5&sOrderBy=appName&bAscending=true&iItemsPerPage=200&sappVersion-ratingData0='
 
     ratings = utils.DictCaseInsensitive()
+
+    tasks   = []
     for e in Rating:
-        for k in await get_forOneRating(URL, e.name):
-            if (k[0] in ratings):
-                ratings[k[0]].append(WineApp(k[1], e.name))
+        tasks.append(asyncio.ensure_future(get_forOneRating(URL, e.name)))
+    await asyncio.gather(progressbar.progress_bar(tasks))
+    for task in tasks:
+        apps   = task.result()[0]
+        rating = task.result()[1]
+        for app in apps:
+            if (app[0] in ratings):
+                ratings[app[0]].append(WineApp(app[1], rating))
             else:
-                ratings[k[0]] = [WineApp(k[1], e.name)]
+                ratings[app[0]] = [WineApp(app[1], rating)]
     return ratings
 
 
