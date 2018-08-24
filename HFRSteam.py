@@ -104,14 +104,14 @@ if __name__ == '__main__':
     parallelism.create_pool(8, loop)
 
     try:
+        tasks = [asyncio.ensure_future(parse_list(options.liste, games))]
         if (not options.skip):
-            tasks = [asyncio.ensure_future(steamlist.refresh_applist(loop,
+            tasks.insert(0, asyncio.ensure_future(steamlist.refresh_applist(loop,
                                                                     options.dryrun,
                                                                     steamgames,
-                                                                    False)),
-                    asyncio.ensure_future(parse_list(options.liste, games))]
+                                                                    False)))
 
-            loop.run_until_complete(asyncio.gather(*tasks))
+        loop.run_until_complete(asyncio.gather(*tasks))
 
         gamesinfo.get_games_info(loop, options, games, steamgames)
 
