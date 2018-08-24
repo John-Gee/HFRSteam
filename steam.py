@@ -200,7 +200,7 @@ async def get_collection_info(game, name, document):
                                                  class_='tab_item')
 
     for item in items:
-        itemlink        = domparser.get_value(item, 'a', 'href',
+        itemlink        = domparser.get_value(item, 'href', 'a',
                                               class_='tab_item_overlay')
         itemname        = domparser.get_text(item, 'div',
                                              class_='tab_item_name')
@@ -251,12 +251,12 @@ async def get_collection_info(game, name, document):
 
 
 def get_game_image(glance_ctn_block):
-    return domparser.get_value(glance_ctn_block, 'img', 'src',
+    return domparser.get_value(glance_ctn_block, 'src', 'img',
                                class_='game_header_image_full')
 
 
 def get_collection_image(game_left_column):
-    return domparser.get_value(game_left_column, 'img', 'src',
+    return domparser.get_value(game_left_column, 'src','img',
                                class_='package_header')
 
 
@@ -275,8 +275,8 @@ def get_dlc_description(document):
                                                 id='widget_create')
 
     if (widget_create_block):
-        description = domparser.get_value(widget_create_block, 'textarea',
-                                      'placeholder')
+        description = domparser.get_value(widget_create_block, 'placeholder',
+                                          'textarea')
         if (description):
             return description.replace('"', '').strip()
 
@@ -295,11 +295,11 @@ def get_game_review(glance_ctn_block, name):
 
     user_reviews_block = domparser.get_parent(overall_block, 'div')
 
-    reviewCount = domparser.get_value(user_reviews_block, 'meta',
-                                      'content', itemprop='reviewCount')
+    reviewCount = domparser.get_value(user_reviews_block, 'content', 'meta',
+                                      itemprop='reviewCount')
 
-    ratingValue = domparser.get_value(user_reviews_block, 'meta',
-                                      'content', itemprop='ratingValue')
+    ratingValue = domparser.get_value(user_reviews_block, 'content', 'meta',
+                                      itemprop='ratingValue')
 
     if (reviewCount):
         return int(ratingValue), int(reviewCount)
@@ -395,7 +395,7 @@ def get_game_price(purchase_block, name):
 
 
 def get_game_os(game_left_column):
-    os = domparser.get_values(game_left_column, 'div', 'data-os',
+    os = domparser.get_values(game_left_column, 'data-os', 'div',
                               class_=re.compile('game_area_sys_req sysreq_content'))
     os = [o.replace('linux', 'Linux')
            .replace('mac', 'Mac OS X')
@@ -474,7 +474,7 @@ def get_titles(document, shortlink):
         for wrapper in wrappers:
             if (any (i in ['Bundle info', 'Package info']
                      for i in domparser.get_texts(wrapper, 'span'))):
-                href = domparser.get_value(wrapper, 'a', 'href',
+                href = domparser.get_value(wrapper, 'href', 'a',
                                         class_=re.compile('btnv6_blue_blue_innerfade'))
                 link = re.sub(r'.*steampowered.com/([^/]+/[^/]+)/.*',
                               r'\1', href, flags=re.IGNORECASE)
