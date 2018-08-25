@@ -3,6 +3,7 @@ from enum import Enum, auto
 import progressbar
 
 import domparser
+import styledprint
 import utils
 import web
 
@@ -45,6 +46,7 @@ async def get_forOneRating(url, rating):
 
 
 async def get_ratings():
+    styledprint.print_info_begin('Getting Wine Ratings')
     URL = 'https://appdb.winehq.org/objectManager.php?sClass=application&sTitle=Browse+Applications&iappVersion-ratingOp0=5&sOrderBy=appName&bAscending=true&iItemsPerPage=200&sappVersion-ratingData0='
 
     ratings = utils.DictCaseInsensitive()
@@ -61,6 +63,8 @@ async def get_ratings():
                 ratings[app[0]].append(WineApp(app[1], rating))
             else:
                 ratings[app[0]] = [WineApp(app[1], rating)]
+
+    styledprint.print_info_begin('Done Getting Wine Ratings')
     return ratings
 
 

@@ -66,12 +66,14 @@ def get_parser():
 
 
 async def parse_list(liste, games):
+    styledprint.print_info_begin('Parsing HFR')
     if (liste == None):
         await hfrparser.parse_hfr(games)
     else:
         async with aiofiles.open(liste, 'r') as f:
             content = await f.read()
             hfrparser.get_games(games, content.splitlines(), '')
+    styledprint.print_info_end('Done Parsing HFR')
 
 
 def write_output_files(dryrun, games):
