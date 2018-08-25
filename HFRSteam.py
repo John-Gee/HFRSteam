@@ -101,7 +101,7 @@ if __name__ == '__main__':
     games      = utils.DictCaseInsensitive()
     steamgames = utils.DictCaseInsensitive()
     styledprint.set_verbosity(options.verbosity)
-    web.create_session(10)
+    web.create_session()
     parallelism.create_pool(8, loop)
 
     try:
