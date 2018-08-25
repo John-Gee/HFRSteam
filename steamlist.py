@@ -17,7 +17,7 @@ def get_newgame_info(name, appid, typ, page):
     document, _   = steam.get_document(page, name)
     logging.debug('got document for name {} ? {}'.format(name, document != None))
     shortlink     = '{0}/{1}'.format(typ, appid)
-    titles        = steam.get_titles(document, shortlink) if (document) else {}
+    titles        = steam.get_titles(document, shortlink) if (document is not None) else {}
     logging.debug('got titles {0} for name {1}'.format(titles, name))
     if (shortlink not in titles):
         titles[shortlink] = []
@@ -65,7 +65,7 @@ def merge_applist(first, second):
             first[name] = second[name]
 
 
-async def refresh_applist(loop, dryrun, games, from_scratch=False, max_apps=None, applist=None):
+async def refresh_applist(dryrun, games, from_scratch=False, max_apps=None, applist=None):
     styledprint.print_info_begin('AppList Refresh')
     tasks = [asyncio.ensure_future(steam.get_applist_from_server(max_apps))]
     if (not from_scratch):
@@ -120,6 +120,15 @@ async def refresh_applist(loop, dryrun, games, from_scratch=False, max_apps=None
             games[game] = local_applist[game]
     styledprint.print_info('Apps in cleaned cache:', len(games))
     styledprint.print_info_end('AppList Refresh')
+
+
+async def get_local_applist(games):
+    tasks = [asyncio.ensure_future(steam.get_applist_from_local())]
+    await asyncio.gather(*tasks)
+    local_applist = tasks[0].result()
+    for game in local_applist:
+        if(not game.lower().endswith('demo')):
+            games[game] = local_applist[game]
 
 
 if __name__ == '__main__':

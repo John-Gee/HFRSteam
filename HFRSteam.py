@@ -107,11 +107,12 @@ if __name__ == '__main__':
     try:
         tasks = [asyncio.ensure_future(parse_list(options.liste, games)),
                  asyncio.ensure_future(winelist.get_ratings())]
-        if (not options.skip):
-            tasks.insert(0, asyncio.ensure_future(steamlist.refresh_applist(loop,
-                                                                    options.dryrun,
-                                                                    steamgames,
-                                                                    False)))
+        if (options.skip is True):
+            tasks.insert(0, asyncio.ensure_future(steamlist.get_local_applist(steamgames)))
+        else:
+            tasks.insert(0, asyncio.ensure_future(steamlist.refresh_applist(options.dryrun,
+                                                                            steamgames,
+                                                                            False)))
 
         loop.run_until_complete(asyncio.gather(*tasks))
         #wine is last
