@@ -28,22 +28,21 @@ async def get_forOneRating(url, rating):
         _, _, page = await web.get_web_page(fullURL)
         document = domparser.load_html(page)
 
-        table = domparser.get_element(document, 'table')
-        if not table:
+        table = domparser.get_element(document, 'table', class_="whq-table whq-table-full")
+        if (table is None):
             break
 
-        domparser.remove_element(table, 'thead')
-        apps.extend(domparser.get_texts_and_values(table, 'a', 'href'))
-
+        apps.extend(domparser.get_texts_and_values(table, 'a', 'href')[2:])
         i = domparser.get_element(document, 'i', class_='fa fa-chevron-right')
         fullURL = None
-        if (i):
-            a = domparser.get_parent(i, 'a')
-            if (a):
+        if (i is not None):
+            a = domparser.get_parent(i)
+            if (a is not None):
                 fullURL = domparser.get_value(a, 'href')
 
     print(len(apps), 'apps for rating', rating)
     return apps, rating
+
 
 async def get_ratings():
     URL = 'https://appdb.winehq.org/objectManager.php?sClass=application&sTitle=Browse+Applications&iappVersion-ratingOp0=5&sOrderBy=appName&bAscending=true&iItemsPerPage=200&sappVersion-ratingData0='
@@ -68,7 +67,7 @@ async def get_ratings():
 if __name__ == '__main__':
     loop = asyncio.get_event_loop()
     loop.set_debug(True)
-    web.create_session(1)
+    web.create_session()
     tasks = [asyncio.ensure_future(get_ratings())]
     loop.run_until_complete(asyncio.gather(*tasks))
     ratings = tasks[0].result()

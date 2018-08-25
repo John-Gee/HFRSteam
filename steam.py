@@ -123,7 +123,7 @@ async def get_store_info(game, name):
 
     document, description = get_document(page, name)
 
-    if (not document):
+    if (document is None):
         game.store.description = description
         return False
     game.store.link = re.sub(r'(https://store.steampowered.com/[^/]*/[^/]*)/.*',
@@ -293,7 +293,7 @@ def get_game_review(glance_ctn_block, name):
                                .format(name))
         return '', '0'
 
-    user_reviews_block = domparser.get_parent(overall_block, 'div')
+    user_reviews_block = domparser.get_parent(overall_block)
 
     reviewCount = domparser.get_value(user_reviews_block, 'content', 'meta',
                                       itemprop='reviewCount')
@@ -396,7 +396,8 @@ def get_game_price(purchase_block, name):
 
 def get_game_os(game_left_column):
     os = domparser.get_values(game_left_column, 'data-os', 'div',
-                              class_=re.compile('game_area_sys_req sysreq_content'))
+                              class_contains='game_area_sys_req sysreq_content')
+
     os = [o.replace('linux', 'Linux')
            .replace('mac', 'Mac OS X')
            .replace('win', 'Windows')
@@ -408,24 +409,25 @@ def get_game_os(game_left_column):
 
 def get_game_genres(document):
     genre_title = domparser.get_element(document, 'b', string='Genre:')
-    if (genre_title):
+    if (genre_title is not None):
         return domparser.get_next_siblings_text(genre_title, 'a')
     return list()
 
 
 def get_game_details(document):
     details_block = domparser.get_element(document, 'div',
-                                    class_='rightcol game_meta_data')
-    if (details_block):
-        return domparser.get_texts(details_block, 'div',
-                                   class_='game_area_details_specs')
+                                    class_='block responsive_apppage_details_left',
+                                    id="category_block")
+    if (details_block is not None):
+        return domparser.get_texts(details_block, 'a')
+
     return list()
 
 
 def get_game_tags(glance_ctn_block):
     tags_block = domparser.get_element(glance_ctn_block, 'div',
                                        class_='glance_tags popular_tags')
-    if (tags_block):
+    if (tags_block is not None):
         # tags are by default in the format:
         # \r\n\t\t\t\t\t\t\t\t\t\t\t\tTAG\t\t\t\t\t\t\t\t\t\t\t\t
         return sorted(list(map(lambda s: s.strip(),
@@ -442,18 +444,18 @@ def get_game_languages(document):
 
         language_block = domparser.get_element(document, 'table',
                                         class_='game_language_options')
-        if (language_block):
+        if (language_block is not None):
             rows = domparser.get_elements(language_block, 'tr')
             if (rows):
                 for row in rows[1:]:
                     language       = domparser.get_text(row, 'td', class_='ellipsis').strip()
                     availabilities = domparser.get_elements(row, 'td', class_='checkcol')
                     if(availabilities):
-                        if(domparser.get_element(availabilities[0], 'img')):
+                        if(domparser.get_element(availabilities[0], 'img') is not None):
                             interface.append(language)
-                        if(domparser.get_element(availabilities[1], 'img')):
+                        if(domparser.get_element(availabilities[1], 'img') is not None):
                             audio.append(language)
-                        if(domparser.get_element(availabilities[2], 'img')):
+                        if(domparser.get_element(availabilities[2], 'img') is not None):
                             subtitles.append(language)
     except Exception as e:
         titles = get_titles(document, 'N/A')

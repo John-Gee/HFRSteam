@@ -14,7 +14,7 @@ async def get_document(url):
 
 
 def get_post(document, postid):
-    return str(domparser.get_element(document, 'div', id = postid))
+    return domparser.get_element_string(document, 'div', id=postid)
 
 
 def get_games(games, liste, requirements):
@@ -81,8 +81,8 @@ def get_games(games, liste, requirements):
 def get_names_from_post(post, start, end, is_std):
     subpost = stringutils.substringafter(post, start)
     subpost = stringutils.substringbefore(subpost, end)
-    cleansubpost = subpost.replace('<br/>', '\r\n')
-    cleansubpost = subpost.replace('<br></br>', '\r\n')
+    cleansubpost = subpost.replace('<br />', '\r\n')
+    cleansubpost = cleansubpost.replace('<br></br>', '\r\n')
 
     cleansubpost = cleansubpost.replace('&amp;', "&")
     cleansubpost = cleansubpost.replace('"', '')
@@ -101,7 +101,7 @@ def parse_hfr_std(games, document):
     POST_ID = 'para8945000'
     post    = get_post(document, POST_ID)
 
-    START = '<strong>Clefs  <img alt="[:icon4]" src="https://forum-images.hardware.fr/images/perso/icon4.gif" title="[:icon4]"></img> Steam <img alt="[:icon4]" src="https://forum-images.hardware.fr/images/perso/icon4.gif" title="[:icon4]"></img> :</strong>'
+    START = '<strong>Clefs  <img src="https://forum-images.hardware.fr/images/perso/icon4.gif" alt="[:icon4]" title="[:icon4]" /> Steam <img src="https://forum-images.hardware.fr/images/perso/icon4.gif" alt="[:icon4]" title="[:icon4]" /> :</strong>'
     END   = '--------------------------------------------------------------------------'
 
     names = get_names_from_post(post, START, END, True)
