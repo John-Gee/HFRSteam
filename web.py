@@ -18,7 +18,7 @@ class Session():
                                              cookies={'birthtime': '1',
                                                       'mature_content': '1'},
                                              read_timeout=timeout,
-                                             connector=aiohttp.TCPConnector(limit=40,
+                                             connector=aiohttp.TCPConnector(limit_per_host=40,
                                                                             ttl_dns_cache=600))
 
 
@@ -63,7 +63,7 @@ async def get_web_page(url, badurl=None):
     global beforesleep
     for retry in range(200):
         try:
-            await asyncio.sleep(random.randint(10,59)/10000)
+            #await asyncio.sleep(random.randint(10,59)/10000)
             logging.debug('About to get the url: {}, {}'
                             .format(url, str(datetime.datetime.now())))
             async with session.get(url) as resp:
