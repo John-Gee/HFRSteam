@@ -24,11 +24,15 @@ def get_appid_and_type(name, games, appidstried):
     return None, None
 
 
+def get_clean_matches(name, dic):
+    return namematching.get_clean_matches(name, dic.keys(), 0.92)
+
+
 def get_appid_and_type_from_namematching(origname, name, games, appidstried,
                                          matches):
     while (True):
         if (matches is None):
-            matches = namematching.get_clean_matches(name, games.keys(), 0.92)
+            matches = get_clean_matches(name, games)
 
         if (len(matches) == 0):
             return None, None
@@ -132,6 +136,10 @@ async def get_game_info(options, game, cachedgames, steamgames, winedb,
             cleanname = namematching.nameclean(name)
             if (cleanname in cleanwinedb):
                 game.wine = cleanwinedb[cleanname]
+            else:
+                cleanmatches = get_clean_matches(cleanname, cleanwinedb)
+                if (len(cleanmatches)):
+                    game.wine = cleanwinedb[cleanmatches[0]]
 
     except Exception as e:
         styledprint.print_error('An exception was raised for', name)
