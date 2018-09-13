@@ -133,7 +133,7 @@
 
                 $('#myButton').click(function(){
                     SpinSpinner();
-                    ColorSpinner('orange');
+                    ColorSpinner('Orange');
                     var profile = $.trim(document.getElementById('libraryId').value);
                     if (!profile || /^\s*$/.test(profile)) {
                         ProfileError('Aucun profile!');
@@ -168,7 +168,7 @@
                         $.get(library, function(data) {
                             var page = data.documentElement.innerHTML;
 
-                            ColorSpinner('blue');
+                            ColorSpinner('Yellow');
                             var divclass = '<div class=\"profile_small_header_bg\">';
                             var beginning = 'var rgGames = ';
                             var subpage = page.substring(page.indexOf(divclass));
@@ -184,13 +184,13 @@
                                 }
                             }
                             catch (e) {
-                                ProfileError(e.message)
+                                ProfileError(e.message);
                             }
 
                             // wishlist
                             var wishlist = ProxyURL(profile.replace('steamcommunity.com/id', 'store.steampowered.com/wishlist/id'));
                             $.get(wishlist, function(data) {
-                                ColorSpinner('green');
+                                ColorSpinner('Olive');
                                 var page = data.documentElement.innerHTML;
                                 var subpage = page.substring(page.indexOf('g_rgAppInfo'))
                                 subpage = subpage.substring(subpage.indexOf('{'))
@@ -207,10 +207,11 @@
                                         wishlistURLs[GAMEURL + x] = true;
                                     }
 
-                                    UpdateTable(libraryURLs, wishlistURLs)
+                                    UpdateTable(libraryURLs, wishlistURLs);
+                                    ColorSpinner('Green');
                                 }
                                 catch (e) {
-                                    ProfileError(e.message)
+                                    ProfileError(e.message);
                                 }
                             });
                         });
