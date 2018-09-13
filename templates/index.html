@@ -93,6 +93,7 @@
                 function ProfileError(error){
                     StopSpinner();
                     ColorSpinner('red');
+                    UpdateTable({}, {});
                     alert(error);
                 }
 
@@ -145,18 +146,28 @@
                             profile = 'https://steamcommunity.com/id/' + profile
                         else
                             profile = 'https://' + profile;
+                    profile = profile.toLowerCase();
 
-                    // library
-                    var library = ProxyURL(profile + '/games/?tab=all');
-                    $.get(library, function(data) {
+                    //profile
+                    var profileURL = ProxyURL(profile);
+                    $.get(profileURL, function(data) {
                         var page = data.documentElement.innerHTML;
-
-                        // Verify that the profile exists
+                        var gamesURL = profile + '/games/?tab=all';
+                        // Verify that the profile exists and is public
                         var profileerror = 'The specified profile could not be found.';
                         if (page.includes(profileerror)) {
-                            ProfileError('Profile non valide!');
-                            UpdateTable({}, {});
-                        } else {
+                            ProfileError('Le profil n\'existe pas!');
+                            return;
+                        } else if (!page.toLowerCase().includes(gamesURL)) {
+                            ProfileError('Le profil n\'est pas public!');
+                            return;
+                        }
+
+                        // library
+                        var library = ProxyURL(gamesURL);
+                        $.get(library, function(data) {
+                            var page = data.documentElement.innerHTML;
+
                             ColorSpinner('blue');
                             var divclass = '<div class=\"profile_small_header_bg\">';
                             var beginning = 'var rgGames = ';
@@ -173,6 +184,7 @@
                                 }
                             }
                             catch (e) {
+                                ProfileError(e.message)
                             }
 
                             // wishlist
@@ -186,17 +198,22 @@
                                 subpage = subpage.replace(/\\"/g, '');
                                 cleansubpage = subpage.replace(/"platform_icons":"[^"]+"/g, '"platform_icons":""');
                                 cleansubpage = cleansubpage.replace(/"discount_block":"[^"]+"/g, '"discount_block":""');
-                                var games = jQuery.parseJSON(cleansubpage);
-                                var wishlistURLs = {};
-                                var i;
-                                var GAMEURL = 'https://store.steampowered.com/app/';
-                                for (x in games) {
-                                    wishlistURLs[GAMEURL + x] = true;
-                                }
+                                try {
+                                    var games = jQuery.parseJSON(cleansubpage);
+                                    var wishlistURLs = {};
+                                    var i;
+                                    var GAMEURL = 'https://store.steampowered.com/app/';
+                                    for (x in games) {
+                                        wishlistURLs[GAMEURL + x] = true;
+                                    }
 
-                                UpdateTable(libraryURLs, wishlistURLs)
+                                    UpdateTable(libraryURLs, wishlistURLs)
+                                }
+                                catch (e) {
+                                    ProfileError(e.message)
+                                }
                             });
-                        }
+                        });
                     });
                 });
             });
