@@ -4,7 +4,7 @@ function getDate(){
 
 
 function getRows(){
-    var rows = [];
+    rows=[];
 
     var row = {
         name: "1000000",
@@ -8340,8 +8340,8 @@ function getRows(){
         giftdate: "2018-02-02",
         interface: "English, French, German",
         subtitles: "English, French, German",
-        wine: "Gold, Bronze, Garbage",
-        wineFormat: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\"><a href=\"https://appdb.winehq.org/objectManager.php?sClass=application&iId=17032\" target=\"_blank\"><b>Gold</b></a>, <a href=\"https://appdb.winehq.org/objectManager.php?sClass=application&iId=17032\" target=\"_blank\"><b>Bronze</b></a>, <a href=\"https://appdb.winehq.org/objectManager.php?sClass=application&iId=17032\" target=\"_blank\"><b>Garbage</b></a></div>",
+        wine: "Silver, Bronze, Garbage",
+        wineFormat: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\"><a href=\"https://appdb.winehq.org/objectManager.php?sClass=application&iId=17032\" target=\"_blank\"><b>Silver</b></a>, <a href=\"https://appdb.winehq.org/objectManager.php?sClass=application&iId=17032\" target=\"_blank\"><b>Bronze</b></a>, <a href=\"https://appdb.winehq.org/objectManager.php?sClass=application&iId=17032\" target=\"_blank\"><b>Garbage</b></a></div>",
     };
     rows.push(row);
 
@@ -11859,8 +11859,8 @@ function getRows(){
         interface: "English, Japanese",
         audio: "English",
         subtitles: "English, Japanese",
-        wine: "Bronze",
-        wineFormat: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\"><a href=\"https://appdb.winehq.org/objectManager.php?sClass=application&iId=16990\" target=\"_blank\"><b>Bronze</b></a></div>",
+        wine: "Bronze, Garbage",
+        wineFormat: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\"><a href=\"https://appdb.winehq.org/objectManager.php?sClass=application&iId=16990\" target=\"_blank\"><b>Bronze</b></a>, <a href=\"https://appdb.winehq.org/objectManager.php?sClass=application&iId=16990\" target=\"_blank\"><b>Garbage</b></a></div>",
     };
     rows.push(row);
 
@@ -12907,8 +12907,8 @@ function getRows(){
         interface: "English, French, Italian, German, Spanish, Korean",
         audio: "English, German",
         subtitles: "English, French, Italian, German, Spanish, Korean",
-        wine: "Garbage",
-        wineFormat: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\"><a href=\"https://appdb.winehq.org/objectManager.php?sClass=application&iId=17459\" target=\"_blank\"><b>Garbage</b></a></div>",
+        wine: "Gold, Silver, Garbage",
+        wineFormat: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\"><a href=\"https://appdb.winehq.org/objectManager.php?sClass=application&iId=17459\" target=\"_blank\"><b>Gold</b></a>, <a href=\"https://appdb.winehq.org/objectManager.php?sClass=application&iId=17459\" target=\"_blank\"><b>Silver</b></a>, <a href=\"https://appdb.winehq.org/objectManager.php?sClass=application&iId=17459\" target=\"_blank\"><b>Garbage</b></a></div>",
     };
     rows.push(row);
 
@@ -21619,8 +21619,8 @@ function getRows(){
         details: "Single-player, Steam Cloud",
         giftdate: "2018-02-02",
         interface: "English, French, German, Italian, Spanish, Dutch, Danish, Swedish, Russian",
-        wine: "Garbage",
-        wineFormat: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\"><a href=\"https://appdb.winehq.org/objectManager.php?sClass=application&iId=10149\" target=\"_blank\"><b>Garbage</b></a></div>",
+        wine: "Bronze, Garbage",
+        wineFormat: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\"><a href=\"https://appdb.winehq.org/objectManager.php?sClass=application&iId=10149\" target=\"_blank\"><b>Bronze</b></a>, <a href=\"https://appdb.winehq.org/objectManager.php?sClass=application&iId=10149\" target=\"_blank\"><b>Garbage</b></a></div>",
     };
     rows.push(row);
 
