@@ -7,15 +7,17 @@ import styledprint
 import winelist
 
 
-_indentcount = 4
+_indentcount = 0
 _INDENTSTEP = 4
 
 
-def writeline(line):
+def writeline(line, nl=False):
     newline = ''
     for i in range(0, _INDENTSTEP * _indentcount):
         newline += ' '
     newline += line + os.linesep
+    if (nl):
+        newline += os.linesep
     return newline
 
 
@@ -29,8 +31,17 @@ def decrease_indent_count():
     _indentcount -= 1
 
 
-def get_data(games):
-    reviewMapping = dict()
+def get_date():
+    data = writeline('function getDate(){')
+    increase_indent_count()
+    data += writeline('return "{}";'.format(datetime.date.today().isoformat()))
+    decrease_indent_count()
+    data += writeline('};', True)
+    return data
+
+
+def get_rows(games):
+    reviewMapping     = dict()
     reviewMapping[10] = 'Overwhelmingly Positive'
     reviewMapping[9]  = 'Very Positive'
     reviewMapping[8]  = 'Positive'
@@ -40,8 +51,12 @@ def get_data(games):
     reviewMapping[4]  = 'Negative'
     reviewMapping[3]  = 'Very Negative'
     reviewMapping[2]  = 'Overwhelmingly Negative'
-    data = ''
-    justifyFormat = '<div style=\\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\\">{0}</div>'
+    justifyFormat     = '<div style=\\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\\">{0}</div>'
+
+    data = writeline('function getRows(){')
+    increase_indent_count()
+    data += writeline('rows=[];', True)
+
 
     for gameName in sorted(games, key=str.lower):
         game = games[gameName]
@@ -162,23 +177,18 @@ def get_data(games):
                 data += writeline('row[\'row-cls\'] = \'override\'')
         except:
             pass
-        data += writeline('rows.push(row);')
+        data += writeline('rows.push(row);', True)
 
+    data += writeline('return rows;')
+    decrease_indent_count()
+    data += writeline('};')
     return data
 
 
-async def output_to_html(dryrun, games, path):
-    TEMPLATE_FILE   = 'templates/index.html'
-    TEXT_TO_REPLACE = '$TEMPLATE$'
-    DATE_TO_REPLACE = '$DATE$'
+async def output_to_js(dryrun, games, path):
 
-    async with aiofiles.open(TEMPLATE_FILE, 'r', encoding='utf8') as f:
-        templatetext = await f.read()
+    text = get_date() + os.linesep + get_rows(games)
 
-    data = get_data(games)
-
-    text = templatetext.replace(TEXT_TO_REPLACE, data)
-    text = text.replace('$DATE$', datetime.date.today().isoformat())
     # These 2 chars proc a unicode encode error on Windows so we replace them
     text = text.replace('\x97', '')
     text = text.replace('\u2032', '\'')

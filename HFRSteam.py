@@ -78,12 +78,12 @@ async def parse_list(liste, games):
 
 def write_output_files(dryrun, games):
     OUTPUT_FOLDER = 'docs'
-    HTML_FILE     = os.path.join(OUTPUT_FOLDER, 'index.html')
+    JS_FILE       = os.path.join(OUTPUT_FOLDER, 'hfr.js')
     BB_FILE       = os.path.join(OUTPUT_FOLDER, 'bb.txt')
     if (not os.path.exists(OUTPUT_FOLDER)):
         os.makedirs(OUTPUT_FOLDER)
 
-    tasks = [asyncio.ensure_future(htmloutput.output_to_html(dryrun, games, HTML_FILE)),
+    tasks = [asyncio.ensure_future(htmloutput.output_to_js(dryrun, games, JS_FILE)),
              asyncio.ensure_future(bboutput.output_to_bb(dryrun, games, BB_FILE))]
 
     loop.run_until_complete(asyncio.gather(*tasks))
