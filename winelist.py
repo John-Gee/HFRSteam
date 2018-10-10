@@ -1,6 +1,7 @@
 import asyncio
 from enum import Enum, auto
 import progressbar
+import uvloop
 
 import domparser
 import styledprint
@@ -69,6 +70,7 @@ async def get_ratings():
 
 
 if __name__ == '__main__':
+    asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
     loop = asyncio.get_event_loop()
     loop.set_debug(True)
     web.create_session()

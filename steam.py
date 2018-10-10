@@ -7,6 +7,7 @@ import json
 import logging
 import os
 import re
+import uvloop
 
 from game import Category, Game
 import domparser
@@ -505,6 +506,7 @@ if __name__ == '__main__':
     appid = '289130'
     name = 'name'
     storelink   = get_store_link(appid, typ)
+    asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
     loop = asyncio.get_event_loop()
     loop.set_debug(True)
     web.create_session(1)

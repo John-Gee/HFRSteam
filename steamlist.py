@@ -4,6 +4,7 @@ import functools
 import logging
 import tqdm
 import traceback
+import uvloop
 
 import progressbar
 import steam
@@ -140,6 +141,7 @@ if __name__ == '__main__':
     console.setLevel(logging.INFO)
     logging.getLogger('').addHandler(console)
     styledprint.set_verbosity(1)
+    asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
     loop = asyncio.get_event_loop()
     #loop.set_debug(True)
     web.create_session(300)

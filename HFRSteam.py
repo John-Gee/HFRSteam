@@ -6,6 +6,7 @@ import asyncio
 import logging
 import os
 import traceback
+import uvloop
 
 import bboutput
 import gamesinfo
@@ -97,6 +98,7 @@ if __name__ == '__main__':
     console = logging.StreamHandler()
     console.setLevel(logging.INFO)
     #logging.getLogger('').addHandler(console)
+    asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
     loop = asyncio.get_event_loop()
     #loop.set_debug(True)
     options    = get_parser().parse_args()
