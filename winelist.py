@@ -23,24 +23,42 @@ class WineApp():
         self.rating = rating
 
 
+def get_apps_from_doc(document):
+    table = domparser.get_element(document, 'table', class_="whq-table whq-table-full")
+    if (table is None):
+        return None
+
+    return domparser.get_texts_and_values(table, 'a', 'href')[2:]
+
+
 async def get_forOneRating(url, rating):
     fullURL = url + rating
-    apps   = []
-    while (fullURL):
-        _, _, page = await web.get_web_page(fullURL)
-        document = domparser.load_html(page)
+    apps    = []
 
-        table = domparser.get_element(document, 'table', class_="whq-table whq-table-full")
-        if (table is None):
-            break
+    _, _, page = await web.get_web_page(fullURL)
+    if ((page is None) or
+        ('<p class="text-center">No matches found</p>' in page)):
+        return apps
 
-        apps.extend(domparser.get_texts_and_values(table, 'a', 'href')[2:])
-        i = domparser.get_element(document, 'i', class_='fa fa-chevron-right')
-        fullURL = None
-        if (i is not None):
-            a = domparser.get_parent(i)
-            if (a is not None):
-                fullURL = domparser.get_value(a, 'href')
+    document = domparser.load_html(page)
+
+    pageElem = domparser.get_element(document, 'div', class_='text-center')
+    numOfPages = domparser.get_next_siblings_text(pageElem, 'b')[1]
+
+    tasks   = []
+    for p in range(2, int(numOfPages) + 1):
+        nextURL = '{0}&iPage={1}'.format(fullURL, p)
+        tasks.append(web.get_web_page(nextURL))
+
+    #1st page
+    apps.extend(get_apps_from_doc(document))
+    #others
+    for f in asyncio.as_completed(tasks):
+        _, _, page = await f
+        document   = domparser.load_html(page)
+        apps2      = get_apps_from_doc(document)
+        if (apps2 is not None):
+            apps.extend(apps2)
 
     print(len(apps), 'apps for rating', rating)
     return apps, rating
