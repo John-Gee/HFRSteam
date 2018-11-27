@@ -1,5 +1,5 @@
 function getDate(){
-    return "2018-10-10";
+    return "2018-11-27";
 };
 
 
@@ -11859,8 +11859,8 @@ function getRows(){
         interface: "English, Japanese",
         audio: "English",
         subtitles: "English, Japanese",
-        wine: "Bronze, Garbage",
-        wineFormat: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\"><a href=\"https://appdb.winehq.org/objectManager.php?sClass=application&iId=16990\" target=\"_blank\"><b>Bronze</b></a>, <a href=\"https://appdb.winehq.org/objectManager.php?sClass=application&iId=16990\" target=\"_blank\"><b>Garbage</b></a></div>",
+        wine: "Gold, Bronze, Garbage",
+        wineFormat: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\"><a href=\"https://appdb.winehq.org/objectManager.php?sClass=application&iId=16990\" target=\"_blank\"><b>Gold</b></a>, <a href=\"https://appdb.winehq.org/objectManager.php?sClass=application&iId=16990\" target=\"_blank\"><b>Bronze</b></a>, <a href=\"https://appdb.winehq.org/objectManager.php?sClass=application&iId=16990\" target=\"_blank\"><b>Garbage</b></a></div>",
     };
     rows.push(row);
 
@@ -16530,8 +16530,8 @@ function getRows(){
         details: "Single-player, Multi-player, Co-op, Shared/Split Screen, Steam Achievements, Full controller support, Steam Cloud, Steam Leaderboards",
         interface: "English, German, French, Italian, Spanish, Portuguese-Brazil",
         audio: "English, German, French, Italian, Spanish",
-        wine: "Silver, Bronze",
-        wineFormat: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\"><a href=\"https://appdb.winehq.org/objectManager.php?sClass=application&iId=15292\" target=\"_blank\"><b>Silver</b></a>, <a href=\"https://appdb.winehq.org/objectManager.php?sClass=application&iId=15292\" target=\"_blank\"><b>Bronze</b></a></div>",
+        wine: "Bronze, Garbage",
+        wineFormat: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\"><a href=\"https://appdb.winehq.org/objectManager.php?sClass=application&iId=15292\" target=\"_blank\"><b>Bronze</b></a>, <a href=\"https://appdb.winehq.org/objectManager.php?sClass=application&iId=15292\" target=\"_blank\"><b>Garbage</b></a></div>",
     };
     rows.push(row);
 
@@ -18356,8 +18356,8 @@ function getRows(){
         requirements: "Donateur<sup><b>**</b></sup>",
         tags: "Action, Arena Shooter, Atmospheric, Classic, Demons, FPS, Fast-Paced, First-Person, Gore, Great Soundtrack, Horror, Shooter, Singleplayer, Zombies",
         interface: "English, French, German, Spanish",
-        wine: "Platinum, Garbage",
-        wineFormat: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\"><a href=\"https://appdb.winehq.org/objectManager.php?sClass=application&iId=9501\" target=\"_blank\"><b>Platinum</b></a>, <a href=\"https://appdb.winehq.org/objectManager.php?sClass=application&iId=9501\" target=\"_blank\"><b>Garbage</b></a></div>",
+        wine: "Platinum, Gold",
+        wineFormat: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\"><a href=\"https://appdb.winehq.org/objectManager.php?sClass=application&iId=9501\" target=\"_blank\"><b>Platinum</b></a>, <a href=\"https://appdb.winehq.org/objectManager.php?sClass=application&iId=9501\" target=\"_blank\"><b>Gold</b></a></div>",
     };
     rows.push(row);
 
@@ -25763,8 +25763,8 @@ function getRows(){
         details: "Single-player, Multi-player, Online Multi-Player, Steam Achievements, Steam Trading Cards, In-App Purchases",
         interface: "English",
         audio: "English",
-        wine: "Garbage",
-        wineFormat: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\"><a href=\"https://appdb.winehq.org/objectManager.php?sClass=application&iId=18580\" target=\"_blank\"><b>Garbage</b></a></div>",
+        wine: "Silver",
+        wineFormat: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\"><a href=\"https://appdb.winehq.org/objectManager.php?sClass=application&iId=18580\" target=\"_blank\"><b>Silver</b></a></div>",
     };
     rows.push(row);
 
@@ -25837,8 +25837,8 @@ function getRows(){
         details: "Single-player, Multi-player",
         giftdate: "2018-02-02",
         interface: "English, Czech, French, German, Italian, Polish, Russian, Spanish, Traditional Chinese",
-        wine: "Platinum, Gold, Garbage",
-        wineFormat: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\"><a href=\"https://appdb.winehq.org/objectManager.php?sClass=application&iId=4051\" target=\"_blank\"><b>Platinum</b></a>, <a href=\"https://appdb.winehq.org/objectManager.php?sClass=application&iId=4051\" target=\"_blank\"><b>Gold</b></a>, <a href=\"https://appdb.winehq.org/objectManager.php?sClass=application&iId=4051\" target=\"_blank\"><b>Garbage</b></a></div>",
+        wine: "Platinum, Gold",
+        wineFormat: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\"><a href=\"https://appdb.winehq.org/objectManager.php?sClass=application&iId=4051\" target=\"_blank\"><b>Platinum</b></a>, <a href=\"https://appdb.winehq.org/objectManager.php?sClass=application&iId=4051\" target=\"_blank\"><b>Gold</b></a></div>",
     };
     rows.push(row);
 
@@ -28184,8 +28184,8 @@ function getRows(){
         details: "Single-player",
         giftdate: "2018-02-02",
         interface: "English, Czech, Danish, Dutch, Finnish, French, German, Hungarian, Italian, Korean, Norwegian, Polish, Portuguese, Russian, Spanish, Swedish, Traditional Chinese",
-        wine: "Bronze",
-        wineFormat: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\"><a href=\"https://appdb.winehq.org/objectManager.php?sClass=application&iId=9732\" target=\"_blank\"><b>Bronze</b></a></div>",
+        wine: "Silver",
+        wineFormat: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\"><a href=\"https://appdb.winehq.org/objectManager.php?sClass=application&iId=9732\" target=\"_blank\"><b>Silver</b></a></div>",
     };
     rows.push(row);
 
