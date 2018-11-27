@@ -107,7 +107,10 @@ async def get_game_info(options, game, cachedgames, steamgames, winedb,
                     else:
                         appidstried.append(appid)
 
-                        if (await steam.get_store_info_from_appid(game, name, appid, typ)):
+                        if (await steam.instance.get_store_info_from_appid(game,
+                                                                           name,
+                                                                           appid,
+                                                                           typ)):
                             break
 
             else:
@@ -120,7 +123,7 @@ async def get_game_info(options, game, cachedgames, steamgames, winedb,
 
                 styledprint.print_debug('URL mapping found for game {0}'
                                         .format(name))
-                await steam.get_store_info_from_url(game, name, url)
+                await steam.instance.get_store_info_from_url(game, name, url)
                 # overwriting the steam provided category
                 if (len(mapping) == 2):
                     game.store.category = Category[mapping[1].upper()]
@@ -170,6 +173,8 @@ def get_games_info(loop, options, games, steamgames, winedb):
     URLS_MAPPING    = os.path.join('mappings', 'urlsmapping.txt')
     urlsmapping     = Mapper(URLS_MAPPING)
 
+    steam.create()
+
     tasks = []
     for name in games:
         tasks.append(asyncio.ensure_future(get_game_info(options, games[name],
@@ -185,6 +190,7 @@ def get_games_info(loop, options, games, steamgames, winedb):
         cache.save_to_cache(newcachedgames)
         urlsmapping.save_mapping()
 
+    loop.run_until_complete(steam.close())
     styledprint.print_info_end('Pulling games information')
 
 

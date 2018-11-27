@@ -16,7 +16,6 @@ import parallelism
 import steamlist
 import styledprint
 import utils
-import web
 import winelist
 
 
@@ -105,7 +104,6 @@ if __name__ == '__main__':
     games      = utils.DictCaseInsensitive()
     steamgames = utils.DictCaseInsensitive()
     styledprint.set_verbosity(options.verbosity)
-    web.create_session()
     parallelism.create_pool(8, loop)
 
     try:
@@ -130,7 +128,6 @@ if __name__ == '__main__':
         print(traceback.format_exc())
 
     parallelism.shutdown_pool(wait=True)
-    web.close_session()
     # this genereates a stack overflow
     # when the loop was previously stopped
     #loop.close()

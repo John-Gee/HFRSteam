@@ -1,5 +1,7 @@
+import asyncio
 from datetime import datetime
 import re
+import uvloop
 
 import domparser
 from game import Category, Game
@@ -9,7 +11,8 @@ import web
 
 
 async def get_document(url):
-    _, _, html = await web.get_web_page(url)
+    async with web.Session(limit_per_host=10) as webSession:
+        _, _, html = await webSession.get_web_page(url)
     return domparser.load_html(html)
 
 
@@ -133,5 +136,10 @@ async def parse_hfr(games):
 
 
 if __name__ == '__main__':
+    asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
+    loop = asyncio.get_event_loop()
+    loop.set_debug(True)
     games = {}
-    parse_hfr(games)
+    tasks = [asyncio.ensure_future(parse_hfr(games))]
+    loop.run_until_complete(asyncio.gather(*tasks))
+    print(len(games))
