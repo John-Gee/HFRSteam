@@ -191,7 +191,7 @@ def get_games_info(loop, options, games, steamgames, winedb):
         urlsmapping.save_mapping()
 
     loop.run_until_complete(steam.close())
-    styledprint.print_info_end('Pulling games information')
+    styledprint.print_info_end('Pulling Games Information Done')
 
 
 if __name__ == '__main__':

@@ -90,18 +90,15 @@ async def refresh_applist(dryrun, games, from_scratch=False, max_apps=None, appl
                 if ((not applist) and
                     (name in local_applist) and (app in local_applist[name])):
                     continue
-                appid, typ     = app
-                link           = steam.instance.get_store_link(appid, typ)
-                f = asyncio.ensure_future(steam.instance.get_page(link, name))
-                f.add_done_callback(functools.partial(
-                    poolsubmit,
-                    calname,
-                    get_newgame_info,
-                    name,
-                    appid,
-                    typ,
-                    tasks))
+                appid, typ = app
+                link       = steam.instance.get_store_link(appid, typ)
+                f          = asyncio.ensure_future(steam.instance.get_page(link,
+                                                                           name))
+                f.add_done_callback(functools.partial(poolsubmit, calname,
+                                                      get_newgame_info, name,
+                                                      appid, typ, tasks))
                 tasks.append(f)
+
         if (len(tasks)):
             styledprint.print_info('async tasks:')
             await asyncio.gather(progressbar.progress_bar(tasks))
@@ -124,7 +121,7 @@ async def refresh_applist(dryrun, games, from_scratch=False, max_apps=None, appl
         if(not game.lower().endswith('demo')):
             games[game] = local_applist[game]
     styledprint.print_info('Apps in cleaned cache:', len(games))
-    styledprint.print_info_end('AppList Refresh')
+    styledprint.print_info_end('AppList Refresh Done')
 
 
 async def get_local_applist(games):
