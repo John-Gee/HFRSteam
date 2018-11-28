@@ -51,7 +51,7 @@ def poolsubmit(calname, get_newgame_info, name, appid, typ,
     tasks.remove(future)
 
 
-def merge_applist(first, second):
+def merge_applists(first, second):
     for name in second:
         if (name in first):
             styledprint.print_debug('{} in first'.format(name))
@@ -66,20 +66,14 @@ def merge_applist(first, second):
             first[name] = second[name]
 
 
-async def refresh_applist(dryrun, skip, from_scratch=False, max_apps=None, applist=None):
-    steam.create(25)
-    tasks = [asyncio.ensure_future(steam.instance.get_applist_from_server(max_apps))]
-    if (not from_scratch):
-        tasks.append(asyncio.ensure_future(steam.instance.get_applist_from_local()))
-    await asyncio.gather(*tasks)
-    if (applist):
-        foreign_applist = applist
-    else:
-        foreign_applist = tasks[0].result()
-    if (from_scratch):
-        local_applist = {}
-    else:
-        local_applist = tasks[1].result()
+async def refresh_applist(dryrun, skip, from_scratch=False, max_apps=None):
+    steam.create(20)
+    local_applist = await steam.instance.get_applist_from_local()
+    if(skip):
+        await steam.close()
+        return local_applist
+
+    foreign_applist = await steam.instance.get_applist_from_server(max_apps)
     styledprint.print_info('Apps in server:', len(foreign_applist))
     styledprint.print_info('Apps in cache at start:', len(local_applist))
     calname = 'refresh_applist'
@@ -87,8 +81,9 @@ async def refresh_applist(dryrun, skip, from_scratch=False, max_apps=None, appli
         tasks = []
         for name in foreign_applist:
             for app in foreign_applist[name]:
-                if ((not applist) and
-                    (name in local_applist) and (app in local_applist[name])):
+                if ((not from_scratch) and
+                    (name in local_applist) and
+                    (app in local_applist[name])):
                     continue
                 appid, typ = app
                 link       = steam.instance.get_store_link(appid, typ)
@@ -109,7 +104,7 @@ async def refresh_applist(dryrun, skip, from_scratch=False, max_apps=None, appli
     fs = parallelism.wait_calname(calname)
     for f in fs:
         ext_applist = f.result()
-        merge_applist(local_applist, ext_applist)
+        merge_applists(local_applist, ext_applist)
     styledprint.print_info('Apps in cache at end (duplicate names not in the count):', len(local_applist))
 
     if (not dryrun):
@@ -134,8 +129,7 @@ if __name__ == '__main__':
     console.setLevel(logging.INFO)
     logging.getLogger('').addHandler(console)
     styledprint.set_verbosity(1)
-    #impossible to set uvloop after Steam Instance created
-    #asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
+    asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
     loop = asyncio.get_event_loop()
     #loop.set_debug(True)
     parallelism.create_pool(8, loop)
@@ -143,7 +137,10 @@ if __name__ == '__main__':
     applist = {'Endless Legend': [(289130, 'app')]}
 
     try:
-        tasks = [asyncio.ensure_future(refresh_applist(dryrun=False, games={}, from_scratch=False, max_apps=None, applist=None))]
+        tasks = [asyncio.ensure_future(refresh_applist(dryrun=True,
+                                                       skip=False,
+                                                       from_scratch=False,
+                                                       max_apps=None))]
         loop.run_until_complete(asyncio.gather(*tasks))
     except Exception as e:
         print(e)
