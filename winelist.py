@@ -1,3 +1,5 @@
+from aiocache import cached, RedisCache
+from aiocache.serializers import PickleSerializer
 import asyncio
 from enum import Enum, auto
 import progressbar
@@ -64,17 +66,15 @@ async def get_forOneRating(url, rating, webSession):
     return apps, rating
 
 
+@cached(ttl=604800, cache=RedisCache, serializer=PickleSerializer(), port=6379)
 async def get_ratings():
-    styledprint.print_info_begin('Getting Wine Ratings')
-    URL = 'https://appdb.winehq.org/objectManager.php?sClass=application&sTitle=Browse+Applications&iappVersion-ratingOp0=5&sOrderBy=appName&bAscending=true&iItemsPerPage=200&sappVersion-ratingData0='
+    URL     = 'https://appdb.winehq.org/objectManager.php?sClass=application&sTitle=Browse+Applications&iappVersion-ratingOp0=5&sOrderBy=appName&bAscending=true&iItemsPerPage=200&sappVersion-ratingData0='
+    ratings = utils.DictCaseInsensitive()
 
     async with web.Session(limit_per_host=200) as webSession:
-
-        ratings     = utils.DictCaseInsensitive()
-        tasks       = []
+        tasks = []
         for e in Rating:
-            tasks.append(asyncio.ensure_future(get_forOneRating(URL,
-                                                                e.name,
+            tasks.append(asyncio.ensure_future(get_forOneRating(URL, e.name,
                                                                 webSession)))
         await asyncio.gather(progressbar.progress_bar(tasks))
 
@@ -87,7 +87,6 @@ async def get_ratings():
             else:
                 ratings[app[0]] = [WineApp(app[1], rating)]
 
-    styledprint.print_info_begin('Getting Wine Ratings Done')
     return ratings
 
 

@@ -65,26 +65,39 @@ def get_parser():
     return parser
 
 
-async def parse_list(liste, games):
+async def get_applist(options):
+    styledprint.print_info_begin('AppList Refresh')
+    applist = await steamlist.refresh_applist(options.dryrun, options.skip, from_scratch=False)
+    styledprint.print_info_begin('AppList Refresh Done')
+    return applist
+
+
+async def get_wine_ratings():
+    styledprint.print_info_begin('Getting Wine Ratings')
+    ratings = await winelist.get_ratings()
+    styledprint.print_info_begin('Getting Wine Ratings Done')
+    return ratings
+
+
+async def parse_list(options):
     styledprint.print_info_begin('Parsing HFR')
-    if (liste == None):
-        await hfrparser.parse_hfr(games)
+    if (options.liste == None):
+        games = await hfrparser.parse_hfr()
     else:
-        async with aiofiles.open(liste, 'r') as f:
-            content = await f.read()
-            hfrparser.get_games(games, content.splitlines(), '')
+        games = await hfrparser.parse_list(options.liste)
     styledprint.print_info_end('Parsing HFR Done')
+    return games
 
 
-def write_output_files(dryrun, games):
+def write_output_files(options, games):
     OUTPUT_FOLDER = 'docs'
     JS_FILE       = os.path.join(OUTPUT_FOLDER, 'hfr.js')
     BB_FILE       = os.path.join(OUTPUT_FOLDER, 'bb.txt')
     if (not os.path.exists(OUTPUT_FOLDER)):
         os.makedirs(OUTPUT_FOLDER)
 
-    tasks = [asyncio.ensure_future(htmloutput.output_to_js(dryrun, games, JS_FILE)),
-             asyncio.ensure_future(bboutput.output_to_bb(dryrun, games, BB_FILE))]
+    tasks = [asyncio.ensure_future(htmloutput.output_to_js(options.dryrun, games, JS_FILE)),
+             asyncio.ensure_future(bboutput.output_to_bb(options.dryrun, games, BB_FILE))]
 
     loop.run_until_complete(asyncio.gather(*tasks))
 
@@ -101,28 +114,24 @@ if __name__ == '__main__':
     loop = asyncio.get_event_loop()
     #loop.set_debug(True)
     options    = get_parser().parse_args()
-    games      = utils.DictCaseInsensitive()
     steamgames = utils.DictCaseInsensitive()
     styledprint.set_verbosity(options.verbosity)
     parallelism.create_pool(8, loop)
 
     try:
-        tasks = [asyncio.ensure_future(parse_list(options.liste, games)),
-                 asyncio.ensure_future(winelist.get_ratings())]
-        if (options.skip is True):
-            tasks.insert(0, asyncio.ensure_future(steamlist.get_local_applist(steamgames)))
-        else:
-            tasks.insert(0, asyncio.ensure_future(steamlist.refresh_applist(options.dryrun,
-                                                                            steamgames,
-                                                                            False)))
+        tasks = [asyncio.ensure_future(get_applist(options)),
+                asyncio.ensure_future(get_wine_ratings()),
+                asyncio.ensure_future(parse_list(options))]
 
         loop.run_until_complete(asyncio.gather(*tasks))
-        #wine is last
-        winedb = tasks[-1].result()
+        steamgames = tasks[0].result()
+        winedb     = tasks[1].result()
+        games      = tasks[2].result()
 
         gamesinfo.get_games_info(loop, options, games, steamgames, winedb)
 
-        write_output_files(options.dryrun, games)
+        write_output_files(options, games)
+
     except Exception as e:
         print(e)
         print(traceback.format_exc())

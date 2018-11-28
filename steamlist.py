@@ -6,10 +6,11 @@ import tqdm
 import traceback
 import uvloop
 
+import parallelism
 import progressbar
 import steam
 import styledprint
-import parallelism
+import utils
 
 
 def get_newgame_info(name, appid, typ, page):
@@ -65,8 +66,7 @@ def merge_applist(first, second):
             first[name] = second[name]
 
 
-async def refresh_applist(dryrun, games, from_scratch=False, max_apps=None, applist=None):
-    styledprint.print_info_begin('AppList Refresh')
+async def refresh_applist(dryrun, skip, from_scratch=False, max_apps=None, applist=None):
     steam.create(25)
     tasks = [asyncio.ensure_future(steam.instance.get_applist_from_server(max_apps))]
     if (not from_scratch):
@@ -117,20 +117,12 @@ async def refresh_applist(dryrun, games, from_scratch=False, max_apps=None, appl
         await steam.instance.save_applist_to_local(local_applist)
     await steam.close()
 
+    games = utils.DictCaseInsensitive()
     for game in local_applist:
         if(not game.lower().endswith('demo')):
             games[game] = local_applist[game]
     styledprint.print_info('Apps in cleaned cache:', len(games))
-    styledprint.print_info_end('AppList Refresh Done')
-
-
-async def get_local_applist(games):
-    tasks = [asyncio.ensure_future(steam.instance.get_applist_from_local())]
-    await asyncio.gather(*tasks)
-    local_applist = tasks[0].result()
-    for game in local_applist:
-        if(not game.lower().endswith('demo')):
-            games[game] = local_applist[game]
+    return games
 
 
 if __name__ == '__main__':

@@ -1,3 +1,5 @@
+from aiocache import cached, RedisCache
+from aiocache.serializers import PickleSerializer
 import asyncio
 from datetime import datetime
 import re
@@ -128,18 +130,29 @@ def parse_hfr_donateur_and_premium(games, document):
     get_games(games, names, "Premium")
 
 
-async def parse_hfr(games):
+@cached(ttl=604800, cache=RedisCache, serializer=PickleSerializer(), port=6379)
+async def parse_hfr():
     URL      = 'https://forum.hardware.fr/hfr/JeuxVideo/Achat-Ventes/gratuit-origin-download-sujet_171605_1.htm'
     document = await get_document(URL)
+    games    = utils.DictCaseInsensitive()
     parse_hfr_std(games, document)
     parse_hfr_donateur_and_premium(games, document)
+    return games
+
+
+async def parse_list(liste):
+    games = utils.DictCaseInsensitive()
+    async with aiofiles.open(liste, 'r') as f:
+        content = await f.read()
+        hfrparser.get_games(games, content.splitlines(), '')
+    return games
 
 
 if __name__ == '__main__':
     asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
     loop = asyncio.get_event_loop()
     loop.set_debug(True)
-    games = {}
-    tasks = [asyncio.ensure_future(parse_hfr(games))]
+    tasks = [asyncio.ensure_future(parse_hfr())]
     loop.run_until_complete(asyncio.gather(*tasks))
+    games = tasks[0].result()
     print(len(games))

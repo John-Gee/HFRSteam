@@ -53,8 +53,7 @@ class Session():
             raise e
 
 
-    @cached(ttl=604800, cache=RedisCache, port=6379,
-            namespace="main", noself=True)
+    @cached(ttl=604800, cache=RedisCache, serializer=PickleSerializer(), port=6379)
     async def get_web_page(self, url, badurl=None):
         for retry in range(200):
             try:
