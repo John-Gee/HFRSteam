@@ -88,7 +88,7 @@ class Steam():
 
 
     async def get_store_info_from_appid(self, game, name, appid, typ):
-        game.store.link = get_store_link(appid, typ)
+        game.store.link = self.get_store_link(appid, typ)
         return await self.get_store_info(game, name)
 
 
@@ -137,9 +137,9 @@ class Steam():
                                 r'\1', url, flags=re.IGNORECASE)
 
         if ( ('/sub/' in game.store.link) or ('/bundle/' in game.store.link)):
-            await get_collection_info(game, name, document)
+            await self.get_collection_info(game, name, document)
         elif ('/app/' in game.store.link):
-            get_standalone_info(game, name, document)
+            self.get_standalone_info(game, name, document)
         else:
             styledprint.print_info('Unknown type of link {0}'
                                 .format(game.store.link))
@@ -163,7 +163,7 @@ class Steam():
         game.store.os       = self.get_game_os(game_left_column)
 
         # top right header
-        glance_ctn_block        = self.domparser.get_element(document, 'div',
+        glance_ctn_block        = domparser.get_element(document, 'div',
                                                         class_='glance_ctn')
         game.store.image        = self.get_game_image(glance_ctn_block)
         game.store.avg_review,\
@@ -465,7 +465,7 @@ class Steam():
                             if(domparser.get_element(availabilities[2], 'img') is not None):
                                 subtitles.append(language)
         except Exception as e:
-            titles = get_titles(document, 'N/A')
+            titles = self.get_titles(document, 'N/A')
             print(titles)
             raise e
 
