@@ -18,8 +18,8 @@ import web
 
 
 class Steam():
-    def __init__(self):
-        self.webSession = web.Session(limit_per_host=20)
+    def __init__(self, limit_per_host):
+        self.webSession = web.Session(limit_per_host=limit_per_host)
 
 
     def get_games_from_applist(self, applist, max_apps=None):
@@ -508,9 +508,9 @@ class Steam():
 
 instance = None
 
-def create():
+def create(limit_per_host):
     global instance
-    instance = Steam()
+    instance = Steam(limit_per_host)
 
 
 def close():

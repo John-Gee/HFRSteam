@@ -164,10 +164,10 @@ def clean_names(names):
 
 
 def start_loop(options, subGames, cachedgames, steamgames, winedb,
-               cleansteamgames, cleanwinedb, urlsmapping):
+               cleansteamgames, cleanwinedb, urlsmapping, cpuCount):
     asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
     loop = asyncio.get_event_loop()
-    steam.create()
+    steam.create((20/cpuCount) + 1)
     tasks = []
     for name in subGames:
         game = subGames[name]
@@ -205,7 +205,7 @@ def get_games_info(loop, options, games, steamgames, winedb):
     for i in range(cpuCount):
         parallelism.submit_job(start_loop, options, subGames[i], cachedgames,
                                steamgames, winedb, cleansteamgames,
-                               cleanwinedb, urlsmapping)
+                               cleanwinedb, urlsmapping, cpuCount)
     fs = parallelism.wait()
     for f in fs:
         sGames = f.result()

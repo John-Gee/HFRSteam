@@ -67,7 +67,7 @@ def merge_applist(first, second):
 
 async def refresh_applist(dryrun, games, from_scratch=False, max_apps=None, applist=None):
     styledprint.print_info_begin('AppList Refresh')
-    steam.create()
+    steam.create(25)
     tasks = [asyncio.ensure_future(steam.instance.get_applist_from_server(max_apps))]
     if (not from_scratch):
         tasks.append(asyncio.ensure_future(steam.instance.get_applist_from_local()))
