@@ -128,12 +128,7 @@ def submit_job_from(name, func, *args):
 
 
 def submit_job(func, *args):
-    if (func not in future):
-        calname         = utils.get_caller_name()
-        future[func]    = calname
-    else:
-        calname         = future[func]
-
+    calname = utils.get_caller_name()
     submit_job_from(calname, func, *args)
 
 
