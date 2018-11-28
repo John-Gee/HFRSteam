@@ -1,3 +1,5 @@
+from aiocache import cached, RedisCache
+from aiocache.serializers import PickleSerializer
 import aiohttp
 import asyncio
 import datetime
@@ -51,6 +53,8 @@ class Session():
             raise e
 
 
+    @cached(ttl=604800, cache=RedisCache, port=6379,
+            namespace="main", noself=True)
     async def get_web_page(self, url, badurl=None):
         for retry in range(200):
             try:
