@@ -3,6 +3,7 @@ import datetime
 import os
 import sys
 import traceback
+import uvloop
 
 from cache import Cache
 from game import Category
@@ -162,8 +163,26 @@ def clean_names(names):
     return cleannames
 
 
+def start_loop(options, subGames, cachedgames, steamgames, winedb,
+               cleansteamgames, cleanwinedb, urlsmapping):
+    asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
+    loop = asyncio.get_event_loop()
+    steam.create()
+    tasks = []
+    for name in subGames:
+        game = subGames[name]
+        tasks.append(asyncio.ensure_future(get_game_info(options, game,
+                                                         cachedgames, steamgames,
+                                                         winedb, cleansteamgames,
+                                                         cleanwinedb, name,
+                                                         urlsmapping)))
+    loop.run_until_complete(asyncio.gather(progressbar.progress_bar(tasks)))
+    loop.run_until_complete(steam.close())
+    return subGames
+
+
 def get_games_info(loop, options, games, steamgames, winedb):
-    styledprint.print_info_begin('Pulling games information')
+    styledprint.print_info_begin('Pulling Games Information')
     CACHE_PATH      = os.path.join('cache', 'games.p')
     cache           = Cache(CACHE_PATH)
     cachedgames     = cache.load_from_cache()
@@ -173,24 +192,31 @@ def get_games_info(loop, options, games, steamgames, winedb):
     URLS_MAPPING    = os.path.join('mappings', 'urlsmapping.txt')
     urlsmapping     = Mapper(URLS_MAPPING)
 
-    steam.create()
+    cpuCount        = parallelism.get_number_of_cores()
+    curCPU          = 0
+    subGames        = [utils.DictCaseInsensitive() for x in range(cpuCount)]
 
-    tasks = []
     for name in games:
-        tasks.append(asyncio.ensure_future(get_game_info(options, games[name],
-                                                         cachedgames, steamgames,
-                                                         winedb, cleansteamgames,
-                                                         cleanwinedb, name,
-                                                         urlsmapping)))
+        subGames[curCPU][name] = games[name]
+        curCPU+=1
+        if (curCPU == cpuCount):
+            curCPU = 0
 
-    loop.run_until_complete(asyncio.gather(progressbar.progress_bar(tasks)))
+    for i in range(cpuCount):
+        parallelism.submit_job(start_loop, options, subGames[i], cachedgames,
+                               steamgames, winedb, cleansteamgames,
+                               cleanwinedb, urlsmapping)
+    fs = parallelism.wait()
+    for f in fs:
+        sGames = f.result()
+        for name in sGames:
+            games[name] = sGames[name]
 
     if (not options.dryrun):
         newcachedgames = cache.merge_old_new_cache(cachedgames, games)
         cache.save_to_cache(newcachedgames)
         urlsmapping.save_mapping()
 
-    loop.run_until_complete(steam.close())
     styledprint.print_info_end('Pulling Games Information Done')
 
 

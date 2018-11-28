@@ -50,8 +50,9 @@ class Game(utils.ComparableClass):
     def __getstate__(self):
         state = self.__dict__.copy()
         # no need to cache wine
-        if ('wine' in state):
-            del state['wine']
+        # but it breaks multiprocessing
+        #if ('wine' in state):
+        #    del state['wine']
         return state
 
     def __setstate__(self, state):
