@@ -3,7 +3,7 @@ import asyncio
 import calendar
 import datetime
 from dateutil import parser
-import json
+import ujson as json
 import logging
 import os
 import re
@@ -57,7 +57,7 @@ class Steam():
         js_dict['applist'] = {'apps': sorted_data}
         if (not os.path.exists('steamlist')):
             os.makedirs('steamlist')
-        return json.dumps(js_dict, sort_keys=True, indent='\t', ensure_ascii=False)
+        return json.dumps(js_dict, sort_keys=True, indent=4, ensure_ascii=False)
 
 
     async def save_applist_to_local(self, applist):
