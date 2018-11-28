@@ -37,7 +37,7 @@ async def get_forOneRating(url, rating, webSession):
     fullURL = url + rating
     apps    = []
 
-    _, _, page = await webSession.get_web_page(fullURL)
+    _, _, page = await webSession.cached_get_web_page(fullURL)
     if ((page is None) or
         ('<p class="text-center">No matches found</p>' in page)):
         return apps
@@ -66,7 +66,8 @@ async def get_forOneRating(url, rating, webSession):
     return apps, rating
 
 
-@cached(ttl=604800, cache=RedisCache, serializer=PickleSerializer(), port=6379)
+@cached(ttl=604800, cache=RedisCache, serializer=PickleSerializer(),
+        port=6379, timeout=0)
 async def get_ratings():
     URL     = 'https://appdb.winehq.org/objectManager.php?sClass=application&sTitle=Browse+Applications&iappVersion-ratingOp0=5&sOrderBy=appName&bAscending=true&iItemsPerPage=200&sappVersion-ratingData0='
     ratings = utils.DictCaseInsensitive()

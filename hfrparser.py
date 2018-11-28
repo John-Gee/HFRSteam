@@ -14,7 +14,7 @@ import web
 
 async def get_document(url):
     async with web.Session(limit_per_host=10) as webSession:
-        _, _, html = await webSession.get_web_page(url)
+        _, _, html = await webSession.cached_get_web_page(url)
     return domparser.load_html(html)
 
 
@@ -130,7 +130,8 @@ def parse_hfr_donateur_and_premium(games, document):
     get_games(games, names, "Premium")
 
 
-@cached(ttl=604800, cache=RedisCache, serializer=PickleSerializer(), port=6379)
+@cached(ttl=604800, cache=RedisCache, serializer=PickleSerializer(),
+        port=6379, timeout=0)
 async def parse_hfr():
     URL      = 'https://forum.hardware.fr/hfr/JeuxVideo/Achat-Ventes/gratuit-origin-download-sujet_171605_1.htm'
     document = await get_document(URL)

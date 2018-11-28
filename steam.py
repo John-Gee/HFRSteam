@@ -79,7 +79,8 @@ class Steam():
 
     async def get_applist_from_server(self, max_apps=None):
         APPLIST_URL = 'https://api.steampowered.com/ISteamApps/GetAppList/v2/'
-        applist     = (await self.webSession.get_web_page(APPLIST_URL))[2]
+        # never cache this as apps come and go
+        applist     = (await self.webSession.noncached_get_web_page(APPLIST_URL))[2]
         return self.get_games_from_applist(applist, max_apps)
 
 
@@ -99,7 +100,7 @@ class Steam():
 
     async def get_page(self, storelink, name):
         badurl = 'https://store.steampowered.com/'
-        url, status, page = await self.webSession.get_web_page(storelink, badurl)
+        url, status, page = await self.webSession.cached_get_web_page(storelink, badurl)
 
         if ((not url) or ('https://store.steampowered.com/' == url)):
             description = 'The app is not on steam anymore.'

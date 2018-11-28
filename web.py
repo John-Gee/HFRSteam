@@ -23,7 +23,7 @@ class Session():
                                                  read_timeout=timeout,
                                                  connector=aiohttp.TCPConnector(
                                                      limit_per_host=limit_per_host,
-                                                     ttl_dns_cache=600))
+                                                     ttl_dns_cache=3600))
 
     async def __aenter__(self):
         return self
@@ -53,7 +53,16 @@ class Session():
             raise e
 
 
-    @cached(ttl=604800, cache=RedisCache, serializer=PickleSerializer(), port=6379)
+    @cached(ttl=604800, cache=RedisCache, serializer=PickleSerializer(),
+            port=6379, timeout=0)
+    def cached_get_web_page(self, url, badurl=None):
+        return self.get_web_page(url, badurl)
+
+
+    def noncached_get_web_page(self, url, badurl=None):
+        return self.get_web_page(url, badurl)
+
+
     async def get_web_page(self, url, badurl=None):
         for retry in range(200):
             try:
