@@ -85,10 +85,12 @@ async def get_game_info(options, game, cachedgames, steamgames, winedb,
             # keep the old information if there is no new one
             if (game.store.link):
                 storeBU = copy.deepcopy(game.store)
-                worked  = await steam.get_store_info_from_url(game, name,
-                                                              game.store.link,
-                                                              webSession)
-                if (not worked):
+                worked  = await steam.get_store_info(game, name, webSession)
+                if (worked):
+                    styledprint.print_info('Info for game {0} was retrieved, {1}'
+                                           .format(name,
+                                                   str(datetime.datetime.now().time())))
+                else:
                     game.store = storeBU
             else:
                 mapping = urlsmapping.get_mapping(name)
