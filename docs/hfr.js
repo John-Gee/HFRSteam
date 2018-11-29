@@ -1,5 +1,5 @@
 function getDate(){
-    return "2018-11-27";
+    return "2018-11-28";
 };
 
 
@@ -4301,7 +4301,8 @@ function getRows(){
         nameFormat: "<b><div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">{0}</div></b>",
         requirements: "Standard<sup><b>*</b></sup>",
         giftdate: "2018-02-02",
-        wineFormat: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\"><a href=\"https://appdb.winehq.org/objectManager.php?sClass=application&sTitle=Browse+Applications&iappFamily-appNameOp=2&sappFamily-appNameData=Clive Barker's Jericho\" target=\"_blank\"><i>?</i></a></div>",
+        wine: "Platinum, Silver",
+        wineFormat: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\"><a href=\"https://appdb.winehq.org/objectManager.php?sClass=application&iId=6022\" target=\"_blank\"><b>Platinum</b></a>, <a href=\"https://appdb.winehq.org/objectManager.php?sClass=application&iId=6022\" target=\"_blank\"><b>Silver</b></a></div>",
     };
     rows.push(row);
 
@@ -6248,7 +6249,7 @@ function getRows(){
 
     var row = {
         name: "Deponia",
-        nameFormat: "<a href=\"https://store.steampowered.com/app/214340\" target=\"_blank\"><b><div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">{0}</div></b><img src=\"https://steamcdn-a.akamaihd.net/steam/apps/214340/header.jpg?t=1504627014\" width=\"100%\"/></a>",
+        nameFormat: "<a href=\"https://store.steampowered.com/app/214340\" target=\"_blank\"><b><div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">{0}</div></b><img src=\"https://steamcdn-a.akamaihd.net/steam/apps/214340/header.jpg?t=1524051764\" width=\"100%\"/></a>",
         description: "In Deponia, the world has degenerated into a vast garbage dump, in which the crotchety Rufus ekes out his sorry existence.",
         category: "Game",
         os: "Linux, Mac OS, Windows",
@@ -6256,15 +6257,15 @@ function getRows(){
         priceFormat: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">${0}</div>",
         genres: "Adventure, Indie",
         date: "2012&#8209;08&#8209;06",
-        review: "09005351.0 Very Positive",
-        reviewFormat: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">Very Positive (5351)</div>",
+        review: "09005894.0 Very Positive",
+        reviewFormat: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">Very Positive (5894)</div>",
         requirements: "Standard<sup><b>*</b></sup>",
-        tags: "2D, Adventure, Atmospheric, Comedy, Dark Humor, Difficult, Dystopian, Funny, Great Soundtrack, Hand-drawn, Hidden Object, Indie, Point & Click, Puzzle, Sci-fi, Singleplayer, Steampunk, Story Rich",
+        tags: "2D, Adventure, Atmospheric, Comedy, Dark Humor, Difficult, Dystopian, Funny, Great Soundtrack, Hand-drawn, Hidden Object, Indie, Point & Click, Puzzle, Romance, Sci-fi, Singleplayer, Steampunk, Story Rich",
         details: "Single-player, Steam Achievements, Steam Trading Cards, Steam Cloud",
         giftdate: "2018-02-02",
-        interface: "English, German, Russian, French, Polish, Italian, Spanish, Bulgarian, Greek, Turkish, Czech, Portuguese-Brazil",
-        audio: "English, German, Italian, Spanish",
-        subtitles: "English, German, Russian, French, Polish, Italian, Spanish, Bulgarian, Greek, Turkish, Czech, Portuguese-Brazil",
+        interface: "English, German, Russian, French, Polish, Italian, Spanish - Spain, Bulgarian, Greek, Turkish, Czech, Portuguese - Brazil",
+        audio: "English, German, Italian, Spanish - Spain",
+        subtitles: "English, German, Russian, French, Polish, Italian, Spanish - Spain, Bulgarian, Greek, Turkish, Czech, Portuguese - Brazil",
         wine: "Platinum, Gold",
         wineFormat: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\"><a href=\"https://appdb.winehq.org/objectManager.php?sClass=application&iId=15640\" target=\"_blank\"><b>Platinum</b></a>, <a href=\"https://appdb.winehq.org/objectManager.php?sClass=application&iId=15640\" target=\"_blank\"><b>Gold</b></a></div>",
     };
@@ -6272,23 +6273,23 @@ function getRows(){
 
     var row = {
         name: "Deponia Doomsday",
-        nameFormat: "<a href=\"https://store.steampowered.com/app/421050\" target=\"_blank\"><b><div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">{0}</div></b><img src=\"https://steamcdn-a.akamaihd.net/steam/apps/421050/header.jpg?t=1509023924\" width=\"100%\"/></a>",
+        nameFormat: "<a href=\"https://store.steampowered.com/app/421050\" target=\"_blank\"><b><div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">{0}</div></b><img src=\"https://steamcdn-a.akamaihd.net/steam/apps/421050/header.jpg?t=1524052250\" width=\"100%\"/></a>",
         description: "Can you change Deponia's fate? Do you have what it takes to change Rufus' past, present and future without accidently destroying the whole planet? Fight time itself in this action-packed, platypus-tastic and insanely hilarious story.",
         category: "Game",
         os: "Linux, Mac OS, Windows",
-        price: 11.99,
+        price: 19.99,
         priceFormat: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">${0}</div>",
         genres: "Adventure, Indie",
         date: "2016&#8209;03&#8209;01",
-        review: "09001128.0 Very Positive",
-        reviewFormat: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">Very Positive (1128)</div>",
+        review: "09001277.0 Very Positive",
+        reviewFormat: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">Very Positive (1277)</div>",
         requirements: "Standard<sup><b>*</b></sup>",
         tags: "Adventure, Comedy, Dark Humor, Funny, Great Soundtrack, Hand-drawn, Indie, Point & Click, Puzzle, Singleplayer, Steampunk, Story Rich, Time Travel",
         details: "Single-player, Steam Achievements, Steam Trading Cards, Steam Cloud",
         giftdate: "2018-02-02",
-        interface: "English, French, German, Spanish, Portuguese-Brazil, Russian, Italian, Polish, Simplified Chinese, Czech, Turkish",
+        interface: "English, French, German, Spanish - Spain, Portuguese - Brazil, Russian, Italian, Polish, Simplified Chinese, Czech, Turkish",
         audio: "English, German",
-        subtitles: "English, French, German, Spanish, Portuguese-Brazil, Russian, Italian, Polish, Simplified Chinese, Czech, Turkish",
+        subtitles: "English, French, German, Spanish - Spain, Portuguese - Brazil, Russian, Italian, Polish, Simplified Chinese, Czech, Turkish",
         wineFormat: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\"><a href=\"https://appdb.winehq.org/objectManager.php?sClass=application&sTitle=Browse+Applications&iappFamily-appNameOp=2&sappFamily-appNameData=Deponia Doomsday\" target=\"_blank\"><i>?</i></a></div>",
     };
     rows.push(row);
@@ -6543,7 +6544,8 @@ function getRows(){
         nameFormat: "<b><div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">{0}</div></b>",
         requirements: "Donateur: Nouveauté<sup><b>**</b></sup>",
         giftdate: "2018-02-02",
-        wineFormat: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\"><a href=\"https://appdb.winehq.org/objectManager.php?sClass=application&sTitle=Browse+Applications&iappFamily-appNameOp=2&sappFamily-appNameData=DiRT Showdown\" target=\"_blank\"><i>?</i></a></div>",
+        wine: "Garbage",
+        wineFormat: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\"><a href=\"https://appdb.winehq.org/objectManager.php?sClass=application&iId=14745\" target=\"_blank\"><b>Garbage</b></a></div>",
     };
     rows.push(row);
 
@@ -7256,7 +7258,8 @@ function getRows(){
         nameFormat: "<b><div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">{0}</div></b>",
         requirements: "Standard<sup><b>*</b></sup>",
         giftdate: "2018-02-02",
-        wineFormat: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\"><a href=\"https://appdb.winehq.org/objectManager.php?sClass=application&sTitle=Browse+Applications&iappFamily-appNameOp=2&sappFamily-appNameData=Duke Nukem: Manhattan Project\" target=\"_blank\"><i>?</i></a></div>",
+        wine: "Platinum, Gold",
+        wineFormat: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\"><a href=\"https://appdb.winehq.org/objectManager.php?sClass=application&iId=809\" target=\"_blank\"><b>Platinum</b></a>, <a href=\"https://appdb.winehq.org/objectManager.php?sClass=application&iId=809\" target=\"_blank\"><b>Gold</b></a></div>",
     };
     rows.push(row);
 
@@ -7617,7 +7620,8 @@ function getRows(){
         nameFormat: "<b><div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">{0}</div></b>",
         requirements: "Standard<sup><b>*</b></sup>",
         giftdate: "2018-02-02",
-        wineFormat: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\"><a href=\"https://appdb.winehq.org/objectManager.php?sClass=application&sTitle=Browse+Applications&iappFamily-appNameOp=2&sappFamily-appNameData=Eets\" target=\"_blank\"><i>?</i></a></div>",
+        wine: "Platinum",
+        wineFormat: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\"><a href=\"https://appdb.winehq.org/objectManager.php?sClass=application&iId=5231\" target=\"_blank\"><b>Platinum</b></a></div>",
     };
     rows.push(row);
 
@@ -17368,7 +17372,8 @@ function getRows(){
         nameFormat: "<b><div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">{0}</div></b>",
         requirements: "Standard<sup><b>*</b></sup>",
         giftdate: "2018-02-02",
-        wineFormat: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\"><a href=\"https://appdb.winehq.org/objectManager.php?sClass=application&sTitle=Browse+Applications&iappFamily-appNameOp=2&sappFamily-appNameData=No Time to Explain\" target=\"_blank\"><i>?</i></a></div>",
+        wine: "Platinum",
+        wineFormat: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\"><a href=\"https://appdb.winehq.org/objectManager.php?sClass=application&iId=13394\" target=\"_blank\"><b>Platinum</b></a></div>",
     };
     rows.push(row);
 
@@ -18099,7 +18104,8 @@ function getRows(){
         name: "Out of the Park Baseball 15",
         nameFormat: "<b><div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">{0}</div></b>",
         requirements: "Donateur<sup><b>**</b></sup>",
-        wineFormat: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\"><a href=\"https://appdb.winehq.org/objectManager.php?sClass=application&sTitle=Browse+Applications&iappFamily-appNameOp=2&sappFamily-appNameData=Out of the Park Baseball 15\" target=\"_blank\"><i>?</i></a></div>",
+        wine: "Garbage",
+        wineFormat: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\"><a href=\"https://appdb.winehq.org/objectManager.php?sClass=application&iId=9668\" target=\"_blank\"><b>Garbage</b></a></div>",
     };
     rows.push(row);
 
@@ -19351,7 +19357,8 @@ function getRows(){
         nameFormat: "<b><div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">{0}</div></b>",
         requirements: "Standard<sup><b>*</b></sup>",
         giftdate: "2018-02-02",
-        wineFormat: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\"><a href=\"https://appdb.winehq.org/objectManager.php?sClass=application&sTitle=Browse+Applications&iappFamily-appNameOp=2&sappFamily-appNameData=Pressure\" target=\"_blank\"><i>?</i></a></div>",
+        wine: "Garbage",
+        wineFormat: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\"><a href=\"https://appdb.winehq.org/objectManager.php?sClass=application&iId=15486\" target=\"_blank\"><b>Garbage</b></a></div>",
     };
     rows.push(row);
 
@@ -23809,7 +23816,8 @@ function getRows(){
         nameFormat: "<b><div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">{0}</div></b>",
         requirements: "Standard<sup><b>*</b></sup>",
         giftdate: "2018-02-02",
-        wineFormat: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\"><a href=\"https://appdb.winehq.org/objectManager.php?sClass=application&sTitle=Browse+Applications&iappFamily-appNameOp=2&sappFamily-appNameData=Space Rangers\" target=\"_blank\"><i>?</i></a></div>",
+        wine: "Platinum",
+        wineFormat: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\"><a href=\"https://appdb.winehq.org/objectManager.php?sClass=application&iId=3687\" target=\"_blank\"><b>Platinum</b></a></div>",
     };
     rows.push(row);
 
@@ -28979,7 +28987,8 @@ function getRows(){
         name: "Titan Quest",
         nameFormat: "<b><div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\">{0}</div></b>",
         requirements: "Donateur<sup><b>**</b></sup>",
-        wineFormat: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\"><a href=\"https://appdb.winehq.org/objectManager.php?sClass=application&sTitle=Browse+Applications&iappFamily-appNameOp=2&sappFamily-appNameData=Titan Quest\" target=\"_blank\"><i>?</i></a></div>",
+        wine: "Platinum, Silver, Garbage",
+        wineFormat: "<div style=\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\"><a href=\"https://appdb.winehq.org/objectManager.php?sClass=application&iId=3480\" target=\"_blank\"><b>Platinum</b></a>, <a href=\"https://appdb.winehq.org/objectManager.php?sClass=application&iId=3480\" target=\"_blank\"><b>Silver</b></a>, <a href=\"https://appdb.winehq.org/objectManager.php?sClass=application&iId=3480\" target=\"_blank\"><b>Garbage</b></a></div>",
     };
     rows.push(row);
 

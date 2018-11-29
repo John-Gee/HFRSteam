@@ -1,4 +1,5 @@
 import asyncio
+import copy
 import datetime
 import os
 import sys
@@ -62,80 +63,95 @@ async def get_game_info(options, game, cachedgames, steamgames, winedb,
             # or allow the user to do so in the html page.
             return
 
-        # Whether the cache is ignored or not,
-        # if a game cached has a gift_date we keep it
-        if ((name in cachedgames) and (cachedgames[name].hfr.gift_date)):
-            game.hfr.gift_date = cachedgames[name].hfr.gift_date
+        if (name in cachedgames):
+            # Whether the cache is ignored or not,
+            # if a game cached has a gift_date we keep it
+            if (cachedgames[name].hfr.gift_date):
+                game.hfr.gift_date = cachedgames[name].hfr.gift_date
 
-        if ((name in cachedgames) and (cachedgames[name].store.link)
-            and (not options.ignorecache)
-            and ((not options.game)
-                    or (options.game.lower() not in name.lower()))):
+            if (not options.ignorecache):
+                game.store         = cachedgames[name].store
+                game.wine          = cachedgames[name].wine
 
-            game.store         = cachedgames[name].store
+        # query the store if:
+        # - not cacheonly
+        # - not in cache
+        # - in cache and to be refreshed
+        if ((not options.cacheonly) and
+            ((game.store.link is None) or ((options.game) and
+                                           (options.game.lower()
+                                            in name.lower())))):
 
-        elif (not options.cacheonly):
-            mapping = urlsmapping.get_mapping(name)
-
-            if (mapping == None):
-                appidstried = []
-                matches     = None
-                while (True):
-                    appid, typ = get_appid_and_type(name, steamgames, appidstried)
-                    if (appid):
-                        styledprint.print_debug('The game {0} got its appid simply'
-                                                .format(name))
-                    elif (not options.nofuzzymatching):
-                        cleanname = namematching.nameclean(name)
-                        appid, typ = get_appid_and_type(cleanname, cleansteamgames,
-                                                        appidstried)
-                        if (appid):
-                            styledprint.print_debug('The game {0} got its appid '
-                                                    'by namecleaning'
-                                                    .format(name))
-                        else:
-                            appid, typ = get_appid_and_type_from_namematching(name,
-                                                                            cleanname,
-                                                                            cleansteamgames,
-                                                                            appidstried,
-                                                                            matches)
-
-                    if ((appid in appidstried) or (not appid)):
-                        game.store = StoreData()
-                        game.store.description = 'The game was not found in the steam db'
-                        styledprint.print_error('{0}: {1}'
-                                                .format(game.store.description, name))
-                        return
-                    else:
-                        appidstried.append(appid)
-
-                        if (await steam.get_store_info_from_appid(game,
-                                                                           name,
-                                                                           appid,
-                                                                           typ,
-                                                                           webSession)):
-                            break
-
+            # keep the old information if there is no new one
+            if (game.store.link):
+                storeBU = copy.deepcopy(game.store)
+                worked  = await steam.get_store_info_from_url(game, name,
+                                                              game.store.link,
+                                                              webSession)
+                if (not worked):
+                    game.store = storeBU
             else:
-                url      = mapping[0]
+                mapping = urlsmapping.get_mapping(name)
 
-                if (url == 'ignore'):
-                    styledprint.print_debug('{0} cannot be found and is to be ignored'
+                if (mapping == None):
+                    appidstried = []
+                    matches     = None
+                    while (True):
+                        appid, typ = get_appid_and_type(name, steamgames, appidstried)
+                        if (appid):
+                            styledprint.print_debug('The game {0} got its appid simply'
+                                                    .format(name))
+                        elif (not options.nofuzzymatching):
+                            cleanname = namematching.nameclean(name)
+                            appid, typ = get_appid_and_type(cleanname, cleansteamgames,
+                                                            appidstried)
+                            if (appid):
+                                styledprint.print_debug('The game {0} got its appid '
+                                                        'by namecleaning'
+                                                        .format(name))
+                            else:
+                                appid, typ = get_appid_and_type_from_namematching(name,
+                                                                                cleanname,
+                                                                                cleansteamgames,
+                                                                                appidstried,
+                                                                                matches)
+
+                        if ((appid in appidstried) or (not appid)):
+                            game.store = StoreData()
+                            game.store.description = 'The game was not found in the steam db'
+                            styledprint.print_error('{0}: {1}'
+                                                    .format(game.store.description, name))
+                            return
+                        else:
+                            appidstried.append(appid)
+
+                            if (await steam.get_store_info_from_appid(game,
+                                                                            name,
+                                                                            appid,
+                                                                            typ,
+                                                                            webSession)):
+                                break
+
+                else:
+                    url      = mapping[0]
+
+                    if (url == 'ignore'):
+                        styledprint.print_debug('{0} cannot be found and is to be ignored'
+                                                .format(name))
+                        return
+
+                    styledprint.print_debug('URL mapping found for game {0}'
                                             .format(name))
-                    return
+                    await steam.get_store_info_from_url(game, name,
+                                                        url, webSession)
+                    # overwriting the steam provided category
+                    if (len(mapping) == 2):
+                        game.store.category = Category[mapping[1].upper()]
+                        game.store.override = True
 
-                styledprint.print_debug('URL mapping found for game {0}'
-                                        .format(name))
-                await steam.get_store_info_from_url(game, name,
-                                                    url, webSession)
-                # overwriting the steam provided category
-                if (len(mapping) == 2):
-                    game.store.category = Category[mapping[1].upper()]
-                    game.store.override = True
-
-            styledprint.print_info('Info for game {0} was retrieved, {1}'
-                                .format(name,
-                                        str(datetime.datetime.now().time())))
+                styledprint.print_info('Info for game {0} was retrieved, {1}'
+                                    .format(name,
+                                            str(datetime.datetime.now().time())))
 
         if (name in winedb):
             game.wine = winedb[name]
