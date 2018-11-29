@@ -25,6 +25,7 @@ class Session():
                                                      limit_per_host=limit_per_host,
                                                      ttl_dns_cache=3600))
 
+
     async def __aenter__(self):
         return self
 
@@ -54,7 +55,7 @@ class Session():
 
 
     @cached(ttl=604800, cache=RedisCache, serializer=PickleSerializer(),
-            port=6379, timeout=0)
+            port=6379, timeout=0, noself=True)
     def cached_get_web_page(self, url, badurl=None):
         return self.get_web_page(url, badurl)
 
