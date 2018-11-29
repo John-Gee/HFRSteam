@@ -11,14 +11,15 @@ import progressbar
 import steam
 import styledprint
 import utils
+import web
 
 
 def get_newgame_info(name, appid, typ, page):
     local_applist = {}
-    document, _   = steam.instance.get_document(page, name)
+    document, _   = steam.get_document(page, name)
     logging.debug('got document for name {} ? {}'.format(name, document != None))
     shortlink     = '{0}/{1}'.format(typ, appid)
-    titles        = steam.instance.get_titles(document, shortlink) if (document is not None) else {}
+    titles        = steam.get_titles(document, shortlink) if (document is not None) else {}
     logging.debug('got titles {0} for name {1}'.format(titles, name))
     if (shortlink not in titles):
         titles[shortlink] = []
@@ -67,50 +68,48 @@ def merge_applists(first, second):
 
 
 async def refresh_applist(dryrun, skip, from_scratch=False, max_apps=None):
-    steam.create(20)
-    local_applist = await steam.instance.get_applist_from_local()
+    local_applist = await steam.get_applist_from_local()
     if(skip):
-        await steam.close()
         return local_applist
 
-    foreign_applist = await steam.instance.get_applist_from_server(max_apps)
-    styledprint.print_info('Apps in server:', len(foreign_applist))
-    styledprint.print_info('Apps in cache at start:', len(local_applist))
-    calname = 'refresh_applist'
-    try:
-        tasks = []
-        for name in foreign_applist:
-            for app in foreign_applist[name]:
-                if ((not from_scratch) and
-                    (name in local_applist) and
-                    (app in local_applist[name])):
-                    continue
-                appid, typ = app
-                link       = steam.instance.get_store_link(appid, typ)
-                f          = asyncio.ensure_future(steam.instance.get_page(link,
-                                                                           name))
-                f.add_done_callback(functools.partial(poolsubmit, calname,
-                                                      get_newgame_info, name,
-                                                      appid, typ, tasks))
-                tasks.append(f)
+    async with web.Session(limit_per_host=20) as webSession:
+        foreign_applist = await steam.get_applist_from_server(webSession, max_apps)
+        styledprint.print_info('Apps in server:', len(foreign_applist))
+        styledprint.print_info('Apps in cache at start:', len(local_applist))
+        calname = 'refresh_applist'
+        try:
+            tasks = []
+            for name in foreign_applist:
+                for app in foreign_applist[name]:
+                    if ((not from_scratch) and
+                        (name in local_applist) and
+                        (app in local_applist[name])):
+                        continue
+                    appid, typ = app
+                    link       = steam.get_store_link(appid, typ)
+                    f          = asyncio.ensure_future(steam.get_page(link, name,
+                                                                      webSession))
+                    f.add_done_callback(functools.partial(poolsubmit, calname,
+                                                        get_newgame_info, name,
+                                                        appid, typ, tasks))
+                    tasks.append(f)
 
-        if (len(tasks)):
-            styledprint.print_info('async tasks:')
-            await asyncio.gather(progressbar.progress_bar(tasks))
-    except Exception as e:
-        styledprint.print_error('Error happened while running the async loop:', e)
-        styledprint.print_error(traceback.format_exc())
-        pass
-    fs = parallelism.wait_calname(calname)
-    for f in fs:
-        ext_applist = f.result()
-        merge_applists(local_applist, ext_applist)
-    styledprint.print_info('Apps in cache at end (duplicate names not in the count):', len(local_applist))
+            if (len(tasks)):
+                styledprint.print_info('async tasks:')
+                await asyncio.gather(progressbar.progress_bar(tasks))
+        except Exception as e:
+            styledprint.print_error('Error happened while running the async loop:', e)
+            styledprint.print_error(traceback.format_exc())
+            pass
+        fs = parallelism.wait_calname(calname)
+        for f in fs:
+            ext_applist = f.result()
+            merge_applists(local_applist, ext_applist)
+        styledprint.print_info('Apps in cache at end (duplicate names not in the count):', len(local_applist))
 
-    if (not dryrun):
-        logging.debug('not dryrun so saving local_applist to disk')
-        await steam.instance.save_applist_to_local(local_applist)
-    await steam.close()
+        if (not dryrun):
+            logging.debug('not dryrun so saving local_applist to disk')
+            await steam.save_applist_to_local(local_applist)
 
     games = utils.DictCaseInsensitive()
     for game in local_applist:

@@ -15,6 +15,7 @@ import progressbar
 import steam
 import styledprint
 import utils
+import web
 
 
 def get_appid_and_type(name, games, appidstried):
@@ -53,7 +54,7 @@ def get_appid_and_type_from_namematching(origname, name, games, appidstried,
 
 
 async def get_game_info(options, game, cachedgames, steamgames, winedb,
-                  cleansteamgames, cleanwinedb, name, urlsmapping):
+                  cleansteamgames, cleanwinedb, name, urlsmapping, webSession):
     try:
         if ((not options.all) and (not game.hfr.is_available)):
             # Ignoring not available games for now
@@ -111,7 +112,8 @@ async def get_game_info(options, game, cachedgames, steamgames, winedb,
                         if (await steam.instance.get_store_info_from_appid(game,
                                                                            name,
                                                                            appid,
-                                                                           typ)):
+                                                                           typ,
++                                                                           webSession)):
                             break
 
             else:
@@ -124,7 +126,8 @@ async def get_game_info(options, game, cachedgames, steamgames, winedb,
 
                 styledprint.print_debug('URL mapping found for game {0}'
                                         .format(name))
-                await steam.instance.get_store_info_from_url(game, name, url)
+                await steam.instance.get_store_info_from_url(game, name,
+                                                             url, webSession)
                 # overwriting the steam provided category
                 if (len(mapping) == 2):
                     game.store.category = Category[mapping[1].upper()]
@@ -167,7 +170,7 @@ def start_loop(options, subGames, cachedgames, steamgames, winedb,
                cleansteamgames, cleanwinedb, urlsmapping, cpuCount):
     asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
     loop = asyncio.get_event_loop()
-    steam.create((20/cpuCount) + 1)
+    webSession = web.Session(limit_per_host=((20/cpuCount) + 1))
     tasks = []
     for name in subGames:
         game = subGames[name]
@@ -175,9 +178,10 @@ def start_loop(options, subGames, cachedgames, steamgames, winedb,
                                                          cachedgames, steamgames,
                                                          winedb, cleansteamgames,
                                                          cleanwinedb, name,
-                                                         urlsmapping)))
+                                                         urlsmapping,
+                                                         webSession)))
     loop.run_until_complete(asyncio.gather(progressbar.progress_bar(tasks)))
-    loop.run_until_complete(steam.close())
+    loop.run_until_complete(webSession.close())
     return subGames
 
 
