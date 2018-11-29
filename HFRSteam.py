@@ -128,7 +128,7 @@ if __name__ == '__main__':
         winedb     = tasks[1].result()
         games      = tasks[2].result()
 
-        gamesinfo.get_games_info(loop, options, games, steamgames, winedb)
+        gamesinfo.get_games_info(options, games, steamgames, winedb)
 
         write_output_files(options, games)
 
