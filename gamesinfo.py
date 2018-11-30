@@ -78,7 +78,7 @@ async def get_game_info(options, game, cachedgames, steamgames, winedb,
         # - not in cache
         # - in cache and to be refreshed
         if ((not options.cacheonly) and
-            ((game.store.link is None) or ((options.game) and
+            ((not game.store.link) or ((options.game) and
                                            (options.game.lower()
                                             in name.lower())))):
 
