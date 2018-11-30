@@ -1,6 +1,6 @@
 import asyncio
 from concurrent import futures
-import datetime
+from datetime import datetime
 import logging
 import os
 import sys
@@ -28,8 +28,9 @@ def get_number_of_cores():
 class Pool():
     def create(self, ncpus):
         if (not ncpus):
-            ncpus = get_number_of_cores()
-        self.pool = futures.ProcessPoolExecutor(ncpus)
+            ncpus  = get_number_of_cores()
+        self.ncpus = ncpus
+        self.pool  = futures.ProcessPoolExecutor(self.ncpus)
 
 
     def shutdown(self, **kwargs):
@@ -91,12 +92,12 @@ def wait_calname(calname):
     if (calname not in future):
         return []
 
-    logging.debug('futures.wait() started at: ' + str(datetime.datetime.now().time()))
+    logging.debug('futures.wait() started at: ' + str(datetime.now().time()))
     logging.debug('len(future[calname]: ' + str(len(future[calname])))
     styledprint.print_info('pool tasks:')
     for f in tqdm.tqdm(futures.as_completed(future[calname]), total=len(future[calname])):
         pass
-    logging.debug('futures.wait() done at: ' + str(datetime.datetime.now().time()))
+    logging.debug('futures.wait() done at: ' + str(datetime.now().time()))
     fs = future[calname]
     del future[calname]
     return fs
@@ -141,4 +142,28 @@ def submit_jobs(args):
             submit_job_calname(calname, *arg)
         except StopIteration:
             break
-    wait_calname(calname)
+    return wait_calname(calname)
+
+
+def split_submit_job(dict1, dict2, func, *args):
+    calname = utils.get_caller_name()
+    curCPU  = 0
+    subDict = [utils.DictCaseInsensitive() for x in range(pool.ncpus)]
+
+    for key in dict1:
+        subDict[curCPU][key] = dict1[key]
+        curCPU+=1
+        if (curCPU == pool.ncpus):
+            curCPU = 0
+
+    future[calname] = []
+    for i in range(pool.ncpus):
+        submit_job_calname(calname, func, subDict[i], *args)
+
+    fs = wait_calname(calname)
+
+
+    for f in fs:
+        subDict = f.result()
+        for key in subDict:
+            dict2[key] = subDict[key]

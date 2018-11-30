@@ -16,24 +16,23 @@ def key_from_args(func, args, kwargs):
     )
 
 
-class Cor():
+class Cache():
     def __init__(self):
-        self.cache = RedisCache(serializer=PickleSerializer(),
+        self.redis = RedisCache(serializer=PickleSerializer(),
                                 port=6379, timeout=0)
 
-
-    async def cached(self, cor, *args, ttl=604800, **kwargs):
+    async def coroutine(self, cor, *args, ttl=604800, **kwargs):
         key = key_from_args(cor, args, kwargs)
-        result = await self.cache.get(key)
+        result = await self.redis.get(key)
         if (result is not None):
             return result
         result = await cor(*args)
-        await self.cache.set(key, result, ttl=ttl)
+        await self.redis.set(key, result, ttl=ttl)
         return result
 
 
     async def close(self):
-        await self.cache.close()
+        await self.redis.close()
 
 
 if __name__ == '__main__':
@@ -45,12 +44,12 @@ if __name__ == '__main__':
     loop.run_until_complete(asyncio.gather(*tasks))
     res = tasks[0].result()
     print(res)
-    cor = Cor()
-    tasks = [asyncio.ensure_future(cor.cached(test, 2, ttl=5))]
+    cache = Cache()
+    tasks = [asyncio.ensure_future(cache.coroutine(test, 2, ttl=5))]
     loop.run_until_complete(asyncio.gather(*tasks))
     res = tasks[0].result()
     print(res)
-    tasks = [asyncio.ensure_future(cor.cached(test, 2, ttl=5))]
+    tasks = [asyncio.ensure_future(cache.coroutine(test, 2, ttl=5))]
     loop.run_until_complete(asyncio.gather(*tasks))
     res = tasks[0].result()
     print(res)

@@ -23,7 +23,7 @@ class Session():
                                                  connector=aiohttp.TCPConnector(
                                                      limit_per_host=limit_per_host,
                                                      ttl_dns_cache=3600))
-        self.cache       = requestcache.Cor()
+        self.cache       = requestcache.Cache()
 
 
     async def __aenter__(self):
@@ -55,7 +55,7 @@ class Session():
 
 
     async def cached_get_web_page(self, url, badurl=None, ttl=604800):
-        return await self.cache.cached(self.get_web_page, url, badurl, ttl=ttl)
+        return await self.cache.coroutine(self.get_web_page, url, badurl, ttl=ttl)
 
 
     async def get_web_page(self, url, badurl=None):

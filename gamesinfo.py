@@ -1,6 +1,6 @@
 import asyncio
 import copy
-import datetime
+from datetime import datetime
 import os
 import sys
 import traceback
@@ -89,7 +89,7 @@ async def get_game_info(options, game, cachedgames, steamgames, winedb,
                 if (worked):
                     styledprint.print_info('Info for game {0} was retrieved, {1}'
                                            .format(name,
-                                                   str(datetime.datetime.now().time())))
+                                                   str(datetime.now().time())))
                 else:
                     game.store = storeBU
             else:
@@ -103,7 +103,7 @@ async def get_game_info(options, game, cachedgames, steamgames, winedb,
                         if (appid):
                             styledprint.print_debug('The game {0} got its appid simply'
                                                     .format(name))
-                        elif (not options.nofuzzymatching):
+                        elif (options.fuzzymatching):
                             cleanname = namematching.nameclean(name)
                             appid, typ = get_appid_and_type(cleanname, cleansteamgames,
                                                             appidstried)
@@ -153,11 +153,11 @@ async def get_game_info(options, game, cachedgames, steamgames, winedb,
 
                 styledprint.print_info('Info for game {0} was retrieved, {1}'
                                     .format(name,
-                                            str(datetime.datetime.now().time())))
+                                            str(datetime.now().time())))
 
         if (name in winedb):
             game.wine = winedb[name]
-        else:
+        elif (options.fuzzymatching):
             cleanname = namematching.nameclean(name)
             if (cleanname in cleanwinedb):
                 game.wine = cleanwinedb[cleanname]
@@ -171,8 +171,12 @@ async def get_game_info(options, game, cachedgames, steamgames, winedb,
         raise e
 
 
+# TODO
+# need to cache nameclean
+# last try was way slower than without cache
 def clean_names(names):
     cleannames = utils.DictCaseInsensitive()
+
     for name in names:
         cleanname = namematching.nameclean(name)
         if (cleanname in cleannames):
@@ -181,10 +185,11 @@ def clean_names(names):
                     cleannames[cleanname].append(t)
         else:
             cleannames[cleanname] = names[name]
+
     return cleannames
 
 
-def start_loop(options, subGames, cachedgames, steamgames, winedb,
+def start_loop(subGames, options, cachedgames, steamgames, winedb,
                cleansteamgames, cleanwinedb, urlsmapping, cpuCount):
     asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
     loop = asyncio.new_event_loop()
@@ -211,31 +216,18 @@ def get_games_info(options, games, steamgames, winedb):
     CACHE_PATH      = os.path.join('cache', 'games.p')
     cache           = Cache(CACHE_PATH)
     cachedgames     = cache.load_from_cache()
-    cleansteamgames = clean_names(steamgames)
-    cleanwinedb     = clean_names(winedb)
+    cleansteamgames = utils.DictCaseInsensitive()
+    cleanwinedb     = utils.DictCaseInsensitive()
+    if (options.fuzzymatching):
+        parallelism.split_submit_job(steamgames, cleansteamgames, clean_names)
+        parallelism.split_submit_job(winedb, cleanwinedb, clean_names)
 
     URLS_MAPPING    = os.path.join('mappings', 'urlsmapping.txt')
     urlsmapping     = Mapper(URLS_MAPPING)
 
-    cpuCount        = parallelism.get_number_of_cores()
-    curCPU          = 0
-    subGames        = [utils.DictCaseInsensitive() for x in range(cpuCount)]
-
-    for name in games:
-        subGames[curCPU][name] = games[name]
-        curCPU+=1
-        if (curCPU == cpuCount):
-            curCPU = 0
-
-    for i in range(cpuCount):
-        parallelism.submit_job(start_loop, options, subGames[i], cachedgames,
-                               steamgames, winedb, cleansteamgames,
-                               cleanwinedb, urlsmapping, cpuCount)
-    fs = parallelism.wait()
-    for f in fs:
-        sGames = f.result()
-        for name in sGames:
-            games[name] = sGames[name]
+    parallelism.split_submit_job(games, games, start_loop, options, cachedgames,
+                                 steamgames, winedb, cleansteamgames,
+                                 cleanwinedb, urlsmapping, parallelism.get_number_of_cores())
 
     if (not options.dryrun):
         newcachedgames = cache.merge_old_new_cache(cachedgames, games)
