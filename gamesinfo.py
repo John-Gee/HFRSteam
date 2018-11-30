@@ -186,10 +186,9 @@ def clean_names(names):
 
 def start_loop(options, subGames, cachedgames, steamgames, winedb,
                cleansteamgames, cleanwinedb, urlsmapping, cpuCount):
-    #asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
-    loop  = asyncio.get_event_loop()
-    #loop = asyncio.new_event_loop()
-    #asyncio.set_event_loop(loop)
+    asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
     webSession = web.Session(limit_per_host=((20/cpuCount) + 1))
     tasks = []
     for name in subGames:
@@ -199,10 +198,10 @@ def start_loop(options, subGames, cachedgames, steamgames, winedb,
                                                         winedb, cleansteamgames,
                                                         cleanwinedb, name,
                                                         urlsmapping,
-                                                        webSession)))#,
-                                           #loop=loop))
-    loop.run_until_complete(asyncio.gather(progressbar.progress_bar(tasks)))#,
-                                                                    #loop=loop))
+                                                        webSession),
+                                           loop=loop))
+    loop.run_until_complete(asyncio.gather(progressbar.progress_bar(tasks),
+                                                                    loop=loop))
     loop.run_until_complete(webSession.close())
     return subGames
 
@@ -218,7 +217,6 @@ def get_games_info(options, games, steamgames, winedb):
     URLS_MAPPING    = os.path.join('mappings', 'urlsmapping.txt')
     urlsmapping     = Mapper(URLS_MAPPING)
 
-    ''' not working for now with caching
     cpuCount        = parallelism.get_number_of_cores()
     curCPU          = 0
     subGames        = [utils.DictCaseInsensitive() for x in range(cpuCount)]
@@ -238,10 +236,6 @@ def get_games_info(options, games, steamgames, winedb):
         sGames = f.result()
         for name in sGames:
             games[name] = sGames[name]
-    '''
-
-    start_loop(options, games, cachedgames, steamgames, winedb,
-               cleansteamgames, cleanwinedb, urlsmapping, 1)
 
     if (not options.dryrun):
         newcachedgames = cache.merge_old_new_cache(cachedgames, games)
