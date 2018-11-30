@@ -133,7 +133,7 @@ async def get_store_info(game, name, webSession):
                             r'\1', url, flags=re.IGNORECASE)
 
     if ( ('/sub/' in game.store.link) or ('/bundle/' in game.store.link)):
-        await get_collection_info(game, name, document)
+        await get_collection_info(game, name, document, webSession)
     elif ('/app/' in game.store.link):
         get_standalone_info(game, name, document)
     else:
