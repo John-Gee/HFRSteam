@@ -50,7 +50,7 @@ async def get_forOneRating(url, rating, webSession):
     tasks   = []
     for p in range(2, int(numOfPages) + 1):
         nextURL = '{0}&iPage={1}'.format(fullURL, p)
-        tasks.append(webSession.get_web_page(nextURL))
+        tasks.append(webSession.cached_get_web_page(nextURL))
 
     #1st page
     apps.extend(get_apps_from_doc(document))
@@ -66,8 +66,6 @@ async def get_forOneRating(url, rating, webSession):
     return apps, rating
 
 
-@cached(ttl=604800, cache=RedisCache, serializer=PickleSerializer(),
-        port=6379, timeout=0)
 async def get_ratings():
     URL     = 'https://appdb.winehq.org/objectManager.php?sClass=application&sTitle=Browse+Applications&iappVersion-ratingOp0=5&sOrderBy=appName&bAscending=true&iItemsPerPage=200&sappVersion-ratingData0='
     ratings = utils.DictCaseInsensitive()

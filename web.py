@@ -1,5 +1,3 @@
-from aiocache import cached, RedisCache
-from aiocache.serializers import PickleSerializer
 import aiohttp
 import asyncio
 import datetime
@@ -10,6 +8,7 @@ import traceback
 import uvloop
 
 import asynchelpers
+import requestcache
 import styledprint
 
 
@@ -24,6 +23,7 @@ class Session():
                                                  connector=aiohttp.TCPConnector(
                                                      limit_per_host=limit_per_host,
                                                      ttl_dns_cache=3600))
+        self.cache       = requestcache.Cor()
 
 
     async def __aenter__(self):
@@ -54,14 +54,8 @@ class Session():
             raise e
 
 
-    @cached(ttl=604800, cache=RedisCache, serializer=PickleSerializer(),
-            port=6379, timeout=0, noself=True)
-    def cached_get_web_page(self, url, badurl=None):
-        return self.get_web_page(url, badurl)
-
-
-    def noncached_get_web_page(self, url, badurl=None):
-        return self.get_web_page(url, badurl)
+    async def cached_get_web_page(self, url, badurl=None, ttl=604800):
+        return await self.cache.cached(self.get_web_page, url, badurl, ttl=ttl)
 
 
     async def get_web_page(self, url, badurl=None):
@@ -119,8 +113,9 @@ class Session():
         raise Exception('Get did not work even after many retries for url', url)
 
 
-    def close(self):
-        return self.aiohttp.close()
+    async def close(self):
+        await self.cache.close()
+        await self.aiohttp.close()
 
 
 if __name__ == '__main__':

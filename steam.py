@@ -75,7 +75,7 @@ async def get_applist_from_local(filename='AppList.json'):
 async def get_applist_from_server(webSession, max_apps=None):
     APPLIST_URL = 'https://api.steampowered.com/ISteamApps/GetAppList/v2/'
     # never cache this as apps come and go
-    applist     = (await webSession.noncached_get_web_page(APPLIST_URL))[2]
+    applist     = (await webSession.cached_get_web_page(APPLIST_URL, ttl=7200))[2]
     return get_games_from_applist(applist, max_apps)
 
 
