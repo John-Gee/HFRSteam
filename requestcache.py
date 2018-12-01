@@ -24,10 +24,18 @@ class Cache():
     async def coroutine(self, cor, *args, ttl=604800, **kwargs):
         key = key_from_args(cor, args, kwargs)
         result = await self.redis.get(key)
-        if (result is not None):
-            return result
-        result = await cor(*args)
-        await self.redis.set(key, result, ttl=ttl)
+        if (result is None):
+            result = await cor(*args)
+            await self.redis.set(key, result, ttl=ttl)
+        return result
+
+
+    async def function(self, func, *args, ttl=604800, **kwargs):
+        key = key_from_args(func, args, kwargs)
+        result = await self.redis.get(key)
+        if (result is None):
+            result = func(*args)
+            await self.redis.set(key, result, ttl=ttl)
         return result
 
 
