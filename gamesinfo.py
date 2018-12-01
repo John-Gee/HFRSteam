@@ -63,6 +63,9 @@ async def get_game_info(options, game, cachedgames, steamgames, winedb,
             # or allow the user to do so in the html page.
             return
 
+        cleanname = None
+        #cache    = webSession.cache
+
         if (name in cachedgames):
             # Whether the cache is ignored or not,
             # if a game cached has a gift_date we keep it
@@ -104,6 +107,8 @@ async def get_game_info(options, game, cachedgames, steamgames, winedb,
                             styledprint.print_debug('The game {0} got its appid simply'
                                                     .format(name))
                         elif (options.fuzzymatching):
+                            # it seems quicker to recompute it than use redis
+                            #cleanname = await cache.function(namematching.nameclean, name)
                             cleanname = namematching.nameclean(name)
                             appid, typ = get_appid_and_type(cleanname, cleansteamgames,
                                                             appidstried)
@@ -123,6 +128,7 @@ async def get_game_info(options, game, cachedgames, steamgames, winedb,
                             game.store.description = 'The game was not found in the steam db'
                             styledprint.print_error('{0}: {1}'
                                                     .format(game.store.description, name))
+                            cleanname = None
                             return
                         else:
                             appidstried.append(appid)
@@ -155,10 +161,16 @@ async def get_game_info(options, game, cachedgames, steamgames, winedb,
                                     .format(name,
                                             str(datetime.now().time())))
 
+        # TODO
+        # compute cleanname once
+        # cache heavy stuff
         if (name in winedb):
             game.wine = winedb[name]
         elif (options.fuzzymatching):
-            cleanname = namematching.nameclean(name)
+            if (cleanname is None):
+                # it seems quicker to recompute it than use redis
+                #cleanname = await cache.function(namematching.nameclean, name)
+                cleanname = namematching.nameclean(name)
             if (cleanname in cleanwinedb):
                 game.wine = cleanwinedb[cleanname]
             else:
