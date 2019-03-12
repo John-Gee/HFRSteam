@@ -65,7 +65,7 @@ def get_rows(games):
 
         data += writeline('var row = {')
         increase_indent_count()
-        data += writeline('name: "{0}",'.format(gameName))
+        data += writeline('name: "{0}",'.format(gameName.replace('"', '\\"')))
         if (game.store.link):
             if(game.store.image):
                 data += writeline('nameFormat: "<a href=\\"{0}\\" target=\\"_blank\\"><b>{1}</b><img src=\\"{2}\\" width=\\"100%\\"/></a>",'
@@ -77,7 +77,7 @@ def get_rows(games):
             data += writeline('nameFormat: "<b>{0}</b>",'.format(justifyFormat))
         if(game.store.description):
             data += writeline('description: "{0}",'.format(
-                game.store.description.replace(os.linesep, '<br/>')))
+                game.store.description.replace(os.linesep, '<br/>').replace('"', '\\"')))
         if (game.store.category):
             data += writeline('category: "{0}",'.format(game.store.category.name))
         if (len(game.store.os) > 0):
@@ -158,7 +158,8 @@ def get_rows(games):
             data += writeline('subtitles: "{0}",'.format(', '.join(game.store.subtitles)))
 
         if (game.wine):
-            data += writeline('wine: "{0}",'.format(', '.join([app.rating for app in game.wine])))
+            data += writeline('wine: "{0}",'.format(', '
+                .join([app.rating for app in game.wine])))
             data += writeline('wineFormat: "{0}",'
                               .format(justifyFormat
                                   .format(', '.join(
@@ -168,7 +169,7 @@ def get_rows(games):
             data += writeline('wineFormat: "{0}",'
                               .format(justifyFormat
                                       .format('<a href=\\"https://appdb.winehq.org/objectManager.php?sClass=application&sTitle=Browse+Applications&iappFamily-appNameOp=2&sappFamily-appNameData={0}\\" target=\\"_blank\\"><i>?</i></a>'
-                                              .format(gameName))))
+                                              .format(gameName.replace('"', '\\"')))))
 
         decrease_indent_count()
         data += writeline('};')
