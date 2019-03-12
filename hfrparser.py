@@ -1,5 +1,6 @@
 from aiocache import cached, RedisCache
 from aiocache.serializers import PickleSerializer
+import aiofiles
 import asyncio
 from datetime import datetime
 import re
@@ -143,7 +144,7 @@ async def parse_list(liste):
     games = utils.DictCaseInsensitive()
     async with aiofiles.open(liste, 'r') as f:
         content = await f.read()
-        hfrparser.get_games(games, content.splitlines(), '')
+        get_games(games, content.splitlines(), '')
     return games
 
 
