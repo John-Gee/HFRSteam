@@ -15,8 +15,8 @@ def main():
     i = 0
     for name in iter(cachedgames):
         game = cachedgames[name]
-        if (game.store.link):
-            game.store.link = game.store.link.replace('http:', 'https:')
+        if (not hasattr(game, 'wine')):
+            game.wine = None
             i = i + 1
     styledprint.print_info('{0} games cleaned'.format(i))
     cache.save_to_cache(cachedgames)
