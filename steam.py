@@ -454,11 +454,11 @@ def get_game_languages(document):
                     language       = domparser.get_text(row, 'td', class_='ellipsis').strip()
                     availabilities = domparser.get_elements(row, 'td', class_='checkcol')
                     if(availabilities):
-                        if(domparser.get_element(availabilities[0], 'img') is not None):
+                        if(domparser.get_element(availabilities[0], 'span') is not None):
                             interface.append(language)
-                        if(domparser.get_element(availabilities[1], 'img') is not None):
+                        if(domparser.get_element(availabilities[1], 'span') is not None):
                             audio.append(language)
-                        if(domparser.get_element(availabilities[2], 'img') is not None):
+                        if(domparser.get_element(availabilities[2], 'span') is not None):
                             subtitles.append(language)
     except Exception as e:
         titles = get_titles(document, 'N/A')
@@ -510,7 +510,7 @@ if __name__ == '__main__':
     #logging.getLogger('').addHandler(console)
     styledprint.set_verbosity(2)
     typ = 'app'
-    appid = '289130'
+    appid = '380750'
     name = 'name'
     asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
     loop = asyncio.get_event_loop()
@@ -520,8 +520,9 @@ if __name__ == '__main__':
     try:
         page, _, _  = loop.run_until_complete(get_page(storelink, name, webSession))
         document, _ = get_document(page, name)
-        titles      = get_titles(document, '{}/{}'.format(typ, appid))
-        print(titles)
+        #titles      = get_titles(document, '{}/{}'.format(typ, appid))
+        interface, audio, subtitles = get_game_languages(document)
+        print(interface, audio, subtitles)
     finally:
         loop.run_until_complete(webSession.close())
         #loop.close()
