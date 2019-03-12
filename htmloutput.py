@@ -170,12 +170,12 @@ def get_rows(games):
             data += writeline('wineFormat: "{0}",'
                               .format(justifyFormat
                                   .format(', '.join(
-                                      ['<a href=\\"{0}\\" target=\\"_blank\\"><b>{1}</b></a>'
+                                      ['<a href=\\"{0}\\" target=\\"_blank\\" rel=\\"noopener\\"><b>{1}</b></a>'
                                            .format(app.link, app.rating) for app in game.wine]))))
         else:
             data += writeline('wineFormat: "{0}",'
                               .format(justifyFormat
-                                      .format('<a href=\\"https://appdb.winehq.org/objectManager.php?sClass=application&sTitle=Browse+Applications&iappFamily-appNameOp=2&sappFamily-appNameData={0}\\" target=\\"_blank\\"><i>?</i></a>'
+                                      .format('<a href=\\"https://appdb.winehq.org/objectManager.php?sClass=application&sTitle=Browse+Applications&iappFamily-appNameOp=2&sappFamily-appNameData={0}\\" target=\\"_blank\\" rel=\\"noopener\\"><i>?</i></a>'
                                               .format(gameName.replace('"', '\\"')))))
 
         decrease_indent_count()
