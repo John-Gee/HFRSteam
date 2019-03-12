@@ -15,8 +15,14 @@ def main():
     i = 0
     for name in iter(cachedgames):
         game = cachedgames[name]
-        if (not hasattr(game, 'wine')):
-            game.wine = None
+        if (not hasattr(game.store, 'interface')):
+            game.store.interface = list()
+            i = i + 1
+        if (not hasattr(game.store, 'audio')):
+            game.store.audio = list()
+            i = i + 1
+        if (not hasattr(game.store, 'subtitles')):
+            game.store.subtitles = list()
             i = i + 1
     styledprint.print_info('{0} games cleaned'.format(i))
     cache.save_to_cache(cachedgames)
