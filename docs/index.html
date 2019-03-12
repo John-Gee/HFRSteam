@@ -55,6 +55,9 @@
                 </form>
             </div>
             <div id="wata" style="width:auto"></div>
+            <div id="option">
+                <input type="checkbox" id="bigImages">Utiliser des plus grandes images<br>
+            </div>
             <div id="rules">
                 <a href="https://forum.hardware.fr/hfr/JeuxVideo/Achat-Ventes/gratuit-origin-download-sujet_171605_1.htm#t8945000" style="color:grey" target="_blank"><small>&nbsp;*<u>Règles pour la liste standard et ses nouveautées (vers le haut du poste).</u></small></a>
                 <br/>
@@ -66,6 +69,12 @@
             </div>
             <script type="text/javascript">
                 $(document).ready(function(){
+                    //alert(localStorage.getItem('bigImages'));
+                    if (localStorage.getItem('bigImages') == 'true') {
+                        $('#bigImages').prop('checked', true);
+                        $('#bigImages').trigger('change');
+                    }
+                    //alert(localStorage.getItem('bigImages'));
                 $('#libraryId').keypress(function(e){
                     if (e.keyCode==13) {
                         $('#myButton').click();
@@ -416,6 +425,18 @@
                         checked = items[i].getElementsByTagName('input')[0].checked;
                         localStorage.setItem(name, checked);
                     }
+                });
+                $('#bigImages').change(function() {
+                    var checked = this.checked;
+                    localStorage.setItem('bigImages', checked);
+                    $('img').each(function () {
+                        var curSrc = $(this).attr('src');
+                        if (checked)
+                            var newSrc = curSrc.replace('capsule_sm_120.jpg', 'header.jpg');
+                        else
+                            var newSrc = curSrc.replace('header.jpg', 'capsule_sm_120.jpg');
+                        $(this).attr('src', newSrc);
+                    });
                 });
             </script>
         </div>

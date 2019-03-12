@@ -2,6 +2,7 @@ import aiofiles
 import datetime
 import math
 import os
+import re
 
 import styledprint
 import winelist
@@ -66,10 +67,16 @@ def get_rows(games):
         data += writeline('var row = {')
         increase_indent_count()
         data += writeline('name: "{0}",'.format(gameName.replace('"', '\\"')))
+        #TODO make smallImage an input parameter?
+        smallImage = True
         if (game.store.link):
             if(game.store.image):
+                if (smallImage):
+                    imageLink = re.sub(r'header\.jpg.*', 'capsule_sm_120.jpg', game.store.image)
+                else:
+                    imageLink = game.store.image
                 data += writeline('nameFormat: "<a href=\\"{0}\\" target=\\"_blank\\"><b>{1}</b><img src=\\"{2}\\" width=\\"100%\\"/></a>",'
-                                  .format(game.store.link, justifyFormat, game.store.image))
+                                  .format(game.store.link, justifyFormat, imageLink))
             else:
                 data += writeline('nameFormat: "<a href=\\"{0}\\" target=\\"_blank\\"><b>{1}</b></a>",'
                                   .format(game.store.link, justifyFormat))
