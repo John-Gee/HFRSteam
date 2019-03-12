@@ -80,9 +80,7 @@
                 });
 
                 function ProxyURL(url) {
-                    var yqlURL = 'https://query.yahooapis.com/v1/public/yql?q=';
-                    var yql    = encodeURIComponent('select * from htmlstring where url=\'' + url + '\'') + '&env=' + encodeURIComponent('store://datatables.org/alltableswithkeys');
-                    return yqlURL + yql;
+                    return 'https://cors-anywhere.herokuapp.com/' + url;
                 }
 
                 function SpinSpinner() {
@@ -162,8 +160,7 @@
 
                     //profile
                     var profileURL = ProxyURL(profile);
-                    $.get(profileURL, function(data) {
-                        var page = data.documentElement.innerHTML;
+                    $.get(profileURL, function(page) {
                         var gamesURL = profile + '/games/?tab=all';
                         // Verify that the profile exists and is public
                         var profileerror = 'The specified profile could not be found.';
@@ -177,9 +174,7 @@
 
                         // library
                         var library = ProxyURL(gamesURL);
-                        $.get(library, function(data) {
-                            var page = data.documentElement.innerHTML;
-
+                        $.get(library, function(page) {
                             ColorSpinner('Yellow');
                             var divclass = '<div class=\"profile_small_header_bg\">';
                             var beginning = 'var rgGames = ';
@@ -201,17 +196,12 @@
 
                             // wishlist
                             var wishlist = ProxyURL(profile.replace('steamcommunity.com/id', 'store.steampowered.com/wishlist/id'));
-                            $.get(wishlist, function(data) {
+                            $.get(wishlist, function(page) {
                                 ColorSpinner('Olive');
-                                var page = data.documentElement.innerHTML;
-                                var subpage = page.substring(page.indexOf('g_rgAppInfo'))
-                                subpage = subpage.substring(subpage.indexOf('{'))
-                                subpage = subpage.substring(0, subpage.indexOf('}}') + 2)
-                                subpage = subpage.replace(/\\"/g, '');
-                                cleansubpage = subpage.replace(/"platform_icons":"[^"]+"/g, '"platform_icons":""');
-                                cleansubpage = cleansubpage.replace(/"discount_block":"[^"]+"/g, '"discount_block":""');
+                                var subpage = page.substring(page.indexOf('g_rgWishlistData') + 19);
+                                subpage     = subpage.substring(0, subpage.indexOf('g_rgAppInfo') - 8);
                                 try {
-                                    var games = jQuery.parseJSON(cleansubpage);
+                                    var games = jQuery.parseJSON(subpage);
                                     var wishlistURLs = {};
                                     var i;
                                     var GAMEURL = 'https://store.steampowered.com/app/';
