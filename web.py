@@ -106,8 +106,11 @@ class Session():
                 logging.debug('get_utf8_web_page got {} for url {}'.format(type(e), url))
                 #await asyncio.sleep(1 * retry)
                 await asyncio.sleep(5)
-            except:
-                logging.debug('Problematic url in web: ' + url)
+            except (aiohttp.client_exceptions.TooManyRedirects) as e:
+                logging.debug('TooManyRedirects for url: ' + url)
+                return None, None, None
+            except e:
+                logging.debug('Problematic url in web: ' + url + ', ' + type(e))
                 #raise
 
         raise Exception('Get did not work even after many retries for url', url)
