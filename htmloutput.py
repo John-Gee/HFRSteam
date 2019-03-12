@@ -78,7 +78,7 @@ def get_rows(games):
                 data += writeline('nameFormat: "<a href=\\"{0}\\" target=\\"_blank\\"><b>{1}</b><img src=\\"{2}\\" width=\\"100%\\"/></a>",'
                                   .format(game.store.link, justifyFormat, imageLink))
             else:
-                data += writeline('nameFormat: "<a href=\\"{0}\\" target=\\"_blank\\"><b>{1}</b></a>",'
+                data += writeline('nameFormat: "<a href=\\"{0}\\" target=\\"_blank\\" rel=\\"noopener\\"><b>{1}</b></a>",'
                                   .format(game.store.link, justifyFormat))
         else:
             data += writeline('nameFormat: "<b>{0}</b>",'.format(justifyFormat))
