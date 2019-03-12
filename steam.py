@@ -267,7 +267,7 @@ def get_game_description(glance_ctn_block):
     description = domparser.get_text(glance_ctn_block, 'div',
                                     class_='game_description_snippet')
 
-    if (description):
+    if (description is not None):
         return description.replace('"', '').strip()
 
     return None
@@ -277,10 +277,10 @@ def get_dlc_description(document):
     widget_create_block = domparser.get_element(document, 'div',
                                                 id='widget_create')
 
-    if (widget_create_block):
+    if (widget_create_block is not None):
         description = domparser.get_value(widget_create_block, 'placeholder',
                                         'textarea')
-        if (description):
+        if (description is not None):
             return description.replace('"', '').strip()
 
     return None
@@ -325,12 +325,12 @@ def get_game_release_date(glance_ctn_block, name):
 def get_game_category(purchase_block, document):
     dlc_block = domparser.get_element(purchase_block, 'div',
                                     class_='game_area_dlc_bubble game_area_bubble')
-    if (dlc_block):
+    if (dlc_block is not None):
         return Category.DLC
 
     videos_href = domparser.get_element(document, 'a',
                                     text='All Streaming Videos')
-    if (videos_href):
+    if (videos_href is not None):
         return Category.Video
 
     return Category.Game
@@ -340,7 +340,7 @@ def get_game_price(purchase_block, name):
     wrappers = domparser.get_elements(purchase_block, 'div',
                                     class_='game_area_purchase_game_wrapper')
 
-    if (wrappers):
+    if (wrappers is not None):
         names  = list()
         prices = list()
         for wrapper in wrappers:
@@ -385,12 +385,12 @@ def get_game_price(purchase_block, name):
 
     play_game_span = domparser.get_element(purchase_block, 'span',
                                         string='Play Game')
-    if (play_game_span):
+    if (play_game_span is not None):
         return 0
 
     download_span  = domparser.get_element(purchase_block, 'span',
                                         string='Download')
-    if (download_span):
+    if (download_span is not None):
         return 0
 
     styledprint.print_info('No price found for {0}'.format(name))
@@ -475,7 +475,7 @@ def get_titles(document, shortlink):
     wrappers = domparser.get_elements(document, 'div',
                                     class_=re.compile('game_area_purchase_game_wrapper'))
 
-    if (wrappers):
+    if (wrappers is not None):
         for wrapper in wrappers:
             if (any (i in ['Bundle info', 'Package info']
                     for i in domparser.get_texts(wrapper, 'span'))):
