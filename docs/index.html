@@ -34,6 +34,12 @@
                 font-style: italic;
                 color: Orange;
             }
+            .text {
+                white-space: normal;
+                text-align: justify;
+                text-justify: inter-word;
+                line-height: 150%;
+            }
         </style>
     </head>
     <body>
@@ -74,6 +80,9 @@
                         $('#bigImages').trigger('change');
                     }
                     $('#headers').html($('#headers').html().replace('$D$', getDate()));
+                    jQuery("a").filter(function() {
+                        return this.hostname != window.location.hostname;
+                    }).attr('rel', 'noopener').attr('target', '_blank');
                 $('#libraryId').keypress(function(e){
                     if (e.keyCode==13) {
                         $('#myButton').click();
@@ -245,7 +254,7 @@
                             index: 1,
                             type: 'string',
                             friendly: 'Nom',
-                            format: '<div style="white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%">{0}</div>',
+                            format: '<div class="text">{0}</div>',
                             unique: true,
                             sortOrder: 'asc',
                             filter: '',
@@ -255,7 +264,7 @@
                             index: 2,
                             type: 'string',
                             friendly: 'Description',
-                            format: '<div style="white-space: normal; text-indent:1em; text-align: justify; text-justify: inter-word; line-height: 150%">{0}</div>',
+                            format: '<div class="text" style="text-indent:1em">{0}</div>',
                             unique: true,
                             filter: '',
                             sorting: false,
@@ -273,7 +282,7 @@
                             index: 4,
                             type: 'string',
                             friendly: 'OS',
-                            format: '<div style="white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%">{0}</div>',
+                            format: '<div class="text">{0}</div>',
                             unique: false,
                             filter: '',
                             hidden: localStorage.getItem('OS') ? !('true' == localStorage.getItem('OS')) : false,
@@ -291,7 +300,7 @@
                             index: 6,
                             type: 'string',
                             friendly: 'Genres',
-                            format: '<div style="white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%">{0}</div>',
+                            format: '<div class="text">{0}</div>',
                             unique: false,
                             filter: '',
                             hidden: localStorage.getItem('Genres') ? !('true' == localStorage.getItem('Genres')) : false,
@@ -308,7 +317,7 @@
                             index: 8,
                             type: 'string',
                             friendly: 'Revues',
-                            format: '<div style="white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%">{0}</div>',
+                            format: '<div class="text">{0}</div>',
                             unique: false,
                             filter: '',
                             hidden: localStorage.getItem('Revues') ? !('true' == localStorage.getItem('Revues')) : false,
@@ -317,7 +326,7 @@
                             index: 9,
                             type: 'string',
                             friendly: 'Liste HFR',
-                            format: '<div style="white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%">{0}</div>',
+                            format: '<div class="text">{0}</div>',
                             unique: false,
                             filter: '',
                             hidden: localStorage.getItem('Liste HFR') ? !('true' == localStorage.getItem('Liste HFR')) : false,
@@ -334,7 +343,7 @@
                             index: 11,
                             type: 'string',
                             friendly: 'Interface',
-                            format: '<div style="white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%">{0}</div>',
+                            format: '<div class="text">{0}</div>',
                             unique: false,
                             filter: '',
                             hidden: localStorage.getItem('Interface') ? !('true' == localStorage.getItem('Interface')) : true,
@@ -343,7 +352,7 @@
                             index: 12,
                             type: 'string',
                             friendly: 'Audio',
-                            format: '<div style="white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%">{0}</div>',
+                            format: '<div class="text">{0}</div>',
                             unique: false,
                             filter: '',
                             hidden: localStorage.getItem('Audio') ? !('true' == localStorage.getItem('Audio')) : true,
@@ -352,7 +361,7 @@
                             index: 13,
                             type: 'string',
                             friendly: 'Sous-Titres',
-                            format: '<div style="white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%">{0}</div>',
+                            format: '<div class="text">{0}</div>',
                             unique: false,
                             filter: '',
                             hidden: localStorage.getItem('Sous-Titres') ? !('true' == localStorage.getItem('Sous-Titres')) : true,
@@ -361,7 +370,7 @@
                             index: 14,
                             type: 'string',
                             friendly: 'Wine',
-                            format: '<div style="white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%">{0}</div>',
+                            format: '<div class="text">{0}</div>',
                             unique: false,
                             filter: '',
                             hidden: localStorage.getItem('Wine') ? !('true' == localStorage.getItem('Wine')) : true,
@@ -370,7 +379,7 @@
                             index: 100,
                             type: 'string',
                             friendly: 'Tags',
-                            format: '<div style="white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%">{0}</div>',
+                            format: '<div class="text">{0}</div>',
                             unique: false,
                             filter: '',
                             hidden: localStorage.getItem('Tags') ? !('true' == localStorage.getItem('Tags')) : true,
@@ -379,7 +388,7 @@
                             index: 101,
                             type: 'string',
                             friendly: 'Details',
-                            format: '<div style="white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%">{0}</div>',
+                            format: '<div class="text">{0}</div>',
                             unique: false,
                             filter: '',
                             hidden: localStorage.getItem('Details') ? !('true' == localStorage.getItem('Details')) : true,

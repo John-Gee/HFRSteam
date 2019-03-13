@@ -52,7 +52,7 @@ def get_rows(games):
     reviewMapping[4]  = 'Negative'
     reviewMapping[3]  = 'Very Negative'
     reviewMapping[2]  = 'Overwhelmingly Negative'
-    justifyFormat     = '<div style=\\"white-space: normal; text-align: justify; text-justify: inter-word; line-height: 150%\\">{0}</div>'
+    justifyFormat     = '<div class=\\"text\\">{0}</div>'
 
     data = writeline('function getRows(){')
     increase_indent_count()
@@ -75,10 +75,10 @@ def get_rows(games):
                     imageLink = re.sub(r'header\.jpg.*', 'capsule_sm_120.jpg', game.store.image)
                 else:
                     imageLink = game.store.image
-                data += writeline('nameFormat: "<a href=\\"{0}\\" target=\\"_blank\\" rel=\\"noopener\\"><b>{1}</b><img src=\\"{2}\\" width=\\"100%\\"/></a>",'
+                data += writeline('nameFormat: "<a href=\\"{0}\\"><b>{1}</b><img src=\\"{2}\\" width=\\"100%\\"/></a>",'
                                   .format(game.store.link, justifyFormat, imageLink))
             else:
-                data += writeline('nameFormat: "<a href=\\"{0}\\" target=\\"_blank\\" rel=\\"noopener\\"><b>{1}</b></a>",'
+                data += writeline('nameFormat: "<a href=\\"{0}\\"><b>{1}</b></a>",'
                                   .format(game.store.link, justifyFormat))
         else:
             data += writeline('nameFormat: "<b>{0}</b>",'.format(justifyFormat))
@@ -170,12 +170,12 @@ def get_rows(games):
             data += writeline('wineFormat: "{0}",'
                               .format(justifyFormat
                                   .format(', '.join(
-                                      ['<a href=\\"{0}\\" target=\\"_blank\\" rel=\\"noopener\\"><b>{1}</b></a>'
+                                      ['<a href=\\"{0}\\"><b>{1}</b></a>'
                                            .format(app.link, app.rating) for app in game.wine]))))
         else:
             data += writeline('wineFormat: "{0}",'
                               .format(justifyFormat
-                                      .format('<a href=\\"https://appdb.winehq.org/objectManager.php?sClass=application&sTitle=Browse+Applications&iappFamily-appNameOp=2&sappFamily-appNameData={0}\\" target=\\"_blank\\" rel=\\"noopener\\"><i>?</i></a>'
+                                      .format('<a href=\\"https://appdb.winehq.org/objectManager.php?sClass=application&sTitle=Browse+Applications&iappFamily-appNameOp=2&sappFamily-appNameData={0}\\"><i>?</i></a>'
                                               .format(gameName.replace('"', '\\"')))))
 
         decrease_indent_count()
