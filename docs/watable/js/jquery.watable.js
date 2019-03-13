@@ -258,7 +258,7 @@
                         link.appendTo(headCell);
 
                         if (props.tooltip) {
-                            $('<span class="glyphicon glyphicon-info-sign"></span>').tooltip({
+                            $('<span class="fas fa-info-circle"></span>').tooltip({
                                 title: props.tooltip.trim(),
                                 html: true,
                                 container: 'body',
@@ -272,8 +272,8 @@
 
                         //Add sort arrow
                         if (column == _currSortCol) {
-                            if (_currSortFlip) $('<span class="glyphicon glyphicon-chevron-down pull-right"></span>').appendTo(headCell);
-                            else $('<span class="glyphicon glyphicon-chevron-up pull-right"></span>').appendTo(headCell);
+                            if (_currSortFlip) $('<span class="fas fa-chevron-down fa-9x pull-right"></span>').appendTo(headCell);
+                            else $('<span class="fas fa-chevron-up fa-9x pull-right"></span>').appendTo(headCell);
                         }
                     }
                 }
@@ -354,8 +354,8 @@
                                         var today = new priv.ext.XDate(false).setHours(0, 0, 0, 0).toString('yyyy-MM-dd');
                                         var dp = $('<div style="float:right" class="date" data-date="{0}" data-date-format="{1}" />'.f(today, 'yyyy-mm-dd')).appendTo(elem);
                                         $('<input style="display:none" type="text"  />').appendTo(dp);
-                                        $('<span class="add-on glyphicon glyphicon-chevron-right"></span>').on('click', {op: "l"}, priv.dpOpChanged).appendTo(dp);
-                                        $('<span class="add-on glyphicon glyphicon-chevron-left"></span>').on('click', {op: "r"}, priv.dpOpChanged).appendTo(dp);
+                                        $('<span class="add-on fas fa-chevron-right"></span>').on('click', {op: "l"}, priv.dpOpChanged).appendTo(dp);
+                                        $('<span class="add-on fas fa-chevron-left"></span>').on('click', {op: "r"}, priv.dpOpChanged).appendTo(dp);
                                         dp.datepicker({weekStart:1});
                                         dp.on('changeDate', {column: column, input: $('input.filter', elem)}, priv.dpClicked);
                                     }
@@ -632,7 +632,7 @@
                 //create actions dropdown
                 if (priv.options.actions) {
                     var div = $('<div class="btn-group dropup actions"></div>').appendTo(footToolbar);
-                    var btn = $('<button class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-list"></span>&nbsp;</button>').appendTo(div);
+                    var btn = $('<button class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#"><span class="<i class="fas fa-list"></span>&nbsp;</button>').appendTo(div);
                     var span = $('<span class="caret"></span>').appendTo(btn);
                     var ul = $('<ul class="dropdown-menu">').appendTo(div);
 
@@ -1429,7 +1429,7 @@
                     if (callBackData.checked != isChecked) {
                         checkbox = checkbox || $('.unique', elem.closest('tr'));
                         checkbox.prop('checked', callBackData.checked);
-
+                        //priv.rowChecked.call(checkbox, e);
                         //store the row in checked array
                         if (callBackData.checked) {
                             _data.meta.rowsChecked[unique] = _data.meta.rowsLookup[unique].row;
