@@ -13,33 +13,147 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="Description" content="Liste HFR Steam">
         <style>
+            /* For Watable */
             .watable input[type=text].filter {
-                width: 100%;
                 font-style: italic;
+                font-weight: bold;
+                width: 100%;
             }
+            .table th {
+                padding: 0.25em;
+            }
+            .table td{
+                padding: 0.5em;
+            }
+            /* For Watable */
+
+            /* For Watable and Bootstrap v4*/
+            .pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hove {
+                z-index: 3;
+                color: #337ab7;
+                cursor: default;
+                background-color: #337ab7;
+                border-color: #337ab7;
+            }
+            .pagination>li>a {
+                position: relative;
+                float: left;
+                padding: 4px 12px;
+                margin-bottom: 0.5em;
+                line-height: 1.42857143;
+                color: #337ab7;
+                text-decoration: none;
+                background-color: #fff;
+                border: 1px solid #ddd;
+            }
+            .pagination>li>a:hover {
+                color: #333;
+                background-color: #e6e6e6;
+                border-color: #adadad;
+            }
+            .pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover {
+                z-index: 3;
+                color: #fff;
+                cursor: default;
+                background-color: #337ab7;
+                border-color: #337ab7;
+            }
+            .pagination>li>a:focus, .pagination>li>a:hover, .pagination>li>span:focus, .pagination>li>span:hover {
+                z-index: 2;
+                color: #23527c;
+                background-color: #eee;
+                border-color: #ddd;
+            }
+            .pagination>.disabled>a, .pagination>.disabled>a:focus, .pagination>.disabled>a:hover, .pagination>.disabled>span, .pagination>.disabled>span:focus, .pagination>.disabled>span:hover {
+                color: #777;
+                cursor: not-allowed;
+                background-color: #fff;
+                border-color: #ddd;
+            }
+            .btn-default {
+                color: #333;
+                padding: 4px 12px;
+                background-color: #fff;
+                border-color: #ccc;
+                height: 26.6154px;
+                line-height: 17.1429px;
+                margin-left: 0.5em;
+                margin-bottom: 0.5em;
+            }
+            .btn-default:focus, .btn-default:hover {
+                color: #333;
+                background-color: #e6e6e6;
+                border-color: #adadad;
+            }
+            .dropdown-menu>li>a {
+                display: block;
+                padding: 3px 20px;
+                clear: both;
+                font-weight: 400;
+                line-height: 1.42857143;
+                color: #333;
+                white-space: nowrap;
+            }
+            .dropdown-menu>li>a:focus, .dropdown-menu>li>a:hover {
+                color: #262626;
+                text-decoration: none;
+                background-color: #f5f5f5;
+            }
+            /* For Watable and Bootstrap v4*/
+
+            /* Simple styling */
             h1 {
+                font-size: 2em;
+                margin-top: 0.5em;
                 margin-bottom: 0em;
             }
             h6 {
-                font-size: 0.7em;
+                font-size: 0.6em;
                 margin-top: 0em;
+                margin-left: 0.2em;
             }
             .main {
                 margin-top: 0em;
                 margin-bottom: 0em;
-                margin-left: 0em;
+                margin-left: 0.4em;
                 margin-right: 0em;
+            }
+            form {
+                font-size: 0.7em;
             }
             .override {
                 font-style: italic;
-                color: Orange;
+                color: Green;
+                font-size: xx-small;
             }
             .text {
-                white-space: normal;
+                white-space: pre-line;
                 text-align: justify;
                 text-justify: inter-word;
                 line-height: 150%;
             }
+            /* Simple styling */
+
+            /* For the fancy checkbox */
+            .badge {
+                color: #17a2b8;
+                background-color: white;
+            }
+            /* Hiding the checkbox, but allowing it to be focused */
+            .badgebox {
+                opacity: 0;
+            }
+            .badgebox + .badge {
+                /* Move the check mark away when unchecked */
+                text-indent: -999999px;
+                /* Makes the badge's width stay the same checked and unchecked */
+                width: 27px;
+            }
+            .badgebox:checked + .badge {
+                /* Move the check mark back when checked */
+                text-indent: 0;
+            }
+            /* For the fancy checkbox */
         </style>
     </head>
     <body>
@@ -62,7 +176,7 @@
             </div>
             <div id="wata" style="width:auto"></div>
             <div id="option">
-                <input type="checkbox" id="bigImages">Utiliser des plus grandes images<br>
+                <label for="bigImages" class="btn btn-info btn-sm">Images HQ<input type="checkbox" id="bigImages" class="badgebox"><span class="badge">&check;</span></label>
             </div>
             <div id="rules">
                 <a href="https://forum.hardware.fr/hfr/JeuxVideo/Achat-Ventes/gratuit-origin-download-sujet_171605_1.htm#t8945000" style="color:grey" target="_blank" rel="noopener"><small>&nbsp;*<u>Règles pour la liste standard et ses nouveautées (vers le haut du poste).</u></small></a>
@@ -71,7 +185,7 @@
                 <br/>
             </div>
             <div class="override">
-                <small>Merci de faire attention au nom, ces lignes ne pointant pas vers leur page exacte, qui n&#39;existe pas.</small>
+                Prière de faire attention, ces liens ne pointant pas directement vers l'énonciation des règles.
             </div>
             <script type="text/javascript">
                 $(document).ready(function(){
