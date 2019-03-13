@@ -1,18 +1,18 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
     <head>
         <title>Liste HFR Steam</title>
-        <script src="hfr.js"></script>
-        <script src="jquery/js/jquery-3.3.1.min.js"></script>
-        <script src="popper/popper.min.js"></script>
-        <script src="bootstrap/js/bootstrap.min.js"></script>
-        <script src="watable/js/jquery.watable.js"></script>
-        <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
-        <link href="watable/css/watable.css" rel="stylesheet"/>
-        <link href="fontawesome/css/all.min.css" rel="stylesheet"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="Description" content="Liste HFR Steam">
-        <style>
+        <script src="hfr.js" type="text/javascript"></script>
+        <script src="jquery/js/jquery-3.3.1.min.js" type="text/javascript"></script>
+        <script src="popper/popper.min.js" type="text/javascript"></script>
+        <script src="bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+        <script src="watable/js/jquery.watable.js" type="text/javascript"></script>
+        <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+        <link href="watable/css/watable.css" rel="stylesheet" type="text/css"/>
+        <link href="fontawesome/css/all.min.css" rel="stylesheet" type="text/css"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <meta name="Description" content="Liste HFR Steam"/>
+        <style type="text/css">
             /* For Watable */
             .watable input[type=text].filter {
                 font-style: italic;
@@ -158,15 +158,15 @@
     </head>
     <body>
         <div class="main">
-            <div id=headers>
+            <div id="headers">
                 <h1>Liste HFR Steam</h1>
                 <h6>Mise à jour le $D$
                 </h6>
                 <a href="https://github.com/John-Gee/HFRSteam" target="_blank" rel="noopener">
-                    <img style="position: absolute; top: 0; right: 0; border: 0; max-width: 75px;" src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png">
+                    <img style="position: absolute; top: 0; right: 0; border: 0; max-width: 75px;" src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png"/>
                 </a>
 
-                <form onsubmit="return false">
+                <form action="#" onsubmit="return false">
                     <a data-toggle="tooltip" title="URL du profil, ex: https://steamcommunity.com/id/geeHFR ou simplement le nom, ex: geeHFR">
                         <input type="text" name="library" id="libraryId" placeholder="Votre profil Steam" size="25"/>
                     </a>
@@ -176,7 +176,7 @@
             </div>
             <div id="wata" style="width:auto"></div>
             <div id="option">
-                <label for="bigImages" class="btn btn-info btn-sm">Images HQ<input type="checkbox" id="bigImages" class="badgebox"><span class="badge">&check;</span></label>
+                <label for="bigImages" class="btn btn-info btn-sm">Images HQ<input type="checkbox" id="bigImages" class="badgebox"/><span class="badge">&check;</span></label>
             </div>
             <div id="rules">
                 <a href="https://forum.hardware.fr/hfr/JeuxVideo/Achat-Ventes/gratuit-origin-download-sujet_171605_1.htm#t8945000" style="color:grey" target="_blank" rel="noopener"><small>&nbsp;*<u>Règles pour la liste standard et ses nouveautées (vers le haut du poste).</u></small></a>
@@ -193,159 +193,162 @@
                         $('#bigImages').prop('checked', true);
                         $('#bigImages').trigger('change');
                     }
+
                     $('#headers').html($('#headers').html().replace('$D$', getDate()));
+
                     jQuery("a").filter(function() {
                         return this.hostname != window.location.hostname;
                     }).attr('rel', 'noopener').attr('target', '_blank');
-                $('#libraryId').keypress(function(e){
-                    if (e.keyCode==13) {
-                        $('#myButton').click();
-                    }
-                });
 
-                function ProxyURL(url) {
-                    return 'https://cors-anywhere.herokuapp.com/' + url;
-                }
-
-                function SpinSpinner() {
-                    RemoveSpinner();
-                    $('#spinner').addClass('fas fa-sync fa-spin fa-1x fa-fw');
-                }
-
-                function StopSpinner() {
-                    $('#spinner').removeClass('fa-spin');
-                }
-
-                function RemoveSpinner() {
-                    $('#spinner').removeClass();
-                }
-
-                function ColorSpinner(color) {
-                    $('#spinner').css('color', color);
-                }
-
-                function ProfileError(error){
-                    StopSpinner();
-                    ColorSpinner('red');
-                    UpdateTable({}, {});
-                    alert(error);
-                }
-
-                function UpdateTable(libraryURLs, wishlistURLs) {
-                    var data = waTable.getData();
-                    // change the rows
-                    for (i = 0; i < data.rows.length; ++i) {
-                        if (data.rows[i]['nameFormat']) {
-                            var href = data.rows[i]['nameFormat'];
-                            href = href.substring(href.indexOf('"') + 1);
-                            href = href.substring(0, href.indexOf('"'));
-                            cls  = data.rows[i]['row-cls'];
-
-                            if (href in libraryURLs) {
-                                data.rows[i]['row-cls'] = 'green,';
-                                data.rows[i]['store'] = 'Librarie';
-                            }
-
-                            else if (href in wishlistURLs) {
-                                data.rows[i]['row-cls'] = 'blue,';
-                                data.rows[i]['store'] = 'Souhait';
-                            }
-
-                            else {
-                                data.rows[i]['row-cls'] = '';
-                                data.rows[i]['store'] = '';
-                            }
-
-                            if ((typeof cls !== 'undefined') && (cls.includes('override')))
-                                data.rows[i]['row-cls'] += 'override,'
+                    $('#libraryId').keypress(function(e){
+                        if (e.keyCode==13) {
+                            $('#myButton').click();
                         }
+                    });
+
+                    function ProxyURL(url) {
+                        return 'https://cors-anywhere.herokuapp.com/' + url;
                     }
-                    Platform.performMicrotaskCheckpoint();
-                    waTable.setData(data);
-                    StopSpinner();
-                }
 
-                $('#myButton').click(function(){
-                    SpinSpinner();
-                    ColorSpinner('Orange');
-                    var profile = $.trim(document.getElementById('libraryId').value);
-                    if (!profile || /^\s*$/.test(profile)) {
-                        ProfileError('Aucun profile!');
-                        return;
+                    function SpinSpinner() {
+                        RemoveSpinner();
+                        $('#spinner').addClass('fas fa-sync fa-spin fa-1x fa-fw');
                     }
-                    if (profile.startsWith('http'))
-                        profile = profile.replace('http:', 'https:');
-                    else
-                        if (profile.indexOf('/') == -1)
-                            profile = 'https://steamcommunity.com/id/' + profile
-                        else
-                            profile = 'https://' + profile;
-                    profile = profile.toLowerCase();
 
-                    //profile
-                    var profileURL = ProxyURL(profile);
-                    $.get(profileURL, function(page) {
-                        var gamesURL = profile + '/games/?tab=all';
-                        // Verify that the profile exists and is public
-                        var profileerror = 'The specified profile could not be found.';
-                        if (page.includes(profileerror)) {
-                            ProfileError('Le profil n\'existe pas!');
-                            return;
-                        } else if (!page.toLowerCase().includes(gamesURL)) {
-                            ProfileError('Le profil n\'est pas public!');
-                            return;
-                        }
+                    function StopSpinner() {
+                        $('#spinner').removeClass('fa-spin');
+                    }
 
-                        // library
-                        var library = ProxyURL(gamesURL);
-                        $.get(library, function(page) {
-                            ColorSpinner('Yellow');
-                            var divclass = '<div class=\"profile_small_header_bg\">';
-                            var beginning = 'var rgGames = ';
-                            var subpage = page.substring(page.indexOf(divclass));
-                            subpage = subpage.substring(subpage.indexOf(beginning) + beginning.length);
-                            subpage = subpage.substring(0, subpage.indexOf('];') + 1);
-                            try {
-                                var libraryURLs = {};
-                                var games = jQuery.parseJSON(subpage);
-                                var i;
-                                var GAMEURL = 'https://store.steampowered.com/app/';
-                                for (i = 0 ; i < games.length; ++i) {
-                                    libraryURLs[GAMEURL + games[i].appid] = true;
+                    function RemoveSpinner() {
+                        $('#spinner').removeClass();
+                    }
+
+                    function ColorSpinner(color) {
+                        $('#spinner').css('color', color);
+                    }
+
+                    function ProfileError(error){
+                        StopSpinner();
+                        ColorSpinner('red');
+                        UpdateTable({}, {});
+                        alert(error);
+                    }
+
+                    function UpdateTable(libraryURLs, wishlistURLs) {
+                        var data = waTable.getData();
+                        // change the rows
+                        for (i = 0; i < data.rows.length; ++i) {
+                            if (data.rows[i]['nameFormat']) {
+                                var href = data.rows[i]['nameFormat'];
+                                href = href.substring(href.indexOf('"') + 1);
+                                href = href.substring(0, href.indexOf('"'));
+                                cls  = data.rows[i]['row-cls'];
+
+                                if (href in libraryURLs) {
+                                    data.rows[i]['row-cls'] = 'green,';
+                                    data.rows[i]['store'] = 'Librarie';
                                 }
+
+                                else if (href in wishlistURLs) {
+                                    data.rows[i]['row-cls'] = 'blue,';
+                                    data.rows[i]['store'] = 'Souhait';
+                                }
+
+                                else {
+                                    data.rows[i]['row-cls'] = '';
+                                    data.rows[i]['store'] = '';
+                                }
+
+                                if ((typeof cls !== 'undefined') && (cls.includes('override')))
+                                    data.rows[i]['row-cls'] += 'override,'
                             }
-                            catch (e) {
-                                ProfileError(e.message);
+                        }
+                        Platform.performMicrotaskCheckpoint();
+                        waTable.setData(data);
+                        StopSpinner();
+                    }
+
+                    $('#myButton').click(function(){
+                        SpinSpinner();
+                        ColorSpinner('Orange');
+                        var profile = $.trim(document.getElementById('libraryId').value);
+                        if (!profile || /^\s*$/.test(profile)) {
+                            ProfileError('Aucun profile!');
+                            return;
+                        }
+                        if (profile.startsWith('http'))
+                            profile = profile.replace('http:', 'https:');
+                        else
+                            if (profile.indexOf('/') == -1)
+                                profile = 'https://steamcommunity.com/id/' + profile
+                            else
+                                profile = 'https://' + profile;
+                        profile = profile.toLowerCase();
+
+                        //profile
+                        var profileURL = ProxyURL(profile);
+                        $.get(profileURL, function(page) {
+                            var gamesURL = profile + '/games/?tab=all';
+                            // Verify that the profile exists and is public
+                            var profileerror = 'The specified profile could not be found.';
+                            if (page.includes(profileerror)) {
+                                ProfileError('Le profil n\'existe pas!');
+                                return;
+                            } else if (!page.toLowerCase().includes(gamesURL)) {
+                                ProfileError('Le profil n\'est pas public!');
+                                return;
                             }
 
-                            // wishlist
-                            var wishlist = ProxyURL(profile.replace('steamcommunity.com/id', 'store.steampowered.com/wishlist/id'));
-                            $.get(wishlist, function(page) {
-                                ColorSpinner('Olive');
-                                var subpage = page.substring(page.indexOf('g_rgWishlistData') + 19);
-                                subpage     = subpage.substring(0, subpage.indexOf('g_rgAppInfo') - 8);
+                            // library
+                            var library = ProxyURL(gamesURL);
+                            $.get(library, function(page) {
+                                ColorSpinner('Yellow');
+                                var divclass = '<div class=\"profile_small_header_bg\">';
+                                var beginning = 'var rgGames = ';
+                                var subpage = page.substring(page.indexOf(divclass));
+                                subpage = subpage.substring(subpage.indexOf(beginning) + beginning.length);
+                                subpage = subpage.substring(0, subpage.indexOf('];') + 1);
                                 try {
+                                    var libraryURLs = {};
                                     var games = jQuery.parseJSON(subpage);
-                                    var wishlistURLs = {};
                                     var i;
                                     var GAMEURL = 'https://store.steampowered.com/app/';
-                                    for (x in games) {
-                                        wishlistURLs[GAMEURL + x] = true;
+                                    for (i = 0 ; i < games.length; ++i) {
+                                        libraryURLs[GAMEURL + games[i].appid] = true;
                                     }
-
-                                    UpdateTable(libraryURLs, wishlistURLs);
-                                    ColorSpinner('Green');
                                 }
                                 catch (e) {
                                     ProfileError(e.message);
                                 }
+
+                                // wishlist
+                                var wishlist = ProxyURL(profile.replace('steamcommunity.com/id', 'store.steampowered.com/wishlist/id'));
+                                $.get(wishlist, function(page) {
+                                    ColorSpinner('Olive');
+                                    var subpage = page.substring(page.indexOf('g_rgWishlistData') + 19);
+                                    subpage     = subpage.substring(0, subpage.indexOf('g_rgAppInfo') - 8);
+                                    try {
+                                        var games = jQuery.parseJSON(subpage);
+                                        var wishlistURLs = {};
+                                        var i;
+                                        var GAMEURL = 'https://store.steampowered.com/app/';
+                                        for (x in games) {
+                                            wishlistURLs[GAMEURL + x] = true;
+                                        }
+
+                                        UpdateTable(libraryURLs, wishlistURLs);
+                                        ColorSpinner('Green');
+                                    }
+                                    catch (e) {
+                                        ProfileError(e.message);
+                                    }
+                                });
                             });
                         });
                     });
                 });
-            });
 
-            var waTable = $('#wata').WATable({
+                var waTable = $('#wata').WATable({
                     debug: false,
                     databind: true,
                     filter: true,
@@ -552,6 +555,6 @@
                 });
             </script>
         </div>
-        <script src="https://www.w3counter.com/tracker.js?id=112904"></script>
+        <script src="https://www.w3counter.com/tracker.js?id=112904"  type="text/javascript"></script>
     </body>
 </html>
