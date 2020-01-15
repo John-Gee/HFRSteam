@@ -109,7 +109,7 @@ class Session():
             except (aiohttp.client_exceptions.TooManyRedirects) as e:
                 logging.debug('TooManyRedirects for url: ' + url)
                 return None, None, None
-            except e:
+            except Exception as e:
                 logging.debug('Problematic url in web: ' + url + ', ' + type(e))
                 #raise
 
