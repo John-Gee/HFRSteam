@@ -18,7 +18,8 @@ def key_from_args(func, args, kwargs):
 
 class Cache():
     def __init__(self):
-        self.redis = RedisCache(serializer=PickleSerializer(),
+        self.redis = RedisCache(endpoint='localhost',
+                                serializer=PickleSerializer(),
                                 port=6379, timeout=0)
 
     async def coroutine(self, cor, *args, ttl=604800, **kwargs):
